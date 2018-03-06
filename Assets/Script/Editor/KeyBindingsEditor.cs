@@ -6,8 +6,6 @@ using UnityEditor;
 [CustomEditor(typeof(KeyBindings))]
 public class KeyBindingsEditor : Editor
 {
-    KeyBindings Target { get { return (KeyBindings)target; } }
-
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
