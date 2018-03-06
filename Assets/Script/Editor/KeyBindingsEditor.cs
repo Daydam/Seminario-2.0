@@ -6,18 +6,15 @@ using UnityEditor;
 [CustomEditor(typeof(KeyBindings))]
 public class KeyBindingsEditor : Editor
 {
-    KeyBindings tg;
-
-    void OnEnable()
-    {
-        tg = (KeyBindings)target;
-    }
+    KeyBindings Target { get { return (KeyBindings)target; } }
 
     public override void OnInspectorGUI()
     {
-        tg.joystickPrimaryWeapon =  (JoystickKey)EditorGUILayout.EnumPopup("Primary Weapon", tg.joystickPrimaryWeapon);
-        tg.joystickSecondaryWeapon = (JoystickKey)EditorGUILayout.EnumPopup("Secondary Weapon", tg.joystickSecondaryWeapon);
-        tg.joystickPrimarySkill = (JoystickKey)EditorGUILayout.EnumPopup("Primary Skill", tg.joystickPrimarySkill);
-        tg.joystickSecondarySkill = (JoystickKey)EditorGUILayout.EnumPopup("Secondary Skill", tg.joystickSecondarySkill);
+        serializedObject.Update();
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("joystickPrimaryWeapon"), new GUIContent("Primary Weapon"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("joystickSecondaryWeapon"), new GUIContent("Secondary Weapon"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("joystickPrimarySkill"), new GUIContent("Primary Skill"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("joystickSecondarySkill"), new GUIContent("Secondary Skill"));
+        serializedObject.ApplyModifiedProperties();
     }
 }
