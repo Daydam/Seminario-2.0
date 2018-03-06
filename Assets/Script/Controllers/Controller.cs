@@ -19,7 +19,7 @@ public class Controller
     public Controller(int player)
     {
         this.player = player;
-        var keyBindings = Resources.FindObjectsOfTypeAll<KeyBindings>()[0];
+        var keyBindings = Resources.Load<KeyBindings>("Scriptable Objects/Key Bindings");
         joystickPrimaryWeapon = keyBindings.joystickPrimaryWeapon;
         joystickSecondaryWeapon = keyBindings.joystickSecondaryWeapon;
         joystickPrimarySkill = keyBindings.joystickPrimarySkill;
