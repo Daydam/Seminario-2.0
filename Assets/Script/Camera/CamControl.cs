@@ -28,7 +28,7 @@ public class CamControl : MonoBehaviour
         camPos /= GameManager.Instance.Players.Count;
 
         //I need to add Vector3.up because LookAt doesn't work if the camera is in the same spot it's trying to look at.
-        transform.position = camPos + Vector3.up;
+        transform.position = camPos + cameraOffset.normalized;
         transform.LookAt(camPos);
 
         //Add a mathf.max between that and a minimum distance!
