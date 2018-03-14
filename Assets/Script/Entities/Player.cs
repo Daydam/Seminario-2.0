@@ -18,6 +18,20 @@ public class Player : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
     }
 
+    void Update()
+    {
+        if (control.RightAnalog() != Vector2.zero)
+        {
+            transform.LookAt(transform.position + new Vector3(control.RightAnalog().x, 0, control.RightAnalog().y));
+        }
+
+        //Esto queda para probar que los comandos funcionen, hasta que los scripts de weapon estén implementados.
+        if (control.MainWeapon()) Debug.Log("entre primary weapon");
+        if (control.DefensiveSkill()) Debug.Log("entre secondary weapon");
+        if (control.ComplimentarySkill1()) Debug.Log("entre primary skill");
+        if (control.ComplimentarySkill2()) Debug.Log("entre secondary skill");
+    }
+
     void FixedUpdate()
     {
         //Test futuro: cambiar MovePosition por velocity
@@ -25,18 +39,6 @@ public class Player : MonoBehaviour
         //_rb.velocity = movVector;
 
         var movVector = _rb.position + new Vector3(control.LeftAnalog().x, 0, control.LeftAnalog().y) * Time.fixedDeltaTime * movementSpeed;
-        
         _rb.MovePosition(movVector);
-
-        if(control.RightAnalog() != Vector2.zero)
-        {
-            transform.LookAt(_rb.position + new Vector3(control.RightAnalog().x, 0, control.RightAnalog().y));
-        }
-        
-        //Esto queda para probar que los comandos funcionen, hasta que los scripts de weapon estén implementados.
-        if (control.PrimaryWeapon()) Debug.Log("entre primary weapon");
-        if (control.SecondaryWeapon()) Debug.Log("entre secondary weapon");
-        if (control.PrimarySkill()) Debug.Log("entre primary skill");
-        if (control.SecondarySkill()) Debug.Log("entre secondary skill");
     }
 }
