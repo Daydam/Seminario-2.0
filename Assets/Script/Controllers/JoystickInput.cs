@@ -34,6 +34,9 @@ public class JoystickInput
     }
 }
 
+/// <summary>
+/// Puto traga leche JAJ
+/// </summary>
 public enum JoystickKey
 {
     A,
