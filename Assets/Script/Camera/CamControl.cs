@@ -5,6 +5,9 @@ using UnityEngine;
 public class CamControl : MonoBehaviour
 {
     [Range(0f, 1f)]
+    public float approximationRatio;
+
+    [Range(0f, 1f)]
     public float maximumDistancePercentage;
 
     public float minimumDistance;
@@ -27,11 +30,9 @@ public class CamControl : MonoBehaviour
         }
         camPos /= GameManager.Instance.Players.Count;
 
-        //I need to add Vector3.up because LookAt doesn't work if the camera is in the same spot it's trying to look at.
-        transform.position = camPos + cameraOffset.normalized;
+        transform.position = Vector3.Lerp(transform.position, camPos + cameraOffset.normalized, approximationRatio);
         transform.LookAt(camPos);
-
-        //Add a mathf.max between that and a minimum distance!
+        
         transform.position += transform.forward * (Vector3.Distance(camPos, transform.position) - CalculateCameraDistance(camPos));
     }
 

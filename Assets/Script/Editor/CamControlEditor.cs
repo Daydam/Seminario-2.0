@@ -10,6 +10,7 @@ public class CamControlEditor : Editor
 
     public override void OnInspectorGUI()
     {
+        Target.approximationRatio = EditorGUILayout.Slider("Approximation Ratio", Target.approximationRatio, 0, 1);
         Target.maximumDistancePercentage = EditorGUILayout.Slider("Maximum Distance Percentage", Target.maximumDistancePercentage, 0, 1);
         Target.minimumDistance = EditorGUILayout.DelayedFloatField("Minimum Distance", Target.minimumDistance);
         Target.cameraOffset = EditorGUILayout.Vector3Field("Camera Offset", Target.cameraOffset);

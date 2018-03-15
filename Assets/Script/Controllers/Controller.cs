@@ -10,20 +10,20 @@ public class Controller
     bool invertVertical;
     public bool InvertVertical { get { return invertVertical; } set { invertVertical = value; } }*/
 
-    public JoystickKey joystickPrimaryWeapon;
-    public JoystickKey joystickSecondaryWeapon;
-    public JoystickKey joystickPrimarySkill;
-    public JoystickKey joystickSecondarySkill;
+    public JoystickKey mainWeapon;
+    public JoystickKey defensiveSkill;
+    public JoystickKey complimentarySkill1;
+    public JoystickKey complimentarySkill2;
     //We could add anything here
 
     public Controller(int player)
     {
         this.player = player;
-        var keyBindings = Resources.Load<KeyBindings>("Scriptable Objects/Key Bindings");
-        joystickPrimaryWeapon = keyBindings.joystickPrimaryWeapon;
-        joystickSecondaryWeapon = keyBindings.joystickSecondaryWeapon;
-        joystickPrimarySkill = keyBindings.joystickPrimarySkill;
-        joystickSecondarySkill = keyBindings.joystickSecondarySkill;
+        var keyBindings = Resources.Load<SO_KeyBindings>("Scriptable Objects/Key Bindings");
+        mainWeapon = keyBindings.mainWeapon;
+        defensiveSkill = keyBindings.defensiveSkill;
+        complimentarySkill1 = keyBindings.complimentarySkill1;
+        complimentarySkill2 = keyBindings.complimentarySkill2;
     }
 
     public Vector2 LeftAnalog()
@@ -36,24 +36,24 @@ public class Controller
         return JoystickInput.RightAnalog(player);
     }
 
-    public bool PrimaryWeapon()
+    public bool MainWeapon()
     {
 
-        return JoystickInput.allKeys[joystickPrimaryWeapon](player);
+        return JoystickInput.allKeys[mainWeapon](player);
     }
 
-    public bool SecondaryWeapon()
+    public bool DefensiveSkill()
     {
-        return JoystickInput.allKeys[joystickSecondaryWeapon](player);
+        return JoystickInput.allKeys[defensiveSkill](player);
     }
 
-    public bool PrimarySkill()
+    public bool ComplimentarySkill1()
     {
-        return JoystickInput.allKeys[joystickPrimarySkill](player);
+        return JoystickInput.allKeys[complimentarySkill1](player);
     }
 
-    public bool SecondarySkill()
+    public bool ComplimentarySkill2()
     {
-        return JoystickInput.allKeys[joystickSecondarySkill](player);
+        return JoystickInput.allKeys[complimentarySkill2](player);
     }
 }

@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(KeyBindings))]
+[CustomEditor(typeof(SO_KeyBindings))]
 public class KeyBindingsEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("joystickPrimaryWeapon"), new GUIContent("Primary Weapon"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("joystickSecondaryWeapon"), new GUIContent("Secondary Weapon"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("joystickPrimarySkill"), new GUIContent("Primary Skill"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("joystickSecondarySkill"), new GUIContent("Secondary Skill"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("mainWeapon"), new GUIContent("Main Weapon"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("defensiveSkill"), new GUIContent("Defensive Skill"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("complimentarySkill1"), new GUIContent("Complimentary Skill 1"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("complimentarySkill2"), new GUIContent("Complimentary Skill 2"));
         serializedObject.ApplyModifiedProperties();
     }
 }
