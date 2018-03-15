@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
 
     Rigidbody _rb;
 
-    void Start()
+    void Awake()
     {
         int playerID = GameManager.Instance.Register(this);
         control = new Controller(playerID + 1);
@@ -25,8 +25,6 @@ public class Player : MonoBehaviour
             transform.LookAt(transform.position + new Vector3(control.RightAnalog().x, 0, control.RightAnalog().y));
         }
 
-        //Esto queda para probar que los comandos funcionen, hasta que los scripts de weapon estén implementados.
-        if (control.MainWeapon()) Debug.Log("entre primary weapon");
         if (control.DefensiveSkill()) Debug.Log("entre secondary weapon");
         if (control.ComplimentarySkill1()) Debug.Log("entre primary skill");
         if (control.ComplimentarySkill2()) Debug.Log("entre secondary skill");

@@ -8,7 +8,7 @@ public class TapWeapon : Weapon
 
     protected override void CheckInput()
     {
-        if (inputMethod())
+        if (control.MainWeapon())
         {
             if(canShoot)
             {
