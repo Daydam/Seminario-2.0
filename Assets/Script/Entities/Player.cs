@@ -8,8 +8,17 @@ public class Player : MonoBehaviour
     public Controller Control { get { return control; } }
 
     public float movementSpeed;
+    public Vector3 movDir;
 
     Rigidbody _rb;
+
+    public Rigidbody GetRigidbody
+    {
+        get
+        {
+            return _rb;
+        }
+    }
 
     void Awake()
     {
@@ -25,9 +34,9 @@ public class Player : MonoBehaviour
             transform.LookAt(transform.position + new Vector3(control.RightAnalog().x, 0, control.RightAnalog().y));
         }
 
-        if (control.DefensiveSkill()) Debug.Log("entre secondary weapon");
+        /*if (control.DefensiveSkill()) Debug.Log("entre secondary weapon");
         if (control.ComplimentarySkill1()) Debug.Log("entre primary skill");
-        if (control.ComplimentarySkill2()) Debug.Log("entre secondary skill");
+        if (control.ComplimentarySkill2()) Debug.Log("entre secondary skill");*/
     }
 
     void FixedUpdate()
@@ -37,6 +46,7 @@ public class Player : MonoBehaviour
         //_rb.velocity = movVector;
 
         var movVector = _rb.position + new Vector3(control.LeftAnalog().x, 0, control.LeftAnalog().y) * Time.fixedDeltaTime * movementSpeed;
+        movDir = movVector - _rb.position;
         _rb.MovePosition(movVector);
     }
 }
