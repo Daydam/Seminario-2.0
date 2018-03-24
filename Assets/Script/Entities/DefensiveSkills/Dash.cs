@@ -42,6 +42,7 @@ public class Dash : DefensiveSkillBase
             _actualCharges--;
             StartCoroutine(DashHandler(dirV.normalized));
         }
+        
     }
 
     void CheckForCharges()
@@ -79,6 +80,5 @@ public class Dash : DefensiveSkillBase
         skTrail.StopShowing();
 
         _isDashing = false;
-
     }
 }

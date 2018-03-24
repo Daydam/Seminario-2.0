@@ -5,8 +5,9 @@ using UnityEngine;
 public class ChargeWeapon : Weapon
 {
     public float bulletSpeed;
-    public float bulletDamage;
     public float maxChargeTime;
+    public float maxCooldown;
+    float currentCooldown = 0;
     float currentChargeTime;
 
     protected override void CheckInput()
@@ -17,7 +18,7 @@ public class ChargeWeapon : Weapon
         }
         else if (currentChargeTime > 0)
         {
-            BulletSpawner.Instance.BulletPool.GetObjectFromPool().ConfigurateBullet(bulletSpeed, bulletDamage, transform.position, transform.rotation, gameObject.layer);
+            BulletSpawner.Instance.BulletPool.GetObjectFromPool().ConfigurateBullet(bulletSpeed, minDamage, maxDamage, transform.position, transform.rotation, gameObject.layer);
             currentChargeTime = 0;
         }
     }

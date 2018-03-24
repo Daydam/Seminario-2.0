@@ -5,7 +5,8 @@ using UnityEngine;
 public class TapWeapon : Weapon
 {
     public float bulletSpeed;
-    public float bulletDamage;
+    public float maxCooldown;
+    float currentCooldown = 0;
     bool canShoot = true;
 
     protected override void CheckInput()
@@ -14,7 +15,7 @@ public class TapWeapon : Weapon
         {
             if(canShoot)
             {
-                BulletSpawner.Instance.BulletPool.GetObjectFromPool().ConfigurateBullet(bulletSpeed, bulletDamage, transform.position, transform.rotation, gameObject.layer);
+                BulletSpawner.Instance.BulletPool.GetObjectFromPool().ConfigurateBullet(bulletSpeed, minDamage, maxDamage, transform.position, transform.rotation, gameObject.layer);
                 canShoot = false;
             }
         }

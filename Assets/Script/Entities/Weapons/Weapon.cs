@@ -10,6 +10,9 @@ public abstract class Weapon : MonoBehaviour
 
     protected Controller control;
 
+    public float minDamage;
+    public float maxDamage;
+
     void Start()
     {
         control = GetComponentInParent<Player>().Control;
@@ -21,5 +24,4 @@ public abstract class Weapon : MonoBehaviour
     }
 
     protected abstract void CheckInput();
-
 }
