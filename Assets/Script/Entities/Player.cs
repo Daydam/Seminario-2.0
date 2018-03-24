@@ -39,6 +39,15 @@ public class Player : MonoBehaviour
         if (control.ComplimentarySkill2()) Debug.Log("entre secondary skill");*/
     }
 
+    void OnTriggerEnter(Collider col)
+    {
+        //Acá detectaría la colisión con la bala
+        if(gameObject.layer != col.gameObject.layer && col.GetComponent<Bullet>() != null)
+        {
+            print("LA COMI MAN");
+        }
+    }
+
     void FixedUpdate()
     {
         //Test futuro: cambiar MovePosition por velocity

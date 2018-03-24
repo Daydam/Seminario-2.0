@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TapWeapon : Weapon
 {
+    public float bulletSpeed;
+    public float bulletDamage;
     bool canShoot = true;
 
     protected override void CheckInput()
@@ -12,7 +14,7 @@ public class TapWeapon : Weapon
         {
             if(canShoot)
             {
-                Debug.Log("I just shat");
+                BulletSpawner.Instance.BulletPool.GetObjectFromPool().ConfigurateBullet(bulletSpeed, bulletDamage, transform.position, transform.rotation, gameObject.layer);
                 canShoot = false;
             }
         }

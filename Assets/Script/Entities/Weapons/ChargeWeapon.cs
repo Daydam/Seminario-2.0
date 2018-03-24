@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ChargeWeapon : Weapon
 {
+    public float bulletSpeed;
+    public float bulletDamage;
     public float maxChargeTime;
     float currentChargeTime;
 
@@ -15,7 +17,7 @@ public class ChargeWeapon : Weapon
         }
         else if (currentChargeTime > 0)
         {
-            print("KABOOM " + currentChargeTime);
+            BulletSpawner.Instance.BulletPool.GetObjectFromPool().ConfigurateBullet(bulletSpeed, bulletDamage, transform.position, transform.rotation, gameObject.layer);
             currentChargeTime = 0;
         }
     }

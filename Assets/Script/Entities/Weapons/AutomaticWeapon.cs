@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class AutomaticWeapon : Weapon
 {
+    public float bulletSpeed;
+    public float bulletDamage;
     public float maxCooldown;
     float currentCooldown = 0;
 
@@ -13,7 +15,7 @@ public class AutomaticWeapon : Weapon
         if (currentCooldown > 0) currentCooldown -= Time.deltaTime;
         else if(control.MainWeapon())
         {
-            print("shoot");
+            BulletSpawner.Instance.BulletPool.GetObjectFromPool().ConfigurateBullet(bulletSpeed, bulletDamage, transform.position, transform.rotation, gameObject.layer);
             currentCooldown = maxCooldown;
         }
     }
