@@ -9,9 +9,12 @@ public abstract class Weapon : MonoBehaviour
     //In each case, create cooldown timers to make sure no dumbass can spam bullets.
 
     protected Controller control;
+    public AnimationCurve damageFalloff;
 
     public float minDamage;
     public float maxDamage;
+    public float falloffStart;
+    public float falloffEnd;
 
     void Start()
     {

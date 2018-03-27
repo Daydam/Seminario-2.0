@@ -51,6 +51,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65773d33150aa574a83efe1592b651b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageFalloff:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: -1.5080429
+      value: 10.007042
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+    - serializedVersion: 2
+      time: 2.997672
+      value: 1.0170642
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
   minDamage: 4
   maxDamage: 6
   bulletSpeed: 10
