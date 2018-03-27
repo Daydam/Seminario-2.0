@@ -11,12 +11,15 @@ public class TapWeapon : Weapon
 
     protected override void CheckInput()
     {
+        if (currentCooldown > 0) currentCooldown -= Time.deltaTime;
+
         if (control.MainWeapon())
         {
-            if(canShoot)
+            if(canShoot && currentCooldown <= 0)
             {
                 BulletSpawner.Instance.BulletPool.GetObjectFromPool().ConfigurateBullet(bulletSpeed, minDamage, maxDamage, transform.position, transform.rotation, gameObject.layer);
                 canShoot = false;
+                currentCooldown = maxCooldown;
             }
         }
         else canShoot = true;

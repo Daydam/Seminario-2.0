@@ -39,6 +39,9 @@ public class Bullet : MonoBehaviour
         else
         {
             transform.position += transform.forward * speed * Time.deltaTime;
+            //Acá tendrías que setear el daño actual al análisis del falloff de acuerdo al tiempo
+            //que haya transcurrido dividido por el tiempo que se tardaría en completar el falloff.
+            //Para esto tendrías que pedir velocidad, daño max y min, posición, rotación, emitter, curva de falloff y tiempo de duración del mismo al instanciar la bala.
         }
     }
 
