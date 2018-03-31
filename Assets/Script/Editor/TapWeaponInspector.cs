@@ -8,7 +8,6 @@ using System.Linq;
 public class TapWeaponInspector : WeaponInspector
 {
     TapWeapon _tgt;
-    AnimationCurve _animCurve;
 
     public void OnEnable()
     {
@@ -31,7 +30,7 @@ public class TapWeaponInspector : WeaponInspector
         EditorGUILayout.LabelField("Damage falloff by distance");
 
 
-        EditorGUILayout.CurveField(_animCurve);
+        EditorGUILayout.CurveField(_tgt.damageFalloff);
 
         EditorGUILayout.EndVertical();
     }
@@ -43,12 +42,12 @@ public class TapWeaponInspector : WeaponInspector
 
     public override void SetCurveValues()
     {
-        _animCurve = new AnimationCurve();
+        _tgt.damageFalloff = new AnimationCurve();
         var initialKey = new Keyframe(0, _tgt.maxDamage, 0, 0);
-        _animCurve.AddKey(initialKey);
+        _tgt.damageFalloff.AddKey(initialKey);
         var startFalloff = new Keyframe(_tgt.falloffStart, _tgt.maxDamage, 0, 0);
-        _animCurve.AddKey(startFalloff);
+        _tgt.damageFalloff.AddKey(startFalloff);
         var endtFalloff = new Keyframe(_tgt.falloffEnd, _tgt.minDamage, 0, 0);
-        _animCurve.AddKey(endtFalloff);
+        _tgt.damageFalloff.AddKey(endtFalloff);
     }
 }

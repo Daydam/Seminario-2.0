@@ -9,6 +9,8 @@ public class ChargeWeapon : Weapon
     public float maxCooldown;
     float currentCooldown = 0;
     float currentChargeTime;
+    public AnimationCurve damageByCharge;
+
 
     protected override void CheckInput()
     {
@@ -18,7 +20,7 @@ public class ChargeWeapon : Weapon
         }
         else if (currentChargeTime > 0)
         {
-            BulletSpawner.Instance.BulletPool.GetObjectFromPool().ConfigurateBullet(bulletSpeed, minDamage, maxDamage, transform.position, transform.rotation, gameObject.layer);
+            BulletSpawner.Instance.BulletPool.GetObjectFromPool().ConfigurateBullet(bulletSpeed, damageFalloff, transform.position, transform.rotation, gameObject.layer);
             currentChargeTime = 0;
         }
     }

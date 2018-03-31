@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -26,11 +27,13 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        var spawns = GameObject.Find("Stage").transform.Find("SpawnPoints").GetComponentsInChildren<Transform>().Where(x => x.name != "SpawnPoints").ToArray();
+
         //esto es por ahora, hasta tener hechas las configuraciones de cantidad de jugadores y spawn points.
-        Instantiate(Resources.Load<GameObject>("Prefabs/Player 1"), new Vector3(0, 1.5f, 30), Quaternion.identity);
-        Instantiate(Resources.Load<GameObject>("Prefabs/Player 2"), new Vector3(0, 1.5f, -30), Quaternion.identity);
-        Instantiate(Resources.Load<GameObject>("Prefabs/Player 3"), new Vector3(-30, 1.5f, 0), Quaternion.identity);
-        Instantiate(Resources.Load<GameObject>("Prefabs/Player 4"), new Vector3(30, 1.5f, 0), Quaternion.identity);
+        Instantiate(Resources.Load<GameObject>("Prefabs/Player 1"), spawns[0].transform.position, Quaternion.identity);
+        Instantiate(Resources.Load<GameObject>("Prefabs/Player 2"), spawns[1].transform.position, Quaternion.identity);
+        Instantiate(Resources.Load<GameObject>("Prefabs/Player 3"), spawns[2].transform.position, Quaternion.identity);
+        Instantiate(Resources.Load<GameObject>("Prefabs/Player 4"), spawns[3].transform.position, Quaternion.identity);
     }
 
     public int Register(Player player)

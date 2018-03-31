@@ -14,7 +14,7 @@ public class AutomaticWeapon : Weapon
         if (currentCooldown > 0) currentCooldown -= Time.deltaTime;
         else if(control.MainWeapon())
         {
-            BulletSpawner.Instance.BulletPool.GetObjectFromPool().ConfigurateBullet(bulletSpeed, minDamage, maxDamage, transform.position, transform.rotation, gameObject.layer);
+            BulletSpawner.Instance.BulletPool.GetObjectFromPool().ConfigurateBullet(bulletSpeed, damageFalloff, transform.position, transform.rotation, gameObject.layer);
             currentCooldown = maxCooldown;
         }
     }

@@ -8,7 +8,6 @@ using System.Linq;
 public class ChargeWeaponInspector : WeaponInspector
 {
     ChargeWeapon _tgt;
-    AnimationCurve _animCurve;
 
     public void OnEnable()
     {
@@ -29,7 +28,7 @@ public class ChargeWeaponInspector : WeaponInspector
 
         EditorGUILayout.LabelField("Damage by charge time");
 
-        EditorGUILayout.CurveField(_animCurve);
+        EditorGUILayout.CurveField(_tgt.damageByCharge);
 
         EditorGUILayout.EndVertical();
     }
@@ -41,10 +40,10 @@ public class ChargeWeaponInspector : WeaponInspector
 
     public override void SetCurveValues()
     {
-        _animCurve = new AnimationCurve();
+        _tgt.damageByCharge = new AnimationCurve();
         var minChargeKey = new Keyframe(0, _tgt.minDamage, 0, 0);
-        _animCurve.AddKey(minChargeKey);
+        _tgt.damageByCharge.AddKey(minChargeKey);
         var maxChargeKey = new Keyframe(_tgt.maxChargeTime, _tgt.maxDamage, 0, 0);
-        _animCurve.AddKey(maxChargeKey);
+        _tgt.damageByCharge.AddKey(maxChargeKey);
     }
 }

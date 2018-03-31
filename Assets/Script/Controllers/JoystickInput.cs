@@ -9,6 +9,8 @@ public class JoystickInput
         new Dictionary<JoystickKey, Func<int, bool>>
         {
             //Agarraos de las bolas, pues este será el peor hardcodeo de la historia tio. Joder.
+            //(a - 1 ) * 20 consigue el int de la tecla de cualquier jugador.
+            //PELOTUDO
             { JoystickKey.A, a => Input.GetKey(KeyCode.Joystick1Button0 + (a - 1) * 20)},
             { JoystickKey.B, a => Input.GetKey(KeyCode.Joystick1Button1 + (a - 1) * 20)},
             { JoystickKey.X, a => Input.GetKey(KeyCode.Joystick1Button2 + (a - 1) * 20)},
