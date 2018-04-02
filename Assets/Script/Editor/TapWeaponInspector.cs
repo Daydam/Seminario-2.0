@@ -5,7 +5,7 @@ using UnityEditor;
 using System.Linq;
 
 [CustomEditor(typeof(TapWeapon))]
-public class TapWeaponInspector : WeaponInspector
+public class TapWeaponInspector : Editor
 {
     TapWeapon _tgt;
 
@@ -14,7 +14,15 @@ public class TapWeaponInspector : WeaponInspector
         _tgt = (TapWeapon)target;
     }
 
-    public override void ShowValues()
+    public override void OnInspectorGUI()
+    {
+        ShowValues();
+
+        Repaint();
+    }
+
+
+    public void ShowValues()
     {
         EditorGUILayout.BeginVertical();
 
@@ -25,22 +33,16 @@ public class TapWeaponInspector : WeaponInspector
         _tgt.falloffStart = EditorGUILayout.FloatField("Damage Falloff start", _tgt.falloffStart);
         _tgt.falloffEnd = EditorGUILayout.FloatField("Damage Falloff end", _tgt.falloffEnd);
 
-        SetCurveValues();
-
         EditorGUILayout.LabelField("Damage falloff by distance");
 
 
         EditorGUILayout.CurveField(_tgt.damageFalloff);
+        SetCurveValues();
 
         EditorGUILayout.EndVertical();
     }
 
-    public override void SetValues()
-    {
-
-    }
-
-    public override void SetCurveValues()
+    public void SetCurveValues()
     {
         _tgt.damageFalloff = new AnimationCurve();
         var initialKey = new Keyframe(0, _tgt.maxDamage, 0, 0);

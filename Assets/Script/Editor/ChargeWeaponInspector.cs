@@ -5,7 +5,7 @@ using UnityEditor;
 using System.Linq;
 
 [CustomEditor(typeof(ChargeWeapon))]
-public class ChargeWeaponInspector : WeaponInspector
+public class ChargeWeaponInspector : Editor
 {
     ChargeWeapon _tgt;
 
@@ -14,7 +14,15 @@ public class ChargeWeaponInspector : WeaponInspector
         _tgt = (ChargeWeapon)target;
     }
 
-    public override void ShowValues()
+    public override void OnInspectorGUI()
+    {
+        ShowValues();
+
+        Repaint();
+    }
+
+
+    public void ShowValues()
     {
         EditorGUILayout.BeginVertical();
 
@@ -24,21 +32,17 @@ public class ChargeWeaponInspector : WeaponInspector
         _tgt.maxDamage = EditorGUILayout.FloatField("Maximum Damage", _tgt.maxDamage);
         _tgt.maxChargeTime = EditorGUILayout.FloatField("Maximum charge time", _tgt.maxChargeTime);
 
-        SetCurveValues();
 
         EditorGUILayout.LabelField("Damage by charge time");
 
         EditorGUILayout.CurveField(_tgt.damageByCharge);
+        SetCurveValues();
 
         EditorGUILayout.EndVertical();
     }
 
-    public override void SetValues()
-    {
 
-    }
-
-    public override void SetCurveValues()
+    public void SetCurveValues()
     {
         _tgt.damageByCharge = new AnimationCurve();
         var minChargeKey = new Keyframe(0, _tgt.minDamage, 0, 0);
