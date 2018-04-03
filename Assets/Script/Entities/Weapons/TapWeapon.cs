@@ -17,7 +17,7 @@ public class TapWeapon : Weapon
         {
             if(canShoot && currentCooldown <= 0)
             {
-                BulletSpawner.Instance.BulletPool.GetObjectFromPool().ConfigurateBullet(bulletSpeed, damageFalloff, transform.position, transform.rotation, gameObject.layer);
+                BulletSpawner.Instance.BulletPool.GetObjectFromPool().ConfigurateBullet(bulletSpeed, damageFalloff, transform.position, transform.rotation, gameObject.tag);
                 canShoot = false;
                 currentCooldown = maxCooldown;
             }

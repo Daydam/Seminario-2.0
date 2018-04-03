@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 114084661651873038}
   m_Layer: 10
   m_Name: Blink
-  m_TagString: Untagged
+  m_TagString: Player 3
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 54214537629313812}
   m_Layer: 10
   m_Name: Player 3
-  m_TagString: Untagged
+  m_TagString: Player 3
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: 114911133497943710}
   m_Layer: 10
   m_Name: Weapon
-  m_TagString: Untagged
+  m_TagString: Player 3
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 114884520036599816}
   m_Layer: 10
   m_Name: Dash
-  m_TagString: Untagged
+  m_TagString: Player 3
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -308,7 +308,7 @@ GameObject:
   - component: {fileID: 23385007949162538}
   m_Layer: 10
   m_Name: Appendix
-  m_TagString: Untagged
+  m_TagString: Player 3
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -342,7 +342,7 @@ GameObject:
   - component: {fileID: 114710002548161376}
   m_Layer: 10
   m_Name: Trails
-  m_TagString: Untagged
+  m_TagString: Player 3
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2921,6 +2921,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 5
   movDir: {x: 0, y: 0, z: 0}
+  hp: 15
 --- !u!114 &114884520036599816
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2947,8 +2948,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c038aa19862b1a45949c0bb752e8065, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageFalloff:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  minDamage: 0
+  maxDamage: 0
+  falloffStart: 0
+  falloffEnd: 0
   bulletSpeed: 5
-  bulletDamage: 2
+  maxCooldown: 0
 --- !u!136 &136395064826361942
 CapsuleCollider:
   m_ObjectHideFlags: 1

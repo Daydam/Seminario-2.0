@@ -42,4 +42,9 @@ public class GameManager : MonoBehaviour
         players.Add(player);
         return players.Count - 1;
     }
+
+    public void Unregister(Player player)
+    {
+        players.Remove(player);
+    }
 }

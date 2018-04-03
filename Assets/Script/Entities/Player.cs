@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
         }
     }
 
+    public float hp;
+
     void Awake()
     {
         int playerID = GameManager.Instance.Register(this);
@@ -33,19 +35,23 @@ public class Player : MonoBehaviour
         {
             transform.LookAt(transform.position + new Vector3(control.RightAnalog().x, 0, control.RightAnalog().y));
         }
-
-        /*if (control.DefensiveSkill()) Debug.Log("entre secondary weapon");
-        if (control.ComplimentarySkill1()) Debug.Log("entre primary skill");
-        if (control.ComplimentarySkill2()) Debug.Log("entre secondary skill");*/
     }
 
     void OnTriggerEnter(Collider col)
     {
-        //Acá detectaría la colisión con la bala
-        if(gameObject.layer != col.gameObject.layer && col.GetComponent<Bullet>() != null)
+        if(col.gameObject.layer == 12 && gameObject.tag != col.gameObject.tag)
         {
-            print("LA COMI MAN");
+            Bullet b = col.GetComponent<Bullet>();
+            BulletSpawner.Instance.ReturnBulletToPool(b);
+            hp -= b.Damage;
+            if (hp <= 0) DestroyPlayer();
         }
+    }
+
+    void DestroyPlayer()
+    {
+        GameManager.Instance.Unregister(this);
+        Destroy(this);
     }
 
     void FixedUpdate()

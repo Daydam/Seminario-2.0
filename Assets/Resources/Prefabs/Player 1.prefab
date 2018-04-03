@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114644077541504064}
   m_Layer: 8
   m_Name: Blink
-  m_TagString: Untagged
+  m_TagString: Player 1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 114271177069949582}
   m_Layer: 8
   m_Name: Dash
-  m_TagString: Untagged
+  m_TagString: Player 1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 114924647794824900}
   m_Layer: 8
   m_Name: Weapon
-  m_TagString: Untagged
+  m_TagString: Player 1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 23400690584039876}
   m_Layer: 8
   m_Name: Appendix
-  m_TagString: Untagged
+  m_TagString: Player 1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: 54322253416711420}
   m_Layer: 8
   m_Name: Player 1
-  m_TagString: Untagged
+  m_TagString: Player 1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -362,7 +362,7 @@ GameObject:
   - component: {fileID: 114968240029537892}
   m_Layer: 8
   m_Name: Trails
-  m_TagString: Untagged
+  m_TagString: Player 1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2894,10 +2894,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9580690b90bf703458d27252d6cdbe8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageFalloff:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   minDamage: 0
   maxDamage: 0
+  falloffStart: 0
+  falloffEnd: 0
   bulletSpeed: 13
   maxChargeTime: 2
+  maxCooldown: 0
+  damageByCharge:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 2
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &114271177069949582
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2926,6 +2953,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 5
   movDir: {x: 0, y: 0, z: 0}
+  hp: 15
 --- !u!114 &114644077541504064
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2950,8 +2978,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65773d33150aa574a83efe1592b651b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageFalloff:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   minDamage: 0
   maxDamage: 0
+  falloffStart: 0
+  falloffEnd: 0
   bulletSpeed: 15
   maxCooldown: 0.2
 --- !u!114 &114924647794824900
@@ -2965,9 +3007,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c038aa19862b1a45949c0bb752e8065, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageFalloff:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   minDamage: 0
   maxDamage: 0
+  falloffStart: 0
+  falloffEnd: 0
   bulletSpeed: 23
+  maxCooldown: 0
 --- !u!114 &114968240029537892
 MonoBehaviour:
   m_ObjectHideFlags: 1
