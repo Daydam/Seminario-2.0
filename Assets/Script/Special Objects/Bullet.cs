@@ -65,4 +65,17 @@ public class Bullet : MonoBehaviour
     {
         bulletObj.gameObject.SetActive(false);
     }
+
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.layer == LayerMask.NameToLayer("DestructibleWall") 
+           ||
+            col.gameObject.layer == LayerMask.NameToLayer("DestructibleStructure")
+            /*||
+            col.gameObject.layer == LayerMask.NameToLayer("Shield")*/ //Agregar filtrado de Shield propio vs Shield enemigo
+           )
+        {
+            BulletSpawner.Instance.ReturnBulletToPool(this);
+        }
+    }
 }

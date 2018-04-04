@@ -53,7 +53,7 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if(col.gameObject.layer == 12 && gameObject.tag != col.gameObject.tag)
+        if(col.gameObject.layer == LayerMask.NameToLayer("Bullet") && gameObject.tag != col.gameObject.tag)
         {
             Bullet b = col.GetComponent<Bullet>();
             BulletSpawner.Instance.ReturnBulletToPool(b);

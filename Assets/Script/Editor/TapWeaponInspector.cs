@@ -27,7 +27,7 @@ public class TapWeaponInspector : Editor
         EditorGUILayout.BeginVertical();
 
         _tgt.bulletSpeed = EditorGUILayout.FloatField("Bullet Speed", _tgt.bulletSpeed);
-        _tgt.maxCooldown = EditorGUILayout.FloatField("Cooldown to shoot", _tgt.maxCooldown);
+        _tgt.maxCooldown = EditorGUILayout.IntField("Cooldown to shoot (based on Weapon Chart)", Mathf.Clamp(_tgt.maxCooldown, 1, 10));
         _tgt.minDamage = EditorGUILayout.FloatField("Minimum Damage", _tgt.minDamage);
         _tgt.maxDamage = EditorGUILayout.FloatField("Maximum Damage", _tgt.maxDamage);
         _tgt.falloffStart = EditorGUILayout.FloatField("Damage Falloff start", _tgt.falloffStart);
