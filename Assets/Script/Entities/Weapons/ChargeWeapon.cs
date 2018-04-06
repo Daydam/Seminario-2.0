@@ -6,8 +6,7 @@ public class ChargeWeapon : Weapon
 {
     public float bulletSpeed;
     public float maxChargeTime;
-    public float maxCooldown;
-    float currentCooldown = 0;
+
     float currentChargeTime;
     public AnimationCurve damageByCharge;
 

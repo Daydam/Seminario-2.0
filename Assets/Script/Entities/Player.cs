@@ -29,6 +29,20 @@ public class Player : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
     }
 
+    private void Start()
+    {
+        GetRandomWeapon();
+    }
+
+    void GetRandomWeapon()
+    {
+        int rndIndex = Random.Range(0, GameManager.Instance.AllWeapons.Count);
+        var myWeapon = GameObject.Instantiate(GameManager.Instance.AllWeapons[rndIndex], transform, false);
+        myWeapon.transform.localPosition = Vector3.zero;
+        myWeapon.transform.forward = transform.forward;
+        myWeapon.gameObject.tag = gameObject.tag;
+    }
+
     void Update()
     {
         if (control.RightAnalog() != Vector2.zero)
@@ -39,7 +53,7 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if(col.gameObject.layer == 12 && gameObject.tag != col.gameObject.tag)
+        if(col.gameObject.layer == LayerMask.NameToLayer("Bullet") && gameObject.tag != col.gameObject.tag)
         {
             Bullet b = col.GetComponent<Bullet>();
             BulletSpawner.Instance.ReturnBulletToPool(b);
