@@ -25,13 +25,13 @@ public class Player : MonoBehaviour
     void Awake()
     {
         int playerID = GameManager.Instance.Register(this);
-        control = new Controller(playerID + 1);
+        control = new Controller(playerID);
         _rb = GetComponent<Rigidbody>();
     }
 
     private void Start()
     {
-        GetRandomWeapon();
+        //GetRandomWeapon();
     }
 
     void GetRandomWeapon()
