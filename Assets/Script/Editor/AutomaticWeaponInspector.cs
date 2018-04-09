@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Linq;
 
-[CustomEditor(typeof(AutomaticWeapon))]
+//[CustomEditor(typeof(AutomaticWeapon))]
 public class AutomaticWeaponInspector : Editor
 {
     AutomaticWeapon _tgt;
@@ -18,8 +18,12 @@ public class AutomaticWeaponInspector : Editor
     {
         ShowValues();
 
+        serializedObject.Update();
+        serializedObject.ApplyModifiedProperties();
+
         Repaint();
     }
+
 
 
     public void ShowValues()
@@ -27,7 +31,7 @@ public class AutomaticWeaponInspector : Editor
         EditorGUILayout.BeginVertical();
 
         _tgt.bulletSpeed = EditorGUILayout.FloatField("Bullet Speed", _tgt.bulletSpeed);
-        _tgt.maxCooldown = EditorGUILayout.IntField("Cooldown to shoot (based on Weapon Chart)", _tgt.maxCooldown);
+        _tgt.maxCooldown = EditorGUILayout.IntSlider("Cooldown to shoot", _tgt.maxCooldown, 1, 10);
         _tgt.minDamage = EditorGUILayout.FloatField("Minimum Damage", _tgt.minDamage);
         _tgt.maxDamage = EditorGUILayout.FloatField("Maximum Damage", _tgt.maxDamage);
         _tgt.falloffStart = EditorGUILayout.FloatField("Damage Falloff start", _tgt.falloffStart);

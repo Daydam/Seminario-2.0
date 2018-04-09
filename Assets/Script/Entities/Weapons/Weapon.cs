@@ -11,7 +11,7 @@ public abstract class Weapon : MonoBehaviour
     protected Controller control;
     public AnimationCurve damageFalloff;
 
-    [Range(1, 10)]
+    [Range(1,10)]
     public int maxCooldown;
 
     protected float realCooldown;
@@ -20,16 +20,33 @@ public abstract class Weapon : MonoBehaviour
     static Dictionary<int, float> weaponRealCooldowns;
     public static Dictionary<int, float> WeaponCooldowns { get { return weaponRealCooldowns; } }
 
+    public float bulletSpeed;
     public float minDamage;
     public float maxDamage;
     public float falloffStart;
     public float falloffEnd;
 
-    void Start()
+    protected virtual void Awake()
     {
         InitializeCooldowns();
-        control = GetComponentInParent<Player>().Control;
+        SetCurveValues();
+    }
+
+    protected virtual void SetCurveValues()
+    {
+        damageFalloff = new AnimationCurve();
+        var initialKey = new Keyframe(0, maxDamage, 0, 0);
+        damageFalloff.AddKey(initialKey);
+        var startFalloff = new Keyframe(falloffStart, maxDamage, 0, 0);
+        damageFalloff.AddKey(startFalloff);
+        var endtFalloff = new Keyframe(falloffEnd, minDamage, 0, 0);
+        damageFalloff.AddKey(endtFalloff);
+    }
+
+    void Start()
+    {
         realCooldown = WeaponCooldowns[maxCooldown];
+        control = GetComponentInParent<Player>().Control;
     }
 
     void Update()

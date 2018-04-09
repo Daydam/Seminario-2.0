@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Linq;
 
-[CustomEditor(typeof(ChargeWeapon))]
+//[CustomEditor(typeof(ChargeWeapon))]
 public class ChargeWeaponInspector : Editor
 {
     ChargeWeapon _tgt;
@@ -16,9 +16,14 @@ public class ChargeWeaponInspector : Editor
 
     public override void OnInspectorGUI()
     {
+        serializedObject.ApplyModifiedProperties();
+        serializedObject.Update();
+
         ShowValues();
 
         Repaint();
+        serializedObject.ApplyModifiedProperties();
+        serializedObject.Update();
     }
 
 
@@ -27,7 +32,7 @@ public class ChargeWeaponInspector : Editor
         EditorGUILayout.BeginVertical();
 
         _tgt.bulletSpeed = EditorGUILayout.FloatField("Bullet Speed", _tgt.bulletSpeed);
-        _tgt.maxCooldown = EditorGUILayout.IntField("Cooldown to shoot (based on Weapon Chart)", _tgt.maxCooldown);
+        _tgt.maxCooldown = EditorGUILayout.IntSlider("Cooldown to shoot", _tgt.maxCooldown, 1, 10);
         _tgt.minDamage = EditorGUILayout.FloatField("Minimum Damage", _tgt.minDamage);
         _tgt.maxDamage = EditorGUILayout.FloatField("Maximum Damage", _tgt.maxDamage);
         _tgt.maxChargeTime = EditorGUILayout.FloatField("Maximum charge time", _tgt.maxChargeTime);

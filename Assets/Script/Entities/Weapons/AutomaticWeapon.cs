@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class AutomaticWeapon : Weapon
 {
-    public float bulletSpeed;
-
     protected override void CheckInput()
     {
         if (currentCooldown > 0) currentCooldown -= Time.deltaTime;

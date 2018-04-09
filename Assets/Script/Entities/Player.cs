@@ -60,6 +60,10 @@ public class Player : MonoBehaviour
             hp -= b.Damage;
             if (hp <= 0) DestroyPlayer();
         }
+        else if (col.gameObject.layer == LayerMask.NameToLayer("DeathZone"))
+        {
+            DestroyPlayer();
+        }
     }
 
     void DestroyPlayer()

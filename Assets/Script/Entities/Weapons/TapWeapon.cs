@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TapWeapon : Weapon
 {
-    public float bulletSpeed;
     bool canShoot = true;
 
     protected override void CheckInput()

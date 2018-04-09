@@ -13,6 +13,7 @@ public class Bullet : MonoBehaviour
     float _travelledDistance;
     public float DistanceTravelled { set { _travelledDistance = value; } }
     AnimationCurve _damageCurve;
+    Rigidbody _rb;
     float _damage;
     public float Damage { get { return _damage; } }
 
@@ -27,6 +28,8 @@ public class Bullet : MonoBehaviour
         transform.position = position;
         transform.rotation = rotation;
 
+        _rb = GetComponent<Rigidbody>();
+
         return this;
     }
 
@@ -37,11 +40,15 @@ public class Bullet : MonoBehaviour
         {
             BulletSpawner.Instance.ReturnBulletToPool(this);
         }
-        else
+    }
+
+    void FixedUpdate()
+    {
+        if (lifeTime < maxLifeTime)
         {
-            var distance = speed * Time.deltaTime;
+            var distance = speed * Time.fixedDeltaTime;
             _travelledDistance += distance;
-            transform.position += transform.forward * distance;
+            _rb.MovePosition(_rb.position + transform.forward * distance);
             _damage = GetActualDamage(_travelledDistance);
             //Acá tendrías que setear el daño actual al análisis del falloff de acuerdo al tiempo
             //que haya transcurrido dividido por el tiempo que se tardaría en completar el falloff.
@@ -71,11 +78,11 @@ public class Bullet : MonoBehaviour
         if (col.gameObject.layer == LayerMask.NameToLayer("DestructibleWall") 
            ||
             col.gameObject.layer == LayerMask.NameToLayer("DestructibleStructure")
-            /*||
-            col.gameObject.layer == LayerMask.NameToLayer("Shield")*/ //Agregar filtrado de Shield propio vs Shield enemigo
            )
         {
+            col.gameObject.SetActive(false);
             BulletSpawner.Instance.ReturnBulletToPool(this);
+
         }
     }
 }
