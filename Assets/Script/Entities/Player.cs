@@ -29,15 +29,10 @@ public class Player : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
     }
 
-    private void Start()
-    {
-        //GetRandomWeapon();
-    }
-
     void GetRandomWeapon()
     {
         int rndIndex = Random.Range(0, GameManager.Instance.AllWeapons.Count);
-        var myWeapon = GameObject.Instantiate(GameManager.Instance.AllWeapons[rndIndex], transform, false);
+        var myWeapon = Instantiate(GameManager.Instance.AllWeapons[rndIndex], transform, false);
         myWeapon.transform.localPosition = Vector3.zero;
         myWeapon.transform.forward = transform.forward;
         myWeapon.gameObject.tag = gameObject.tag;
@@ -69,7 +64,7 @@ public class Player : MonoBehaviour
     void DestroyPlayer()
     {
         GameManager.Instance.Unregister(this);
-        Destroy(this);
+        Destroy(gameObject);
     }
 
     void FixedUpdate()

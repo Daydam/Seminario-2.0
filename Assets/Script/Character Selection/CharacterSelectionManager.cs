@@ -52,7 +52,7 @@ public class CharacterSelectionManager : MonoBehaviour
             else SelectWeapon(i + 1);
         }
 
-        if (Input.GetKeyDown("joystick 1 button 7"))
+        if (Input.GetKeyDown("joystick button 7"))
         {
             var regPlayers = players.Where(a => a != default(Player)).ToArray();
 
@@ -63,7 +63,7 @@ public class CharacterSelectionManager : MonoBehaviour
                     playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a) + 1).ToArray()
                 };
 
-                reg.SaveDataToDisk("Assets/Resources/Save Files/Registered Players.dat");
+                reg.SaveDataToDisk("Assets/Resources/Save Files/Registered Players.dat" /*ass*/);
 
                 for (int i = 0; i < players.Length; i++)
                 {

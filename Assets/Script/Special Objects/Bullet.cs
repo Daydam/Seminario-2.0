@@ -84,5 +84,7 @@ public class Bullet : MonoBehaviour
             BulletSpawner.Instance.ReturnBulletToPool(this);
 
         }
+		else if (col.gameObject.layer == LayerMask.NameToLayer("Default")) BulletSpawner.Instance.ReturnBulletToPool(this);
+			
     }
 }

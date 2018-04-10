@@ -28,12 +28,12 @@ public class Controller
 
     public Vector2 LeftAnalog()
     {
-        return JoystickInput.LeftAnalog(player);
+        return JoystickInput.LeftAnalog(player).normalized;
     }
 
     public Vector2 RightAnalog()
     {
-        return JoystickInput.RightAnalog(player);
+        return JoystickInput.RightAnalog(player).normalized;
     }
 
     public bool MainWeapon()
