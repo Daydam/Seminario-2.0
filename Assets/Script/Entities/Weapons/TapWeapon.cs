@@ -10,7 +10,7 @@ public class TapWeapon : Weapon
     {
         if (currentCooldown > 0) currentCooldown -= Time.deltaTime;
 
-        if (control.MainWeapon())
+        if (control.MainWeapon() && !_me.IsStunned && !_me.IsDisarmed)
         {
             if(canShoot && currentCooldown <= 0)
             {

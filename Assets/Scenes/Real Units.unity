@@ -1594,7 +1594,7 @@ GameObject:
   - component: {fileID: 121775942}
   - component: {fileID: 121775941}
   - component: {fileID: 121775940}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: DeStructure (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2869,7 +2869,7 @@ GameObject:
   - component: {fileID: 204557450}
   - component: {fileID: 204557449}
   - component: {fileID: 204557448}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: DeStructure (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4071,7 +4071,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 310702200}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -21.410086, y: -17.1875, z: 2.2364767}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1013946511}
@@ -8640,7 +8640,7 @@ GameObject:
   - component: {fileID: 723326859}
   - component: {fileID: 723326858}
   - component: {fileID: 723326857}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: DeStructure (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9255,6 +9255,46 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 775601543}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &781751393
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 781751395}
+  - component: {fileID: 781751394}
+  m_Layer: 0
+  m_Name: GrenadeImpactFragSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &781751394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 781751393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d527f85cbfb0b9140a61b094261a9301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &781751395
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 781751393}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &792905238
 GameObject:
   m_ObjectHideFlags: 0
@@ -10149,7 +10189,7 @@ GameObject:
   - component: {fileID: 871022404}
   - component: {fileID: 871022403}
   - component: {fileID: 871022402}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: DeStructure (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12346,6 +12386,46 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300156, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!1 &1034278751
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1034278753}
+  - component: {fileID: 1034278752}
+  m_Layer: 0
+  m_Name: GrenadeImpactStunSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1034278752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1034278751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e24f1f7c0f453d042be7c2050a026380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1034278753
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1034278751}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1034548206
 GameObject:
   m_ObjectHideFlags: 0
@@ -13004,7 +13084,7 @@ GameObject:
   - component: {fileID: 1087838928}
   - component: {fileID: 1087838927}
   - component: {fileID: 1087838926}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: DeStructure (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

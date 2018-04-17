@@ -26,7 +26,7 @@ public class ChargeWeapon : Weapon
 
     protected override void CheckInput()
     {
-        if (control.MainWeapon())
+        if (control.MainWeapon() && !_me.IsStunned && !_me.IsDisarmed)
         {
             currentChargeTime = Mathf.Min(currentChargeTime + Time.deltaTime, maxChargeTime);
         }

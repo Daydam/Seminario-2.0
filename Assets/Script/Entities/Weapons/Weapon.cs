@@ -9,6 +9,7 @@ public abstract class Weapon : MonoBehaviour
     //In each case, create cooldown timers to make sure no dumbass can spam bullets.
 
     protected Controller control;
+    protected Player _me;
     public AnimationCurve damageFalloff;
 
     [Range(1,10)]
@@ -46,7 +47,8 @@ public abstract class Weapon : MonoBehaviour
     void Start()
     {
         realCooldown = WeaponCooldowns[maxCooldown];
-        control = GetComponentInParent<Player>().Control;
+        _me = GetComponentInParent<Player>();
+        control = _me.Control;
     }
 
     void Update()
