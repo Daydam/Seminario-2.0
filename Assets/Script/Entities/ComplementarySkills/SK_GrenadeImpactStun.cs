@@ -15,8 +15,7 @@ public class SK_GrenadeImpactStun : ComplementarySkillBase
         else if (control.ComplimentarySkill1() && !_me.IsStunned && !_me.IsDisarmed)
         {
             //TODO: Que sea cargable el rango
-            var endPosition = transform.position + transform.forward * maxRange;
-            GrenadeImpactStunSpawner.Instance.ObjectPool.GetObjectFromPool().SpawnGrenade(transform.position, _me.gameObject.transform.forward, maxRange, _me.gameObject.tag);
+            GrenadeImpactStunSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, _me.gameObject.transform.forward, maxRange, _me.gameObject.tag);
             _currentCooldown = maxCooldown;
         }
     }

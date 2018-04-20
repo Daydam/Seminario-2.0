@@ -49,7 +49,7 @@ public class DMM_GrenadeImpactStun : MonoBehaviour
         _AOEDecay.AddKey(zero);
     }
 
-    public DMM_GrenadeImpactStun SpawnGrenade(Vector3 spawnPos, Vector3 fwd, float maximumDistance, string emmitter)
+    public DMM_GrenadeImpactStun Spawn(Vector3 spawnPos, Vector3 fwd, float maximumDistance, string emmitter)
     {
         transform.position = spawnPos;
         transform.forward = fwd;
@@ -77,12 +77,12 @@ public class DMM_GrenadeImpactStun : MonoBehaviour
         }
     }
 
-    public static void InitializeBullet(DMM_GrenadeImpactStun grenadeObj)
+    public static void Initialize(DMM_GrenadeImpactStun grenadeObj)
     {
         grenadeObj.gameObject.SetActive(true);
     }
 
-    public static void DisposeBullet(DMM_GrenadeImpactStun grenadeObj)
+    public static void Dispose(DMM_GrenadeImpactStun grenadeObj)
     {
         grenadeObj.gameObject.SetActive(false);
     }

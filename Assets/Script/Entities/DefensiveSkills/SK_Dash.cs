@@ -11,6 +11,7 @@ public class SK_Dash : DefensiveSkillBase
     SkillTrail _trail;
 
     bool _isDashing;
+    bool _canUse = true;
     int _actualCharges;
     float _currentCooldown = 0;
 
@@ -34,21 +35,25 @@ public class SK_Dash : DefensiveSkillBase
 
     protected override void CheckInput()
     {
-        if (control.DefensiveSkill() && _actualCharges > 0 && !_isDashing && !_me.IsStunned && !_me.IsDisarmed)
+        if (control.DefensiveSkill())
         {
-            _trail.ShowTrails();
-
-            var dirV = _me.transform.forward;
-
-            if (_me.movDir != Vector3.zero)
+            if (_actualCharges > 0 && !_me.IsStunned && !_me.IsDisarmed && !_isDashing && _canUse)
             {
-                dirV = _me.movDir;
-            }
+                _trail.ShowTrails();
 
-            _actualCharges--;
-            StartCoroutine(DashHandler(dirV.normalized));
+                var dirV = _me.transform.forward;
+
+                if (_me.movDir != Vector3.zero)
+                {
+                    dirV = _me.movDir;
+                }
+
+                _actualCharges--;
+                _canUse = false;
+                StartCoroutine(DashHandler(dirV.normalized));
+            }
         }
-        
+        else _canUse = true;
     }
 
     void CheckForCharges()

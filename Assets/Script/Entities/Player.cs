@@ -13,14 +13,23 @@ public class Player : MonoBehaviour
     Rigidbody _rb;
     public Rigidbody GetRigidbody { get { return _rb; } }
 
-    #region Cambios Iván 16/4
     bool _isStunned;
     bool _isDisarmed;
     bool _isUnableToMove;
     public bool IsStunned { get { return _isStunned; } }
     public bool IsDisarmed { get { return _isDisarmed; } }
     public bool IsUnableToMove { get { return _isUnableToMove; } }
-    #endregion
+
+    /// <summary>
+    /// TODO: Hacer que pueda ser mayor a 1 (si llegamos a usar cosas de aumentar la velocidad de movimiento)
+    /// </summary>
+    public float MovementMultiplier
+    {
+        get { return Mathf.Clamp01(_movementMultiplier); }
+        set { _movementMultiplier = Mathf.Clamp01(value); }
+    }
+
+    float _movementMultiplier = 1;
 
     public float hp;
 
@@ -29,6 +38,7 @@ public class Player : MonoBehaviour
         int playerID = GameManager.Instance.Register(this);
         control = new Controller(playerID);
         _rb = GetComponent<Rigidbody>();
+        MovementMultiplier = 1;
     }
 
     void Update()
@@ -45,7 +55,7 @@ public class Player : MonoBehaviour
         {
             Bullet b = col.GetComponent<Bullet>();
             TakeDamage(b.Damage);
-            BulletSpawner.Instance.ReturnBulletToPool(b);
+            BulletSpawner.Instance.ReturnToPool(b);
         }
         else if (col.gameObject.layer == LayerMask.NameToLayer("DeathZone"))
         {
@@ -71,7 +81,7 @@ public class Player : MonoBehaviour
 
     void Movement()
     {
-        var movVector = _rb.position + new Vector3(control.LeftAnalog().x, 0, control.LeftAnalog().y) * Time.fixedDeltaTime * movementSpeed;
+        var movVector = _rb.position + new Vector3(control.LeftAnalog().x, 0, control.LeftAnalog().y) * Time.fixedDeltaTime * movementSpeed * MovementMultiplier;
         movDir = movVector - _rb.position;
         _rb.MovePosition(movVector);
     }
@@ -102,6 +112,10 @@ public class Player : MonoBehaviour
     {
         StartCoroutine(ExecuteNeutralizedMovement(duration));
     }
+    public void ApplySlowMovement(float duration, float amount)
+    {
+        StartCoroutine(ExecuteSlowMovement(duration, amount));
+    }
 
     IEnumerator ExecuteStun(float duration)
     {
@@ -131,6 +145,15 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         _isUnableToMove = false;
+    }
+
+    IEnumerator ExecuteSlowMovement(float duration, float amount)
+    {
+        MovementMultiplier = amount;
+
+        yield return new WaitForSeconds(duration);
+
+        MovementMultiplier = 1;
     }
 
     #endregion

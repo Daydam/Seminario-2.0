@@ -30,10 +30,10 @@ public class BulletSpawner: MonoBehaviour
     {
         instance = this;
         bulletPrefab = Resources.Load<Bullet>("Prefabs/Bullet");
-        bulletPool = new Pool<Bullet>(8, BulletFactory, Bullet.InitializeBullet, Bullet.DisposeBullet, true);
+        bulletPool = new Pool<Bullet>(8, Factory, Bullet.Initialize, Bullet.Dispose, true);
     }
 
-    private Bullet BulletFactory()
+    private Bullet Factory()
     {
         var b = Instantiate<Bullet>(bulletPrefab);
         b.transform.parent = transform;
@@ -41,7 +41,7 @@ public class BulletSpawner: MonoBehaviour
         //return Instantiate<Bullet>(bulletPrefab);
     }
 
-    public void ReturnBulletToPool(Bullet bullet)
+    public void ReturnToPool(Bullet bullet)
     {
         bullet.transform.parent = transform;
         bulletPool.DisablePoolObject(bullet);

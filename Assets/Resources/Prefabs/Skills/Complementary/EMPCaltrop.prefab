@@ -19,9 +19,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4828917476913862}
-  - component: {fileID: 114385197808243034}
+  - component: {fileID: 114376282947867342}
   m_Layer: 8
-  m_Name: GrenadeImpactStun
+  m_Name: EMPCaltrop
   m_TagString: Player 1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,7 +40,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114385197808243034
+--- !u!114 &114376282947867342
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -48,9 +48,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1887171015903558}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f31b58e9d0c66c14b9692657359ee319, type: 3}
+  m_Script: {fileID: 11500000, guid: 4dc3cee8102bb9143b2fb09810344cd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxCooldown: 3
-  minRange: 4
-  maxRange: 14
+  range: 6
+  duration: 1.3
+  amount: 0.6
+  radius: 1.1
+  maxCharges: 4

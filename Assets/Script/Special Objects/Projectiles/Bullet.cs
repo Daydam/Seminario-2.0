@@ -20,7 +20,7 @@ public class Bullet : MonoBehaviour
     //Modifiqué los parámetros para que tome un daño mínimo y un daño máximo, además de la curva de daño
     //Lo ideal sería heredar de Bullet y hacer balas para distinguir proyectil común, cargado y continuo.
     //De esta manera, podremos hacer el cálculo de daño actual (entre mínimo y máximo)
-    public Bullet ConfigurateBullet(float speed, AnimationCurve curve, Vector3 position, Quaternion rotation, string emitter)
+    public Bullet Spawn(float speed, AnimationCurve curve, Vector3 position, Quaternion rotation, string emitter)
     {
         this.speed = speed;
         _damageCurve = curve;
@@ -39,7 +39,7 @@ public class Bullet : MonoBehaviour
         lifeTime += Time.deltaTime;
         if (lifeTime >= maxLifeTime)
         {
-            BulletSpawner.Instance.ReturnBulletToPool(this);
+            BulletSpawner.Instance.ReturnToPool(this);
         }
     }
 
@@ -62,14 +62,14 @@ public class Bullet : MonoBehaviour
         return _damageCurve.Evaluate(valueToAnalyze);
     }
 
-    public static void InitializeBullet(Bullet bulletObj)
+    public static void Initialize(Bullet bulletObj)
     {
         bulletObj.gameObject.SetActive(true);
         bulletObj.Lifetime = 0f;
         bulletObj.DistanceTravelled = 0f;
     }
 
-    public static void DisposeBullet(Bullet bulletObj)
+    public static void Dispose(Bullet bulletObj)
     {
         bulletObj.gameObject.SetActive(false);
     }
@@ -82,15 +82,15 @@ public class Bullet : MonoBehaviour
            )
         {
             col.gameObject.SetActive(false);
-            BulletSpawner.Instance.ReturnBulletToPool(this);
+            BulletSpawner.Instance.ReturnToPool(this);
 
         }
         else if (col.gameObject.layer == LayerMask.NameToLayer("Shield"))
         {
             if (col.gameObject.GetComponentInParent<Player>().gameObject.tag == this.gameObject.tag) return;
-            BulletSpawner.Instance.ReturnBulletToPool(this);
+            BulletSpawner.Instance.ReturnToPool(this);
         }
-		else if (col.gameObject.layer == LayerMask.NameToLayer("Default")) BulletSpawner.Instance.ReturnBulletToPool(this);
+		else if (col.gameObject.layer == LayerMask.NameToLayer("Default")) BulletSpawner.Instance.ReturnToPool(this);
 			
     }
 }

@@ -30,10 +30,10 @@ public class GrenadeImpactStunSpawner: MonoBehaviour
     {
         instance = this;
         objPrefab = Resources.Load<DMM_GrenadeImpactStun>("Prefabs/GrenadeImpactStun");
-        objPool = new Pool<DMM_GrenadeImpactStun>(8, GrenadeImpactFactory, DMM_GrenadeImpactStun.InitializeBullet, DMM_GrenadeImpactStun.DisposeBullet, true);
+        objPool = new Pool<DMM_GrenadeImpactStun>(8, Factory, DMM_GrenadeImpactStun.Initialize, DMM_GrenadeImpactStun.Dispose, true);
     }
 
-    private DMM_GrenadeImpactStun GrenadeImpactFactory()
+    private DMM_GrenadeImpactStun Factory()
     {
         var b = Instantiate<DMM_GrenadeImpactStun>(objPrefab);
         b.transform.parent = transform;
