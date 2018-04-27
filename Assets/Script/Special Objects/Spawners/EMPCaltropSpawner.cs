@@ -30,10 +30,10 @@ public class EMPCaltropSpawner : MonoBehaviour
     {
         instance = this;
         objPrefab = Resources.Load<DMM_EMPCaltrop>("Prefabs/EMPCaltrop");
-        objPool = new Pool<DMM_EMPCaltrop>(8, EMPCaltropFactory, DMM_EMPCaltrop.Initialize, DMM_EMPCaltrop.Dispose, true);
+        objPool = new Pool<DMM_EMPCaltrop>(8, Factory, DMM_EMPCaltrop.Initialize, DMM_EMPCaltrop.Dispose, true);
     }
 
-    private DMM_EMPCaltrop EMPCaltropFactory()
+    private DMM_EMPCaltrop Factory()
     {
         var b = Instantiate<DMM_EMPCaltrop>(objPrefab);
         b.transform.parent = transform;

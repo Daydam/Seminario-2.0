@@ -100,8 +100,8 @@ NavMeshSettings:
     agentTypeID: 0
     agentRadius: 0.5
     agentHeight: 2
-    agentSlope: 45
-    agentClimb: 0.4
+    agentSlope: 35
+    agentClimb: 1
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
@@ -124,8 +124,9 @@ GameObject:
   - component: {fileID: 20777643}
   - component: {fileID: 20777642}
   - component: {fileID: 20777641}
+  - component: {fileID: 20777644}
   m_Layer: 0
-  m_Name: Cube (2)
+  m_Name: BigStrukt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -142,7 +143,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 1475566878}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &20777641
 MeshRenderer:
@@ -197,6 +198,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 20777639}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &20777644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 20777639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &21215515
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,6 +224,7 @@ GameObject:
   - component: {fileID: 21215519}
   - component: {fileID: 21215518}
   - component: {fileID: 21215517}
+  - component: {fileID: 21215520}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -285,6 +302,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 21215515}
   m_Mesh: {fileID: 4300108, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &21215520
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 21215515}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 6.6270003, y: 8.284, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &47735175
 GameObject:
   m_ObjectHideFlags: 0
@@ -296,6 +328,7 @@ GameObject:
   - component: {fileID: 47735179}
   - component: {fileID: 47735178}
   - component: {fileID: 47735177}
+  - component: {fileID: 47735180}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -373,6 +406,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 47735175}
   m_Mesh: {fileID: 4300096, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &47735180
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 47735175}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.33, y: 2.999, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &58737817
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,6 +432,7 @@ GameObject:
   - component: {fileID: 58737821}
   - component: {fileID: 58737820}
   - component: {fileID: 58737819}
+  - component: {fileID: 58737822}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -461,6 +510,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 58737817}
   m_Mesh: {fileID: 4300072, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &58737822
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 58737817}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 5.885, y: 7.9110003, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &59635112
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,6 +536,7 @@ GameObject:
   - component: {fileID: 59635116}
   - component: {fileID: 59635115}
   - component: {fileID: 59635114}
+  - component: {fileID: 59635117}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -549,6 +614,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 59635112}
   m_Mesh: {fileID: 4300026, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &59635117
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 59635112}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.8090005, y: 2.7630002, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &61885979
 GameObject:
   m_ObjectHideFlags: 0
@@ -561,7 +641,7 @@ GameObject:
   - component: {fileID: 61885982}
   - component: {fileID: 61885981}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -645,7 +725,7 @@ GameObject:
   - component: {fileID: 62374066}
   - component: {fileID: 62374065}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -728,6 +808,7 @@ GameObject:
   - component: {fileID: 63371995}
   - component: {fileID: 63371994}
   - component: {fileID: 63371993}
+  - component: {fileID: 63371996}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -805,6 +886,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 63371991}
   m_Mesh: {fileID: 4300238, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &63371996
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 63371991}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.5460005, y: 4.441, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &64909213
 GameObject:
   m_ObjectHideFlags: 0
@@ -816,6 +912,7 @@ GameObject:
   - component: {fileID: 64909217}
   - component: {fileID: 64909216}
   - component: {fileID: 64909215}
+  - component: {fileID: 64909218}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -893,6 +990,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 64909213}
   m_Mesh: {fileID: 4300232, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &64909218
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 64909213}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 4.441, y: 8.5460005, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &65706820
 GameObject:
   m_ObjectHideFlags: 0
@@ -904,6 +1016,7 @@ GameObject:
   - component: {fileID: 65706824}
   - component: {fileID: 65706823}
   - component: {fileID: 65706822}
+  - component: {fileID: 65706825}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -981,6 +1094,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 65706820}
   m_Mesh: {fileID: 4300202, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &65706825
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 65706820}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 12.72, y: 5.927, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &69268341
 GameObject:
   m_ObjectHideFlags: 0
@@ -992,6 +1120,7 @@ GameObject:
   - component: {fileID: 69268345}
   - component: {fileID: 69268344}
   - component: {fileID: 69268343}
+  - component: {fileID: 69268346}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -1069,6 +1198,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 69268341}
   m_Mesh: {fileID: 4300100, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &69268346
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 69268341}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.584001, y: 5.3430004, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &74193931
 GameObject:
   m_ObjectHideFlags: 0
@@ -1081,7 +1225,7 @@ GameObject:
   - component: {fileID: 74193934}
   - component: {fileID: 74193933}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1164,6 +1308,7 @@ GameObject:
   - component: {fileID: 81082692}
   - component: {fileID: 81082691}
   - component: {fileID: 81082690}
+  - component: {fileID: 81082693}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -1241,6 +1386,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 81082688}
   m_Mesh: {fileID: 4300040, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &81082693
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 81082688}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 3.9080002, y: 7.9500003, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &95753945
 GameObject:
   m_ObjectHideFlags: 0
@@ -1319,7 +1479,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 95753945}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -8.3, z: -0}
+  m_LocalPosition: {x: 0, y: -10, z: -0}
   m_LocalScale: {x: 600, y: 600, z: 600}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1336,6 +1496,7 @@ GameObject:
   - component: {fileID: 95890692}
   - component: {fileID: 95890691}
   - component: {fileID: 95890690}
+  - component: {fileID: 95890693}
   m_Layer: 0
   m_Name: CenterStructure
   m_TagString: Untagged
@@ -1411,6 +1572,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 95890688}
   m_Mesh: {fileID: 4300196, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!114 &95890693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 95890688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &114068377
 GameObject:
   m_ObjectHideFlags: 0
@@ -1423,7 +1599,7 @@ GameObject:
   - component: {fileID: 114068380}
   - component: {fileID: 114068379}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1506,6 +1682,7 @@ GameObject:
   - component: {fileID: 120782351}
   - component: {fileID: 120782350}
   - component: {fileID: 120782349}
+  - component: {fileID: 120782352}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -1583,6 +1760,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 120782347}
   m_Mesh: {fileID: 4300132, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &120782352
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 120782347}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.33, y: 2.999, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &121775938
 GameObject:
   m_ObjectHideFlags: 0
@@ -1595,7 +1787,7 @@ GameObject:
   - component: {fileID: 121775941}
   - component: {fileID: 121775940}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1678,6 +1870,7 @@ GameObject:
   - component: {fileID: 132506246}
   - component: {fileID: 132506245}
   - component: {fileID: 132506244}
+  - component: {fileID: 132506247}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -1755,6 +1948,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 132506242}
   m_Mesh: {fileID: 4300010, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &132506247
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 132506242}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 4.6200004, y: 8.025001, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &133875830
 GameObject:
   m_ObjectHideFlags: 0
@@ -1767,7 +1975,7 @@ GameObject:
   - component: {fileID: 133875833}
   - component: {fileID: 133875832}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1850,6 +2058,7 @@ GameObject:
   - component: {fileID: 144644195}
   - component: {fileID: 144644194}
   - component: {fileID: 144644193}
+  - component: {fileID: 144644196}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -1927,6 +2136,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 144644191}
   m_Mesh: {fileID: 4300020, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &144644196
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 144644191}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.9110003, y: 5.885, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &158585281
 GameObject:
   m_ObjectHideFlags: 0
@@ -1938,6 +2162,7 @@ GameObject:
   - component: {fileID: 158585285}
   - component: {fileID: 158585284}
   - component: {fileID: 158585283}
+  - component: {fileID: 158585286}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -2015,6 +2240,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 158585281}
   m_Mesh: {fileID: 4300118, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &158585286
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 158585281}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 4.223, y: 8.562, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &159826103
 GameObject:
   m_ObjectHideFlags: 0
@@ -2027,7 +2267,7 @@ GameObject:
   - component: {fileID: 159826106}
   - component: {fileID: 159826105}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2111,7 +2351,7 @@ GameObject:
   - component: {fileID: 162451694}
   - component: {fileID: 162451693}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2194,6 +2434,7 @@ GameObject:
   - component: {fileID: 163276670}
   - component: {fileID: 163276669}
   - component: {fileID: 163276668}
+  - component: {fileID: 163276671}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -2271,6 +2512,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 163276666}
   m_Mesh: {fileID: 4300032, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &163276671
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 163276666}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.9730005, y: 5.591, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &171437224
 GameObject:
   m_ObjectHideFlags: 0
@@ -2282,6 +2538,7 @@ GameObject:
   - component: {fileID: 171437228}
   - component: {fileID: 171437227}
   - component: {fileID: 171437226}
+  - component: {fileID: 171437229}
   m_Layer: 0
   m_Name: CenterStructure
   m_TagString: Untagged
@@ -2357,6 +2614,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 171437224}
   m_Mesh: {fileID: 4300170, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!114 &171437229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 171437224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &177356446
 GameObject:
   m_ObjectHideFlags: 0
@@ -2369,7 +2641,7 @@ GameObject:
   - component: {fileID: 177356449}
   - component: {fileID: 177356448}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2453,7 +2725,7 @@ GameObject:
   - component: {fileID: 180241835}
   - component: {fileID: 180241834}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2537,7 +2809,7 @@ GameObject:
   - component: {fileID: 181213118}
   - component: {fileID: 181213117}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2620,6 +2892,7 @@ GameObject:
   - component: {fileID: 189993669}
   - component: {fileID: 189993668}
   - component: {fileID: 189993667}
+  - component: {fileID: 189993670}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -2697,6 +2970,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 189993665}
   m_Mesh: {fileID: 4300084, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &189993670
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 189993665}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 5.3430004, y: 8.584001, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &196064599
 GameObject:
   m_ObjectHideFlags: 0
@@ -2708,6 +2996,7 @@ GameObject:
   - component: {fileID: 196064603}
   - component: {fileID: 196064602}
   - component: {fileID: 196064601}
+  - component: {fileID: 196064604}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -2785,6 +3074,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 196064599}
   m_Mesh: {fileID: 4300104, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &196064604
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 196064599}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.997, y: 7.1640005, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &202876171
 GameObject:
   m_ObjectHideFlags: 0
@@ -2870,7 +3174,7 @@ GameObject:
   - component: {fileID: 204557449}
   - component: {fileID: 204557448}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2953,6 +3257,7 @@ GameObject:
   - component: {fileID: 207914248}
   - component: {fileID: 207914247}
   - component: {fileID: 207914246}
+  - component: {fileID: 207914249}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -3030,6 +3335,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 207914244}
   m_Mesh: {fileID: 4300116, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &207914249
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 207914244}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.999, y: 8.33, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &214933994
 GameObject:
   m_ObjectHideFlags: 0
@@ -3042,7 +3362,7 @@ GameObject:
   - component: {fileID: 214933997}
   - component: {fileID: 214933996}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3126,7 +3446,7 @@ GameObject:
   - component: {fileID: 229724547}
   - component: {fileID: 229724546}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3210,7 +3530,7 @@ GameObject:
   - component: {fileID: 230230720}
   - component: {fileID: 230230719}
   m_Layer: 0
-  m_Name: DeStructure (14)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3293,6 +3613,7 @@ GameObject:
   - component: {fileID: 244941365}
   - component: {fileID: 244941364}
   - component: {fileID: 244941363}
+  - component: {fileID: 244941366}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -3370,6 +3691,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 244941361}
   m_Mesh: {fileID: 4300090, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &244941366
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 244941361}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.544001, y: 5.688, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &245359399
 GameObject:
   m_ObjectHideFlags: 0
@@ -3381,6 +3717,7 @@ GameObject:
   - component: {fileID: 245359403}
   - component: {fileID: 245359402}
   - component: {fileID: 245359401}
+  - component: {fileID: 245359404}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -3458,6 +3795,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 245359399}
   m_Mesh: {fileID: 4300244, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &245359404
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 245359399}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 12.72, y: 5.927, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &247776393
 GameObject:
   m_ObjectHideFlags: 0
@@ -3470,7 +3822,7 @@ GameObject:
   - component: {fileID: 247776396}
   - component: {fileID: 247776395}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3626,6 +3978,7 @@ GameObject:
   - component: {fileID: 259847954}
   - component: {fileID: 259847953}
   - component: {fileID: 259847952}
+  - component: {fileID: 259847955}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -3703,6 +4056,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 259847950}
   m_Mesh: {fileID: 4300120, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &259847955
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 259847950}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 5.3430004, y: 8.584001, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &260142205
 GameObject:
   m_ObjectHideFlags: 0
@@ -3714,6 +4082,7 @@ GameObject:
   - component: {fileID: 260142209}
   - component: {fileID: 260142208}
   - component: {fileID: 260142207}
+  - component: {fileID: 260142210}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -3791,6 +4160,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 260142205}
   m_Mesh: {fileID: 4300014, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &260142210
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 260142205}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 6.4240003, y: 7.7240005, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &282309190
 GameObject:
   m_ObjectHideFlags: 0
@@ -3802,6 +4186,7 @@ GameObject:
   - component: {fileID: 282309194}
   - component: {fileID: 282309193}
   - component: {fileID: 282309192}
+  - component: {fileID: 282309195}
   m_Layer: 0
   m_Name: CenterStructure
   m_TagString: Untagged
@@ -3879,6 +4264,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 282309190}
   m_Mesh: {fileID: 4300174, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!114 &282309195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 282309190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &282745245
 GameObject:
   m_ObjectHideFlags: 0
@@ -3890,6 +4290,7 @@ GameObject:
   - component: {fileID: 282745249}
   - component: {fileID: 282745248}
   - component: {fileID: 282745247}
+  - component: {fileID: 282745250}
   m_Layer: 0
   m_Name: CenterStructure
   m_TagString: Untagged
@@ -3965,6 +4366,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 282745245}
   m_Mesh: {fileID: 4300182, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!114 &282745250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 282745245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &298057664
 GameObject:
   m_ObjectHideFlags: 0
@@ -3977,7 +4393,7 @@ GameObject:
   - component: {fileID: 298057667}
   - component: {fileID: 298057666}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4097,6 +4513,7 @@ GameObject:
   - component: {fileID: 318541467}
   - component: {fileID: 318541466}
   - component: {fileID: 318541465}
+  - component: {fileID: 318541468}
   m_Layer: 0
   m_Name: CenterStructure
   m_TagString: Untagged
@@ -4172,6 +4589,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 318541463}
   m_Mesh: {fileID: 4300166, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!114 &318541468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 318541463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &320596743
 GameObject:
   m_ObjectHideFlags: 0
@@ -4221,7 +4653,7 @@ Transform:
   - {fileID: 2010133085}
   - {fileID: 95890689}
   m_Father: {fileID: 1475566878}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &320596745
 MeshRenderer:
@@ -4291,6 +4723,7 @@ GameObject:
   - component: {fileID: 325796010}
   - component: {fileID: 325796009}
   - component: {fileID: 325796008}
+  - component: {fileID: 325796011}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -4368,6 +4801,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 325796006}
   m_Mesh: {fileID: 4300086, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &325796011
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 325796006}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 6.3310003, y: 8.394, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &327539279
 GameObject:
   m_ObjectHideFlags: 0
@@ -4380,7 +4828,7 @@ GameObject:
   - component: {fileID: 327539282}
   - component: {fileID: 327539281}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4463,6 +4911,7 @@ GameObject:
   - component: {fileID: 330554562}
   - component: {fileID: 330554561}
   - component: {fileID: 330554560}
+  - component: {fileID: 330554563}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -4540,6 +4989,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 330554558}
   m_Mesh: {fileID: 4300146, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &330554563
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 330554558}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 5.688, y: 8.544001, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &348224636
 GameObject:
   m_ObjectHideFlags: 0
@@ -4552,7 +5016,7 @@ GameObject:
   - component: {fileID: 348224639}
   - component: {fileID: 348224638}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4635,8 +5099,9 @@ GameObject:
   - component: {fileID: 362821763}
   - component: {fileID: 362821762}
   - component: {fileID: 362821761}
+  - component: {fileID: 362821764}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: BigStrukt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4653,7 +5118,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 1475566878}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &362821761
 MeshRenderer:
@@ -4708,6 +5173,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 362821759}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &362821764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 362821759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &362898443
 GameObject:
   m_ObjectHideFlags: 0
@@ -4720,7 +5200,7 @@ GameObject:
   - component: {fileID: 362898446}
   - component: {fileID: 362898445}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4804,7 +5284,7 @@ GameObject:
   - component: {fileID: 367106145}
   - component: {fileID: 367106144}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4887,6 +5367,7 @@ GameObject:
   - component: {fileID: 367868049}
   - component: {fileID: 367868048}
   - component: {fileID: 367868047}
+  - component: {fileID: 367868050}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -4964,6 +5445,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 367868045}
   m_Mesh: {fileID: 4300208, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &367868050
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 367868045}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.7960005, y: 11.314, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.014, y: 0.008, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &369407780
 GameObject:
   m_ObjectHideFlags: 0
@@ -4976,7 +5472,7 @@ GameObject:
   - component: {fileID: 369407783}
   - component: {fileID: 369407782}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5060,7 +5556,7 @@ GameObject:
   - component: {fileID: 387377254}
   - component: {fileID: 387377253}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5144,7 +5640,7 @@ GameObject:
   - component: {fileID: 392091185}
   - component: {fileID: 392091184}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5343,7 +5839,7 @@ Transform:
   - {fileID: 1211832887}
   - {fileID: 1425148260}
   m_Father: {fileID: 1475566878}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &406264329
 GameObject:
@@ -5356,6 +5852,7 @@ GameObject:
   - component: {fileID: 406264333}
   - component: {fileID: 406264332}
   - component: {fileID: 406264331}
+  - component: {fileID: 406264334}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -5433,6 +5930,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 406264329}
   m_Mesh: {fileID: 4300102, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &406264334
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 406264329}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.394, y: 6.3310003, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &411243468
 GameObject:
   m_ObjectHideFlags: 0
@@ -5444,6 +5956,7 @@ GameObject:
   - component: {fileID: 411243472}
   - component: {fileID: 411243471}
   - component: {fileID: 411243470}
+  - component: {fileID: 411243473}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -5521,6 +6034,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 411243468}
   m_Mesh: {fileID: 4300030, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &411243473
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 411243468}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.025001, y: 4.6200004, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &418923750
 GameObject:
   m_ObjectHideFlags: 0
@@ -5532,6 +6060,7 @@ GameObject:
   - component: {fileID: 418923754}
   - component: {fileID: 418923753}
   - component: {fileID: 418923752}
+  - component: {fileID: 418923755}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -5609,6 +6138,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 418923750}
   m_Mesh: {fileID: 4300122, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &418923755
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 418923750}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 6.3310003, y: 8.394, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &428391501
 GameObject:
   m_ObjectHideFlags: 0
@@ -5620,6 +6164,7 @@ GameObject:
   - component: {fileID: 428391505}
   - component: {fileID: 428391504}
   - component: {fileID: 428391503}
+  - component: {fileID: 428391506}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -5697,6 +6242,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 428391501}
   m_Mesh: {fileID: 4300218, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &428391506
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 428391501}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.795, y: 3.19, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.112, y: 0.068, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &435302732
 GameObject:
   m_ObjectHideFlags: 0
@@ -5709,7 +6269,7 @@ GameObject:
   - component: {fileID: 435302735}
   - component: {fileID: 435302734}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5793,7 +6353,7 @@ GameObject:
   - component: {fileID: 435757871}
   - component: {fileID: 435757870}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5877,7 +6437,7 @@ GameObject:
   - component: {fileID: 448488756}
   - component: {fileID: 448488755}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5961,7 +6521,7 @@ GameObject:
   - component: {fileID: 448537338}
   - component: {fileID: 448537337}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6044,6 +6604,7 @@ GameObject:
   - component: {fileID: 449830804}
   - component: {fileID: 449830803}
   - component: {fileID: 449830802}
+  - component: {fileID: 449830805}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -6121,6 +6682,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 449830800}
   m_Mesh: {fileID: 4300130, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &449830805
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 449830800}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.431001, y: 3.4160001, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &469670444
 GameObject:
   m_ObjectHideFlags: 0
@@ -6133,7 +6709,7 @@ GameObject:
   - component: {fileID: 469670447}
   - component: {fileID: 469670446}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6217,7 +6793,7 @@ GameObject:
   - component: {fileID: 477203932}
   - component: {fileID: 477203931}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6397,6 +6973,7 @@ GameObject:
   - component: {fileID: 516895791}
   - component: {fileID: 516895790}
   - component: {fileID: 516895789}
+  - component: {fileID: 516895792}
   m_Layer: 0
   m_Name: CenterStructure
   m_TagString: Untagged
@@ -6472,6 +7049,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 516895787}
   m_Mesh: {fileID: 4300190, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!114 &516895792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 516895787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &534580543
 GameObject:
   m_ObjectHideFlags: 0
@@ -6484,7 +7076,7 @@ GameObject:
   - component: {fileID: 534580546}
   - component: {fileID: 534580545}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6567,6 +7159,7 @@ GameObject:
   - component: {fileID: 558333715}
   - component: {fileID: 558333714}
   - component: {fileID: 558333713}
+  - component: {fileID: 558333716}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -6644,6 +7237,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 558333711}
   m_Mesh: {fileID: 4300054, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &558333716
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 558333711}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.5990005, y: 6.6670003, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &564601082
 GameObject:
   m_ObjectHideFlags: 0
@@ -6655,6 +7263,7 @@ GameObject:
   - component: {fileID: 564601086}
   - component: {fileID: 564601085}
   - component: {fileID: 564601084}
+  - component: {fileID: 564601087}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -6732,6 +7341,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 564601082}
   m_Mesh: {fileID: 4300092, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &564601087
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 564601082}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.593, y: 4.609, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &566662185
 GameObject:
   m_ObjectHideFlags: 0
@@ -6744,7 +7368,7 @@ GameObject:
   - component: {fileID: 566662188}
   - component: {fileID: 566662187}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6827,6 +7451,7 @@ GameObject:
   - component: {fileID: 573359587}
   - component: {fileID: 573359586}
   - component: {fileID: 573359585}
+  - component: {fileID: 573359588}
   m_Layer: 0
   m_Name: CenterStructure
   m_TagString: Untagged
@@ -6902,6 +7527,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 573359583}
   m_Mesh: {fileID: 4300186, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!114 &573359588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 573359583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &575169752
 GameObject:
   m_ObjectHideFlags: 0
@@ -6913,6 +7553,7 @@ GameObject:
   - component: {fileID: 575169756}
   - component: {fileID: 575169755}
   - component: {fileID: 575169754}
+  - component: {fileID: 575169757}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -6990,6 +7631,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 575169752}
   m_Mesh: {fileID: 4300222, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &575169757
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 575169752}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.086, y: 5.5820003, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.127, y: 0.031000001, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &580895879
 GameObject:
   m_ObjectHideFlags: 0
@@ -7001,6 +7657,7 @@ GameObject:
   - component: {fileID: 580895883}
   - component: {fileID: 580895882}
   - component: {fileID: 580895881}
+  - component: {fileID: 580895884}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -7078,6 +7735,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 580895879}
   m_Mesh: {fileID: 4300094, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &580895884
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 580895879}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.431001, y: 3.4160001, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &598661189
 GameObject:
   m_ObjectHideFlags: 0
@@ -7090,7 +7762,7 @@ GameObject:
   - component: {fileID: 598661192}
   - component: {fileID: 598661191}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7173,6 +7845,7 @@ GameObject:
   - component: {fileID: 600429689}
   - component: {fileID: 600429688}
   - component: {fileID: 600429687}
+  - component: {fileID: 600429690}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -7250,6 +7923,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 600429685}
   m_Mesh: {fileID: 4300216, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &600429690
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 600429685}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.086, y: 5.5820003, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.127, y: -0.031000001, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &612976018
 GameObject:
   m_ObjectHideFlags: 0
@@ -7261,6 +7949,7 @@ GameObject:
   - component: {fileID: 612976022}
   - component: {fileID: 612976021}
   - component: {fileID: 612976020}
+  - component: {fileID: 612976023}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -7338,6 +8027,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 612976018}
   m_Mesh: {fileID: 4300034, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &612976023
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 612976018}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.7240005, y: 6.4240003, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &613990450
 GameObject:
   m_ObjectHideFlags: 0
@@ -7382,7 +8086,7 @@ GameObject:
   - component: {fileID: 616788776}
   - component: {fileID: 616788775}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7465,6 +8169,7 @@ GameObject:
   - component: {fileID: 630431570}
   - component: {fileID: 630431569}
   - component: {fileID: 630431568}
+  - component: {fileID: 630431571}
   m_Layer: 0
   m_Name: CenterStructure
   m_TagString: Untagged
@@ -7540,6 +8245,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 630431566}
   m_Mesh: {fileID: 4300176, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!114 &630431571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 630431566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &639803432
 GameObject:
   m_ObjectHideFlags: 0
@@ -7551,6 +8271,7 @@ GameObject:
   - component: {fileID: 639803436}
   - component: {fileID: 639803435}
   - component: {fileID: 639803434}
+  - component: {fileID: 639803437}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -7628,6 +8349,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 639803432}
   m_Mesh: {fileID: 4300068, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &639803437
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 639803432}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.9730005, y: 5.591, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &644880880
 GameObject:
   m_ObjectHideFlags: 0
@@ -7640,7 +8376,7 @@ GameObject:
   - component: {fileID: 644880883}
   - component: {fileID: 644880882}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7724,7 +8460,7 @@ GameObject:
   - component: {fileID: 645498277}
   - component: {fileID: 645498276}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7872,6 +8608,7 @@ GameObject:
   - component: {fileID: 664264561}
   - component: {fileID: 664264560}
   - component: {fileID: 664264559}
+  - component: {fileID: 664264562}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -7949,6 +8686,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 664264557}
   m_Mesh: {fileID: 4300262, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &664264562
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 664264557}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 4.441, y: 8.5460005, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.05, y: 0.12100001, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &670206934
 GameObject:
   m_ObjectHideFlags: 0
@@ -7961,7 +8713,7 @@ GameObject:
   - component: {fileID: 670206937}
   - component: {fileID: 670206936}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8045,7 +8797,7 @@ GameObject:
   - component: {fileID: 682872770}
   - component: {fileID: 682872769}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8129,7 +8881,7 @@ GameObject:
   - component: {fileID: 688178515}
   - component: {fileID: 688178514}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8212,6 +8964,7 @@ GameObject:
   - component: {fileID: 690439586}
   - component: {fileID: 690439585}
   - component: {fileID: 690439584}
+  - component: {fileID: 690439587}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -8289,6 +9042,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 690439582}
   m_Mesh: {fileID: 4300110, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &690439587
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 690439582}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 5.688, y: 8.544001, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &695124493
 GameObject:
   m_ObjectHideFlags: 0
@@ -8300,6 +9068,7 @@ GameObject:
   - component: {fileID: 695124497}
   - component: {fileID: 695124496}
   - component: {fileID: 695124495}
+  - component: {fileID: 695124498}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -8377,6 +9146,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 695124493}
   m_Mesh: {fileID: 4300048, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &695124498
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 695124493}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 5.591, y: 7.9730005, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &698620309
 GameObject:
   m_ObjectHideFlags: 0
@@ -8389,7 +9173,7 @@ GameObject:
   - component: {fileID: 698620312}
   - component: {fileID: 698620311}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8473,7 +9257,7 @@ GameObject:
   - component: {fileID: 718338727}
   - component: {fileID: 718338726}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8557,7 +9341,7 @@ GameObject:
   - component: {fileID: 722439769}
   - component: {fileID: 722439768}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8641,7 +9425,7 @@ GameObject:
   - component: {fileID: 723326858}
   - component: {fileID: 723326857}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8725,7 +9509,7 @@ GameObject:
   - component: {fileID: 727843351}
   - component: {fileID: 727843350}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8808,6 +9592,7 @@ GameObject:
   - component: {fileID: 732699245}
   - component: {fileID: 732699244}
   - component: {fileID: 732699243}
+  - component: {fileID: 732699246}
   m_Layer: 0
   m_Name: CenterStructure
   m_TagString: Untagged
@@ -8883,6 +9668,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 732699241}
   m_Mesh: {fileID: 4300164, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!114 &732699246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 732699241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &752289757
 GameObject:
   m_ObjectHideFlags: 0
@@ -8926,6 +9726,7 @@ GameObject:
   - component: {fileID: 759714745}
   - component: {fileID: 759714744}
   - component: {fileID: 759714743}
+  - component: {fileID: 759714746}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -9003,6 +9804,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 759714741}
   m_Mesh: {fileID: 4300256, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &759714746
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 759714741}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 4.441, y: 8.5460005, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &766917598
 GameObject:
   m_ObjectHideFlags: 0
@@ -9015,7 +9831,7 @@ GameObject:
   - component: {fileID: 766917601}
   - component: {fileID: 766917600}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9099,7 +9915,7 @@ GameObject:
   - component: {fileID: 774530381}
   - component: {fileID: 774530380}
   m_Layer: 0
-  m_Name: DeStructure (14)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9183,7 +9999,7 @@ GameObject:
   - component: {fileID: 775601546}
   - component: {fileID: 775601545}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9306,6 +10122,7 @@ GameObject:
   - component: {fileID: 792905242}
   - component: {fileID: 792905241}
   - component: {fileID: 792905240}
+  - component: {fileID: 792905243}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -9383,6 +10200,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 792905238}
   m_Mesh: {fileID: 4300250, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &792905243
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 792905238}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 12.581, y: 6.3380003, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.09, y: 0.055000003, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &796651213
 GameObject:
   m_ObjectHideFlags: 0
@@ -9395,7 +10227,7 @@ GameObject:
   - component: {fileID: 796651216}
   - component: {fileID: 796651215}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9478,6 +10310,7 @@ GameObject:
   - component: {fileID: 804030834}
   - component: {fileID: 804030833}
   - component: {fileID: 804030832}
+  - component: {fileID: 804030835}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -9555,6 +10388,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 804030830}
   m_Mesh: {fileID: 4300078, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &804030835
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 804030830}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 4.609, y: 8.593, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &824134580
 GameObject:
   m_ObjectHideFlags: 0
@@ -9567,7 +10415,7 @@ GameObject:
   - component: {fileID: 824134583}
   - component: {fileID: 824134582}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9650,6 +10498,7 @@ GameObject:
   - component: {fileID: 826114327}
   - component: {fileID: 826114326}
   - component: {fileID: 826114325}
+  - component: {fileID: 826114328}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -9727,6 +10576,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 826114323}
   m_Mesh: {fileID: 4300264, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &826114328
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 826114323}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 5.5820003, y: 8.086, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.031000001, y: 0.127, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &836325673
 GameObject:
   m_ObjectHideFlags: 0
@@ -9739,7 +10603,7 @@ GameObject:
   - component: {fileID: 836325676}
   - component: {fileID: 836325675}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9927,6 +10791,7 @@ GameObject:
   - component: {fileID: 858143031}
   - component: {fileID: 858143030}
   - component: {fileID: 858143029}
+  - component: {fileID: 858143032}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -10004,6 +10869,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 858143027}
   m_Mesh: {fileID: 4300058, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &858143032
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 858143027}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.030001, y: 4.958, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &865429721
 GameObject:
   m_ObjectHideFlags: 0
@@ -10015,6 +10895,7 @@ GameObject:
   - component: {fileID: 865429725}
   - component: {fileID: 865429724}
   - component: {fileID: 865429723}
+  - component: {fileID: 865429726}
   m_Layer: 0
   m_Name: CenterStructure
   m_TagString: Untagged
@@ -10090,6 +10971,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 865429721}
   m_Mesh: {fileID: 4300178, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!114 &865429726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 865429721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &868970280
 GameObject:
   m_ObjectHideFlags: 0
@@ -10101,6 +10997,7 @@ GameObject:
   - component: {fileID: 868970284}
   - component: {fileID: 868970283}
   - component: {fileID: 868970282}
+  - component: {fileID: 868970285}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -10178,6 +11075,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 868970280}
   m_Mesh: {fileID: 4300046, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &868970285
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 868970280}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 4.6200004, y: 8.025001, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &871022400
 GameObject:
   m_ObjectHideFlags: 0
@@ -10190,7 +11102,7 @@ GameObject:
   - component: {fileID: 871022403}
   - component: {fileID: 871022402}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10273,6 +11185,7 @@ GameObject:
   - component: {fileID: 872848906}
   - component: {fileID: 872848905}
   - component: {fileID: 872848904}
+  - component: {fileID: 872848907}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -10350,6 +11263,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 872848902}
   m_Mesh: {fileID: 4300212, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &872848907
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 872848902}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.795, y: 3.19, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.112, y: -0.068, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &876678014
 GameObject:
   m_ObjectHideFlags: 0
@@ -10362,7 +11290,7 @@ GameObject:
   - component: {fileID: 876678017}
   - component: {fileID: 876678016}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10445,6 +11373,7 @@ GameObject:
   - component: {fileID: 877164543}
   - component: {fileID: 877164542}
   - component: {fileID: 877164541}
+  - component: {fileID: 877164544}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -10522,6 +11451,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 877164539}
   m_Mesh: {fileID: 4300210, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &877164544
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 877164539}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 6.939, y: 12.344001, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.015000001, y: 0.006, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &879618846
 GameObject:
   m_ObjectHideFlags: 0
@@ -10533,6 +11477,7 @@ GameObject:
   - component: {fileID: 879618850}
   - component: {fileID: 879618849}
   - component: {fileID: 879618848}
+  - component: {fileID: 879618851}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -10610,6 +11555,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 879618846}
   m_Mesh: {fileID: 4300226, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &879618851
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 879618846}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 4.441, y: 8.5460005, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.05, y: -0.12100001, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &881487163
 GameObject:
   m_ObjectHideFlags: 0
@@ -10622,7 +11582,7 @@ GameObject:
   - component: {fileID: 881487166}
   - component: {fileID: 881487165}
   m_Layer: 0
-  m_Name: DeStructure (5)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10705,6 +11665,7 @@ GameObject:
   - component: {fileID: 884837834}
   - component: {fileID: 884837833}
   - component: {fileID: 884837832}
+  - component: {fileID: 884837835}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -10782,6 +11743,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 884837830}
   m_Mesh: {fileID: 4300254, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &884837835
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 884837830}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 5.5820003, y: 8.086, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &888649493
 GameObject:
   m_ObjectHideFlags: 0
@@ -10793,6 +11769,7 @@ GameObject:
   - component: {fileID: 888649497}
   - component: {fileID: 888649496}
   - component: {fileID: 888649495}
+  - component: {fileID: 888649498}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -10870,6 +11847,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 888649493}
   m_Mesh: {fileID: 4300234, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &888649498
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 888649493}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 3.19, y: 8.795, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &892261364
 GameObject:
   m_ObjectHideFlags: 0
@@ -10882,7 +11874,7 @@ GameObject:
   - component: {fileID: 892261367}
   - component: {fileID: 892261366}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10965,6 +11957,7 @@ GameObject:
   - component: {fileID: 910836845}
   - component: {fileID: 910836844}
   - component: {fileID: 910836843}
+  - component: {fileID: 910836846}
   m_Layer: 0
   m_Name: CenterStructure
   m_TagString: Untagged
@@ -11042,6 +12035,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 910836841}
   m_Mesh: {fileID: 4300198, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!114 &910836846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 910836841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &930753907
 GameObject:
   m_ObjectHideFlags: 0
@@ -11053,6 +12061,7 @@ GameObject:
   - component: {fileID: 930753911}
   - component: {fileID: 930753910}
   - component: {fileID: 930753909}
+  - component: {fileID: 930753912}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -11130,6 +12139,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 930753907}
   m_Mesh: {fileID: 4300230, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &930753912
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 930753907}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 5.5820003, y: 8.086, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &936699540
 GameObject:
   m_ObjectHideFlags: 0
@@ -11141,6 +12165,7 @@ GameObject:
   - component: {fileID: 936699544}
   - component: {fileID: 936699543}
   - component: {fileID: 936699542}
+  - component: {fileID: 936699545}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -11218,6 +12243,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 936699540}
   m_Mesh: {fileID: 4300242, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &936699545
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 936699540}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 11.875001, y: 7.8980002, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &957121920
 GameObject:
   m_ObjectHideFlags: 0
@@ -11230,7 +12270,7 @@ GameObject:
   - component: {fileID: 957121923}
   - component: {fileID: 957121922}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11345,6 +12385,7 @@ GameObject:
   - component: {fileID: 967491682}
   - component: {fileID: 967491681}
   - component: {fileID: 967491680}
+  - component: {fileID: 967491683}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -11422,6 +12463,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 967491678}
   m_Mesh: {fileID: 4300074, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &967491683
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 967491678}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 4.958, y: 8.029, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &976340984
 GameObject:
   m_ObjectHideFlags: 0
@@ -11433,6 +12489,7 @@ GameObject:
   - component: {fileID: 976340988}
   - component: {fileID: 976340987}
   - component: {fileID: 976340986}
+  - component: {fileID: 976340989}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -11510,6 +12567,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 976340984}
   m_Mesh: {fileID: 4300044, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &976340989
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 976340984}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 3.5360003, y: 7.8800006, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &984989153
 GameObject:
   m_ObjectHideFlags: 0
@@ -11521,6 +12593,7 @@ GameObject:
   - component: {fileID: 984989157}
   - component: {fileID: 984989156}
   - component: {fileID: 984989155}
+  - component: {fileID: 984989158}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -11598,6 +12671,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 984989153}
   m_Mesh: {fileID: 4300144, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &984989158
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 984989153}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 6.6270003, y: 8.284, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &986199343
 GameObject:
   m_ObjectHideFlags: 0
@@ -11610,7 +12698,7 @@ GameObject:
   - component: {fileID: 986199346}
   - component: {fileID: 986199345}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11840,7 +12928,7 @@ GameObject:
   - component: {fileID: 1009384275}
   - component: {fileID: 1009384274}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11923,6 +13011,7 @@ GameObject:
   - component: {fileID: 1010455372}
   - component: {fileID: 1010455371}
   - component: {fileID: 1010455370}
+  - component: {fileID: 1010455373}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -12000,6 +13089,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1010455368}
   m_Mesh: {fileID: 4300076, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1010455373
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1010455368}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 3.4160001, y: 8.431001, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1013946509
 GameObject:
   m_ObjectHideFlags: 0
@@ -12116,6 +13220,7 @@ GameObject:
   - component: {fileID: 1026276533}
   - component: {fileID: 1026276532}
   - component: {fileID: 1026276531}
+  - component: {fileID: 1026276534}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -12193,6 +13298,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1026276529}
   m_Mesh: {fileID: 4300228, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1026276534
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1026276529}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 5.5820003, y: 8.086, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.031000001, y: -0.127, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1028071360
 GameObject:
   m_ObjectHideFlags: 0
@@ -12239,7 +13359,7 @@ Transform:
   - {fileID: 1245691740}
   - {fileID: 1354824011}
   m_Father: {fileID: 1475566878}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1028071362
 MeshRenderer:
@@ -12469,6 +13589,7 @@ GameObject:
   - component: {fileID: 1045259859}
   - component: {fileID: 1045259858}
   - component: {fileID: 1045259857}
+  - component: {fileID: 1045259860}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -12546,6 +13667,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1045259855}
   m_Mesh: {fileID: 4300112, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1045259860
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1045259855}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 4.609, y: 8.593, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1054493604
 GameObject:
   m_ObjectHideFlags: 0
@@ -12631,7 +13767,7 @@ GameObject:
   - component: {fileID: 1057133720}
   - component: {fileID: 1057133719}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12715,7 +13851,7 @@ GameObject:
   - component: {fileID: 1058131029}
   - component: {fileID: 1058131028}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12799,7 +13935,7 @@ GameObject:
   - component: {fileID: 1063261788}
   - component: {fileID: 1063261787}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12915,7 +14051,7 @@ GameObject:
   - component: {fileID: 1071201577}
   - component: {fileID: 1071201576}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12998,6 +14134,7 @@ GameObject:
   - component: {fileID: 1085600482}
   - component: {fileID: 1085600481}
   - component: {fileID: 1085600480}
+  - component: {fileID: 1085600483}
   m_Layer: 0
   m_Name: CenterStructure
   m_TagString: Untagged
@@ -13073,6 +14210,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1085600478}
   m_Mesh: {fileID: 4300160, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!114 &1085600483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1085600478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &1087838924
 GameObject:
   m_ObjectHideFlags: 0
@@ -13085,7 +14237,7 @@ GameObject:
   - component: {fileID: 1087838927}
   - component: {fileID: 1087838926}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13168,6 +14320,7 @@ GameObject:
   - component: {fileID: 1111890548}
   - component: {fileID: 1111890547}
   - component: {fileID: 1111890546}
+  - component: {fileID: 1111890549}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -13245,6 +14398,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1111890544}
   m_Mesh: {fileID: 4300214, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1111890549
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1111890544}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.5460005, y: 4.441, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.12100001, y: -0.05, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1114583208
 GameObject:
   m_ObjectHideFlags: 0
@@ -13256,6 +14424,7 @@ GameObject:
   - component: {fileID: 1114583212}
   - component: {fileID: 1114583211}
   - component: {fileID: 1114583210}
+  - component: {fileID: 1114583213}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -13333,6 +14502,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1114583208}
   m_Mesh: {fileID: 4300266, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1114583213
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1114583208}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.086, y: 5.5820003, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1122404884
 GameObject:
   m_ObjectHideFlags: 0
@@ -13344,6 +14528,7 @@ GameObject:
   - component: {fileID: 1122404888}
   - component: {fileID: 1122404887}
   - component: {fileID: 1122404886}
+  - component: {fileID: 1122404889}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -13421,6 +14606,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1122404884}
   m_Mesh: {fileID: 4300220, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1122404889
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1122404884}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.5460005, y: 4.441, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.12100001, y: 0.05, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1126183254
 GameObject:
   m_ObjectHideFlags: 0
@@ -13433,7 +14633,7 @@ GameObject:
   - component: {fileID: 1126183257}
   - component: {fileID: 1126183256}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13548,6 +14748,7 @@ GameObject:
   - component: {fileID: 1153419405}
   - component: {fileID: 1153419404}
   - component: {fileID: 1153419403}
+  - component: {fileID: 1153419406}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -13625,6 +14826,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1153419401}
   m_Mesh: {fileID: 4300224, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1153419406
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1153419401}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 3.19, y: 8.795, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.068, y: -0.112, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1154305963
 GameObject:
   m_ObjectHideFlags: 0
@@ -13637,7 +14853,7 @@ GameObject:
   - component: {fileID: 1154305966}
   - component: {fileID: 1154305965}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13753,7 +14969,7 @@ GameObject:
   - component: {fileID: 1155585710}
   - component: {fileID: 1155585709}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13837,7 +15053,7 @@ GameObject:
   - component: {fileID: 1158725480}
   - component: {fileID: 1158725479}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13921,7 +15137,7 @@ GameObject:
   - component: {fileID: 1179668480}
   - component: {fileID: 1179668479}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14005,7 +15221,7 @@ GameObject:
   - component: {fileID: 1204018948}
   - component: {fileID: 1204018947}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14089,7 +15305,7 @@ GameObject:
   - component: {fileID: 1210478184}
   - component: {fileID: 1210478183}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14204,6 +15420,7 @@ GameObject:
   - component: {fileID: 1211855373}
   - component: {fileID: 1211855372}
   - component: {fileID: 1211855371}
+  - component: {fileID: 1211855374}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -14281,6 +15498,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1211855369}
   m_Mesh: {fileID: 4300004, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1211855374
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1211855369}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 3.9080002, y: 7.9500003, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1212161451
 GameObject:
   m_ObjectHideFlags: 0
@@ -14292,6 +15524,7 @@ GameObject:
   - component: {fileID: 1212161455}
   - component: {fileID: 1212161454}
   - component: {fileID: 1212161453}
+  - component: {fileID: 1212161456}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -14369,6 +15602,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1212161451}
   m_Mesh: {fileID: 4300064, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1212161456
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1212161451}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.8800006, y: 3.5360003, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1215044222
 GameObject:
   m_ObjectHideFlags: 0
@@ -14380,6 +15628,7 @@ GameObject:
   - component: {fileID: 1215044226}
   - component: {fileID: 1215044225}
   - component: {fileID: 1215044224}
+  - component: {fileID: 1215044227}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -14457,6 +15706,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1215044222}
   m_Mesh: {fileID: 4300070, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1215044227
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1215044222}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.7240005, y: 6.4240003, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1217037769
 GameObject:
   m_ObjectHideFlags: 0
@@ -14532,6 +15796,7 @@ GameObject:
   - component: {fileID: 1219284700}
   - component: {fileID: 1219284699}
   - component: {fileID: 1219284698}
+  - component: {fileID: 1219284701}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -14609,6 +15874,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1219284696}
   m_Mesh: {fileID: 4300150, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1219284701
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1219284696}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 9.137, y: 11.066001, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.034, y: -0.085, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1234796944
 GameObject:
   m_ObjectHideFlags: 0
@@ -14620,6 +15900,7 @@ GameObject:
   - component: {fileID: 1234796948}
   - component: {fileID: 1234796947}
   - component: {fileID: 1234796946}
+  - component: {fileID: 1234796949}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -14697,6 +15978,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1234796944}
   m_Mesh: {fileID: 4300082, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1234796949
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1234796944}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 4.223, y: 8.562, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1238972996
 GameObject:
   m_ObjectHideFlags: 0
@@ -14709,7 +16005,7 @@ GameObject:
   - component: {fileID: 1238972999}
   - component: {fileID: 1238972998}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14792,6 +16088,7 @@ GameObject:
   - component: {fileID: 1239755910}
   - component: {fileID: 1239755909}
   - component: {fileID: 1239755908}
+  - component: {fileID: 1239755911}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -14869,6 +16166,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1239755906}
   m_Mesh: {fileID: 4300066, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1239755911
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1239755906}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.025001, y: 4.6200004, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1245691739
 GameObject:
   m_ObjectHideFlags: 0
@@ -14880,6 +16192,7 @@ GameObject:
   - component: {fileID: 1245691743}
   - component: {fileID: 1245691742}
   - component: {fileID: 1245691741}
+  - component: {fileID: 1245691744}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -14957,6 +16270,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1245691739}
   m_Mesh: {fileID: 4300272, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1245691744
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1245691739}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.3290005, y: 12.168, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.048, y: 0.078, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1247973932
 GameObject:
   m_ObjectHideFlags: 0
@@ -14989,7 +16317,7 @@ Transform:
   - {fileID: 1464149854}
   - {fileID: 1965958825}
   m_Father: {fileID: 1475566878}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1261645245
 GameObject:
@@ -15002,6 +16330,7 @@ GameObject:
   - component: {fileID: 1261645249}
   - component: {fileID: 1261645248}
   - component: {fileID: 1261645247}
+  - component: {fileID: 1261645250}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -15079,6 +16408,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1261645245}
   m_Mesh: {fileID: 4300016, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1261645250
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1261645245}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.0990005, y: 7.2850003, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1264966223
 GameObject:
   m_ObjectHideFlags: 0
@@ -15091,7 +16435,7 @@ GameObject:
   - component: {fileID: 1264966226}
   - component: {fileID: 1264966225}
   m_Layer: 0
-  m_Name: DeStructure (5)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15174,6 +16518,7 @@ GameObject:
   - component: {fileID: 1265758737}
   - component: {fileID: 1265758736}
   - component: {fileID: 1265758735}
+  - component: {fileID: 1265758738}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -15251,6 +16596,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1265758733}
   m_Mesh: {fileID: 4300260, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1265758738
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1265758733}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 3.19, y: 8.795, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.069000006, y: 0.112, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1282779701
 GameObject:
   m_ObjectHideFlags: 0
@@ -15262,6 +16622,7 @@ GameObject:
   - component: {fileID: 1282779705}
   - component: {fileID: 1282779704}
   - component: {fileID: 1282779703}
+  - component: {fileID: 1282779706}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -15339,6 +16700,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1282779701}
   m_Mesh: {fileID: 4300050, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1282779706
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1282779701}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 6.4240003, y: 7.7240005, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1288395410
 GameObject:
   m_ObjectHideFlags: 0
@@ -15351,7 +16727,7 @@ GameObject:
   - component: {fileID: 1288395413}
   - component: {fileID: 1288395412}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15434,6 +16810,7 @@ GameObject:
   - component: {fileID: 1290526990}
   - component: {fileID: 1290526989}
   - component: {fileID: 1290526988}
+  - component: {fileID: 1290526991}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -15511,6 +16888,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1290526986}
   m_Mesh: {fileID: 4300134, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1290526991
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1290526986}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.562, y: 4.223, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1290895075
 GameObject:
   m_ObjectHideFlags: 0
@@ -15554,6 +16946,7 @@ GameObject:
   - component: {fileID: 1310256488}
   - component: {fileID: 1310256487}
   - component: {fileID: 1310256486}
+  - component: {fileID: 1310256489}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -15631,6 +17024,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1310256484}
   m_Mesh: {fileID: 4300052, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1310256489
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1310256484}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.0990005, y: 7.2850003, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1311151653
 GameObject:
   m_ObjectHideFlags: 0
@@ -15679,7 +17087,7 @@ GameObject:
   - component: {fileID: 1315940774}
   - component: {fileID: 1315940773}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15763,7 +17171,7 @@ GameObject:
   - component: {fileID: 1316940633}
   - component: {fileID: 1316940632}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15876,6 +17284,7 @@ GameObject:
   - component: {fileID: 1326194240}
   - component: {fileID: 1326194239}
   - component: {fileID: 1326194238}
+  - component: {fileID: 1326194241}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -15953,6 +17362,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1326194236}
   m_Mesh: {fileID: 4300088, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1326194241
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1326194236}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.284, y: 6.6270003, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1335652575
 GameObject:
   m_ObjectHideFlags: 0
@@ -15965,7 +17389,7 @@ GameObject:
   - component: {fileID: 1335652578}
   - component: {fileID: 1335652577}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16048,6 +17472,7 @@ GameObject:
   - component: {fileID: 1340984614}
   - component: {fileID: 1340984613}
   - component: {fileID: 1340984612}
+  - component: {fileID: 1340984615}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -16125,6 +17550,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1340984610}
   m_Mesh: {fileID: 4300246, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1340984615
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1340984610}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 12.581, y: 6.3380003, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.09, y: -0.055000003, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1347286076
 GameObject:
   m_ObjectHideFlags: 0
@@ -16137,7 +17577,7 @@ GameObject:
   - component: {fileID: 1347286079}
   - component: {fileID: 1347286078}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16220,6 +17660,7 @@ GameObject:
   - component: {fileID: 1354824014}
   - component: {fileID: 1354824013}
   - component: {fileID: 1354824012}
+  - component: {fileID: 1354824015}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -16297,6 +17738,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1354824010}
   m_Mesh: {fileID: 4300274, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1354824015
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1354824010}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 9.137, y: 11.066001, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.034, y: 0.085, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1363956288
 GameObject:
   m_ObjectHideFlags: 0
@@ -16309,7 +17765,7 @@ GameObject:
   - component: {fileID: 1363956291}
   - component: {fileID: 1363956290}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16392,6 +17848,7 @@ GameObject:
   - component: {fileID: 1364700085}
   - component: {fileID: 1364700084}
   - component: {fileID: 1364700083}
+  - component: {fileID: 1364700086}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -16469,6 +17926,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1364700081}
   m_Mesh: {fileID: 4300268, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1364700086
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1364700081}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.5460005, y: 4.441, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1371715216
 GameObject:
   m_ObjectHideFlags: 0
@@ -16480,6 +17952,7 @@ GameObject:
   - component: {fileID: 1371715220}
   - component: {fileID: 1371715219}
   - component: {fileID: 1371715218}
+  - component: {fileID: 1371715221}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -16557,6 +18030,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1371715216}
   m_Mesh: {fileID: 4300022, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1371715221
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1371715216}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.030001, y: 4.958, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1372573018
 GameObject:
   m_ObjectHideFlags: 0
@@ -16568,6 +18056,7 @@ GameObject:
   - component: {fileID: 1372573022}
   - component: {fileID: 1372573021}
   - component: {fileID: 1372573020}
+  - component: {fileID: 1372573023}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -16645,6 +18134,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1372573018}
   m_Mesh: {fileID: 4300006, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1372573023
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1372573018}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.7630002, y: 7.8090005, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1373618708
 GameObject:
   m_ObjectHideFlags: 0
@@ -16656,6 +18160,7 @@ GameObject:
   - component: {fileID: 1373618712}
   - component: {fileID: 1373618711}
   - component: {fileID: 1373618710}
+  - component: {fileID: 1373618713}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -16733,6 +18238,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1373618708}
   m_Mesh: {fileID: 4300024, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1373618713
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1373618708}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.9500003, y: 3.9080002, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1385121169
 GameObject:
   m_ObjectHideFlags: 0
@@ -16745,7 +18265,7 @@ GameObject:
   - component: {fileID: 1385121172}
   - component: {fileID: 1385121171}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16860,6 +18380,7 @@ GameObject:
   - component: {fileID: 1397198569}
   - component: {fileID: 1397198568}
   - component: {fileID: 1397198567}
+  - component: {fileID: 1397198570}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -16937,6 +18458,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1397198565}
   m_Mesh: {fileID: 4300060, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1397198570
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1397198565}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.9500003, y: 3.9090002, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1401387440
 GameObject:
   m_ObjectHideFlags: 0
@@ -17053,6 +18589,7 @@ GameObject:
   - component: {fileID: 1419268376}
   - component: {fileID: 1419268375}
   - component: {fileID: 1419268374}
+  - component: {fileID: 1419268377}
   m_Layer: 0
   m_Name: CenterStructure
   m_TagString: Untagged
@@ -17128,6 +18665,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1419268372}
   m_Mesh: {fileID: 4300184, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!114 &1419268377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1419268372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &1421625965
 GameObject:
   m_ObjectHideFlags: 0
@@ -17140,7 +18692,7 @@ GameObject:
   - component: {fileID: 1421625968}
   - component: {fileID: 1421625967}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17259,6 +18811,7 @@ GameObject:
   - component: {fileID: 1441364234}
   - component: {fileID: 1441364233}
   - component: {fileID: 1441364232}
+  - component: {fileID: 1441364235}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -17336,6 +18889,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1441364230}
   m_Mesh: {fileID: 4300008, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1441364235
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1441364230}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 3.5360003, y: 7.8800006, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1452184918
 GameObject:
   m_ObjectHideFlags: 0
@@ -17348,7 +18916,7 @@ GameObject:
   - component: {fileID: 1452184921}
   - component: {fileID: 1452184920}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17463,6 +19031,7 @@ GameObject:
   - component: {fileID: 1457598238}
   - component: {fileID: 1457598237}
   - component: {fileID: 1457598236}
+  - component: {fileID: 1457598239}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -17540,6 +19109,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1457598234}
   m_Mesh: {fileID: 4300114, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1457598239
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1457598234}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 3.4160001, y: 8.431001, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1464149853
 GameObject:
   m_ObjectHideFlags: 0
@@ -17582,7 +19166,7 @@ GameObject:
   - component: {fileID: 1465608072}
   - component: {fileID: 1465608071}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17666,7 +19250,7 @@ GameObject:
   - component: {fileID: 1470111807}
   - component: {fileID: 1470111806}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17763,6 +19347,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 2026392680}
   - {fileID: 320596744}
   - {fileID: 1756374560}
   - {fileID: 1625454719}
@@ -17788,6 +19373,7 @@ GameObject:
   - component: {fileID: 1479913655}
   - component: {fileID: 1479913654}
   - component: {fileID: 1479913653}
+  - component: {fileID: 1479913656}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -17865,6 +19451,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1479913651}
   m_Mesh: {fileID: 4300036, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1479913656
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1479913651}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 5.885, y: 7.9110003, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1482881219
 GameObject:
   m_ObjectHideFlags: 0
@@ -17877,7 +19478,7 @@ GameObject:
   - component: {fileID: 1482881222}
   - component: {fileID: 1482881221}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17993,7 +19594,7 @@ GameObject:
   - component: {fileID: 1494659719}
   - component: {fileID: 1494659718}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18077,7 +19678,7 @@ GameObject:
   - component: {fileID: 1495710816}
   - component: {fileID: 1495710815}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18161,7 +19762,7 @@ GameObject:
   - component: {fileID: 1509685563}
   - component: {fileID: 1509685562}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18245,7 +19846,7 @@ GameObject:
   - component: {fileID: 1531087535}
   - component: {fileID: 1531087534}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18328,6 +19929,7 @@ GameObject:
   - component: {fileID: 1534387853}
   - component: {fileID: 1534387852}
   - component: {fileID: 1534387851}
+  - component: {fileID: 1534387854}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -18405,6 +20007,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1534387849}
   m_Mesh: {fileID: 4300042, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1534387854
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1534387849}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.7630002, y: 7.8090005, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1534548931
 GameObject:
   m_ObjectHideFlags: 0
@@ -18417,7 +20034,7 @@ GameObject:
   - component: {fileID: 1534548934}
   - component: {fileID: 1534548933}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18501,7 +20118,7 @@ GameObject:
   - component: {fileID: 1547305751}
   - component: {fileID: 1547305750}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18585,7 +20202,7 @@ GameObject:
   - component: {fileID: 1551428888}
   - component: {fileID: 1551428887}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18701,7 +20318,7 @@ GameObject:
   - component: {fileID: 1563623061}
   - component: {fileID: 1563623060}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18785,7 +20402,7 @@ GameObject:
   - component: {fileID: 1573501127}
   - component: {fileID: 1573501126}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18869,7 +20486,7 @@ GameObject:
   - component: {fileID: 1581934047}
   - component: {fileID: 1581934046}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18952,6 +20569,7 @@ GameObject:
   - component: {fileID: 1585827802}
   - component: {fileID: 1585827801}
   - component: {fileID: 1585827800}
+  - component: {fileID: 1585827803}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -19029,6 +20647,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1585827798}
   m_Mesh: {fileID: 4300106, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1585827803
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1585827798}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.4030004, y: 7.82, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1599339756
 GameObject:
   m_ObjectHideFlags: 0
@@ -19073,7 +20706,7 @@ GameObject:
   - component: {fileID: 1603432607}
   - component: {fileID: 1603432606}
   m_Layer: 0
-  m_Name: DeStructure (4)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19157,7 +20790,7 @@ GameObject:
   - component: {fileID: 1611556714}
   - component: {fileID: 1611556713}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19241,7 +20874,7 @@ GameObject:
   - component: {fileID: 1611710212}
   - component: {fileID: 1611710211}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19324,8 +20957,9 @@ GameObject:
   - component: {fileID: 1615796699}
   - component: {fileID: 1615796698}
   - component: {fileID: 1615796697}
+  - component: {fileID: 1615796700}
   m_Layer: 0
-  m_Name: Cube (3)
+  m_Name: BigStrukt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19342,7 +20976,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 1475566878}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1615796697
 MeshRenderer:
@@ -19397,6 +21031,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1615796695}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1615796700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1615796695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &1624723767
 GameObject:
   m_ObjectHideFlags: 0
@@ -19408,6 +21057,7 @@ GameObject:
   - component: {fileID: 1624723771}
   - component: {fileID: 1624723770}
   - component: {fileID: 1624723769}
+  - component: {fileID: 1624723772}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -19485,6 +21135,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1624723767}
   m_Mesh: {fileID: 4300062, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1624723772
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1624723767}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.8090005, y: 2.7630002, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1625454718
 GameObject:
   m_ObjectHideFlags: 0
@@ -19586,7 +21251,7 @@ Transform:
   - {fileID: 984989154}
   - {fileID: 330554559}
   m_Father: {fileID: 1475566878}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1625454720
 MeshRenderer:
@@ -19689,7 +21354,7 @@ GameObject:
   - component: {fileID: 1642468315}
   - component: {fileID: 1642468314}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19772,6 +21437,7 @@ GameObject:
   - component: {fileID: 1653896432}
   - component: {fileID: 1653896431}
   - component: {fileID: 1653896430}
+  - component: {fileID: 1653896433}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -19849,6 +21515,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1653896428}
   m_Mesh: {fileID: 4300252, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1653896433
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1653896428}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 11.661, y: 8.265, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.098000005, y: 0.039, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1679494770
 GameObject:
   m_ObjectHideFlags: 0
@@ -19861,7 +21542,7 @@ GameObject:
   - component: {fileID: 1679494773}
   - component: {fileID: 1679494772}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19944,6 +21625,7 @@ GameObject:
   - component: {fileID: 1687844816}
   - component: {fileID: 1687844815}
   - component: {fileID: 1687844814}
+  - component: {fileID: 1687844817}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -20021,6 +21703,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1687844812}
   m_Mesh: {fileID: 4300206, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1687844817
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1687844812}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 6.939, y: 12.344001, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.015000001, y: -0.006, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1688654114
 GameObject:
   m_ObjectHideFlags: 0
@@ -20065,7 +21762,7 @@ GameObject:
   - component: {fileID: 1689801122}
   - component: {fileID: 1689801121}
   m_Layer: 0
-  m_Name: DeStructure (6)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20149,7 +21846,7 @@ GameObject:
   - component: {fileID: 1691536281}
   - component: {fileID: 1691536280}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20232,6 +21929,7 @@ GameObject:
   - component: {fileID: 1691589717}
   - component: {fileID: 1691589716}
   - component: {fileID: 1691589715}
+  - component: {fileID: 1691589718}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -20309,6 +22007,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1691589713}
   m_Mesh: {fileID: 4300018, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1691589718
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1691589713}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.5990005, y: 6.6670003, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1694112033
 GameObject:
   m_ObjectHideFlags: 0
@@ -20321,7 +22034,7 @@ GameObject:
   - component: {fileID: 1694112036}
   - component: {fileID: 1694112035}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20437,7 +22150,7 @@ GameObject:
   - component: {fileID: 1719108940}
   - component: {fileID: 1719108939}
   m_Layer: 0
-  m_Name: DeStructure (4)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20520,6 +22233,7 @@ GameObject:
   - component: {fileID: 1724619621}
   - component: {fileID: 1724619620}
   - component: {fileID: 1724619619}
+  - component: {fileID: 1724619622}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -20597,6 +22311,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1724619617}
   m_Mesh: {fileID: 4300080, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1724619622
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1724619617}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.999, y: 8.33, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1732697299
 GameObject:
   m_ObjectHideFlags: 0
@@ -20609,7 +22338,7 @@ GameObject:
   - component: {fileID: 1732697302}
   - component: {fileID: 1732697301}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20692,6 +22421,7 @@ GameObject:
   - component: {fileID: 1738559737}
   - component: {fileID: 1738559736}
   - component: {fileID: 1738559735}
+  - component: {fileID: 1738559738}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -20769,6 +22499,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1738559733}
   m_Mesh: {fileID: 4300136, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1738559738
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1738559733}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.584001, y: 5.3430004, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1741106384
 GameObject:
   m_ObjectHideFlags: 0
@@ -20780,6 +22525,7 @@ GameObject:
   - component: {fileID: 1741106388}
   - component: {fileID: 1741106387}
   - component: {fileID: 1741106386}
+  - component: {fileID: 1741106389}
   m_Layer: 0
   m_Name: CenterStructure
   m_TagString: Untagged
@@ -20855,6 +22601,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1741106384}
   m_Mesh: {fileID: 4300172, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!114 &1741106389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1741106384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &1756374559
 GameObject:
   m_ObjectHideFlags: 0
@@ -20908,7 +22669,7 @@ Transform:
   - {fileID: 1364700082}
   - {fileID: 2128419886}
   m_Father: {fileID: 1475566878}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1756374561
 MeshRenderer:
@@ -20979,7 +22740,7 @@ GameObject:
   - component: {fileID: 1757644861}
   - component: {fileID: 1757644860}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21063,7 +22824,7 @@ GameObject:
   - component: {fileID: 1776119880}
   - component: {fileID: 1776119879}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21146,6 +22907,7 @@ GameObject:
   - component: {fileID: 1778939129}
   - component: {fileID: 1778939128}
   - component: {fileID: 1778939127}
+  - component: {fileID: 1778939130}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -21223,6 +22985,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1778939125}
   m_Mesh: {fileID: 4300148, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1778939130
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1778939125}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.3290005, y: 12.168, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.048, y: -0.078, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1786961197
 GameObject:
   m_ObjectHideFlags: 0
@@ -21307,7 +23084,7 @@ GameObject:
   - component: {fileID: 1798067580}
   - component: {fileID: 1798067579}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21391,7 +23168,7 @@ GameObject:
   - component: {fileID: 1813773166}
   - component: {fileID: 1813773165}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21474,6 +23251,7 @@ GameObject:
   - component: {fileID: 1820116197}
   - component: {fileID: 1820116196}
   - component: {fileID: 1820116195}
+  - component: {fileID: 1820116198}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -21551,6 +23329,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1820116193}
   m_Mesh: {fileID: 4300236, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1820116198
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1820116193}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.086, y: 5.5820003, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1821357277
 GameObject:
   m_ObjectHideFlags: 0
@@ -21562,6 +23355,7 @@ GameObject:
   - component: {fileID: 1821357281}
   - component: {fileID: 1821357280}
   - component: {fileID: 1821357279}
+  - component: {fileID: 1821357282}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -21639,6 +23433,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1821357277}
   m_Mesh: {fileID: 4300038, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1821357282
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1821357277}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 4.958, y: 8.030001, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1824928430
 GameObject:
   m_ObjectHideFlags: 0
@@ -21651,7 +23460,7 @@ GameObject:
   - component: {fileID: 1824928433}
   - component: {fileID: 1824928432}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21734,6 +23543,7 @@ GameObject:
   - component: {fileID: 1828540066}
   - component: {fileID: 1828540065}
   - component: {fileID: 1828540064}
+  - component: {fileID: 1828540067}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -21811,6 +23621,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1828540062}
   m_Mesh: {fileID: 4300126, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1828540067
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1828540062}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.544001, y: 5.688, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1833338951
 GameObject:
   m_ObjectHideFlags: 0
@@ -21822,6 +23647,7 @@ GameObject:
   - component: {fileID: 1833338955}
   - component: {fileID: 1833338954}
   - component: {fileID: 1833338953}
+  - component: {fileID: 1833338956}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -21899,6 +23725,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1833338951}
   m_Mesh: {fileID: 4300028, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1833338956
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1833338951}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.8800006, y: 3.5360003, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1852218399
 GameObject:
   m_ObjectHideFlags: 0
@@ -21911,7 +23752,7 @@ GameObject:
   - component: {fileID: 1852218402}
   - component: {fileID: 1852218401}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21994,6 +23835,7 @@ GameObject:
   - component: {fileID: 1880678602}
   - component: {fileID: 1880678601}
   - component: {fileID: 1880678600}
+  - component: {fileID: 1880678603}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -22071,6 +23913,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1880678598}
   m_Mesh: {fileID: 4300240, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1880678603
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1880678598}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.795, y: 3.19, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1881174459
 GameObject:
   m_ObjectHideFlags: 0
@@ -22082,6 +23939,7 @@ GameObject:
   - component: {fileID: 1881174463}
   - component: {fileID: 1881174462}
   - component: {fileID: 1881174461}
+  - component: {fileID: 1881174464}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -22159,6 +24017,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1881174459}
   m_Mesh: {fileID: 4300258, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1881174464
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1881174459}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 3.19, y: 8.795, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1886237100
 GameObject:
   m_ObjectHideFlags: 0
@@ -22170,6 +24043,7 @@ GameObject:
   - component: {fileID: 1886237104}
   - component: {fileID: 1886237103}
   - component: {fileID: 1886237102}
+  - component: {fileID: 1886237105}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -22247,6 +24121,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1886237100}
   m_Mesh: {fileID: 4300138, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1886237105
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1886237100}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.394, y: 6.3310003, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1893459250
 GameObject:
   m_ObjectHideFlags: 0
@@ -22258,8 +24147,9 @@ GameObject:
   - component: {fileID: 1893459254}
   - component: {fileID: 1893459253}
   - component: {fileID: 1893459252}
+  - component: {fileID: 1893459255}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: BigStrukt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22276,7 +24166,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 1475566878}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1893459252
 MeshRenderer:
@@ -22331,6 +24221,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1893459250}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1893459255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1893459250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &1899136395
 GameObject:
   m_ObjectHideFlags: 0
@@ -22342,8 +24247,9 @@ GameObject:
   - component: {fileID: 1899136399}
   - component: {fileID: 1899136398}
   - component: {fileID: 1899136397}
+  - component: {fileID: 1899136400}
   m_Layer: 0
-  m_Name: Cube (4)
+  m_Name: BigStrukt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22360,7 +24266,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 1475566878}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1899136397
 MeshRenderer:
@@ -22415,6 +24321,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1899136395}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1899136400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1899136395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &1912794658
 GameObject:
   m_ObjectHideFlags: 0
@@ -22497,7 +24418,7 @@ GameObject:
   - component: {fileID: 1927211843}
   - component: {fileID: 1927211842}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22612,6 +24533,7 @@ GameObject:
   - component: {fileID: 1949001564}
   - component: {fileID: 1949001563}
   - component: {fileID: 1949001562}
+  - component: {fileID: 1949001565}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -22689,6 +24611,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1949001560}
   m_Mesh: {fileID: 4300098, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1949001565
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1949001560}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.562, y: 4.223, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1960919154
 GameObject:
   m_ObjectHideFlags: 0
@@ -22701,7 +24638,7 @@ GameObject:
   - component: {fileID: 1960919157}
   - component: {fileID: 1960919156}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22784,6 +24721,7 @@ GameObject:
   - component: {fileID: 1961549201}
   - component: {fileID: 1961549200}
   - component: {fileID: 1961549199}
+  - component: {fileID: 1961549202}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -22861,6 +24799,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1961549197}
   m_Mesh: {fileID: 4300204, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &1961549202
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1961549197}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.7960005, y: 11.314, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.014, y: -0.008, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1965958824
 GameObject:
   m_ObjectHideFlags: 0
@@ -22902,6 +24855,7 @@ GameObject:
   - component: {fileID: 1976762980}
   - component: {fileID: 1976762979}
   - component: {fileID: 1976762978}
+  - component: {fileID: 1976762981}
   m_Layer: 0
   m_Name: CenterStructure
   m_TagString: Untagged
@@ -22977,6 +24931,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1976762976}
   m_Mesh: {fileID: 4300162, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!114 &1976762981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1976762976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &1997967488
 GameObject:
   m_ObjectHideFlags: 0
@@ -22988,6 +24957,7 @@ GameObject:
   - component: {fileID: 1997967492}
   - component: {fileID: 1997967491}
   - component: {fileID: 1997967490}
+  - component: {fileID: 1997967493}
   m_Layer: 0
   m_Name: CenterStructure
   m_TagString: Untagged
@@ -23065,6 +25035,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1997967488}
   m_Mesh: {fileID: 4300168, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!114 &1997967493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1997967488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &1999004686
 GameObject:
   m_ObjectHideFlags: 0
@@ -23076,6 +25061,7 @@ GameObject:
   - component: {fileID: 1999004690}
   - component: {fileID: 1999004689}
   - component: {fileID: 1999004688}
+  - component: {fileID: 1999004691}
   m_Layer: 0
   m_Name: CenterStructure
   m_TagString: Untagged
@@ -23151,6 +25137,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1999004686}
   m_Mesh: {fileID: 4300192, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!114 &1999004691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1999004686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &2009297379
 GameObject:
   m_ObjectHideFlags: 0
@@ -23163,7 +25164,7 @@ GameObject:
   - component: {fileID: 2009297382}
   - component: {fileID: 2009297381}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23246,6 +25247,7 @@ GameObject:
   - component: {fileID: 2010133088}
   - component: {fileID: 2010133087}
   - component: {fileID: 2010133086}
+  - component: {fileID: 2010133089}
   m_Layer: 0
   m_Name: CenterStructure
   m_TagString: Untagged
@@ -23321,6 +25323,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2010133084}
   m_Mesh: {fileID: 4300194, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!114 &2010133089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2010133084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &2010335681
 GameObject:
   m_ObjectHideFlags: 0
@@ -23332,6 +25349,7 @@ GameObject:
   - component: {fileID: 2010335685}
   - component: {fileID: 2010335684}
   - component: {fileID: 2010335683}
+  - component: {fileID: 2010335686}
   m_Layer: 0
   m_Name: CenterStructure
   m_TagString: Untagged
@@ -23407,6 +25425,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2010335681}
   m_Mesh: {fileID: 4300180, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!114 &2010335686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2010335681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &2013953350
 GameObject:
   m_ObjectHideFlags: 0
@@ -23418,6 +25451,7 @@ GameObject:
   - component: {fileID: 2013953354}
   - component: {fileID: 2013953353}
   - component: {fileID: 2013953352}
+  - component: {fileID: 2013953355}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -23495,6 +25529,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2013953350}
   m_Mesh: {fileID: 4300142, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &2013953355
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2013953350}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.4030004, y: 7.82, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &2015322141
 GameObject:
   m_ObjectHideFlags: 0
@@ -23506,6 +25555,7 @@ GameObject:
   - component: {fileID: 2015322145}
   - component: {fileID: 2015322144}
   - component: {fileID: 2015322143}
+  - component: {fileID: 2015322146}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -23583,6 +25633,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2015322141}
   m_Mesh: {fileID: 4300248, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &2015322146
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2015322141}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 11.661, y: 8.265, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.098000005, y: -0.039, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &2020208365
 GameObject:
   m_ObjectHideFlags: 0
@@ -23595,7 +25660,7 @@ GameObject:
   - component: {fileID: 2020208368}
   - component: {fileID: 2020208367}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23667,6 +25732,63 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2020208365}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &2026392679
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 2026392680}
+  - component: {fileID: 2026392681}
+  m_Layer: 0
+  m_Name: NavMeshController
+  m_TagString: Untagged
+  m_Icon: {fileID: -3839803715187477772, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2026392680
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2026392679}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1475566878}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2026392681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2026392679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3df27b9289d1e8c4fb82e0df4f4673ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 1479372276
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 32769
+  m_UseGeometry: 1
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.06666667
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 23800000, guid: 99b053939b5f2e94e8dd20524348496c, type: 2}
 --- !u!1 &2057855630
 GameObject:
   m_ObjectHideFlags: 0
@@ -23679,7 +25801,7 @@ GameObject:
   - component: {fileID: 2057855633}
   - component: {fileID: 2057855632}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23762,6 +25884,7 @@ GameObject:
   - component: {fileID: 2068039613}
   - component: {fileID: 2068039612}
   - component: {fileID: 2068039611}
+  - component: {fileID: 2068039614}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -23839,6 +25962,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2068039609}
   m_Mesh: {fileID: 4300056, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &2068039614
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2068039609}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.9110003, y: 5.885, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &2070806329
 GameObject:
   m_ObjectHideFlags: 0
@@ -23883,7 +26021,7 @@ GameObject:
   - component: {fileID: 2071738364}
   - component: {fileID: 2071738363}
   m_Layer: 0
-  m_Name: DeStructure (3)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23967,7 +26105,7 @@ GameObject:
   - component: {fileID: 2074383026}
   - component: {fileID: 2074383025}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24050,6 +26188,7 @@ GameObject:
   - component: {fileID: 2083465136}
   - component: {fileID: 2083465135}
   - component: {fileID: 2083465134}
+  - component: {fileID: 2083465137}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -24127,6 +26266,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2083465132}
   m_Mesh: {fileID: 4300124, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &2083465137
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2083465132}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.284, y: 6.6270003, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &2096231251
 GameObject:
   m_ObjectHideFlags: 0
@@ -24170,6 +26324,7 @@ GameObject:
   - component: {fileID: 2100741276}
   - component: {fileID: 2100741275}
   - component: {fileID: 2100741274}
+  - component: {fileID: 2100741277}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -24247,6 +26402,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2100741272}
   m_Mesh: {fileID: 4300140, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &2100741277
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2100741272}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.997, y: 7.1640005, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &2108621164
 GameObject:
   m_ObjectHideFlags: 0
@@ -24259,7 +26429,7 @@ GameObject:
   - component: {fileID: 2108621167}
   - component: {fileID: 2108621166}
   m_Layer: 0
-  m_Name: DeStructure (2)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24342,6 +26512,7 @@ GameObject:
   - component: {fileID: 2113826719}
   - component: {fileID: 2113826718}
   - component: {fileID: 2113826717}
+  - component: {fileID: 2113826720}
   m_Layer: 0
   m_Name: CenterStructure
   m_TagString: Untagged
@@ -24419,6 +26590,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2113826715}
   m_Mesh: {fileID: 4300188, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!114 &2113826720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2113826715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d07ce676d7afda4dabb3b0f7dd5e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &2121429903
 GameObject:
   m_ObjectHideFlags: 0
@@ -24431,7 +26617,7 @@ GameObject:
   - component: {fileID: 2121429906}
   - component: {fileID: 2121429905}
   m_Layer: 0
-  m_Name: DeStructure (1)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24514,6 +26700,7 @@ GameObject:
   - component: {fileID: 2128419889}
   - component: {fileID: 2128419888}
   - component: {fileID: 2128419887}
+  - component: {fileID: 2128419890}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -24591,6 +26778,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2128419885}
   m_Mesh: {fileID: 4300270, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &2128419890
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2128419885}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.795, y: 3.19, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &2130959236
 GameObject:
   m_ObjectHideFlags: 0
@@ -24603,7 +26805,7 @@ GameObject:
   - component: {fileID: 2130959239}
   - component: {fileID: 2130959238}
   m_Layer: 0
-  m_Name: DeStructure (6)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24687,7 +26889,7 @@ GameObject:
   - component: {fileID: 2131343461}
   - component: {fileID: 2131343460}
   m_Layer: 0
-  m_Name: DeStructure (13)
+  m_Name: "G\xFCal"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24770,6 +26972,7 @@ GameObject:
   - component: {fileID: 2131563464}
   - component: {fileID: 2131563463}
   - component: {fileID: 2131563462}
+  - component: {fileID: 2131563465}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -24847,6 +27050,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2131563460}
   m_Mesh: {fileID: 4300128, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &2131563465
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2131563460}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 8.593, y: 4.609, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &2134893284
 GameObject:
   m_ObjectHideFlags: 0
@@ -24858,6 +27076,7 @@ GameObject:
   - component: {fileID: 2134893288}
   - component: {fileID: 2134893287}
   - component: {fileID: 2134893286}
+  - component: {fileID: 2134893289}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -24935,6 +27154,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2134893284}
   m_Mesh: {fileID: 4300200, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &2134893289
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2134893284}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 11.875001, y: 7.8980002, z: 5}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &2142029874
 GameObject:
   m_ObjectHideFlags: 0
@@ -24946,6 +27180,7 @@ GameObject:
   - component: {fileID: 2142029878}
   - component: {fileID: 2142029877}
   - component: {fileID: 2142029876}
+  - component: {fileID: 2142029879}
   m_Layer: 13
   m_Name: WallDestruct
   m_TagString: Untagged
@@ -25023,3 +27258,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2142029874}
   m_Mesh: {fileID: 4300012, guid: 3feb7b03d2932324390fd9a0ac97cfe7, type: 3}
+--- !u!208 &2142029879
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2142029874}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 5.591, y: 7.9730005, z: 5.631}
+  m_MoveThreshold: 0.5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
