@@ -37,17 +37,15 @@ public class GameManager : MonoBehaviour
         {
             string path = "Assets/Resources/Save Files/Player " + playerInfo.playerControllers[i] + ".dat";
             var URLs = Serializacion.LoadDataFromDisk<CharacterURLs>(path);
-            if (URLs == default(CharacterURLs))
-            {
-                URLs = new CharacterURLs
-                {
-                    bodyURL = "Prefabs/Bodies/Body " + playerInfo.playerControllers[i],
-                    weaponURL = "Prefabs/Weapons/Assault Rifle"
-                };
-            }
 
             var player = Instantiate(Resources.Load<GameObject>(URLs.bodyURL), spawns[i].transform.position, Quaternion.identity).GetComponent<Player>();
-            Instantiate(Resources.Load<GameObject>(URLs.weaponURL), player.transform.position, Quaternion.identity, player.transform).GetComponent<Player>();
+            Instantiate(Resources.Load<GameObject>(URLs.weaponURL), player.transform.position, Quaternion.identity, player.transform);
+            var comp1 = Instantiate(Resources.Load<GameObject>(URLs.complementaryURL[0]), player.transform.position, Quaternion.identity, player.transform);
+            var comp2 = Instantiate(Resources.Load<GameObject>(URLs.complementaryURL[1]), player.transform.position, Quaternion.identity, player.transform);
+            Instantiate(Resources.Load<GameObject>(URLs.defensiveURL), player.transform.position, Quaternion.identity, player.transform);
+
+            comp1.GetComponent<ComplementarySkillBase>().RegisterInput(0);
+            comp2.GetComponent<ComplementarySkillBase>().RegisterInput(1);
 
             player.gameObject.layer = LayerMask.NameToLayer("Player" + playerInfo.playerControllers[i]);
             player.gameObject.tag = "Player " + playerInfo.playerControllers[i];

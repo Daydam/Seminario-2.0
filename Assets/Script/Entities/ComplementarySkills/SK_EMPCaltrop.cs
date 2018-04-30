@@ -12,9 +12,8 @@ public class SK_EMPCaltrop : ComplementarySkillBase
     float _currentCooldown = 0;
     bool _canUse = true;
 
-    protected override void Start()
+    void Start()
     {
-        base.Start();
         _actualCharges = maxCharges;
     }
 
@@ -40,7 +39,7 @@ public class SK_EMPCaltrop : ComplementarySkillBase
 
     protected override void CheckInput()
     {
-        if (control.ComplimentarySkill1())
+        if (inputMethod())
         {
             if (_actualCharges > 0 && !_me.IsStunned && !_me.IsDisarmed && _canUse)
             {

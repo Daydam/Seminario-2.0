@@ -12,7 +12,7 @@ public class SK_GrenadeImpactStun : ComplementarySkillBase
     protected override void CheckInput()
     {
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
-        else if (control.ComplimentarySkill1() && !_me.IsStunned && !_me.IsDisarmed)
+        else if (inputMethod() && !_me.IsStunned && !_me.IsDisarmed)
         {
             //TODO: Que sea cargable el rango
             GrenadeImpactStunSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, _me.gameObject.transform.forward, maxRange, _me.gameObject.tag);
