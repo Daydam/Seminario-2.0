@@ -13,8 +13,6 @@ public class DMM_EMPCaltrop : MonoBehaviour
     bool _planted;
     bool _activated;
 
-    bool _showGizmos;
-
     void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -95,8 +93,6 @@ public class DMM_EMPCaltrop : MonoBehaviour
 
     void ActivateAOE()
     {
-        _showGizmos = true;
-
         var players = Physics.OverlapSphere(transform.position, _radius).Select(x => x.GetComponent<Player>()).Where(x => x != null);
 
         foreach (var pl in players)
@@ -109,25 +105,6 @@ public class DMM_EMPCaltrop : MonoBehaviour
 
     void ReturnToPool()
     {
-        _showGizmos = false;
         EMPCaltropSpawner.Instance.ReturnToPool(this);
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (_showGizmos)
-        {
-            DrawDebugAoE(.67f, 1.4f, 2);
-        }
-    }
-
-    void DrawDebugAoE(float min, float med, float max)
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, max);
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, med);
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, min);
     }
 }

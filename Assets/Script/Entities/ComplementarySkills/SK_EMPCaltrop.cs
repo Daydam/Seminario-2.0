@@ -53,6 +53,6 @@ public class SK_EMPCaltrop : ComplementarySkillBase
 
     void LaunchCaltrop(float duration, float amount)
     {
-        EMPCaltropSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, _me.gameObject.transform.forward, duration, amount, radius, _me.gameObject.tag);
+        EMPCaltropSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(_me.transform.position, _me.gameObject.transform.forward, duration, amount, radius, _me.gameObject.tag);
     }
 }
