@@ -55,6 +55,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        control.UpdateState();
+
         if (control.RightAnalog() != Vector2.zero && !IsStunned)
         {
             transform.LookAt(transform.position + new Vector3(control.RightAnalog().x, 0, control.RightAnalog().y));
