@@ -2,37 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using XInputDotNetPure;
 
 public class JoystickInput
 {
-    public static Dictionary<JoystickKey, Func<int, bool>> allKeys =
-        new Dictionary<JoystickKey, Func<int, bool>>
+    public static Dictionary<JoystickKey, Func<GamePadState, GamePadState, bool>> allKeys =
+        new Dictionary<JoystickKey, Func<GamePadState, GamePadState, bool>>
         {
             //Agarraos de las bolas, pues este será el peor hardcodeo de la historia tio. Joder.
             //(a - 1 ) * 20 consigue el int de la tecla de cualquier jugador.
             //PELOTUDO
-            { JoystickKey.A, a => Input.GetKey(KeyCode.Joystick1Button0 + (a - 1) * 20)},
-            { JoystickKey.B, a => Input.GetKey(KeyCode.Joystick1Button1 + (a - 1) * 20)},
-            { JoystickKey.X, a => Input.GetKey(KeyCode.Joystick1Button2 + (a - 1) * 20)},
-            { JoystickKey.Y, a => Input.GetKey(KeyCode.Joystick1Button3 + (a - 1) * 20)},
-            { JoystickKey.LB, a => Input.GetKey(KeyCode.Joystick1Button4 + (a - 1) * 20)},
-            { JoystickKey.RB, a => Input.GetKey(KeyCode.Joystick1Button5 + (a - 1) * 20)},
-            { JoystickKey.BACK, a => Input.GetKey(KeyCode.Joystick1Button6 + (a - 1) * 20)},
-            { JoystickKey.START, a => Input.GetKey(KeyCode.Joystick1Button7 + (a - 1) * 20)},
-            { JoystickKey.LEFT_STICK_CLICK, a => Input.GetKey(KeyCode.Joystick1Button8 + (a - 1) * 20)},
-            { JoystickKey.RIGHT_STICK_CLICK, a => Input.GetKey(KeyCode.Joystick1Button9 + (a - 1) * 20)},
-            { JoystickKey.LT, a => Input.GetAxis("Joystick " + a + " Axis 9") > 0},
-            { JoystickKey.RT, a => Input.GetAxis("Joystick " + a + " Axis 10") > 0},
+            { JoystickKey.A, (a,b) => a.Buttons.A == ButtonState.Released && b.Buttons.A == ButtonState.Pressed},
+            { JoystickKey.B, (a,b) => a.Buttons.B == ButtonState.Released && b.Buttons.B == ButtonState.Pressed},
+            { JoystickKey.X, (a,b) => a.Buttons.X == ButtonState.Released && b.Buttons.X == ButtonState.Pressed},
+            { JoystickKey.Y, (a,b) => a.Buttons.Y == ButtonState.Released && b.Buttons.Y == ButtonState.Pressed},
+            { JoystickKey.LB, (a,b) => a.Buttons.LeftShoulder == ButtonState.Released && b.Buttons.LeftShoulder == ButtonState.Pressed},
+            { JoystickKey.RB, (a,b) => a.Buttons.RightShoulder == ButtonState.Released && b.Buttons.RightShoulder == ButtonState.Pressed},
+            { JoystickKey.BACK, (a,b) => a.Buttons.Back == ButtonState.Released && b.Buttons.Back == ButtonState.Pressed},
+            { JoystickKey.START, (a,b) => a.Buttons.Start == ButtonState.Released && b.Buttons.Start == ButtonState.Pressed},
+            { JoystickKey.LEFT_STICK_CLICK, (a,b) => a.Buttons.LeftStick == ButtonState.Released && b.Buttons.LeftStick == ButtonState.Pressed},
+            { JoystickKey.RIGHT_STICK_CLICK, (a,b) => a.Buttons.RightStick == ButtonState.Released && b.Buttons.RightStick == ButtonState.Pressed},
+            { JoystickKey.LT, (a,b) => b.Triggers.Left > 0},
+            { JoystickKey.RT, (a,b) => b.Triggers.Right > 0},
         };
 
-    public static Vector2 LeftAnalog(int player)
+    public static Vector2 LeftAnalog(GamePadState gamepad)
     {
-        return new Vector2(Input.GetAxisRaw("Joystick " + player + " Axis 1"), Input.GetAxisRaw("Joystick " + player + " Axis 2") * -1);
+        return new Vector2(gamepad.ThumbSticks.Left.X, gamepad.ThumbSticks.Left.Y);
     }
 
-    public static Vector2 RightAnalog(int player)
+    public static Vector2 RightAnalog(GamePadState gamepad)
     {
-        return new Vector2(Input.GetAxisRaw("Joystick " + player + " Axis 4"), Input.GetAxisRaw("Joystick " + player + " Axis 5") * -1);
+        return new Vector2(gamepad.ThumbSticks.Right.X, gamepad.ThumbSticks.Right.Y);
     }
 }
 

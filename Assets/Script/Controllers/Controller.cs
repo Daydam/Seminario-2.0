@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XInputDotNetPure;
 
 public class Controller
 {
-    int player;
+    PlayerIndex player;
+    GamePadState state;
+    GamePadState prevState;
 
     /* In case I needed a 3D camera, I'd use this. If the camera is set to be top-down, then this should be disabled
     bool invertVertical;
@@ -18,7 +21,7 @@ public class Controller
 
     public Controller(int player)
     {
-        this.player = player;
+        this.player = (PlayerIndex)player;
         var keyBindings = Resources.Load<SO_KeyBindings>("Scriptable Objects/Key Bindings");
         mainWeapon = keyBindings.mainWeapon;
         defensiveSkill = keyBindings.defensiveSkill;
@@ -26,34 +29,41 @@ public class Controller
         complimentarySkill2 = keyBindings.complimentarySkill2;
     }
 
+    public void UpdateState()
+    {
+        //XInput
+        prevState = state;
+        state = GamePad.GetState(player);
+    }
+
     public Vector2 LeftAnalog()
     {
-        return JoystickInput.LeftAnalog(player).normalized;
+        return JoystickInput.LeftAnalog(state).normalized;
     }
 
     public Vector2 RightAnalog()
     {
-        return JoystickInput.RightAnalog(player).normalized;
+        return JoystickInput.RightAnalog(state).normalized;
     }
 
     public bool MainWeapon()
     {
 
-        return JoystickInput.allKeys[mainWeapon](player);
+        return JoystickInput.allKeys[mainWeapon](prevState, state);
     }
 
     public bool DefensiveSkill()
     {
-        return JoystickInput.allKeys[defensiveSkill](player);
+        return JoystickInput.allKeys[defensiveSkill](prevState, state);
     }
 
     public bool ComplimentarySkill1()
     {
-        return JoystickInput.allKeys[complimentarySkill1](player);
+        return JoystickInput.allKeys[complimentarySkill1](prevState, state);
     }
 
     public bool ComplimentarySkill2()
     {
-        return JoystickInput.allKeys[complimentarySkill2](player);
+        return JoystickInput.allKeys[complimentarySkill2](prevState, state);
     }
 }

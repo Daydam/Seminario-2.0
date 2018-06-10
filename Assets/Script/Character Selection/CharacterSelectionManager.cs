@@ -244,7 +244,7 @@ public class CharacterSelectionManager : MonoBehaviour
         }
 
         var finalComplementary = complementarySkills[complementaryIndexes[player - 1, compIndex]].gameObject.name;
-        selectionTexts[player - 1].text = "<   Complementary " + (compIndex +1) + ": " + finalComplementary + "   >";
+        selectionTexts[player - 1].text = "<   Complementary " + (compIndex + 1) + ": " + finalComplementary + "   >";
     }
 
     void SelectDefensive(int player)
