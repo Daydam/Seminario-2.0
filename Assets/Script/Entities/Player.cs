@@ -1,3 +1,4 @@
+using Events;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,6 +34,17 @@ public class Player : MonoBehaviour
 
     public float hp;
 
+    #region Cambios Iván 10/6
+    public bool isPushed;
+    public Player myPusher;
+    private int _score;
+    public int Score
+    {
+        get { return _score; }
+        set { _score = value <= 0 ? 0 : value; }
+    }
+    #endregion
+
     void Awake()
     {
         int playerID = GameManager.Instance.Register(this);
@@ -54,22 +66,37 @@ public class Player : MonoBehaviour
         if (col.gameObject.layer == LayerMask.NameToLayer("Bullet") && gameObject.tag != col.gameObject.tag)
         {
             Bullet b = col.GetComponent<Bullet>();
-            TakeDamage(b.Damage);
+            TakeDamage(b.Damage, b.tag);
             BulletSpawner.Instance.ReturnToPool(b);
+            //DoKnockback
         }
         else if (col.gameObject.layer == LayerMask.NameToLayer("DeathZone"))
         {
-            DestroyPlayer();
+            DestroyPlayer(DeathType.LaserGrid);
         }
     }
 
-    void DestroyPlayer()
+    #region Cambios Iván 10/6
+
+    public void UpdateScore(int score)
     {
-        GameManager.Instance.Unregister(this);
-        Destroy(gameObject);
+        Score += score;
     }
 
-    #region Cambios Iván 16/4
+    #endregion
+
+    void DestroyPlayer(DeathType type)
+    {
+        EventManager.DispatchEvent(PlayerEvents.Death, this, type, isPushed, gameObject.tag);
+        gameObject.SetActive(false);
+    }
+
+    void DestroyPlayer(DeathType type, string killerTag)
+    {
+        EventManager.DispatchEvent(PlayerEvents.Death, this, type, isPushed, killerTag);
+        gameObject.SetActive(false);
+
+    }
 
     void FixedUpdate()
     {
@@ -88,9 +115,14 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        print("Damage taken: " + damage);
         hp -= damage;
-        if (hp <= 0) DestroyPlayer();
+        if (hp <= 0) DestroyPlayer(DeathType.Player);
+    }
+
+    public void TakeDamage(float damage, string killerTag)
+    {
+        hp -= damage;
+        if (hp <= 0) DestroyPlayer(DeathType.Player, killerTag);
     }
 
     public void ApplyKnockback(float amount, Vector3 dir)
@@ -100,18 +132,19 @@ public class Player : MonoBehaviour
 
     public void ApplyStun(float duration)
     {
-        print("I´M STUNNED FOR " + duration + " SECONDS " + gameObject.name);
-
         StartCoroutine(ExecuteStun(duration));
     }
+
     public void ApplyDisarm(float duration)
     {
         StartCoroutine(ExecuteDisarm(duration));
     }
+
     public void ApplyNeutralizeMovement(float duration)
     {
         StartCoroutine(ExecuteNeutralizedMovement(duration));
     }
+
     public void ApplySlowMovement(float duration, float amount)
     {
         StartCoroutine(ExecuteSlowMovement(duration, amount));
@@ -121,10 +154,7 @@ public class Player : MonoBehaviour
     {
         _isStunned = true;
 
-
         yield return new WaitForSeconds(duration);
-
-        print("I´M NOT STUNNED " + gameObject.name);
 
         _isStunned = false;
     }
@@ -156,6 +186,11 @@ public class Player : MonoBehaviour
         MovementMultiplier = 1;
     }
 
-    #endregion
+}
 
+public enum DeathType
+{
+    Player,
+    LaserGrid,
+    COUNT
 }

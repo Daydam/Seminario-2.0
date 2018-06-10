@@ -23027,6 +23027,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7b6400d18d696c4e85171accef0ebc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreByKill: 2
+  scoreByFalling: -1
+  scoreByThrownOff: -2
+  scoreBySurvivor: 1
+  ScoreToReach: 0
 --- !u!4 &1786961199
 Transform:
   m_ObjectHideFlags: 0
