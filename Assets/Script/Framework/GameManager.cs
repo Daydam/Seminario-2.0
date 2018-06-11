@@ -38,8 +38,6 @@ public class GameManager : MonoBehaviour
     List<Player> players;
     public List<Player> Players { get { return players; } }
 
-    Dictionary<int, Player> _allPlayers;
-
     RegisteredPlayers playerInfo;
     Transform[] spawns;
 
@@ -83,7 +81,7 @@ public class GameManager : MonoBehaviour
 
     void RemoveEvents()
     {
-        EventManager.AddEventListener(PlayerEvents.Death, OnPlayerDeath);
+        EventManager.RemoveEventListener(PlayerEvents.Death, OnPlayerDeath);
     }
 
     #region Cambios Iván 10/6
@@ -124,42 +122,21 @@ public class GameManager : MonoBehaviour
         if (players == null) players = new List<Player>();
         players.Add(player);
 
-        var id = playerInfo.playerControllers[players.Count - 1];
-        AddToRegistry(player, id);
+        var id = playerInfo.playerControllers[players.Count - 1] - 1;
         return id;
-    }
-
-    public void Register(Player player, int id)
-    {
-        if (players == null) players = new List<Player>(4);
-        players[id] = player;
-    }
-
-    void AddToRegistry(Player player, int id)
-    {
-        if (_allPlayers == null) _allPlayers = new Dictionary<int, Player>();
-
-        if (_allPlayers.ContainsKey(id)) return;
-        else _allPlayers.Add(id, player);
     }
 
     public void Unregister(Player player)
     {
-        players.Remove(player);
+        player.gameObject.SetActive(false);
         CheckIfSurvivor();
-
-    }
-    public void UnregisterAll()
-    {
-        players = null;
     }
 
     public void CheckIfSurvivor()
     {
-        if (players.Count == 1)
+        if (players.Where(x => x.isActiveAndEnabled).Count() == 1)
         {
-            //bla
-            players.First().UpdateScore(scoreBySurvivor);
+            Players.First().UpdateScore(scoreBySurvivor);
             EndRound();
         }
     }
@@ -180,7 +157,7 @@ public class GameManager : MonoBehaviour
 
             //do show winner and ui stuff
 
-            ResetRound();
+            Invoke("ResetRound", 1);
         }
     }
 
@@ -195,17 +172,16 @@ public class GameManager : MonoBehaviour
 
     public void SpawnPlayers()
     {
-        for (int i = 1; i <= _allPlayers.Count; i++)
+        for (int i = 0; i < Players.Count; i++)
         {
-            Register(_allPlayers[i], i);
-            Players[i].transform.position = spawns[i].transform.position;
             Players[i].gameObject.SetActive(true);
+            Players[i].transform.position = spawns[i].transform.position;
         }
     }
 
     public bool CheckIfReachedPoints()
     {
-        return players.OrderBy(x => x.Score).Select(x => x.Score).First() >= ScoreToReach;
+        return Players.OrderBy(x => x.Score).Select(x => x.Score).First() >= ScoreToReach;
     }
 
     public void EndGame()
@@ -224,3 +200,7 @@ public class GameManager : MonoBehaviour
 ///16:50 ಠ_ಠ
 ///
 ///16:55 (╯ಠᴥಠ）╯︵ ┻━┻
+///
+///20:34 ¯\_ツ_/¯
+/// 
+/// 20:45 T E N E M O S R E I N I C I O D E R O N D A S B O I I I I I I

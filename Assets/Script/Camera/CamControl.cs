@@ -26,13 +26,13 @@ public class CamControl : MonoBehaviour
 
         foreach (Player p in GameManager.Instance.Players)
         {
-            camPos += new Vector3(p.transform.position.x, 0, p.transform.position.z);
+            if (p.isActiveAndEnabled) camPos += new Vector3(p.transform.position.x, 0, p.transform.position.z);
         }
         camPos /= GameManager.Instance.Players.Count;
 
         transform.position = Vector3.Lerp(transform.position, camPos + cameraOffset.normalized, approximationRatio);
         transform.LookAt(camPos);
-        
+
         transform.position += transform.forward * (Vector3.Distance(camPos, transform.position) - CalculateCameraDistance(camPos));
     }
 
@@ -51,10 +51,13 @@ public class CamControl : MonoBehaviour
 
         foreach (Player p in GameManager.Instance.Players)
         {
-            float distanceX = Mathf.Abs(p.transform.position.x - center.x);
-            float distanceY = Mathf.Abs(p.transform.position.z - center.z);
-            if (distanceX > farthestDistanceX) farthestDistanceX = distanceX;
-            if (distanceY > farthestDistanceY) farthestDistanceY = distanceY;
+            if (p.isActiveAndEnabled)
+            {
+                float distanceX = Mathf.Abs(p.transform.position.x - center.x);
+                float distanceY = Mathf.Abs(p.transform.position.z - center.z);
+                if (distanceX > farthestDistanceX) farthestDistanceX = distanceX;
+                if (distanceY > farthestDistanceY) farthestDistanceY = distanceY;
+            }
         }
 
         float heightFromX = farthestDistanceX / Mathf.Tan(checkHAngle * Mathf.Deg2Rad);
