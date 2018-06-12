@@ -163,6 +163,8 @@ public class GameManager : MonoBehaviour
 
     public void ResetRound()
     {
+        StageManager.instance.ResetRound();
+
         SpawnPlayers();
 
         actualRound++;
