@@ -36,10 +36,11 @@ public class StageManager : MonoBehaviour
         isLast = false;
 
         actualRing = 0;
-        foreach (var item in levelRings.Where(x => !x.gameObject.activeInHierarchy))
+        foreach (var item in levelRings)
         {
-            item.gameObject.SetActive(true);
             item.ResetRound();
         }
+
+
     }
 }

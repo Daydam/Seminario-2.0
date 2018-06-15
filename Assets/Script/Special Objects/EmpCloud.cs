@@ -8,6 +8,7 @@ public class EmpCloud : MonoBehaviour
     public Collider col;
     public Vector3 minimumScale = new Vector3(22.79417f, 22.79417f, 22.79417f);
     public Vector3 initialScale;
+    public float shrinkSpeed = .3f;
     bool _shrink;
 
     void Start()
@@ -19,7 +20,6 @@ public class EmpCloud : MonoBehaviour
 
     void Update()
     {
-        var coso = 3f;
         if (Vector3.Distance(transform.localScale, minimumScale) <= .1f)
         {
             _shrink = false;
@@ -29,7 +29,7 @@ public class EmpCloud : MonoBehaviour
         else if (_shrink)
         {
             if (!StageManager.instance.isLast) CheckAntennas();
-            transform.localScale -= new Vector3(coso * Time.deltaTime, coso * Time.deltaTime, coso * Time.deltaTime);
+            transform.localScale -= new Vector3(shrinkSpeed * Time.deltaTime, shrinkSpeed * Time.deltaTime, shrinkSpeed * Time.deltaTime);
         }
     }
 
@@ -39,11 +39,6 @@ public class EmpCloud : MonoBehaviour
         {
             StageManager.instance.DestroyRing();
         }
-    }
-
-    void DestroyRing()
-    {
-        StageManager.instance.levelRings[StageManager.instance.actualRing].DestroyRing();
     }
 
     public void ResetRound()
