@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
 using UnityEngine.UI;
+using XInputDotNetPure;
 
 public class CharacterSelectionManager : MonoBehaviour
 {
@@ -42,7 +43,14 @@ public class CharacterSelectionManager : MonoBehaviour
 
     //A 4 index array that has values set for 0, 1, 2 or 3, 0 being weapon, 1 first complementary, 2 second comp, and 3 defensive.
     int[] selectedModifier;
-    float[] lastAxisValue;
+    Vector2[] lastAnalogValue;
+
+    //XInput
+    PlayerIndex[] playerIndexes;
+    GamePadState[] previousGamePads;
+    GamePadState[] currentGamePads;
+
+
 
     void Start()
     {
@@ -59,7 +67,7 @@ public class CharacterSelectionManager : MonoBehaviour
         defensiveIndexes = new int[4] { 0, 0, 0, 0 };
 
         selectedModifier = new int[4] { 0, 0, 0, 0 };
-        lastAxisValue = new float[4] { 0, 0, 0, 0 };
+        lastAnalogValue = new Vector2[4] { Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero };
 
         weapons = new List<Weapon>();
         var filterList = Resources.LoadAll("Prefabs/Weapons").Select(x => (GameObject)x);
@@ -72,72 +80,89 @@ public class CharacterSelectionManager : MonoBehaviour
         defensiveSkills = new List<DefensiveSkillBase>();
         var defensiveFilterList = Resources.LoadAll("Prefabs/Skills/Defensive").Select(x => (GameObject)x);
         defensiveSkills = defensiveFilterList.Select(x => x.GetComponent<DefensiveSkillBase>()).ToList();
+
+
+        playerIndexes = new PlayerIndex[4];
+        previousGamePads = new GamePadState[4];
+        currentGamePads = new GamePadState[4];
+        for (int i = 0; i < currentGamePads.Length; i++)
+        {
+            currentGamePads[i] = GamePad.GetState((PlayerIndex)i);
+        }
     }
 
     void Update()
     {
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < currentGamePads.Length; i++)
         {
-            if (players[i] == null) CheckStart(i + 1);
-            else
-            {
-                CheckSelect(i + 1);
-                if (selectedModifier[i] == 0) SelectWeapon(i + 1);
-                if (selectedModifier[i] == 1) SelectComplementary(i + 1, 0);
-                if (selectedModifier[i] == 2) SelectComplementary(i + 1, 1);
-                if (selectedModifier[i] == 3) SelectDefensive(i + 1);
-            }
+            previousGamePads[i] = currentGamePads[i];
+            currentGamePads[i] = GamePad.GetState((PlayerIndex)i);
         }
 
-        if (Input.GetKeyDown("joystick button 7"))
+        for (int i = 0; i < 4; i++)
         {
-            var regPlayers = players.Where(a => a != default(Player)).ToArray();
-
-            if (regPlayers.Length >= 2)
+            if (players[i] == null) CheckStart(i);
+            else
             {
-                var reg = new RegisteredPlayers()
-                {
-                    playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a) + 1).ToArray()
-                };
+                CheckSelect(i);
+                if (selectedModifier[i] == 0) SelectWeapon(i);
+                if (selectedModifier[i] == 1) SelectComplementary(i, 0);
+                if (selectedModifier[i] == 2) SelectComplementary(i, 1);
+                if (selectedModifier[i] == 3) SelectDefensive(i);
+            }
+            lastAnalogValue[i] = JoystickInput.LeftAnalog(currentGamePads[i]);
 
-                reg.SaveDataToDisk("Assets/Resources/Save Files/Registered Players.dat" /*ass*/);
 
-                for (int i = 0; i < players.Length; i++)
+            if (JoystickInput.allKeys[JoystickKey.START](previousGamePads[i], currentGamePads[i]))
+            {
+                var regPlayers = players.Where(a => a != default(Player)).ToArray();
+
+                if (regPlayers.Length >= 2)
                 {
-                    if (players[i] != null)
+                    var reg = new RegisteredPlayers()
                     {
-                        URLs[i].SaveDataToDisk("Assets/Resources/Save Files/Player " + (i + 1) + ".dat");
+                        playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray()
+                    };
+
+                    reg.SaveDataToDisk("Assets/Resources/Save Files/Registered Players.dat" /*ass*/);
+
+                    for (int j = 0; j < players.Length; j++)
+                    {
+                        if (players[j] != null)
+                        {
+                            URLs[j].SaveDataToDisk("Assets/Resources/Save Files/Player " + (j + 1) + ".dat");
+                        }
                     }
+                    SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
                 }
-                SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
             }
         }
     }
 
     void CheckStart(int player)
     {
-        if (Input.GetKeyDown("joystick " + player + " button 0"))
+        if (JoystickInput.allKeys[JoystickKey.A](previousGamePads[player], currentGamePads[player]))
         {
-            string path = "Assets/Resources/Save Files/Player " + player + ".dat";
+            string path = "Assets/Resources/Save Files/Player " + player + 1 + ".dat";
 
-            URLs[player - 1] = Serializacion.LoadDataFromDisk<CharacterURLs>(path);
-            if (URLs[player - 1] == default(CharacterURLs))
+            URLs[player] = Serializacion.LoadDataFromDisk<CharacterURLs>(path);
+            if (URLs[player] == default(CharacterURLs))
             {
-                var weaponNameChars = weapons[weaponIndexes[player - 1]].gameObject.name.TakeWhile(a => a != '(').ToArray();
+                var weaponNameChars = weapons[weaponIndexes[player]].gameObject.name.TakeWhile(a => a != '(').ToArray();
                 string weaponName = new string(weaponNameChars);
 
-                var compNameChars1 = complementarySkills[complementaryIndexes[player - 1, 0]].gameObject.name.TakeWhile(a => a != '(').ToArray();
+                var compNameChars1 = complementarySkills[complementaryIndexes[player, 0]].gameObject.name.TakeWhile(a => a != '(').ToArray();
                 string compName1 = new string(compNameChars1);
 
-                var compNameChars2 = complementarySkills[complementaryIndexes[player - 1, 1]].gameObject.name.TakeWhile(a => a != '(').ToArray();
+                var compNameChars2 = complementarySkills[complementaryIndexes[player, 1]].gameObject.name.TakeWhile(a => a != '(').ToArray();
                 string compName2 = new string(compNameChars2);
 
-                var defNameChars = defensiveSkills[defensiveIndexes[player - 1]].gameObject.name.TakeWhile(a => a != '(').ToArray();
+                var defNameChars = defensiveSkills[defensiveIndexes[player]].gameObject.name.TakeWhile(a => a != '(').ToArray();
                 string defName = new string(defNameChars);
 
-                URLs[player - 1] = new CharacterURLs
+                URLs[player] = new CharacterURLs
                 {
-                    bodyURL = "Prefabs/Bodies/Body " + player,
+                    bodyURL = "Prefabs/Bodies/Body " + (player + 1),
                     weaponURL = "Prefabs/Weapons/" + weaponName,
                     complementaryURL = new string[2] { "Prefabs/Skills/Complementary/" + compName1, "Prefabs/Skills/Complementary/" + compName2 },
                     defensiveURL = "Prefabs/Skills/Defensive/" + defName
@@ -145,135 +170,140 @@ public class CharacterSelectionManager : MonoBehaviour
             }
             else
             {
-                weaponIndexes[player - 1] = weapons.IndexOf(Resources.Load<GameObject>(URLs[player - 1].weaponURL).GetComponent<Weapon>());
-                complementaryIndexes[player - 1, 0] = complementarySkills.IndexOf(Resources.Load<GameObject>(URLs[player - 1].complementaryURL[0]).GetComponent<ComplementarySkillBase>());
-                complementaryIndexes[player - 1, 1] = complementarySkills.IndexOf(Resources.Load<GameObject>(URLs[player - 1].complementaryURL[1]).GetComponent<ComplementarySkillBase>());
-                defensiveIndexes[player - 1] = defensiveSkills.IndexOf(Resources.Load<GameObject>(URLs[player - 1].defensiveURL).GetComponent<DefensiveSkillBase>());
+                weaponIndexes[player] = weapons.IndexOf(Resources.Load<GameObject>(URLs[player].weaponURL).GetComponent<Weapon>());
+                complementaryIndexes[player, 0] = complementarySkills.IndexOf(Resources.Load<GameObject>(URLs[player].complementaryURL[0]).GetComponent<ComplementarySkillBase>());
+                complementaryIndexes[player, 1] = complementarySkills.IndexOf(Resources.Load<GameObject>(URLs[player].complementaryURL[1]).GetComponent<ComplementarySkillBase>());
+                defensiveIndexes[player] = defensiveSkills.IndexOf(Resources.Load<GameObject>(URLs[player].defensiveURL).GetComponent<DefensiveSkillBase>());
             }
 
-            players[player - 1] = Instantiate(Resources.Load<GameObject>(URLs[player - 1].bodyURL), playerSpawnPoints[player - 1].transform.position, Quaternion.identity).GetComponent<Player>();
-            currentWeapons[player - 1] = Instantiate(Resources.Load<GameObject>(URLs[player - 1].weaponURL), players[player - 1].transform.position, Quaternion.identity, players[player - 1].transform).GetComponent<Weapon>();
-            currentComplementary[player - 1, 0] = Instantiate(Resources.Load<GameObject>(URLs[player - 1].complementaryURL[0]), players[player - 1].transform.position, Quaternion.identity, players[player - 1].transform).GetComponent<ComplementarySkillBase>();
-            currentComplementary[player - 1, 1] = Instantiate(Resources.Load<GameObject>(URLs[player - 1].complementaryURL[1]), players[player - 1].transform.position, Quaternion.identity, players[player - 1].transform).GetComponent<ComplementarySkillBase>();
-            currentDefensive[player - 1] = Instantiate(Resources.Load<GameObject>(URLs[player - 1].defensiveURL), players[player - 1].transform.position, Quaternion.identity, players[player - 1].transform).GetComponent<DefensiveSkillBase>();
+            players[player] = Instantiate(Resources.Load<GameObject>(URLs[player].bodyURL), playerSpawnPoints[player].transform.position, Quaternion.identity).GetComponent<Player>();
+            currentWeapons[player] = Instantiate(Resources.Load<GameObject>(URLs[player].weaponURL), players[player].transform.position, Quaternion.identity, players[player].transform).GetComponent<Weapon>();
+            currentComplementary[player, 0] = Instantiate(Resources.Load<GameObject>(URLs[player].complementaryURL[0]), players[player].transform.position, Quaternion.identity, players[player].transform).GetComponent<ComplementarySkillBase>();
+            currentComplementary[player, 1] = Instantiate(Resources.Load<GameObject>(URLs[player].complementaryURL[1]), players[player].transform.position, Quaternion.identity, players[player].transform).GetComponent<ComplementarySkillBase>();
+            currentDefensive[player] = Instantiate(Resources.Load<GameObject>(URLs[player].defensiveURL), players[player].transform.position, Quaternion.identity, players[player].transform).GetComponent<DefensiveSkillBase>();
 
-            blackScreens[player - 1].gameObject.SetActive(false);
+            blackScreens[player].gameObject.SetActive(false);
         }
     }
 
     void CheckSelect(int player)
     {
-        if (-0.3f < lastAxisValue[player - 1] && lastAxisValue[player - 1] < 0.3f)
+        if (-0.3f < lastAnalogValue[player].y && lastAnalogValue[player].y < 0.3f)
         {
-            //Axis 2 is Y on the left stick. Fuck me if you want to detect the D-pad, because NO GOD PLEASE NO. NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-            if (Input.GetAxisRaw("Joystick " + player + " Axis 2") >= 0.3f)
+            if (JoystickInput.LeftAnalog(currentGamePads[player]).y <= -0.3f)
             {
-                selectedModifier[player - 1] = selectedModifier[player - 1] + 1 > 3 ? 0 : selectedModifier[player - 1] + 1;
+                selectedModifier[player] = selectedModifier[player] + 1 > 3 ? 0 : selectedModifier[player] + 1;
             }
 
-            if (Input.GetAxisRaw("Joystick " + player + " Axis 2") <= -0.3f)
+            if (JoystickInput.LeftAnalog(currentGamePads[player]).y >= 0.3f)
             {
-                selectedModifier[player - 1] = selectedModifier[player - 1] - 1 < 0 ? 3 : selectedModifier[player - 1] - 1;
+                selectedModifier[player] = selectedModifier[player] - 1 < 0 ? 3 : selectedModifier[player] - 1;
             }
         }
-
-        lastAxisValue[player - 1] = Input.GetAxisRaw("Joystick " + player + " Axis 2");
     }
 
     void SelectWeapon(int player)
     {
-        if (Input.GetKeyDown("joystick " + player + " button 4"))
+        if (-0.3f < lastAnalogValue[player].x && lastAnalogValue[player].x < 0.3f)
         {
-            weaponIndexes[player - 1]--;
-            if (weaponIndexes[player - 1] < 0) weaponIndexes[player - 1] = weapons.Count - 1;
+            if (JoystickInput.LeftAnalog(currentGamePads[player]).x >= 0.3f)
+            {
+                weaponIndexes[player]++;
+                if (weaponIndexes[player] >= weapons.Count) weaponIndexes[player] = 0;
 
-            var weaponName = weapons[weaponIndexes[player - 1]].gameObject.name;
-            URLs[player - 1].weaponURL = "Prefabs/Weapons/" + weaponName;
+                var weaponName = weapons[weaponIndexes[player]].gameObject.name;
+                URLs[player].weaponURL = "Prefabs/Weapons/" + weaponName;
 
-            Destroy(currentWeapons[player - 1].gameObject);
-            currentWeapons[player - 1] = Instantiate(Resources.Load<GameObject>(URLs[player - 1].weaponURL), players[player - 1].transform.position, Quaternion.identity, players[player - 1].transform).GetComponent<Weapon>();
+                Destroy(currentWeapons[player].gameObject);
+                currentWeapons[player] = Instantiate(Resources.Load<GameObject>(URLs[player].weaponURL), players[player].transform.position, Quaternion.identity, players[player].transform).GetComponent<Weapon>();
+            }
+
+            if (JoystickInput.LeftAnalog(currentGamePads[player]).x <= -0.3f)
+            {
+                weaponIndexes[player]--;
+                if (weaponIndexes[player] < 0) weaponIndexes[player] = weapons.Count - 1;
+
+                var weaponName = weapons[weaponIndexes[player]].gameObject.name;
+                URLs[player].weaponURL = "Prefabs/Weapons/" + weaponName;
+
+                Destroy(currentWeapons[player].gameObject);
+                currentWeapons[player] = Instantiate(Resources.Load<GameObject>(URLs[player].weaponURL), players[player].transform.position, Quaternion.identity, players[player].transform).GetComponent<Weapon>();
+            }
         }
 
-        if (Input.GetKeyDown("joystick " + player + " button 5"))
-        {
-            weaponIndexes[player - 1]++;
-            if (weaponIndexes[player - 1] >= weapons.Count) weaponIndexes[player - 1] = 0;
-
-            var weaponName = weapons[weaponIndexes[player - 1]].gameObject.name;
-            URLs[player - 1].weaponURL = "Prefabs/Weapons/" + weaponName;
-
-            Destroy(currentWeapons[player - 1].gameObject);
-            currentWeapons[player - 1] = Instantiate(Resources.Load<GameObject>(URLs[player - 1].weaponURL), players[player - 1].transform.position, Quaternion.identity, players[player - 1].transform).GetComponent<Weapon>();
-        }
-
-        var finalWeapon = weapons[weaponIndexes[player - 1]].gameObject.name;
-        selectionTexts[player - 1].text = "<   Weapon: " + finalWeapon + "   >";
+        var finalWeapon = weapons[weaponIndexes[player]].gameObject.name;
+        selectionTexts[player].text = "<   Weapon: " + finalWeapon + "   >";
     }
 
     void SelectComplementary(int player, int compIndex)
     {
-        //DUPLICATE THIS FUCKING SHIT IN ORDER TO MAKE 2 SKILLS POSSIBLE. MODIFY THE SERIALIZATION FILES, THEN THIS, THEN THE LOADING PART ON THE GAME MANAGER.
-        if (Input.GetKeyDown("joystick " + player + " button 4"))
+        if (-0.3f < lastAnalogValue[player].x && lastAnalogValue[player].x < 0.3f)
         {
-            do
+            if (JoystickInput.LeftAnalog(currentGamePads[player]).x >= 0.3f)
             {
-                complementaryIndexes[player - 1, compIndex]--;
-                if (complementaryIndexes[player - 1, compIndex] < 0) complementaryIndexes[player - 1, compIndex] = complementarySkills.Count - 1;
-            } while (complementaryIndexes[player - 1, 0] == complementaryIndexes[player - 1, 1]);
+                do
+                {
+                    complementaryIndexes[player, compIndex]++;
+                    if (complementaryIndexes[player, compIndex] >= complementarySkills.Count) complementaryIndexes[player, compIndex] = 0;
+                } while (complementaryIndexes[player, 0] == complementaryIndexes[player, 1]);
 
-            var complementaryName = complementarySkills[complementaryIndexes[player - 1, compIndex]].gameObject.name;
-            URLs[player - 1].complementaryURL[compIndex] = "Prefabs/Skills/Complementary/" + complementaryName;
+                var complementaryName = complementarySkills[complementaryIndexes[player, compIndex]].gameObject.name;
+                URLs[player].complementaryURL[compIndex] = "Prefabs/Skills/Complementary/" + complementaryName;
 
-            Destroy(currentComplementary[player - 1, compIndex].gameObject);
-            currentComplementary[player - 1, compIndex] = Instantiate(Resources.Load<GameObject>(URLs[player - 1].complementaryURL[compIndex]), players[player - 1].transform.position, Quaternion.identity, players[player - 1].transform).GetComponent<ComplementarySkillBase>();
+                Destroy(currentComplementary[player, compIndex].gameObject);
+                currentComplementary[player, compIndex] = Instantiate(Resources.Load<GameObject>(URLs[player].complementaryURL[compIndex]), players[player].transform.position, Quaternion.identity, players[player].transform).GetComponent<ComplementarySkillBase>();
+            }
+
+            if (JoystickInput.LeftAnalog(currentGamePads[player]).x <= -0.3f)
+            {
+                do
+                {
+                    complementaryIndexes[player, compIndex]--;
+                    if (complementaryIndexes[player, compIndex] < 0) complementaryIndexes[player, compIndex] = complementarySkills.Count - 1;
+                } while (complementaryIndexes[player, 0] == complementaryIndexes[player, 1]);
+
+                var complementaryName = complementarySkills[complementaryIndexes[player, compIndex]].gameObject.name;
+                URLs[player].complementaryURL[compIndex] = "Prefabs/Skills/Complementary/" + complementaryName;
+
+                Destroy(currentComplementary[player, compIndex].gameObject);
+                currentComplementary[player, compIndex] = Instantiate(Resources.Load<GameObject>(URLs[player].complementaryURL[compIndex]), players[player].transform.position, Quaternion.identity, players[player].transform).GetComponent<ComplementarySkillBase>();
+            }
         }
 
-        if (Input.GetKeyDown("joystick " + player + " button 5"))
-        {
-            do
-            {
-                complementaryIndexes[player - 1, compIndex]++;
-                if (complementaryIndexes[player - 1, compIndex] >= complementarySkills.Count) complementaryIndexes[player - 1, compIndex] = 0;
-            } while (complementaryIndexes[player - 1, 0] == complementaryIndexes[player - 1, 1]);
-
-            var complementaryName = complementarySkills[complementaryIndexes[player - 1, compIndex]].gameObject.name;
-            URLs[player - 1].complementaryURL[compIndex] = "Prefabs/Skills/Complementary/" + complementaryName;
-
-            Destroy(currentComplementary[player - 1, compIndex].gameObject);
-            currentComplementary[player - 1, compIndex] = Instantiate(Resources.Load<GameObject>(URLs[player - 1].complementaryURL[compIndex]), players[player - 1].transform.position, Quaternion.identity, players[player - 1].transform).GetComponent<ComplementarySkillBase>();
-        }
-
-        var finalComplementary = complementarySkills[complementaryIndexes[player - 1, compIndex]].gameObject.name;
-        selectionTexts[player - 1].text = "<   Complementary " + (compIndex + 1) + ": " + finalComplementary + "   >";
+        var finalComplementary = complementarySkills[complementaryIndexes[player, compIndex]].gameObject.name;
+        selectionTexts[player].text = "<   Complementary " + (compIndex + 1) + ": " + finalComplementary + "   >";
     }
 
     void SelectDefensive(int player)
     {
-        if (Input.GetKeyDown("joystick " + player + " button 4"))
+        if (-0.3f < lastAnalogValue[player].x && lastAnalogValue[player].x < 0.3f)
         {
-            defensiveIndexes[player - 1]--;
-            if (defensiveIndexes[player - 1] < 0) defensiveIndexes[player - 1] = defensiveSkills.Count - 1;
+            if (JoystickInput.LeftAnalog(currentGamePads[player]).x >= 0.3f)
+            {
+                defensiveIndexes[player]++;
+                if (defensiveIndexes[player] >= defensiveSkills.Count) defensiveIndexes[player] = 0;
 
-            var defName = defensiveSkills[defensiveIndexes[player - 1]].gameObject.name;
-            URLs[player - 1].defensiveURL = "Prefabs/Skills/Defensive/" + defName;
+                var defName = defensiveSkills[defensiveIndexes[player]].gameObject.name;
+                URLs[player].defensiveURL = "Prefabs/Skills/Defensive/" + defName;
 
-            Destroy(currentDefensive[player - 1].gameObject);
-            currentDefensive[player - 1] = Instantiate(Resources.Load<GameObject>(URLs[player - 1].defensiveURL), players[player - 1].transform.position, Quaternion.identity, players[player - 1].transform).GetComponent<DefensiveSkillBase>();
+                Destroy(currentDefensive[player].gameObject);
+                currentDefensive[player] = Instantiate(Resources.Load<GameObject>(URLs[player].defensiveURL), players[player].transform.position, Quaternion.identity, players[player].transform).GetComponent<DefensiveSkillBase>();
+            }
+
+            if (JoystickInput.LeftAnalog(currentGamePads[player]).x <= -0.3f)
+            {
+                defensiveIndexes[player]--;
+                if (defensiveIndexes[player] < 0) defensiveIndexes[player] = defensiveSkills.Count - 1;
+
+                var defName = defensiveSkills[defensiveIndexes[player]].gameObject.name;
+                URLs[player].defensiveURL = "Prefabs/Skills/Defensive/" + defName;
+
+                Destroy(currentDefensive[player].gameObject);
+                currentDefensive[player] = Instantiate(Resources.Load<GameObject>(URLs[player].defensiveURL), players[player].transform.position, Quaternion.identity, players[player].transform).GetComponent<DefensiveSkillBase>();
+            }
         }
 
-        if (Input.GetKeyDown("joystick " + player + " button 5"))
-        {
-            defensiveIndexes[player - 1]++;
-            if (defensiveIndexes[player - 1] >= defensiveSkills.Count) defensiveIndexes[player - 1] = 0;
-
-            var defName = defensiveSkills[defensiveIndexes[player - 1]].gameObject.name;
-            URLs[player - 1].defensiveURL = "Prefabs/Skills/Defensive/" + defName;
-
-            Destroy(currentDefensive[player - 1].gameObject);
-            currentDefensive[player - 1] = Instantiate(Resources.Load<GameObject>(URLs[player - 1].defensiveURL), players[player - 1].transform.position, Quaternion.identity, players[player - 1].transform).GetComponent<DefensiveSkillBase>();
-        }
-
-        var finalDefensive = defensiveSkills[defensiveIndexes[player - 1]].gameObject.name;
-        selectionTexts[player - 1].text = "<   Defensive: " + finalDefensive + "   >";
+        var finalDefensive = defensiveSkills[defensiveIndexes[player]].gameObject.name;
+        selectionTexts[player].text = "<   Defensive: " + finalDefensive + "   >";
     }
 }

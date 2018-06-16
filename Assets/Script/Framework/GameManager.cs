@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < playerInfo.playerControllers.Length; i++)
         {
-            string path = "Assets/Resources/Save Files/Player " + playerInfo.playerControllers[i] + ".dat";
+            string path = "Assets/Resources/Save Files/Player " + (playerInfo.playerControllers[i] + 1) + ".dat";
             var URLs = Serializacion.LoadDataFromDisk<CharacterURLs>(path);
 
             var player = Instantiate(Resources.Load<GameObject>(URLs.bodyURL), spawns[i].transform.position, Quaternion.identity).GetComponent<Player>();
@@ -61,12 +61,12 @@ public class GameManager : MonoBehaviour
             comp1.GetComponent<ComplementarySkillBase>().RegisterInput(0);
             comp2.GetComponent<ComplementarySkillBase>().RegisterInput(1);
 
-            player.gameObject.layer = LayerMask.NameToLayer("Player" + playerInfo.playerControllers[i]);
-            player.gameObject.tag = "Player " + playerInfo.playerControllers[i];
+            player.gameObject.layer = LayerMask.NameToLayer("Player" + (playerInfo.playerControllers[i] +1));
+            player.gameObject.tag = "Player " + (playerInfo.playerControllers[i] +1);
             foreach (Transform t in player.transform)
             {
-                t.gameObject.layer = LayerMask.NameToLayer("Player" + playerInfo.playerControllers[i]);
-                t.gameObject.tag = "Player " + playerInfo.playerControllers[i];
+                t.gameObject.layer = LayerMask.NameToLayer("Player" + (playerInfo.playerControllers[i] +1));
+                t.gameObject.tag = "Player " + (playerInfo.playerControllers[i] +1);
             }
         }
 
@@ -122,7 +122,7 @@ public class GameManager : MonoBehaviour
         if (players == null) players = new List<Player>();
         players.Add(player);
 
-        var id = playerInfo.playerControllers[players.Count - 1] - 1;
+        var id = playerInfo.playerControllers[players.Count - 1];
         return id;
     }
 
