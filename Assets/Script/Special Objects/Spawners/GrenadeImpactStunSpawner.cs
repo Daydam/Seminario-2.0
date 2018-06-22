@@ -33,6 +33,12 @@ public class GrenadeImpactStunSpawner: MonoBehaviour
         objPool = new Pool<DMM_GrenadeImpactStun>(8, Factory, DMM_GrenadeImpactStun.Initialize, DMM_GrenadeImpactStun.Dispose, true);
     }
 
+    void Start()
+    {
+        GameManager.Instance.OnResetGame += DestroyStatic;
+        GameManager.Instance.OnResetRound += ResetRound;
+    }
+
     private DMM_GrenadeImpactStun Factory()
     {
         var b = Instantiate<DMM_GrenadeImpactStun>(objPrefab);
@@ -45,5 +51,20 @@ public class GrenadeImpactStunSpawner: MonoBehaviour
     {
         obj.transform.parent = transform;
         objPool.DisablePoolObject(obj);
+    }
+
+    void DestroyStatic()
+    {
+        StopAllCoroutines();
+        instance = null;
+        //Destroy(gameObject);
+    }
+
+    void ResetRound()
+    {
+        foreach (var item in ObjectPool.PoolList)
+        {
+            ReturnToPool(item.GetObj);
+        }
     }
 }

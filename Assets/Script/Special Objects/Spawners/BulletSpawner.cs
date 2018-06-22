@@ -33,6 +33,12 @@ public class BulletSpawner: MonoBehaviour
         bulletPool = new Pool<Bullet>(8, Factory, Bullet.Initialize, Bullet.Dispose, true);
     }
 
+    void Start()
+    {
+        GameManager.Instance.OnResetGame += DestroyStatic;
+        GameManager.Instance.OnResetRound += ResetRound;
+    }
+
     private Bullet Factory()
     {
         var b = Instantiate<Bullet>(bulletPrefab);
@@ -45,5 +51,20 @@ public class BulletSpawner: MonoBehaviour
     {
         bullet.transform.parent = transform;
         bulletPool.DisablePoolObject(bullet);
+    }
+
+    void DestroyStatic()
+    {
+        StopAllCoroutines();
+        instance = null;
+        //Destroy(gameObject);
+    }
+
+    void ResetRound()
+    {
+        foreach (var item in BulletPool.PoolList)
+        {
+            ReturnToPool(item.GetObj);
+        }
     }
 }

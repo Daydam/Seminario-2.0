@@ -21,6 +21,8 @@ public class StageManager : MonoBehaviour
     void Start()
     {
         empCloud = GameObject.FindObjectOfType<EmpCloud>();
+        GameManager.Instance.OnResetRound += ResetRound;
+        GameManager.Instance.OnResetGame += DestroyStatic;
     }
 
     public void DestroyRing()
@@ -41,6 +43,12 @@ public class StageManager : MonoBehaviour
             item.ResetRound();
         }
 
+    }
 
+    void DestroyStatic()
+    {
+        StopAllCoroutines();
+        instance = null;
+        //Destroy(gameObject);
     }
 }

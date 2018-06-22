@@ -33,6 +33,12 @@ public class GrenadeImpactFragSpawner: MonoBehaviour
         objPool = new Pool<DMM_GrenadeImpactFrag>(8, Factory, DMM_GrenadeImpactFrag.InitializeBullet, DMM_GrenadeImpactFrag.DisposeBullet, true);
     }
 
+    void Start()
+    {
+        GameManager.Instance.OnResetGame += DestroyStatic;
+        GameManager.Instance.OnResetRound += ResetRound;
+    }
+
     private DMM_GrenadeImpactFrag Factory()
     {
         var b = Instantiate<DMM_GrenadeImpactFrag>(objPrefab);
@@ -45,5 +51,20 @@ public class GrenadeImpactFragSpawner: MonoBehaviour
     {
         obj.transform.parent = transform;
         objPool.DisablePoolObject(obj);
+    }
+
+    void DestroyStatic()
+    {
+        StopAllCoroutines();
+        instance = null;
+        //Destroy(gameObject);
+    }
+
+    void ResetRound()
+    {
+        foreach (var item in ObjectPool.PoolList)
+        {
+            ReturnToPool(item.GetObj);
+        }
     }
 }

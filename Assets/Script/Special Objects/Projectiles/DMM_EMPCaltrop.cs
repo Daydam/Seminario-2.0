@@ -64,12 +64,12 @@ public class DMM_EMPCaltrop : MonoBehaviour
         }
         else if (!_planted)
         {
-            if (col.gameObject.layer == LayerMask.NameToLayer("Shield"))
+            if (col.gameObject.LayerMatchesWith(LayerMask.NameToLayer("Shield")))
             {
-                if (col.gameObject.GetComponentInParent<Player>().gameObject.tag == this.gameObject.tag) return;
+                if (col.gameObject.GetComponentInParent<Player>().gameObject.TagMatchesWith(this.gameObject.tag)) return;
                 ReturnToPool();
             }
-            else if (col.gameObject.tag != this.gameObject.tag)
+            else if (col.gameObject.TagDifferentFrom(this.gameObject.tag))
             {
                 Plant();
             }

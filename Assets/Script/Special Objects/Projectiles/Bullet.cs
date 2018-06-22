@@ -17,9 +17,11 @@ public class Bullet : MonoBehaviour
     float _damage;
     public float Damage { get { return _damage; } }
 
-    //Modifiqué los parámetros para que tome un daño mínimo y un daño máximo, además de la curva de daño
-    //Lo ideal sería heredar de Bullet y hacer balas para distinguir proyectil común, cargado y continuo.
-    //De esta manera, podremos hacer el cálculo de daño actual (entre mínimo y máximo)
+    string[] _tagsToEvade;
+    string[] _tagsToMatch;
+    int[] _layersToEvade;
+    int[] _layersToMatch;
+
     public Bullet Spawn(float speed, AnimationCurve curve, Vector3 position, Quaternion rotation, string emitter)
     {
         this.speed = speed;
@@ -76,21 +78,18 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.layer == LayerMask.NameToLayer("DestructibleWall") 
-           ||
-            col.gameObject.layer == LayerMask.NameToLayer("DestructibleStructure")
-           )
+        if (col.gameObject.LayerMatchesWith(LayerMask.NameToLayer("DestructibleWall"), LayerMask.NameToLayer("DestructibleStructure")))
         {
             col.gameObject.SetActive(false);
             BulletSpawner.Instance.ReturnToPool(this);
-
         }
-        else if (col.gameObject.layer == LayerMask.NameToLayer("Shield"))
+        else if (col.gameObject.LayerMatchesWith(LayerMask.NameToLayer("Shield")))
         {
-            if (col.gameObject.GetComponentInParent<Player>().gameObject.tag == this.gameObject.tag) return;
+            if (col.gameObject.GetComponentInParent<Player>().gameObject.TagMatchesWith(this.gameObject.tag)) return;
             BulletSpawner.Instance.ReturnToPool(this);
         }
-		else if (col.gameObject.layer == LayerMask.NameToLayer("Default")) BulletSpawner.Instance.ReturnToPool(this);
-			
+        else if (col.gameObject.LayerMatchesWith(LayerMask.NameToLayer("Default"), LayerMask.NameToLayer("Antenna")))
+            BulletSpawner.Instance.ReturnToPool(this);
+
     }
 }

@@ -46,16 +46,6 @@ public class MutatorRing : MonoBehaviour
     {
         var tick = t / _pieces.Length;
 
-       /* Utility.KnuthShuffle(_pieces.ToList());
-
-        while (_pieces.Where(x => x.gameObject.activeInHierarchy).Any())
-        {
-            var rnd = UnityEngine.Random.Range(0, _pieces.Length);
-            _pieces[rnd].gameObject.SetActive(false);
-            yield return new WaitForSeconds(tick);
-        }*/
-
-
         var list = _pieces.Select(x => x.gameObject).ToList();
 
         Utility.KnuthShuffle(list);

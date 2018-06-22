@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     public float movementSpeed;
     public Vector3 movDir;
 
+    public bool lockedByGame;
+
     Rigidbody _rb;
     public Rigidbody GetRigidbody { get { return _rb; } }
 
@@ -34,7 +36,6 @@ public class Player : MonoBehaviour
 
     public float hp;
 
-    #region Cambios Iván 10/6
     public bool isPushed;
     public Player myPusher;
     private int _score;
@@ -43,7 +44,6 @@ public class Player : MonoBehaviour
         get { return _score; }
         set { _score = value <= 0 ? 0 : value; }
     }
-    #endregion
 
     void Awake()
     {
@@ -55,6 +55,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (lockedByGame) return;
+
         control.UpdateState();
 
         if (control.RightAnalog() != Vector2.zero && !IsStunned)
@@ -65,27 +67,23 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.layer == LayerMask.NameToLayer("Bullet") && gameObject.tag != col.gameObject.tag)
+        if (col.gameObject.LayerMatchesWith(LayerMask.NameToLayer("Bullet")) && gameObject.TagDifferentFrom(col.gameObject.tag))
         {
             Bullet b = col.GetComponent<Bullet>();
             TakeDamage(b.Damage, b.tag);
             BulletSpawner.Instance.ReturnToPool(b);
             //DoKnockback
         }
-        else if (col.gameObject.layer == LayerMask.NameToLayer("DeathZone"))
+        else if (col.gameObject.LayerMatchesWith(LayerMask.NameToLayer("DeathZone")))
         {
             DestroyPlayer(DeathType.LaserGrid);
         }
     }
 
-    #region Cambios Iván 10/6
-
     public void UpdateScore(int score)
     {
         Score += score;
     }
-
-    #endregion
 
     void DestroyPlayer(DeathType type)
     {
@@ -102,7 +100,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!IsStunned && !IsUnableToMove)
+        if (!IsStunned && !IsUnableToMove && !lockedByGame)
         {
             Movement();
         }

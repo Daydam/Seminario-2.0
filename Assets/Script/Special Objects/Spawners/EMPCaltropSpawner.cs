@@ -33,6 +33,12 @@ public class EMPCaltropSpawner : MonoBehaviour
         objPool = new Pool<DMM_EMPCaltrop>(8, Factory, DMM_EMPCaltrop.Initialize, DMM_EMPCaltrop.Dispose, true);
     }
 
+    void Start()
+    {
+        GameManager.Instance.OnResetGame += DestroyStatic;
+        GameManager.Instance.OnResetRound += ResetRound;
+    }
+
     private DMM_EMPCaltrop Factory()
     {
         var b = Instantiate<DMM_EMPCaltrop>(objPrefab);
@@ -45,4 +51,20 @@ public class EMPCaltropSpawner : MonoBehaviour
         obj.transform.parent = transform;
         objPool.DisablePoolObject(obj);
     }
+
+    void DestroyStatic()
+    {
+        StopAllCoroutines();
+        instance = null;
+        //Destroy(gameObject);
+    }
+
+    void ResetRound()
+    {
+        foreach (var item in ObjectPool.PoolList)
+        {
+            ReturnToPool(item.GetObj);
+        }
+    }
+
 }

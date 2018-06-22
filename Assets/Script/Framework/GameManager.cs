@@ -12,8 +12,12 @@ public class GameManager : MonoBehaviour
     public int scoreByThrownOff = -2;
     public int scoreBySurvivor = 1;
 
-    public int ScoreToReach = 50;
+    public event Action OnResetGame = delegate { };
+    public event Action OnResetRound = delegate { };
 
+    public int ScoreToReach;
+
+    public Camera cam;
 
     public int actualRound = 1;
     public Dictionary<int, Tuple<Player, int>> roundResults;
@@ -61,12 +65,12 @@ public class GameManager : MonoBehaviour
             comp1.GetComponent<ComplementarySkillBase>().RegisterInput(0);
             comp2.GetComponent<ComplementarySkillBase>().RegisterInput(1);
 
-            player.gameObject.layer = LayerMask.NameToLayer("Player" + (playerInfo.playerControllers[i] +1));
-            player.gameObject.tag = "Player " + (playerInfo.playerControllers[i] +1);
+            player.gameObject.layer = LayerMask.NameToLayer("Player" + (playerInfo.playerControllers[i] + 1));
+            player.gameObject.tag = "Player " + (playerInfo.playerControllers[i] + 1);
             foreach (Transform t in player.transform)
             {
-                t.gameObject.layer = LayerMask.NameToLayer("Player" + (playerInfo.playerControllers[i] +1));
-                t.gameObject.tag = "Player " + (playerInfo.playerControllers[i] +1);
+                t.gameObject.layer = LayerMask.NameToLayer("Player" + (playerInfo.playerControllers[i] + 1));
+                t.gameObject.tag = "Player " + (playerInfo.playerControllers[i] + 1);
             }
         }
 
@@ -77,14 +81,16 @@ public class GameManager : MonoBehaviour
     void AddEvents()
     {
         EventManager.AddEventListener(PlayerEvents.Death, OnPlayerDeath);
+        OnResetGame += DestroyStatic;
+        OnResetRound += SpawnPlayers;
+        OnResetRound += () => actualRound++;
+        OnResetRound += EndRoundHandler.ResetTime;
     }
 
     void RemoveEvents()
     {
         EventManager.RemoveEventListener(PlayerEvents.Death, OnPlayerDeath);
     }
-
-    #region Cambios Iván 10/6
 
     #region EventCallbacks
     /// <summary>
@@ -114,7 +120,6 @@ public class GameManager : MonoBehaviour
         Unregister(dyingPlayer);
     }
 
-    #endregion
     #endregion
 
     public int Register(Player player)
@@ -163,13 +168,7 @@ public class GameManager : MonoBehaviour
 
     public void ResetRound()
     {
-        StageManager.instance.ResetRound();
-
-        SpawnPlayers();
-
-        actualRound++;
-
-        EndRoundHandler.ResetTime();
+        OnResetRound();
     }
 
     public void SpawnPlayers()
@@ -183,10 +182,34 @@ public class GameManager : MonoBehaviour
 
     public bool CheckIfReachedPoints()
     {
-        return Players.OrderBy(x => x.Score).Select(x => x.Score).First() >= ScoreToReach;
+        return Players.Select(x => x.Score).OrderByDescending(x =>x).First() >= ScoreToReach;
     }
 
     public void EndGame()
+    {
+        EndgameManager.Instance.InitEndgame(1);
+        EndRoundHandler.ResetTime();
+    }
+
+    public void ActivateCamera(bool activate)
+    {
+        cam.gameObject.SetActive(activate);
+    }
+
+    public void ResetGame()
+    {
+        OnResetGame();
+        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+    }
+
+    void DestroyStatic()
+    {
+        StopAllCoroutines();
+        instance = null;
+        //Destroy(gameObject);
+    }
+
+    void Clean()
     {
 
     }
