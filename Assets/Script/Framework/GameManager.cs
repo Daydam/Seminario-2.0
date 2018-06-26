@@ -56,11 +56,11 @@ public class GameManager : MonoBehaviour
             string path = "Assets/Resources/Save Files/Player " + (playerInfo.playerControllers[i] + 1) + ".dat";
             var URLs = Serializacion.LoadDataFromDisk<CharacterURLs>(path);
 
-            var player = Instantiate(Resources.Load<GameObject>(URLs.bodyURL), spawns[i].transform.position, Quaternion.identity).GetComponent<Player>();
-            Instantiate(Resources.Load<GameObject>(URLs.weaponURL), player.transform.position, Quaternion.identity, player.transform);
-            var comp1 = Instantiate(Resources.Load<GameObject>(URLs.complementaryURL[0]), player.transform.position, Quaternion.identity, player.transform);
-            var comp2 = Instantiate(Resources.Load<GameObject>(URLs.complementaryURL[1]), player.transform.position, Quaternion.identity, player.transform);
-            Instantiate(Resources.Load<GameObject>(URLs.defensiveURL), player.transform.position, Quaternion.identity, player.transform);
+            var player = Instantiate(Resources.Load<GameObject>("Prefabs/Bodies/" + URLs.bodyURL), spawns[i].transform.position, Quaternion.identity).GetComponent<Player>();
+            Instantiate(Resources.Load<GameObject>("Prefabs/Weapons/" + URLs.weaponURL), player.transform.position, Quaternion.identity, player.transform);
+            var comp1 = Instantiate(Resources.Load<GameObject>("Prefabs/Skills/Complementary/" + URLs.complementaryURL[0]), player.transform.position, Quaternion.identity, player.transform);
+            var comp2 = Instantiate(Resources.Load<GameObject>("Prefabs/Skills/Complementary/" + URLs.complementaryURL[1]), player.transform.position, Quaternion.identity, player.transform);
+            Instantiate(Resources.Load<GameObject>("Prefabs/Skills/Defensive/" + URLs.defensiveURL), player.transform.position, Quaternion.identity, player.transform);
 
             comp1.GetComponent<ComplementarySkillBase>().RegisterInput(0);
             comp2.GetComponent<ComplementarySkillBase>().RegisterInput(1);
