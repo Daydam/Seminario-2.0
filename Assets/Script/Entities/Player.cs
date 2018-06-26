@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
 
     public float movementSpeed;
     public Vector3 movDir;
+    public GameObject playerEndgameTexts;
+    public GameObject playerUI;
 
     public bool lockedByGame;
 
@@ -83,6 +85,18 @@ public class Player : MonoBehaviour
     public void UpdateScore(int score)
     {
         Score += score;
+    }
+
+    public void ActivatePlayerEndgame(bool activate, string replaceName, string replaceScore)
+    {
+        playerEndgameTexts.SetActive(activate);
+        var tx = playerEndgameTexts.GetComponentInChildren<UnityEngine.UI.Text>();
+        tx.text = gameObject.name + "\n" + Score.ToString();
+    }
+
+    public void ActivatePlayerEndgame(bool activate = false)
+    {
+        playerEndgameTexts.SetActive(activate);
     }
 
     void DestroyPlayer(DeathType type)

@@ -38233,7 +38233,7 @@ MonoBehaviour:
   scoreByFalling: -1
   scoreByThrownOff: -2
   scoreBySurvivor: 1
-  ScoreToReach: 3
+  ScoreToReach: 15
   cam: {fileID: 514900255}
   actualRound: 1
 --- !u!4 &1786961199
@@ -41063,8 +41063,9 @@ MonoBehaviour:
   backToMenu: {fileID: 1158324840}
   restart: {fileID: 813178741}
   quit: {fileID: 472253662}
-  ReplaceStringName: '[PLAYERNAME]'
-  ReplaceStringScore: '[SCORE]'
+  playerCanvas: {fileID: 0}
+  replaceStringName: '[PLAYERNAME]'
+  replaceStringScore: '[SCORE]'
   spawnPos:
   - {fileID: 1840091086}
   - {fileID: 723546865}

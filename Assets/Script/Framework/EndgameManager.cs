@@ -12,15 +12,16 @@ public class EndgameManager : MonoBehaviour
     public Text backToMenu;
     public Text restart;
     public Text quit;
+    public GameObject playerCanvas;
 
-    public string ReplaceStringName;
-    public string ReplaceStringScore;
+    public string replaceStringName;
+    public string replaceStringScore;
 
     public Transform[] spawnPos;
 
     Player _winner;
 
-    private static EndgameManager instance;
+    static EndgameManager instance;
     public static EndgameManager Instance
     {
         get
@@ -80,6 +81,7 @@ public class EndgameManager : MonoBehaviour
             players[i].lockedByGame = true;
             players[i].transform.position = spawnPos[i].position;
             players[i].transform.forward = -spawnPos[i].forward;
+            players[i].ActivatePlayerEndgame(true, replaceStringName, replaceStringScore);
             //replace text on ui de cosos
         }
     }
@@ -91,7 +93,7 @@ public class EndgameManager : MonoBehaviour
         restart.gameObject.SetActive(true);
         quit.gameObject.SetActive(true);
 
-        winnerText.text = winnerText.text.Replace(ReplaceStringName, _winner.name);
+        winnerText.text = winnerText.text.Replace(replaceStringName, _winner.name);
     }
 
     public void ActivateCamera(bool activate)
