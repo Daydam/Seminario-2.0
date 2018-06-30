@@ -6,7 +6,7 @@ using System;
 public abstract class ComplementarySkillBase : MonoBehaviour
 {
     protected Controller control;
-    protected Player _me;
+    protected Player _owner;
     protected Func<bool> inputMethod;
 
     protected virtual void Update()
@@ -18,8 +18,8 @@ public abstract class ComplementarySkillBase : MonoBehaviour
 
     public void RegisterInput(int skillIndex)
     {
-        _me = GetComponentInParent<Player>();
-        control = _me.Control;
+        _owner = GetComponentInParent<Player>();
+        control = _owner.Control;
         if (skillIndex == 0) inputMethod = control.ComplimentarySkill1;
         if (skillIndex == 1) inputMethod = control.ComplimentarySkill2;
     }

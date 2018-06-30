@@ -41,7 +41,7 @@ public class SK_EMPCaltrop : ComplementarySkillBase
     {
         if (inputMethod())
         {
-            if (_actualCharges > 0 && !_me.IsStunned && !_me.IsDisarmed && _canUse)
+            if (_actualCharges > 0 && !_owner.IsStunned && !_owner.IsDisarmed && _canUse)
             {
                 _actualCharges--;
                 _canUse = false;
@@ -53,6 +53,6 @@ public class SK_EMPCaltrop : ComplementarySkillBase
 
     void LaunchCaltrop(float duration, float amount)
     {
-        EMPCaltropSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(_me.transform.position, _me.gameObject.transform.forward, duration, amount, radius, _me.gameObject.tag);
+        EMPCaltropSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(_owner.transform.position, _owner.gameObject.transform.forward, duration, amount, radius, _owner.gameObject.tag);
     }
 }

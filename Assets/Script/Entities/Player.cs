@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     public GameObject playerEndgameTexts;
     public GameObject playerUI;
 
+    Coroutine _actualPushCouroutine;
+
     public bool lockedByGame;
 
     Rigidbody _rb;
@@ -41,6 +43,8 @@ public class Player : MonoBehaviour
     public bool isPushed;
     public Player myPusher;
     private int _score;
+    public float pushTimeCheck = 2;
+
     public int Score
     {
         get { return _score; }
@@ -73,8 +77,14 @@ public class Player : MonoBehaviour
         {
             Bullet b = col.GetComponent<Bullet>();
             TakeDamage(b.Damage, b.tag);
+
+            var forceDir = (col.transform.position - transform.position);
+
+            var knockbackInfo = b.GetKnockbackInfo();
+
+            ApplyKnockback(knockbackInfo.Item2, forceDir.normalized, knockbackInfo.Item1);
+
             BulletSpawner.Instance.ReturnToPool(b);
-            //DoKnockback
         }
         else if (col.gameObject.LayerMatchesWith(LayerMask.NameToLayer("DeathZone")))
         {
@@ -144,6 +154,24 @@ public class Player : MonoBehaviour
         _rb.AddForce(dir * amount, ForceMode.Impulse);
     }
 
+    public void ApplyKnockback(float amount, Vector3 dir, Player pusher)
+    {
+        _rb.AddForce(dir * amount, ForceMode.Impulse);
+
+        if (_actualPushCouroutine != null) StopCoroutine(_actualPushCouroutine);
+
+        _actualPushCouroutine = StartCoroutine(ApplyPush(pusher));
+    }
+
+    public void ApplyKnockback(float amount, Vector3 dir, float pushedTime, Player pusher)
+    {
+        _rb.AddForce(dir * amount, ForceMode.Impulse);
+
+        if (_actualPushCouroutine != null) StopCoroutine(_actualPushCouroutine);
+
+        _actualPushCouroutine = StartCoroutine(ApplyPush(pushedTime, pusher));
+    }
+
     public void ApplyStun(float duration)
     {
         StartCoroutine(ExecuteStun(duration));
@@ -198,6 +226,32 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         MovementMultiplier = 1;
+    }
+
+    IEnumerator ApplyPush(Player pusher)
+    {
+        myPusher = pusher;
+        isPushed = true;
+
+        yield return new WaitForSeconds(pushTimeCheck);
+
+        myPusher = null;
+        isPushed = false;
+
+        //_actualPushCouroutine = null;
+    }
+
+    IEnumerator ApplyPush(float time, Player pusher)
+    {
+        myPusher = pusher;
+        isPushed = true;
+
+        yield return new WaitForSeconds(time);
+
+        myPusher = null;
+        isPushed = false;
+
+        //_actualPushCouroutine = null;
     }
 
 }

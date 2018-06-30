@@ -12,9 +12,9 @@ public class SK_ScramblerMine : ComplementarySkillBase
     protected override void CheckInput()
     {
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
-        else if (control.ComplimentarySkill1() && !_me.IsStunned && !_me.IsDisarmed)
+        else if (control.ComplimentarySkill1() && !_owner.IsStunned && !_owner.IsDisarmed)
         {
-            ScramblerMineSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(_me.transform.position, _me.gameObject.transform.forward, duration, radius, _me.gameObject.tag);
+            ScramblerMineSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(_owner.transform.position, _owner.gameObject.transform.forward, duration, radius, _owner.gameObject.tag);
             _currentCooldown = maxCooldown;
         }
     }

@@ -13,19 +13,29 @@ public class Bullet : MonoBehaviour
     float _travelledDistance;
     public float DistanceTravelled { set { _travelledDistance = value; } }
     AnimationCurve _damageCurve;
+    AnimationCurve _knockbackCurve;
     Rigidbody _rb;
+
+    float _knockback;
     float _damage;
     public float Damage { get { return _damage; } }
+
+    Player _owner;
+    public Player Owner
+    {
+        get { return _owner; }
+    }
 
     string[] _tagsToEvade;
     string[] _tagsToMatch;
     int[] _layersToEvade;
     int[] _layersToMatch;
 
-    public Bullet Spawn(float speed, AnimationCurve curve, Vector3 position, Quaternion rotation, string emitter)
+    [Obsolete()]
+    public Bullet Spawn(float speed, AnimationCurve dmgCurve, Vector3 position, Quaternion rotation, string emitter)
     {
         this.speed = speed;
-        _damageCurve = curve;
+        _damageCurve = dmgCurve;
         gameObject.tag = emitter;
         transform.position = position;
         transform.rotation = rotation;
@@ -35,6 +45,65 @@ public class Bullet : MonoBehaviour
 
         return this;
     }
+
+    [Obsolete()]
+    public Bullet Spawn(float speed, AnimationCurve dmgCurve, Vector3 position, Quaternion rotation, string emitter, Player owner)
+    {
+        this.speed = speed;
+        _damageCurve = dmgCurve;
+        gameObject.tag = emitter;
+        transform.position = position;
+        transform.rotation = rotation;
+        transform.parent = null;
+        _owner = owner;
+
+        _rb = GetComponent<Rigidbody>();
+
+        return this;
+    }
+
+    public Bullet Spawn(float speed, AnimationCurve dmgCurve, AnimationCurve knockCurve, Vector3 position, Quaternion rotation, string emitter)
+    {
+        this.speed = speed;
+        _damageCurve = dmgCurve;
+        _knockbackCurve = knockCurve;
+        gameObject.tag = emitter;
+        transform.position = position;
+        transform.rotation = rotation;
+        transform.parent = null;
+
+        _rb = GetComponent<Rigidbody>();
+
+        return this;
+    }
+
+    public Bullet Spawn(float speed, AnimationCurve dmgCurve, AnimationCurve knockCurve, Vector3 position, Quaternion rotation, string emitter, Player owner)
+    {
+        this.speed = speed;
+        _damageCurve = dmgCurve;
+        _knockbackCurve = knockCurve;
+
+        gameObject.tag = emitter;
+        transform.position = position;
+        transform.rotation = rotation;
+        transform.parent = null;
+        _owner = owner;
+
+        _rb = GetComponent<Rigidbody>();
+
+        return this;
+    }
+
+    /// <summary>
+    /// Item1: Player
+    /// Item2: Knockback amount
+    /// </summary>
+    /// <returns></returns>
+    public Tuple<Player, float> GetKnockbackInfo()
+    {
+        return new Tuple<Player, float>(_owner, _knockback);
+    }
+
 
     void Update()
     {
@@ -53,6 +122,7 @@ public class Bullet : MonoBehaviour
             _travelledDistance += distance;
             _rb.MovePosition(_rb.position + transform.forward * distance);
             _damage = GetActualDamage(_travelledDistance);
+            _knockback = GetActualKnockback(_travelledDistance);
             //Acá tendrías que setear el daño actual al análisis del falloff de acuerdo al tiempo
             //que haya transcurrido dividido por el tiempo que se tardaría en completar el falloff.
             //Para esto tendrías que pedir velocidad, daño max y min, posición, rotación, emitter, curva de falloff y tiempo de duración del mismo al instanciar la bala.
@@ -62,6 +132,11 @@ public class Bullet : MonoBehaviour
     float GetActualDamage(float valueToAnalyze)
     {
         return _damageCurve.Evaluate(valueToAnalyze);
+    }
+
+    float GetActualKnockback(float valueToAnalyze)
+    {
+        return _knockbackCurve.Evaluate(valueToAnalyze);
     }
 
     public static void Initialize(Bullet bulletObj)
@@ -90,6 +165,5 @@ public class Bullet : MonoBehaviour
         }
         else if (col.gameObject.LayerMatchesWith(LayerMask.NameToLayer("Default"), LayerMask.NameToLayer("Antenna")))
             BulletSpawner.Instance.ReturnToPool(this);
-
     }
 }

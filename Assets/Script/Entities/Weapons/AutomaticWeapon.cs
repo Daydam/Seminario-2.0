@@ -8,9 +8,9 @@ public class AutomaticWeapon : Weapon
     protected override void CheckInput()
     {
         if (currentCooldown > 0) currentCooldown -= Time.deltaTime;
-        else if(control.MainWeapon() && !_me.IsStunned && !_me.IsDisarmed)
+        else if(control.MainWeapon() && !_owner.IsStunned && !_owner.IsDisarmed)
         {
-            BulletSpawner.Instance.BulletPool.GetObjectFromPool().Spawn(bulletSpeed, damageFalloff, transform.position, transform.rotation, gameObject.tag);
+            BulletSpawner.Instance.BulletPool.GetObjectFromPool().Spawn(bulletSpeed, damageFalloff, knockbackFalloff, transform.position, transform.rotation, gameObject.tag, _owner);
             currentCooldown = realCooldown;
         }
     }

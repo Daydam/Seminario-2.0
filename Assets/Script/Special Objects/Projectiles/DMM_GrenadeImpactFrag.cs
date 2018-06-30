@@ -18,6 +18,8 @@ public class DMM_GrenadeImpactFrag : MonoBehaviour
     float _travelledDistance;
     float _maximumDistance;
 
+    Player _owner;
+
     bool _stopMoving;
 
     bool _showGizmos;
@@ -49,6 +51,7 @@ public class DMM_GrenadeImpactFrag : MonoBehaviour
         _AOEDecay.AddKey(zero);
     }
 
+    [System.Obsolete()]
     public DMM_GrenadeImpactFrag SpawnGrenade(Vector3 spawnPos, Vector3 fwd, float maximumDistance, string emmitter)
     {
         transform.position = spawnPos;
@@ -58,6 +61,20 @@ public class DMM_GrenadeImpactFrag : MonoBehaviour
         _travelledDistance = 0;
         gameObject.tag = emmitter;
         _stopMoving = false;
+
+        return this;
+    }
+
+    public DMM_GrenadeImpactFrag SpawnGrenade(Vector3 spawnPos, Vector3 fwd, float maximumDistance, string emmitter, Player owner)
+    {
+        transform.position = spawnPos;
+        transform.forward = fwd;
+        transform.parent = null;
+        _maximumDistance = maximumDistance;
+        _travelledDistance = 0;
+        gameObject.tag = emmitter;
+        _stopMoving = false;
+        _owner = owner;
 
         return this;
     }
@@ -77,12 +94,12 @@ public class DMM_GrenadeImpactFrag : MonoBehaviour
         }
     }
 
-    public static void InitializeBullet(DMM_GrenadeImpactFrag bulletObj)
+    public static void Initialize(DMM_GrenadeImpactFrag bulletObj)
     {
         bulletObj.gameObject.SetActive(true);
     }
 
-    public static void DisposeBullet(DMM_GrenadeImpactFrag bulletObj)
+    public static void Dispose(DMM_GrenadeImpactFrag bulletObj)
     {
         bulletObj.gameObject.SetActive(false);
     }
@@ -123,11 +140,13 @@ public class DMM_GrenadeImpactFrag : MonoBehaviour
         {
             var multiplier = _AOEDecay.Evaluate(minAoE);
             play.TakeDamage(damage * multiplier);
-            var forceDir = (play.transform.position - transform.position) * -1;
-            play.ApplyKnockback(knockback * multiplier, forceDir.normalized);
+            var forceDir = (play.transform.position - transform.position);
+            if (_owner) play.ApplyKnockback(knockback * multiplier, forceDir.normalized, _owner);
+            else play.ApplyKnockback(knockback * multiplier, forceDir.normalized);
+
         }
 
-        var inMedAoe = players.Where(x => 
+        var inMedAoe = players.Where(x =>
                        Vector3.Distance(x.gameObject.transform.position, transform.position) > minAoE
                        &&
                        Vector3.Distance(x.gameObject.transform.position, transform.position) <= medAoE);
@@ -137,7 +156,8 @@ public class DMM_GrenadeImpactFrag : MonoBehaviour
             var multiplier = _AOEDecay.Evaluate(medAoE);
             play.TakeDamage(damage * multiplier);
             var forceDir = transform.position - play.transform.position;
-            play.ApplyKnockback(knockback * multiplier, forceDir.normalized);
+            if (_owner) play.ApplyKnockback(knockback * multiplier, forceDir.normalized, _owner);
+            else play.ApplyKnockback(knockback * multiplier, forceDir.normalized);
         }
 
         var inMaxAoe = players.Where(x => Vector3.Distance(x.gameObject.transform.position, transform.position) > medAoE);
@@ -147,7 +167,8 @@ public class DMM_GrenadeImpactFrag : MonoBehaviour
             var multiplier = _AOEDecay.Evaluate(maxAoE);
             play.TakeDamage(damage * multiplier);
             var forceDir = transform.position - play.transform.position;
-            play.ApplyKnockback(knockback * multiplier, forceDir.normalized);
+            if (_owner) play.ApplyKnockback(knockback * multiplier, forceDir.normalized, _owner);
+            else play.ApplyKnockback(knockback * multiplier, forceDir.normalized);
         }
 
         ReturnToPool();

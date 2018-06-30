@@ -10,11 +10,11 @@ public class TapWeapon : Weapon
     {
         if (currentCooldown > 0) currentCooldown -= Time.deltaTime;
 
-        if (control.MainWeapon() && !_me.IsStunned && !_me.IsDisarmed)
+        if (control.MainWeapon() && !_owner.IsStunned && !_owner.IsDisarmed)
         {
             if(canShoot && currentCooldown <= 0)
             {
-                BulletSpawner.Instance.BulletPool.GetObjectFromPool().Spawn(bulletSpeed, damageFalloff, transform.position, transform.rotation, gameObject.tag);
+                BulletSpawner.Instance.BulletPool.GetObjectFromPool().Spawn(bulletSpeed, damageFalloff, knockbackFalloff, transform.position, transform.rotation, gameObject.tag, _owner);
                 canShoot = false;
                 currentCooldown = realCooldown;
             }

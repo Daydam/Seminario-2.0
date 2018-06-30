@@ -30,7 +30,7 @@ public class GrenadeImpactFragSpawner: MonoBehaviour
     {
         instance = this;
         objPrefab = Resources.Load<DMM_GrenadeImpactFrag>("Prefabs/GrenadeImpactFrag");
-        objPool = new Pool<DMM_GrenadeImpactFrag>(8, Factory, DMM_GrenadeImpactFrag.InitializeBullet, DMM_GrenadeImpactFrag.DisposeBullet, true);
+        objPool = new Pool<DMM_GrenadeImpactFrag>(8, Factory, DMM_GrenadeImpactFrag.Initialize, DMM_GrenadeImpactFrag.Dispose, true);
     }
 
     void Start()

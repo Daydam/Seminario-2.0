@@ -26,13 +26,13 @@ public class ChargeWeapon : Weapon
 
     protected override void CheckInput()
     {
-        if (control.MainWeapon() && !_me.IsStunned && !_me.IsDisarmed)
+        if (control.MainWeapon() && !_owner.IsStunned && !_owner.IsDisarmed)
         {
             currentChargeTime = Mathf.Min(currentChargeTime + Time.deltaTime, maxChargeTime);
         }
         else if (currentChargeTime > 0)
         {
-            BulletSpawner.Instance.BulletPool.GetObjectFromPool().Spawn(bulletSpeed, damageFalloff, transform.position, transform.rotation, gameObject.tag);
+            BulletSpawner.Instance.BulletPool.GetObjectFromPool().Spawn(bulletSpeed, damageFalloff, knockbackFalloff, transform.position, transform.rotation, gameObject.tag, _owner);
             currentChargeTime = 0;
         }
     }

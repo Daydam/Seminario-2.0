@@ -12,10 +12,10 @@ public class SK_GrenadeImpactFrag : ComplementarySkillBase
     protected override void CheckInput()
     {
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
-        else if (inputMethod() && !_me.IsStunned && !_me.IsDisarmed)
+        else if (inputMethod() && !_owner.IsStunned && !_owner.IsDisarmed)
         {
             //TODO: Que sea cargable el rango
-            GrenadeImpactFragSpawner.Instance.ObjectPool.GetObjectFromPool().SpawnGrenade(transform.position, _me.gameObject.transform.forward, maxRange, _me.gameObject.tag);
+            GrenadeImpactFragSpawner.Instance.ObjectPool.GetObjectFromPool().SpawnGrenade(transform.position, _owner.gameObject.transform.forward, maxRange, _owner.gameObject.tag, _owner);
             _currentCooldown = maxCooldown;
         }
     }
