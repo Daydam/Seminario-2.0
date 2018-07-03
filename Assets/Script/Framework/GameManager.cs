@@ -177,6 +177,7 @@ public class GameManager : MonoBehaviour
         {
             Players[i].gameObject.SetActive(true);
             Players[i].transform.position = spawns[i].transform.position;
+            Players[i].ResetHP();
         }
     }
 

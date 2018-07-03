@@ -36,8 +36,8 @@ public abstract class Weapon : MonoBehaviour
     public float bulletSpeed;
     public float minDamage;
     public float maxDamage;
-    public float minKnockback = 1;
-    public float maxKnockback = 10;
+    float minKnockback = 5;
+    float maxKnockback = 15;
     public float falloffStart;
     public float falloffEnd;
 
@@ -60,8 +60,8 @@ public abstract class Weapon : MonoBehaviour
         damageFalloff.AddKey(initialKey);
         var startFalloff = new Keyframe(falloffStart, maxDamage, 0, 0);
         damageFalloff.AddKey(startFalloff);
-        var endtFalloff = new Keyframe(falloffEnd, minDamage, 0, 0);
-        damageFalloff.AddKey(endtFalloff);
+        var endFalloff = new Keyframe(falloffEnd, minDamage, 0, 0);
+        damageFalloff.AddKey(endFalloff);
     }
 
     void SetKnockbackCurve()
@@ -71,8 +71,8 @@ public abstract class Weapon : MonoBehaviour
         knockbackFalloff.AddKey(initialKey);
         var startFalloff = new Keyframe(falloffStart, maxKnockback, 0, 0);
         knockbackFalloff.AddKey(startFalloff);
-        var endtFalloff = new Keyframe(falloffEnd, minKnockback, 0, 0);
-        knockbackFalloff.AddKey(endtFalloff);
+        var endFalloff = new Keyframe(falloffEnd, minKnockback, 0, 0);
+        knockbackFalloff.AddKey(endFalloff);
     }
 
     void Start()
@@ -84,6 +84,7 @@ public abstract class Weapon : MonoBehaviour
 
     void Update()
     {
+        SetKnockbackCurve();
         CheckInput();
     }
 

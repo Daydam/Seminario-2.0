@@ -38,7 +38,21 @@ public class Player : MonoBehaviour
 
     float _movementMultiplier = 1;
 
-    public float hp;
+
+    public float maxHP = 100;
+    private float hp;
+    public float Hp
+    {
+        get
+        {
+            return hp;
+        }
+
+        private set
+        {
+            hp = value >= maxHP ? maxHP : value <= 0 ? 0 : value;
+        }
+    }
 
     public bool isPushed;
     public Player myPusher;
@@ -57,6 +71,7 @@ public class Player : MonoBehaviour
         control = new Controller(playerID);
         _rb = GetComponent<Rigidbody>();
         MovementMultiplier = 1;
+        Hp = maxHP;
     }
 
     void Update()
@@ -78,9 +93,10 @@ public class Player : MonoBehaviour
             Bullet b = col.GetComponent<Bullet>();
             TakeDamage(b.Damage, b.tag);
 
-            var forceDir = (col.transform.position - transform.position);
-
             var knockbackInfo = b.GetKnockbackInfo();
+            var forceDir = transform.position - knockbackInfo.Item3;
+
+            print("no ves que sos un forro " + knockbackInfo.Item2);
 
             ApplyKnockback(knockbackInfo.Item2, forceDir.normalized, knockbackInfo.Item1);
 
@@ -95,6 +111,11 @@ public class Player : MonoBehaviour
     public void UpdateScore(int score)
     {
         Score += score;
+    }
+
+    public void ResetHP()
+    {
+        Hp = maxHP;
     }
 
     public void ActivatePlayerEndgame(bool activate, string replaceName, string replaceScore)
@@ -139,14 +160,14 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        hp -= damage;
-        if (hp <= 0) DestroyPlayer(DeathType.Player);
+        Hp -= damage;
+        if (Hp <= 0) DestroyPlayer(DeathType.Player);
     }
 
     public void TakeDamage(float damage, string killerTag)
     {
-        hp -= damage;
-        if (hp <= 0) DestroyPlayer(DeathType.Player, killerTag);
+        Hp -= damage;
+        if (Hp <= 0) DestroyPlayer(DeathType.Player, killerTag);
     }
 
     public void ApplyKnockback(float amount, Vector3 dir)
@@ -160,7 +181,7 @@ public class Player : MonoBehaviour
 
         if (_actualPushCouroutine != null) StopCoroutine(_actualPushCouroutine);
 
-        _actualPushCouroutine = StartCoroutine(ApplyPush(pusher));
+        if (gameObject.activeInHierarchy) _actualPushCouroutine = StartCoroutine(ApplyPush(pusher));
     }
 
     public void ApplyKnockback(float amount, Vector3 dir, float pushedTime, Player pusher)
@@ -169,7 +190,7 @@ public class Player : MonoBehaviour
 
         if (_actualPushCouroutine != null) StopCoroutine(_actualPushCouroutine);
 
-        _actualPushCouroutine = StartCoroutine(ApplyPush(pushedTime, pusher));
+        if (gameObject.activeInHierarchy) _actualPushCouroutine = StartCoroutine(ApplyPush(pushedTime, pusher));
     }
 
     public void ApplyStun(float duration)

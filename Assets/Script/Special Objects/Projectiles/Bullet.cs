@@ -15,6 +15,8 @@ public class Bullet : MonoBehaviour
     AnimationCurve _damageCurve;
     AnimationCurve _knockbackCurve;
     Rigidbody _rb;
+    Vector3 _initialPos;
+
 
     float _knockback;
     float _damage;
@@ -31,37 +33,6 @@ public class Bullet : MonoBehaviour
     int[] _layersToEvade;
     int[] _layersToMatch;
 
-    [Obsolete()]
-    public Bullet Spawn(float speed, AnimationCurve dmgCurve, Vector3 position, Quaternion rotation, string emitter)
-    {
-        this.speed = speed;
-        _damageCurve = dmgCurve;
-        gameObject.tag = emitter;
-        transform.position = position;
-        transform.rotation = rotation;
-        transform.parent = null;
-
-        _rb = GetComponent<Rigidbody>();
-
-        return this;
-    }
-
-    [Obsolete()]
-    public Bullet Spawn(float speed, AnimationCurve dmgCurve, Vector3 position, Quaternion rotation, string emitter, Player owner)
-    {
-        this.speed = speed;
-        _damageCurve = dmgCurve;
-        gameObject.tag = emitter;
-        transform.position = position;
-        transform.rotation = rotation;
-        transform.parent = null;
-        _owner = owner;
-
-        _rb = GetComponent<Rigidbody>();
-
-        return this;
-    }
-
     public Bullet Spawn(float speed, AnimationCurve dmgCurve, AnimationCurve knockCurve, Vector3 position, Quaternion rotation, string emitter)
     {
         this.speed = speed;
@@ -69,6 +40,8 @@ public class Bullet : MonoBehaviour
         _knockbackCurve = knockCurve;
         gameObject.tag = emitter;
         transform.position = position;
+        _initialPos = position;
+
         transform.rotation = rotation;
         transform.parent = null;
 
@@ -85,6 +58,8 @@ public class Bullet : MonoBehaviour
 
         gameObject.tag = emitter;
         transform.position = position;
+        _initialPos = position;
+
         transform.rotation = rotation;
         transform.parent = null;
         _owner = owner;
@@ -97,13 +72,13 @@ public class Bullet : MonoBehaviour
     /// <summary>
     /// Item1: Player
     /// Item2: Knockback amount
+    /// Item3: Initial Position
     /// </summary>
     /// <returns></returns>
-    public Tuple<Player, float> GetKnockbackInfo()
+    public Tuple<Player, float, Vector3> GetKnockbackInfo()
     {
-        return new Tuple<Player, float>(_owner, _knockback);
+        return new Tuple<Player, float, Vector3>(_owner, _knockback, _initialPos);
     }
-
 
     void Update()
     {
