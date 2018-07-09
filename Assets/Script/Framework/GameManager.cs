@@ -72,6 +72,9 @@ public class GameManager : MonoBehaviour
                 t.gameObject.layer = LayerMask.NameToLayer("Player" + (playerInfo.playerControllers[i] + 1));
                 t.gameObject.tag = "Player " + (playerInfo.playerControllers[i] + 1);
             }
+
+            CamFollow cam = GameObject.Find("Camera_P" + (i+1)).GetComponent<CamFollow>();
+            cam.AssignTarget(player);
         }
 
         AddEvents();

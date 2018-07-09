@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public bool TPSControl;
+    public float turningSpeed;
+
     Controller control;
     public Controller Control { get { return control; } }
 
@@ -80,9 +83,13 @@ public class Player : MonoBehaviour
 
         control.UpdateState();
 
-        if (control.RightAnalog() != Vector2.zero && !IsStunned)
+        if (TPSControl && !IsStunned)
         {
-            transform.LookAt(transform.position + new Vector3(control.RightAnalog().x, 0, control.RightAnalog().y));
+            transform.Rotate(transform.up * control.RightAnalog().x * turningSpeed);
+        }
+        else if (control.RightAnalog() != Vector2.zero && !IsStunned)
+        {
+            transform.LookAt(transform.position + new Vector3(control.RightAnalog().normalized.x, 0, control.RightAnalog().normalized.y));
         }
     }
 
@@ -155,7 +162,14 @@ public class Player : MonoBehaviour
     {
         var movVector = _rb.position + new Vector3(control.LeftAnalog().x, 0, control.LeftAnalog().y) * Time.fixedDeltaTime * movementSpeed * MovementMultiplier;
         movDir = movVector - _rb.position;
-        _rb.MovePosition(movVector);
+        if(TPSControl)
+        {
+            _rb.MovePosition(transform.right * movVector.x + transform.up * movVector.y + transform.forward * movVector.z);
+        }
+        else
+        {
+            _rb.MovePosition(movVector);
+        }
     }
 
     public void TakeDamage(float damage)
