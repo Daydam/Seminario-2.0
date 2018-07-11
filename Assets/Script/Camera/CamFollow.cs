@@ -21,6 +21,7 @@ public class CamFollow : MonoBehaviour
         transform.position = target.transform.position;
         transform.forward = target.transform.forward;
         targetSight = transform.forward;
+        target.AssignCamera(this);
         running = true;
     }
 

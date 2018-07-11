@@ -71,7 +71,6 @@ public class EndgameManager : MonoBehaviour
 
     void MovePlayersToPedestals()
     {
-        //create ui on cosos and activate them
         var players = GameManager.Instance.Players.OrderByDescending(x => x.Score).ToArray();
         _winner = players.First();
 
@@ -82,8 +81,11 @@ public class EndgameManager : MonoBehaviour
             players[i].transform.position = spawnPos[i].position;
             players[i].transform.forward = -spawnPos[i].forward;
             players[i].ActivatePlayerEndgame(true, replaceStringName, replaceStringScore);
-            //replace text on ui de cosos
+            players[i].DeactivateCamera();
         }
+
+        GameObject.Find("---CAMERA CANVAS---").SetActive(false);
+          
     }
 
     void ApplyTexts()

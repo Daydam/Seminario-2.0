@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
     public GameObject playerEndgameTexts;
     public GameObject playerUI;
 
+    CamFollow _cam;
+
     Coroutine _actualPushCouroutine;
 
     public bool lockedByGame;
@@ -86,6 +88,16 @@ public class Player : MonoBehaviour
         {
             transform.Rotate(transform.up, control.RightAnalog().x * turningSpeed);
         }
+    }
+
+    public void AssignCamera(CamFollow cam)
+    {
+        _cam = cam;
+    }
+
+    public void DeactivateCamera()
+    {
+        _cam.gameObject.SetActive(false);
     }
 
     void OnTriggerEnter(Collider col)
