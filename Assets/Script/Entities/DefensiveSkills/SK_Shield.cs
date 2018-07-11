@@ -47,4 +47,11 @@ public class SK_Shield : DefensiveSkillBase
             _shieldObj.SetActive(false);
         }
     }
+
+    public override void ResetRound()
+    {
+        _currentCooldown = 0;
+        _isActive = false;
+        _shieldTimer = 0;
+    }
 }

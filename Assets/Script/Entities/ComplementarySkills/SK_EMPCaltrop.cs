@@ -55,4 +55,11 @@ public class SK_EMPCaltrop : ComplementarySkillBase
     {
         EMPCaltropSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(_owner.transform.position, _owner.gameObject.transform.forward, duration, amount, radius, _owner.gameObject.tag);
     }
+
+    public override void ResetRound()
+    {
+        _actualCharges = maxCharges;
+        _currentCooldown = 0;
+        _canUse = true;
+    }
 }

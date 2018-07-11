@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public bool TPSControl;
     public float turningSpeed;
 
     Controller control;
@@ -83,13 +82,9 @@ public class Player : MonoBehaviour
 
         control.UpdateState();
 
-        if (TPSControl && !IsStunned)
+        if (!IsStunned && control.RightAnalog() != Vector2.zero)
         {
-            transform.Rotate(transform.up * control.RightAnalog().x * turningSpeed);
-        }
-        else if (control.RightAnalog() != Vector2.zero && !IsStunned)
-        {
-            transform.LookAt(transform.position + new Vector3(control.RightAnalog().normalized.x, 0, control.RightAnalog().normalized.y));
+            transform.Rotate(transform.up, control.RightAnalog().x * turningSpeed);
         }
     }
 
@@ -102,8 +97,6 @@ public class Player : MonoBehaviour
 
             var knockbackInfo = b.GetKnockbackInfo();
             var forceDir = transform.position - knockbackInfo.Item3;
-
-            print("no ves que sos un forro " + knockbackInfo.Item2);
 
             ApplyKnockback(knockbackInfo.Item2, forceDir.normalized, knockbackInfo.Item1);
 
@@ -160,16 +153,10 @@ public class Player : MonoBehaviour
 
     void Movement()
     {
-        var movVector = _rb.position + new Vector3(control.LeftAnalog().x, 0, control.LeftAnalog().y) * Time.fixedDeltaTime * movementSpeed * MovementMultiplier;
-        movDir = movVector - _rb.position;
-        if(TPSControl)
-        {
-            _rb.MovePosition(transform.right * movVector.x + transform.up * movVector.y + transform.forward * movVector.z);
-        }
-        else
-        {
-            _rb.MovePosition(movVector);
-        }
+        var dir = transform.forward * control.LeftAnalog().y + transform.right * control.LeftAnalog().x;
+        var movVector = _rb.position + dir.normalized * Time.fixedDeltaTime * movementSpeed * MovementMultiplier;
+        movDir = dir;
+        _rb.MovePosition(movVector);
     }
 
     public void TakeDamage(float damage)

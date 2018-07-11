@@ -19,4 +19,9 @@ public class SK_GrenadeImpactStun : ComplementarySkillBase
             _currentCooldown = maxCooldown;
         }
     }
+
+    public override void ResetRound()
+    {
+        _currentCooldown = 0;
+    }
 }

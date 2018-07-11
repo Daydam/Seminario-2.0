@@ -9,6 +9,11 @@ public abstract class ComplementarySkillBase : MonoBehaviour
     protected Player _owner;
     protected Func<bool> inputMethod;
 
+    protected virtual void Start()
+    {
+        GameManager.Instance.OnResetRound += ResetRound;
+    }
+
     protected virtual void Update()
     {
         CheckInput();
@@ -23,4 +28,6 @@ public abstract class ComplementarySkillBase : MonoBehaviour
         if (skillIndex == 0) inputMethod = control.ComplimentarySkill1;
         if (skillIndex == 1) inputMethod = control.ComplimentarySkill2;
     }
+
+    public abstract void ResetRound();
 }

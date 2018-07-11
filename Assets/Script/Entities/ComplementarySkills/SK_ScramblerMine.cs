@@ -18,4 +18,9 @@ public class SK_ScramblerMine : ComplementarySkillBase
             _currentCooldown = maxCooldown;
         }
     }
+
+    public override void ResetRound()
+    {
+        _currentCooldown = 0;
+    }
 }

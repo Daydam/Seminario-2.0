@@ -91,4 +91,13 @@ public class SK_Dash : DefensiveSkillBase
 
         _isDashing = false;
     }
+
+    public override void ResetRound()
+    {
+        _actualCharges = maxCharges;
+        _currentCooldown = 0;
+        _canUse = true;
+        _isDashing = false;
+        _trail.StopShowing();
+    }
 }

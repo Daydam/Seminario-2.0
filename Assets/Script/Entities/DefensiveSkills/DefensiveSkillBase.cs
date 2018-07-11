@@ -11,6 +11,7 @@ public abstract class DefensiveSkillBase : MonoBehaviour
     {
         _me = GetComponentInParent<Player>();
         control = _me.Control;
+        GameManager.Instance.OnResetRound += ResetRound;
     }
 
     protected virtual void Update()
@@ -19,5 +20,6 @@ public abstract class DefensiveSkillBase : MonoBehaviour
     }
 
     protected abstract void CheckInput();
+    public abstract void ResetRound();
 
 }

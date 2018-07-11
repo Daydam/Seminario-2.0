@@ -8,7 +8,6 @@ public class SK_Blink : DefensiveSkillBase
     public float blinkDistance;
     SkillTrail _trail;
 
-    bool _isMarking;
     float _currentCooldown = 0;
 
     protected override void Start()
@@ -50,5 +49,11 @@ public class SK_Blink : DefensiveSkillBase
 
         _trail.StopShowing();
 
+    }
+
+    public override void ResetRound()
+    {
+        _currentCooldown = 0;
+        _trail.StopShowing();
     }
 }

@@ -13,6 +13,7 @@ public class SkillTrail : MonoBehaviour
     void Start()
     {
         _trails = GetComponentsInChildren<TrailRenderer>();
+        StopShowing();
     }
 
     public void ShowTrails()
@@ -31,7 +32,6 @@ public class SkillTrail : MonoBehaviour
             tr.endWidth = activate ? width : 0;
         }
     }
-
 
     public void StopShowing()
     {
