@@ -12,7 +12,7 @@ public class SK_EMPCaltrop : ComplementarySkillBase
     float _currentCooldown = 0;
     bool _canUse = true;
 
-    void Start()
+    protected override void Start()
     {
         _actualCharges = maxCharges;
     }
@@ -61,5 +61,17 @@ public class SK_EMPCaltrop : ComplementarySkillBase
         _actualCharges = maxCharges;
         _currentCooldown = 0;
         _canUse = true;
+    }
+
+    public override SkillState GetActualState()
+    {
+        var unavailable = _actualCharges <= 0;
+        var reloading = _actualCharges < 0 && _actualCharges < maxCharges;
+        var userDisabled = _owner.IsStunned || _owner.IsDisarmed;
+
+        if (userDisabled) return SkillState.UserDisabled;
+        else if (unavailable) return SkillState.Unavailable;
+        else if (reloading) return SkillState.Reloading;
+        else return SkillState.Available;
     }
 }

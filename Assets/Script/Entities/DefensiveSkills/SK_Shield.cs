@@ -22,7 +22,7 @@ public class SK_Shield : DefensiveSkillBase
     protected override void CheckInput()
     {
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
-        else if (control.DefensiveSkill() && !_isActive && !_me.IsStunned && !_me.IsDisarmed)
+        else if (control.DefensiveSkill() && !_isActive && !_owner.IsStunned && !_owner.IsDisarmed)
         {
             _shieldObj.SetActive(true);
             _isActive = true;
@@ -53,5 +53,17 @@ public class SK_Shield : DefensiveSkillBase
         _currentCooldown = 0;
         _isActive = false;
         _shieldTimer = 0;
+    }
+
+    public override SkillState GetActualState()
+    {
+        var unavailable = _currentCooldown > 0;
+        var userDisabled = _owner.IsStunned || _owner.IsDisarmed;
+        var active = _isActive;
+
+        if (userDisabled) return SkillState.UserDisabled;
+        else if (unavailable) return SkillState.Unavailable;
+        else if (active) return SkillState.Active;
+        else return SkillState.Available;
     }
 }

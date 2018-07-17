@@ -9,10 +9,14 @@ public class SK_ScramblerMine : ComplementarySkillBase
 
     float _currentCooldown = 0;
 
+    bool _inUse;
+
+    //TODO HACER QUE NO SE PUEDA TIRAR MÁS DE UNA SCRAMBLER
+
     protected override void CheckInput()
     {
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
-        else if (control.ComplimentarySkill1() && !_owner.IsStunned && !_owner.IsDisarmed)
+        else if (inputMethod() && !_owner.IsStunned && !_owner.IsDisarmed)
         {
             ScramblerMineSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(_owner.transform.position, _owner.gameObject.transform.forward, duration, radius, _owner.gameObject.tag);
             _currentCooldown = maxCooldown;
@@ -22,5 +26,16 @@ public class SK_ScramblerMine : ComplementarySkillBase
     public override void ResetRound()
     {
         _currentCooldown = 0;
+    }
+
+    public override SkillState GetActualState()
+    {
+        var unavailable = _currentCooldown > 0;
+        var userDisabled = _owner.IsStunned || _owner.IsDisarmed;
+        var active = _inUse;
+
+        if (userDisabled) return SkillState.UserDisabled;
+        else if (unavailable) return SkillState.Unavailable;
+        else return SkillState.Available;
     }
 }

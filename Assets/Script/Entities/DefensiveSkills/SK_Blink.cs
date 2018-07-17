@@ -24,15 +24,15 @@ public class SK_Blink : DefensiveSkillBase
     protected override void CheckInput()
     {
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
-        else if (control.DefensiveSkill() && !_me.IsStunned && !_me.IsDisarmed)
+        else if (control.DefensiveSkill() && !_owner.IsStunned && !_owner.IsDisarmed)
         {
             _trail.ShowTrails();
 
-            var blinkPos = _me.transform.position + _me.transform.forward * blinkDistance;
+            var blinkPos = _owner.transform.position + _owner.transform.forward * blinkDistance;
 
-            if (_me.movDir != Vector3.zero)
+            if (_owner.movDir != Vector3.zero)
             {
-                blinkPos = _me.transform.position + _me.movDir.normalized * blinkDistance;
+                blinkPos = _owner.transform.position + _owner.movDir.normalized * blinkDistance;
             }
 
             _currentCooldown = maxCooldown;
@@ -43,7 +43,7 @@ public class SK_Blink : DefensiveSkillBase
 
     IEnumerator TeleportTo(Vector3 pos)
     {
-        _me.GetRigidbody.MovePosition(pos);
+        _owner.GetRigidbody.MovePosition(pos);
 
         yield return new WaitForSeconds(.3f);
 
@@ -55,5 +55,15 @@ public class SK_Blink : DefensiveSkillBase
     {
         _currentCooldown = 0;
         _trail.StopShowing();
+    }
+
+    public override SkillState GetActualState()
+    {
+        var unavailable = _currentCooldown > 0;
+        var userDisabled = _owner.IsStunned || _owner.IsDisarmed;
+
+        if (userDisabled) return SkillState.UserDisabled;
+        else if (unavailable) return SkillState.Unavailable;
+        else return SkillState.Available;
     }
 }

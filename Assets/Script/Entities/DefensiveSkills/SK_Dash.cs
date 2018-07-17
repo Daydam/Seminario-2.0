@@ -37,15 +37,15 @@ public class SK_Dash : DefensiveSkillBase
     {
         if (control.DefensiveSkill())
         {
-            if (_actualCharges > 0 && !_me.IsStunned && !_me.IsDisarmed && !_isDashing && _canUse)
+            if (_actualCharges > 0 && !_owner.IsStunned && !_owner.IsDisarmed && !_isDashing && _canUse)
             {
                 _trail.ShowTrails();
 
-                var dirV = _me.transform.forward;
+                var dirV = _owner.transform.forward;
 
-                if (_me.movDir != Vector3.zero)
+                if (_owner.movDir != Vector3.zero)
                 {
-                    dirV = _me.movDir;
+                    dirV = _owner.movDir;
                 }
 
                 _actualCharges--;
@@ -67,7 +67,6 @@ public class SK_Dash : DefensiveSkillBase
                 _currentCooldown = maxCooldown;
             }
         }
-        
     }
 
     IEnumerator DashHandler(Vector3 dir)
@@ -81,8 +80,8 @@ public class SK_Dash : DefensiveSkillBase
         while (distanceTraveled < dashDistance)
         {
             distanceTraveled += amountByDelta;
-            var nextPos = _me.GetRigidbody.position + amountByDelta * dir;
-            _me.GetRigidbody.MovePosition(nextPos);
+            var nextPos = _owner.GetRigidbody.position + amountByDelta * dir;
+            _owner.GetRigidbody.MovePosition(nextPos);
 
             yield return new WaitForFixedUpdate();
         }
@@ -99,5 +98,17 @@ public class SK_Dash : DefensiveSkillBase
         _canUse = true;
         _isDashing = false;
         _trail.StopShowing();
+    }
+
+    public override SkillState GetActualState()
+    {
+        var unavailable = _actualCharges <= 0;
+        var reloading = _actualCharges < 0 && _actualCharges < maxCharges;
+        var userDisabled = _owner.IsStunned || _owner.IsDisarmed;
+
+        if (userDisabled) return SkillState.UserDisabled;
+        else if (unavailable) return SkillState.Unavailable;
+        else if (reloading) return SkillState.Reloading;
+        else return SkillState.Available;
     }
 }

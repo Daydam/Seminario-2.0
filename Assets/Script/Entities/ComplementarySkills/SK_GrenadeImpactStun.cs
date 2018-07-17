@@ -24,4 +24,14 @@ public class SK_GrenadeImpactStun : ComplementarySkillBase
     {
         _currentCooldown = 0;
     }
+
+    public override SkillState GetActualState()
+    {
+        var unavailable = _currentCooldown > 0;
+        var userDisabled = _owner.IsStunned || _owner.IsDisarmed;
+
+        if (userDisabled) return SkillState.UserDisabled;
+        else if (unavailable) return SkillState.Unavailable;
+        else return SkillState.Available;
+    }
 }

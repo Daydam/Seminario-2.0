@@ -120,6 +120,14 @@ public class Player : MonoBehaviour
         }
     }
 
+    void OnTriggerExit(Collider col)
+    {
+        if (col.gameObject.LayerMatchesWith(LayerMask.NameToLayer("EMPCloud")))
+        {
+            DestroyPlayer(DeathType.LaserGrid);
+        }
+    }
+
     public void UpdateScore(int score)
     {
         Score += score;
