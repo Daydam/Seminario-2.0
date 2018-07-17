@@ -8,6 +8,7 @@ public class SkillStateIndicator : MonoBehaviour
     MeshRenderer _rend;
     public Dictionary<SkillState, Color> moduleFeedback;
     public SkillBase mySkill;
+    bool _intermitentLighting;
 
     void Start()
     {
@@ -37,13 +38,48 @@ public class SkillStateIndicator : MonoBehaviour
 
     public void CheckActualState()
     {
-        ApplyStateFeedback(moduleFeedback[mySkill.GetActualState()]);
+        ApplyStateFeedback(mySkill.GetActualState());
     }
 
-    public void ApplyStateFeedback(Color color)
+    public void ApplyStateFeedback(SkillState state)
     {
-        _rend.material.EnableKeyword("_EMISSION");
-        _rend.material.SetColor("_EmissionColor", color);
+        if (_intermitentLighting)
+        {
+            if (state != SkillState.Reloading)
+            {
+                _rend.material.EnableKeyword("_EMISSION");
+                _rend.material.SetColor("_EmissionColor", moduleFeedback[state]);
+            }
+        }
+        else
+        {
+            if (state != SkillState.Reloading)
+            {
+                _rend.material.EnableKeyword("_EMISSION");
+                _rend.material.SetColor("_EmissionColor", moduleFeedback[state]);
+            }
+            else StartCoroutine(IntermitentLighting());
+        }
+
+        
+    }
+
+    IEnumerator IntermitentLighting()
+    {
+        _intermitentLighting = true;
+        while (mySkill.GetActualState() == SkillState.Reloading)
+        {
+            _rend.material.EnableKeyword("_EMISSION");
+            _rend.material.SetColor("_EmissionColor", moduleFeedback[SkillState.Reloading]);
+            yield return new WaitForSeconds(.4f);
+
+            _rend.material.EnableKeyword("_EMISSION");
+            _rend.material.SetColor("_EmissionColor", Color.cyan);
+
+            yield return new WaitForSeconds(.4f);
+        }
+        _intermitentLighting = false;
+
     }
 
 }

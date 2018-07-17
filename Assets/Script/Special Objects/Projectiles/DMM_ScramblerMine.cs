@@ -156,7 +156,7 @@ public class DMM_ScramblerMine : MonoBehaviour
         }
     }
 
-    void Explode(bool affectsUser)
+    public void Explode(bool affectsUser)
     {
         var players = Physics.OverlapSphere(transform.position, _explosionRadius).Select(x => x.GetComponent<Player>()).Where(x => x != null);
 

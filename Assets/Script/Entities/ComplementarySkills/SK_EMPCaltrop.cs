@@ -66,7 +66,7 @@ public class SK_EMPCaltrop : ComplementarySkillBase
     public override SkillState GetActualState()
     {
         var unavailable = _actualCharges <= 0;
-        var reloading = _actualCharges < 0 && _actualCharges < maxCharges;
+        var reloading = _actualCharges > 0 && _actualCharges < maxCharges;
         var userDisabled = _owner.IsStunned || _owner.IsDisarmed;
 
         if (userDisabled) return SkillState.UserDisabled;
