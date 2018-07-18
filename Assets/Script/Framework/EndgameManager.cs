@@ -78,6 +78,7 @@ public class EndgameManager : MonoBehaviour
         {
             players[i].gameObject.SetActive(true);
             players[i].lockedByGame = true;
+            players[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
             players[i].transform.position = spawnPos[i].position;
             players[i].transform.forward = -spawnPos[i].forward;
             players[i].ActivatePlayerEndgame(true, replaceStringName, replaceStringScore);

@@ -116,7 +116,11 @@ public class Player : MonoBehaviour
         }
         else if (col.gameObject.LayerMatchesWith(LayerMask.NameToLayer("DeathZone")))
         {
-            DestroyPlayer(DeathType.LaserGrid);
+            if (isPushed && myPusher != null)
+            {
+                DestroyPlayer(DeathType.LaserGrid, myPusher.gameObject.tag);
+            }
+            else DestroyPlayer(DeathType.LaserGrid);
         }
     }
 
@@ -124,7 +128,11 @@ public class Player : MonoBehaviour
     {
         if (col.gameObject.LayerMatchesWith(LayerMask.NameToLayer("EMPCloud")))
         {
-            DestroyPlayer(DeathType.LaserGrid);
+            if (isPushed && myPusher != null)
+            {
+                DestroyPlayer(DeathType.LaserGrid, myPusher.gameObject.tag);
+            }
+            else DestroyPlayer(DeathType.LaserGrid);
         }
     }
 
