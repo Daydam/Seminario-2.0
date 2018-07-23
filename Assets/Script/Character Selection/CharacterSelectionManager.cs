@@ -36,7 +36,7 @@ public class CharacterSelectionManager : MonoBehaviour
     CharacterURLs[] URLs;
     List<GameObject> weapons;
     int[] weaponIndexes;
-    List<GameObject> complementarySkills;
+    List<GameObject>[] complementarySkills;
     int[,] complementaryIndexes;
     List<GameObject> defensiveSkills;
     int[] defensiveIndexes;
@@ -72,8 +72,11 @@ public class CharacterSelectionManager : MonoBehaviour
         weapons = new List<GameObject>();
         weapons = Resources.LoadAll("Prefabs/_CharacterSelection/Weapons").Select(x => (GameObject)x).ToList();
 
-        complementarySkills = new List<GameObject>();
-        complementarySkills = Resources.LoadAll("Prefabs/_CharacterSelection/Skills/Complementary").Select(x => (GameObject)x).ToList();
+        complementarySkills = new List<GameObject>[2];
+        complementarySkills[0] = new List<GameObject>();
+        complementarySkills[0] = Resources.LoadAll("Prefabs/_CharacterSelection/Skills/Complementary 1").Select(x => (GameObject)x).ToList();
+        complementarySkills[1] = new List<GameObject>();
+        complementarySkills[1] = Resources.LoadAll("Prefabs/_CharacterSelection/Skills/Complementary 2").Select(x => (GameObject)x).ToList();
 
         defensiveSkills = new List<GameObject>();
         defensiveSkills = Resources.LoadAll("Prefabs/_CharacterSelection/Skills/Defensive").Select(x => (GameObject)x).ToList();
@@ -148,10 +151,10 @@ public class CharacterSelectionManager : MonoBehaviour
                 var weaponNameChars = weapons[weaponIndexes[player]].gameObject.name.TakeWhile(a => a != '(').ToArray();
                 string weaponName = new string(weaponNameChars);
 
-                var compNameChars1 = complementarySkills[complementaryIndexes[player, 0]].gameObject.name.TakeWhile(a => a != '(').ToArray();
+                var compNameChars1 = complementarySkills[0][complementaryIndexes[player, 0]].gameObject.name.TakeWhile(a => a != '(').ToArray();
                 string compName1 = new string(compNameChars1);
 
-                var compNameChars2 = complementarySkills[complementaryIndexes[player, 1]].gameObject.name.TakeWhile(a => a != '(').ToArray();
+                var compNameChars2 = complementarySkills[1][complementaryIndexes[player, 1]].gameObject.name.TakeWhile(a => a != '(').ToArray();
                 string compName2 = new string(compNameChars2);
 
                 var defNameChars = defensiveSkills[defensiveIndexes[player]].gameObject.name.TakeWhile(a => a != '(').ToArray();
@@ -168,15 +171,15 @@ public class CharacterSelectionManager : MonoBehaviour
             else
             {
                 weaponIndexes[player] = weapons.IndexOf(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Weapons/" + URLs[player].weaponURL));
-                complementaryIndexes[player, 0] = complementarySkills.IndexOf(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary/" + URLs[player].complementaryURL[0]));
-                complementaryIndexes[player, 1] = complementarySkills.IndexOf(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary/" + URLs[player].complementaryURL[1]));
+                complementaryIndexes[player, 0] = complementarySkills[0].IndexOf(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary 1/" + URLs[player].complementaryURL[0]));
+                complementaryIndexes[player, 1] = complementarySkills[1].IndexOf(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary 2/" + URLs[player].complementaryURL[1]));
                 defensiveIndexes[player] = defensiveSkills.IndexOf(Resources.Load<GameObject>(URLs[player].defensiveURL));
             }
 
             players[player] = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Bodies/" + URLs[player].bodyURL), playerSpawnPoints[player].transform.position, Quaternion.identity);
             currentWeapons[player] = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Weapons/" + URLs[player].weaponURL), players[player].transform.position, Quaternion.identity, players[player].transform);
-            currentComplementary[player, 0] = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary/" + URLs[player].complementaryURL[0]), players[player].transform.position, Quaternion.identity, players[player].transform);
-            currentComplementary[player, 1] = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary/" + URLs[player].complementaryURL[1]), players[player].transform.position, Quaternion.identity, players[player].transform);
+            currentComplementary[player, 0] = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary 1/" + URLs[player].complementaryURL[0]), players[player].transform.position, Quaternion.identity, players[player].transform);
+            currentComplementary[player, 1] = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary 2/" + URLs[player].complementaryURL[1]), players[player].transform.position, Quaternion.identity, players[player].transform);
             currentDefensive[player] = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL), players[player].transform.position, Quaternion.identity, players[player].transform);
 
             blackScreens[player].gameObject.SetActive(false);
@@ -241,14 +244,14 @@ public class CharacterSelectionManager : MonoBehaviour
                 do
                 {
                     complementaryIndexes[player, compIndex]++;
-                    if (complementaryIndexes[player, compIndex] >= complementarySkills.Count) complementaryIndexes[player, compIndex] = 0;
+                    if (complementaryIndexes[player, compIndex] >= complementarySkills[compIndex].Count) complementaryIndexes[player, compIndex] = 0;
                 } while (complementaryIndexes[player, 0] == complementaryIndexes[player, 1]);
 
-                var complementaryName = complementarySkills[complementaryIndexes[player, compIndex]].gameObject.name;
+                var complementaryName = complementarySkills[compIndex][complementaryIndexes[player, compIndex]].gameObject.name;
                 URLs[player].complementaryURL[compIndex] = complementaryName;
 
                 Destroy(currentComplementary[player, compIndex].gameObject);
-                currentComplementary[player, compIndex] = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary/" + URLs[player].complementaryURL[compIndex]), players[player].transform.position, Quaternion.identity, players[player].transform);
+                currentComplementary[player, compIndex] = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary " + (compIndex + 1) + "/" + URLs[player].complementaryURL[compIndex]), players[player].transform.position, Quaternion.identity, players[player].transform);
             }
 
             if (JoystickInput.LeftAnalog(currentGamePads[player]).x <= -0.3f)
@@ -256,18 +259,18 @@ public class CharacterSelectionManager : MonoBehaviour
                 do
                 {
                     complementaryIndexes[player, compIndex]--;
-                    if (complementaryIndexes[player, compIndex] < 0) complementaryIndexes[player, compIndex] = complementarySkills.Count - 1;
+                    if (complementaryIndexes[player, compIndex] < 0) complementaryIndexes[player, compIndex] = complementarySkills[compIndex].Count - 1;
                 } while (complementaryIndexes[player, 0] == complementaryIndexes[player, 1]);
 
-                var complementaryName = complementarySkills[complementaryIndexes[player, compIndex]].gameObject.name;
+                var complementaryName = complementarySkills[compIndex][complementaryIndexes[player, compIndex]].gameObject.name;
                 URLs[player].complementaryURL[compIndex] = complementaryName;
 
                 Destroy(currentComplementary[player, compIndex].gameObject);
-                currentComplementary[player, compIndex] = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary/" + URLs[player].complementaryURL[compIndex]), players[player].transform.position, Quaternion.identity, players[player].transform);
+                currentComplementary[player, compIndex] = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary " + (compIndex + 1) + "/" + URLs[player].complementaryURL[compIndex]), players[player].transform.position, Quaternion.identity, players[player].transform);
             }
         }
 
-        var finalComplementary = complementarySkills[complementaryIndexes[player, compIndex]].gameObject.name;
+        var finalComplementary = complementarySkills[compIndex][complementaryIndexes[player, compIndex]].gameObject.name;
         selectionTexts[player].text = "<   Complementary " + (compIndex + 1) + ": " + finalComplementary + "   >";
     }
 
