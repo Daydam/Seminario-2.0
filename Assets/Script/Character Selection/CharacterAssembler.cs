@@ -26,7 +26,7 @@ public class CharacterAssembler
         weapon.transform.parent = body.transform;
     }
 
-    public static void ChangeBody(GameObject newBody, GameObject oldBody, GameObject defensive, GameObject complimentary1, GameObject complimentary2, GameObject weapon)
+    public static GameObject ChangeBody(GameObject newBody, GameObject oldBody, GameObject defensive, GameObject complimentary1, GameObject complimentary2, GameObject weapon)
     {
         defensive.transform.parent = null;
         complimentary1.transform.parent = null;
@@ -34,13 +34,15 @@ public class CharacterAssembler
         weapon.transform.parent = null;
         GameObject.Destroy(oldBody);
         Assemble(newBody, defensive, complimentary1, complimentary2, weapon);
+	return newBody;
     }
 
-    public static void ChangePart(GameObject oldPart, GameObject newPart)
+    public static GameObject ChangePart(GameObject oldPart, GameObject newPart)
     {
         newPart.transform.position = oldPart.transform.position;
         newPart.transform.rotation = oldPart.transform.rotation;
         newPart.transform.parent = oldPart.transform.parent;
         GameObject.Destroy(oldPart);
+	return newPart;
     }
 }
