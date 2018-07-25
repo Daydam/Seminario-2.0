@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -162,7 +162,7 @@ public class CharacterSelectionManager : MonoBehaviour
 
                 URLs[player] = new CharacterURLs
                 {
-                    bodyURL = "Body " + (player + 1),
+                    bodyURL = "Beetledrone",
                     weaponURL = weaponName,
                     complementaryURL = new string[2] { compName1, compName2 },
                     defensiveURL = defName

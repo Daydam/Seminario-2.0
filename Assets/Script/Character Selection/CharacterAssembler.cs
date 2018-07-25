@@ -6,10 +6,21 @@ public class CharacterAssembler
 {
 	public static void Assemble(GameObject body, GameObject defensive, GameObject complimentary1, GameObject complimentary2, GameObject weapon)
     {
-        var defNode = body.transform.Find("Node_Def");
-        var comp1Node = body.transform.Find("Node_Comp1");
-        var comp2Node = body.transform.Find("Node_Comp2");
-        var weaponNode = body.transform.Find("Node_Weapon");
+        Transform defNode = null;
+        Transform comp1Node = null;
+        Transform comp2Node = null;
+        Transform weaponNode = null;
+
+        foreach (Transform child in body.transform)
+        {
+            foreach (Transform c in child.transform)
+            {
+                if (c.name == "Node_Def") defNode = c;
+                if (c.name == "Node_Comp1") comp1Node = c;
+                if (c.name == "Node_Comp2") comp2Node = c;
+                if (c.name == "Node_Weapon") weaponNode = c;
+            }
+        }
 
         defensive.transform.position = defNode.position;
         defensive.transform.rotation = defNode.rotation;
