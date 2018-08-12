@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
     public bool IsDisarmed { get { return _isDisarmed; } }
     public bool IsUnableToMove { get { return _isUnableToMove; } }
 
+    Renderer _rend;
     /// <summary>
     /// TODO: Hacer que pueda ser mayor a 1 (si llegamos a usar cosas de aumentar la velocidad de movimiento)
     /// </summary>
@@ -74,6 +75,7 @@ public class Player : MonoBehaviour
         int playerID = GameManager.Instance.Register(this);
         control = new Controller(playerID);
         _rb = GetComponent<Rigidbody>();
+        _rend = GetComponentInChildren<SkinnedMeshRenderer>();
         MovementMultiplier = 1;
         Hp = maxHP;
     }
@@ -189,14 +191,21 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        Hp -= damage;
+        SubstractLife(damage);
+
         if (Hp <= 0) DestroyPlayer(DeathType.Player);
     }
 
     public void TakeDamage(float damage, string killerTag)
     {
-        Hp -= damage;
+        SubstractLife(damage);
         if (Hp <= 0) DestroyPlayer(DeathType.Player, killerTag);
+    }
+
+    void SubstractLife(float damage)
+    {
+        Hp -= damage;
+        _rend.material.SetFloat("_Life", Hp / maxHP);
     }
 
     public void ApplyKnockback(float amount, Vector3 dir)

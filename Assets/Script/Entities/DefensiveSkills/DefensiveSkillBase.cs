@@ -14,7 +14,6 @@ public abstract class DefensiveSkillBase : SkillBase
         control = _owner.Control;
         GameManager.Instance.OnResetRound += ResetRound;
         _feedback = GetModuleFeedback();
-        _feedback.InitializeIndicator(this);
     }
 
     protected virtual void Update()
@@ -27,6 +26,10 @@ public abstract class DefensiveSkillBase : SkillBase
 
     protected SkillStateIndicator GetModuleFeedback()
     {
-        return _owner.GetComponentsInChildren<SkillStateIndicator>().Where(x => x.transform.parent.name == "DefensiveModule").First();
+        var indic = GameObject.Instantiate(Resources.Load<SkillStateIndicator>("Prefabs/Skills/Helpers/ModuleFeedback"), transform);
+        indic.InitializeIndicator(this, _owner.GetComponentInChildren<SkinnedMeshRenderer>());
+        return (indic);
+
+        //return _owner.GetComponentsInChildren<SkillStateIndicator>().Where(x => x.transform.parent.name == "DefensiveModule").First();
     }
 }

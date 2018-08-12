@@ -30,16 +30,18 @@ public abstract class ComplementarySkillBase : SkillBase
         if (skillIndex == 1) inputMethod = control.ComplimentarySkill2;
 
         _feedback = GetModuleFeedback(skillIndex);
-        _feedback.InitializeIndicator(this);
-
     }
 
     public abstract void ResetRound();
 
     protected SkillStateIndicator GetModuleFeedback(int index)
     {
-        var prefix = index == 0 ? "Left" : "Right";
+        var indic = GameObject.Instantiate(Resources.Load<SkillStateIndicator>("Prefabs/Skills/Helpers/ModuleFeedback"), transform);
+        indic.InitializeIndicator(this);
+        return (indic);
 
-        return _owner.GetComponentsInChildren<SkillStateIndicator>().Where(x => x.transform.parent.name == prefix + "ComplementaryModule").First();
+        /*var prefix = index == 0 ? "Left" : "Right";
+
+        return _owner.GetComponentsInChildren<SkillStateIndicator>().Where(x => x.transform.parent.name == prefix + "ComplementaryModule").First();*/
     }
 }

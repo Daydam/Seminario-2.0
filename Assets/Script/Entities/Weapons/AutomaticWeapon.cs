@@ -10,7 +10,7 @@ public class AutomaticWeapon : Weapon
         if (currentCooldown > 0) currentCooldown -= Time.deltaTime;
         else if(control.MainWeapon() && !_owner.IsStunned && !_owner.IsDisarmed)
         {
-            BulletSpawner.Instance.BulletPool.GetObjectFromPool().Spawn(bulletSpeed, damageFalloff, knockbackFalloff, transform.position, transform.rotation, gameObject.tag, _owner);
+            BulletSpawner.Instance.BulletPool.GetObjectFromPool().Spawn(bulletSpeed, damageFalloff, knockbackFalloff, transform.position, _owner.transform.rotation, gameObject.tag, _owner);
             currentCooldown = realCooldown;
         }
     }

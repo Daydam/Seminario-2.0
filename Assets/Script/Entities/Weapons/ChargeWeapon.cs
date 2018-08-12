@@ -32,7 +32,7 @@ public class ChargeWeapon : Weapon
         }
         else if (currentChargeTime > 0)
         {
-            BulletSpawner.Instance.BulletPool.GetObjectFromPool().Spawn(bulletSpeed, damageFalloff, knockbackFalloff, transform.position, transform.rotation, gameObject.tag, _owner);
+            BulletSpawner.Instance.BulletPool.GetObjectFromPool().Spawn(bulletSpeed, damageFalloff, knockbackFalloff, transform.position, _owner.transform.rotation, gameObject.tag, _owner);
             currentChargeTime = 0;
         }
     }
