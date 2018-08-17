@@ -7,7 +7,14 @@ public class SK_Shield : DefensiveSkillBase
 {
     public float maxCooldown;
     public float shieldDuration;
-    GameObject _shieldObj;
+    Collider _shieldObj;
+    Renderer _shieldRenderer;
+
+    public float graphicActivationDelay = 1f;
+    public float graphicDeactivationDelay = .3f;
+
+    AnimationCurve _shieldActivationCurve;
+    AnimationCurve _shieldDeactivationCurve;
 
     bool _isActive;
     float _currentCooldown = 0;
@@ -16,8 +23,17 @@ public class SK_Shield : DefensiveSkillBase
     protected override void Start()
     {
         base.Start();
-        _shieldObj = GetComponentInChildren<Collider>(true).gameObject;
-        _shieldObj.SetActive(false);
+        InitCurves();
+        _shieldObj = GetComponentInChildren<Collider>(true);
+        _shieldRenderer = _shieldObj.GetComponent<Renderer>();
+        _shieldRenderer.material.SetFloat("_Activated", 0);
+        _shieldObj.enabled = false;
+    }
+
+    void InitCurves()
+    {
+        _shieldActivationCurve = new AnimationCurve(new Keyframe[] { new Keyframe(0, 0), new Keyframe(graphicActivationDelay, 1) });
+        _shieldDeactivationCurve = new AnimationCurve(new Keyframe[] { new Keyframe(0, 1), new Keyframe(graphicDeactivationDelay, 0) });
     }
 
     protected override void CheckInput()
@@ -25,12 +41,29 @@ public class SK_Shield : DefensiveSkillBase
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
         else if (control.DefensiveSkill() && !_isActive && !_owner.IsStunned && !_owner.IsDisarmed)
         {
-            _shieldObj.SetActive(true);
-            _isActive = true;
+            ActivateShield();
         }
     }
 	
-	protected override void Update()
+    void ActivateShield()
+    {
+        _shieldObj.enabled = true;
+        _isActive = true;
+        StartCoroutine(ApplyActivationFloat(_shieldActivationCurve));
+    }
+
+    void DeactivateShield(bool forceDeactivation = false)
+    {
+        _shieldObj.enabled = false;
+        _isActive = false;
+        if (forceDeactivation) _shieldRenderer.material.SetFloat("_Activated", 0);
+        else StartCoroutine(ApplyActivationFloat(_shieldDeactivationCurve));
+
+        _currentCooldown = 0;
+        _shieldTimer = 0;
+    }
+
+    protected override void Update()
 	{
         base.Update();
         if (_isActive) ManageShield();
@@ -45,15 +78,29 @@ public class SK_Shield : DefensiveSkillBase
             _isActive = false;
             _currentCooldown = maxCooldown;
             _shieldTimer = 0;
-            _shieldObj.SetActive(false);
+            _shieldObj.enabled = false;
         }
     }
 
     public override void ResetRound()
     {
-        _currentCooldown = 0;
-        _isActive = false;
-        _shieldTimer = 0;
+        DeactivateShield(true);
+    }
+
+    IEnumerator ApplyActivationFloat(AnimationCurve curve)
+    {
+        var elapsed = 0f;
+        var timer = curve.keys.Last().time;
+
+        while (elapsed <= timer)
+        {
+            var value = curve.Evaluate(elapsed);
+
+            _shieldRenderer.material.SetFloat("_Activate", value);
+
+            yield return new WaitForEndOfFrame();
+            elapsed += Time.deltaTime;
+        }
     }
 
     public override SkillState GetActualState()

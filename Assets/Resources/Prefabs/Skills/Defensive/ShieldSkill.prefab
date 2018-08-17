@@ -113,7 +113,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1940450544895022
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,3 +498,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxCooldown: 3
   shieldDuration: 3
+  graphicActivationDelay: 1
+  graphicDeactivationDelay: 0.3
