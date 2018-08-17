@@ -16,7 +16,8 @@ public class SK_Shield : DefensiveSkillBase
     protected override void Start()
     {
         base.Start();
-        _shieldObj = transform.Find("Shield").gameObject;
+        _shieldObj = GetComponentInChildren<Collider>(true).gameObject;
+        _shieldObj.SetActive(false);
     }
 
     protected override void CheckInput()
