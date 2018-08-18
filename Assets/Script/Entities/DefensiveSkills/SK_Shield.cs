@@ -75,10 +75,7 @@ public class SK_Shield : DefensiveSkillBase
 
         if (_shieldTimer >= shieldDuration)
         {
-            _isActive = false;
-            _currentCooldown = maxCooldown;
-            _shieldTimer = 0;
-            _shieldObj.enabled = false;
+            DeactivateShield();
         }
     }
 
@@ -96,7 +93,7 @@ public class SK_Shield : DefensiveSkillBase
         {
             var value = curve.Evaluate(elapsed);
 
-            _shieldRenderer.material.SetFloat("_Activate", value);
+            _shieldRenderer.material.SetFloat("_Activated", value);
 
             yield return new WaitForEndOfFrame();
             elapsed += Time.deltaTime;

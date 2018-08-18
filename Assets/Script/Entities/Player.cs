@@ -146,6 +146,7 @@ public class Player : MonoBehaviour
     public void ResetHP()
     {
         Hp = maxHP;
+        _rend.material.SetFloat("_Life", Hp / maxHP);
     }
 
     public void ActivatePlayerEndgame(bool activate, string replaceName, string replaceScore)
