@@ -33,11 +33,43 @@ public static class ClassExtentions
 
     public static int MutateTo(this int mask, params int[] layers)
     {
-        var ret = 1;
+        var ret = layers.Take(1).First();
 
-        var newMask = layers.Aggregate(ret, (acum, curr) => acum |= 1 << curr);
+        var newMask = layers.Skip(1).Aggregate(ret, (acum, curr) => acum |= 1 << curr);
 
         return newMask;
+    }
+
+    public static int SubstractFrom(this int mask, params int[] layers)
+    {
+        var seed = layers.Take(1).First();
+        var substract = layers.Skip(1).Aggregate(seed, (acum, curr) => acum |= 1 << curr);
+
+        return mask | ~(1 << substract);
+
+    }
+
+    public static int MutateTo(this int mask, params string[] layers)
+    {
+        var transformed = layers.Select(x => LayerMask.NameToLayer(x));
+
+        var seed = transformed.Take(1).First();
+
+        var newMask = transformed.Skip(1).Aggregate(seed, (acum, curr) => acum |= 1 << curr);
+
+        return newMask;
+    }
+
+    public static int SubstractFrom(this int mask, params string[] layers)
+    {
+        var transformed = layers.Select(x => LayerMask.NameToLayer(x));
+
+
+        var seed = transformed.Take(1).First();
+        var substract = transformed.Skip(1).Aggregate(seed, (acum, curr) => acum |= 1 << curr);
+
+        return mask | ~(1 << substract);
+
     }
 
     public static Transform FindChildIn(this Transform trf, string name, bool includeInactive)
