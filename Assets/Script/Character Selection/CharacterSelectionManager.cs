@@ -27,7 +27,10 @@ public class CharacterSelectionManager : MonoBehaviour
 
     public GameObject[] playerSpawnPoints;
     public GameObject[] blackScreens;
-    public Text[] selectionTexts;
+    public Text[] weaponTexts;
+    public Text[] defensiveTexts;
+    public Text[] complementary1Texts;
+    public Text[] complementary2Texts;
 
     GameObject[] players;
     GameObject[] currentWeapons;
@@ -41,7 +44,7 @@ public class CharacterSelectionManager : MonoBehaviour
     List<GameObject> defensiveSkills;
     int[] defensiveIndexes;
 
-    //A 4 index array that has values set for 0, 1, 2 or 3, 0 being weapon, 1 first complementary, 2 second comp, and 3 defensive.
+    //A 4 index array that has values set for 0, 1, 2 or 3, 0 being weapon, 1 defensive, 2 first complementary, 3 second comp
     int[] selectedModifier;
     Vector2[] lastAnalogValue;
 
@@ -106,9 +109,9 @@ public class CharacterSelectionManager : MonoBehaviour
             {
                 CheckSelect(i);
                 if (selectedModifier[i] == 0) SelectWeapon(i);
-                if (selectedModifier[i] == 1) SelectComplementary(i, 0);
-                if (selectedModifier[i] == 2) SelectComplementary(i, 1);
-                if (selectedModifier[i] == 3) SelectDefensive(i);
+                if (selectedModifier[i] == 1) SelectDefensive(i);
+                if (selectedModifier[i] == 2) SelectComplementary(i, 0);
+                if (selectedModifier[i] == 3) SelectComplementary(i, 1);
             }
             lastAnalogValue[i] = JoystickInput.LeftAnalog(currentGamePads[i]);
 
@@ -181,9 +184,12 @@ public class CharacterSelectionManager : MonoBehaviour
             currentComplementary[player, 0] = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary 1/" + URLs[player].complementaryURL[0]), players[player].transform.position, Quaternion.identity);
             currentComplementary[player, 1] = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary 2/" + URLs[player].complementaryURL[1]), players[player].transform.position, Quaternion.identity);
             currentDefensive[player] = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL), players[player].transform.position, Quaternion.identity);
-            
-            CharacterAssembler.Assemble(players[player], currentDefensive[player], currentComplementary[player, 0], currentComplementary[player,1], currentWeapons[player]);
-            
+
+            CharacterAssembler.Assemble(players[player], currentDefensive[player], currentComplementary[player, 0], currentComplementary[player, 1], currentWeapons[player]);
+
+            var finalWeapon = weapons[weaponIndexes[player]].gameObject.name;
+            weaponTexts[player].text = "<   Weapon: " + finalWeapon + "   >";
+
             blackScreens[player].gameObject.SetActive(false);
         }
     }
@@ -234,7 +240,14 @@ public class CharacterSelectionManager : MonoBehaviour
         }
 
         var finalWeapon = weapons[weaponIndexes[player]].gameObject.name;
-        selectionTexts[player].text = "<   Weapon: " + finalWeapon + "   >";
+        weaponTexts[player].text = "<   Weapon: " + finalWeapon + "   >";
+        var finalDefensive = defensiveSkills[defensiveIndexes[player]].gameObject.name;
+        defensiveTexts[player].text = "Defensive: " + finalDefensive;
+        var finalComplementary1 = complementarySkills[0][complementaryIndexes[player, 0]].gameObject.name;
+        complementary1Texts[player].text = "Skill 1: " + finalComplementary1;
+        var finalComplementary2 = complementarySkills[1][complementaryIndexes[player, 1]].gameObject.name;
+        complementary2Texts[player].text = "Skill 2: " + finalComplementary2;
+
     }
 
     void SelectComplementary(int player, int compIndex)
@@ -273,7 +286,8 @@ public class CharacterSelectionManager : MonoBehaviour
         }
 
         var finalComplementary = complementarySkills[compIndex][complementaryIndexes[player, compIndex]].gameObject.name;
-        selectionTexts[player].text = "<   Complementary " + (compIndex + 1) + ": " + finalComplementary + "   >";
+        if (compIndex == 0) complementary1Texts[player].text = "<   Skill " + (compIndex + 1) + ": " + finalComplementary + "   >";
+        if (compIndex == 1) complementary2Texts[player].text = "<   Skill " + (compIndex + 1) + ": " + finalComplementary + "   >";
     }
 
     void SelectDefensive(int player)
@@ -306,6 +320,6 @@ public class CharacterSelectionManager : MonoBehaviour
         }
 
         var finalDefensive = defensiveSkills[defensiveIndexes[player]].gameObject.name;
-        selectionTexts[player].text = "<   Defensive: " + finalDefensive + "   >";
+        defensiveTexts[player].text = "<   Defensive: " + finalDefensive + "   >";
     }
 }
