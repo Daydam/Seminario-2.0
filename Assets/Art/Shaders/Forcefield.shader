@@ -29,7 +29,12 @@ Shader "Forcefield"
 #define _Activated_arr Forcefield
 		UNITY_INSTANCING_BUFFER_END(Forcefield)
 
-		void surf( Input i , inout SurfaceOutputStandard o )
+		inline fixed4 LightingUnlit( SurfaceOutput s, half3 lightDir, half atten )
+		{
+			return fixed4 ( 0, 0, 0, s.Alpha );
+		}
+
+		void surf( Input i , inout SurfaceOutput o )
 		{
 			o.Emission = ( 3.0 * float4(1,0.8381339,0.1617647,0) ).rgb;
 			float _Activated_Instance = UNITY_ACCESS_INSTANCED_PROP(_Activated_arr, _Activated);
@@ -38,7 +43,7 @@ Shader "Forcefield"
 
 		ENDCG
 		CGPROGRAM
-		#pragma surface surf Standard alpha:fade keepalpha fullforwardshadows 
+		#pragma surface surf Unlit alpha:fade keepalpha fullforwardshadows 
 
 		ENDCG
 		Pass
@@ -90,8 +95,8 @@ Shader "Forcefield"
 				UNITY_INITIALIZE_OUTPUT( Input, surfIN );
 				float3 worldPos = IN.worldPos;
 				fixed3 worldViewDir = normalize( UnityWorldSpaceViewDir( worldPos ) );
-				SurfaceOutputStandard o;
-				UNITY_INITIALIZE_OUTPUT( SurfaceOutputStandard, o )
+				SurfaceOutput o;
+				UNITY_INITIALIZE_OUTPUT( SurfaceOutput, o )
 				surf( surfIN, o );
 				#if defined( CAN_SKIP_VPOS )
 				float2 vpos = IN.pos;
@@ -108,17 +113,17 @@ Shader "Forcefield"
 }
 /*ASEBEGIN
 Version=13101
-7;29;1352;692;1277.782;373.1535;1.306066;True;True
-Node;AmplifyShaderEditor.RangedFloatNode;6;-576.4252,294.2464;Float;False;InstancedProperty;_Activated;Activated;0;0;0;0;1;0;1;FLOAT
-Node;AmplifyShaderEditor.RangedFloatNode;3;-738.3797,-12.67947;Float;False;Constant;_EmissionIntensity;Emission Intensity;1;0;3;0;0;0;1;FLOAT
+120;115;1091;606;1277.782;373.1535;1.306066;True;False
 Node;AmplifyShaderEditor.ColorNode;1;-704.4222,98.33617;Float;False;Constant;_Color0;Color 0;1;0;1,0.8381339,0.1617647,0;0;5;COLOR;FLOAT;FLOAT;FLOAT;FLOAT
-Node;AmplifyShaderEditor.TFHCRemap;7;-295.6202,231.5551;Float;False;5;0;FLOAT;0.0;False;1;FLOAT;0.0;False;2;FLOAT;1.0;False;3;FLOAT;0.0;False;4;FLOAT;0.1;False;1;FLOAT
+Node;AmplifyShaderEditor.RangedFloatNode;3;-738.3797,-12.67947;Float;False;Constant;_EmissionIntensity;Emission Intensity;1;0;3;0;0;0;1;FLOAT
+Node;AmplifyShaderEditor.RangedFloatNode;6;-576.4252,294.2464;Float;False;InstancedProperty;_Activated;Activated;0;0;0;0;1;0;1;FLOAT
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;2;-380.5166,14.74796;Float;True;2;2;0;FLOAT;0.0,0,0,0;False;1;COLOR;0;False;1;COLOR
-Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;0,0;Float;False;True;2;Float;ASEMaterialInspector;0;0;Standard;Forcefield;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;False;False;Off;0;0;False;0;0;Transparent;0.5;True;True;0;False;Transparent;Transparent;All;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;False;0;255;255;0;0;0;0;False;0;4;10;25;False;0.5;True;0;Zero;Zero;0;Zero;Zero;Add;Add;0;False;0;0,0,0,0;VertexOffset;False;Cylindrical;False;Relative;0;;-1;-1;-1;-1;0;0;15;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0.0;False;4;FLOAT;0.0;False;5;FLOAT;0.0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0.0;False;9;FLOAT;0.0;False;10;OBJECT;0.0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
-WireConnection;7;0;6;0
+Node;AmplifyShaderEditor.TFHCRemap;7;-295.6202,231.5551;Float;False;5;0;FLOAT;0.0;False;1;FLOAT;0.0;False;2;FLOAT;1.0;False;3;FLOAT;0.0;False;4;FLOAT;0.1;False;1;FLOAT
+Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;0,0;Float;False;True;2;Float;ASEMaterialInspector;0;0;Unlit;Forcefield;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;False;False;Off;0;0;False;0;0;Transparent;0.5;True;True;0;False;Transparent;Transparent;All;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;False;0;255;255;0;0;0;0;False;0;4;10;25;False;0.5;True;0;Zero;Zero;0;Zero;Zero;Add;Add;0;False;0;0,0,0,0;VertexOffset;False;Cylindrical;False;Relative;0;;-1;-1;-1;-1;0;0;14;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0.0;False;4;FLOAT;0.0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0.0;False;9;FLOAT;0.0;False;10;OBJECT;0.0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
 WireConnection;2;0;3;0
 WireConnection;2;1;1;0
+WireConnection;7;0;6;0
 WireConnection;0;2;2;0
 WireConnection;0;9;7;0
 ASEEND*/
-//CHKSM=106A1FBE289E2668AE428C657DF8D20ECDA02069
+//CHKSM=2E2F8E965029F8F075BE43B700C30DDBB0B27F63
