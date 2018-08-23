@@ -189,6 +189,12 @@ public class CharacterSelectionManager : MonoBehaviour
 
             var finalWeapon = weapons[weaponIndexes[player]].gameObject.name;
             weaponTexts[player].text = "<   Weapon: " + finalWeapon + "   >";
+            var finalDefensive = defensiveSkills[defensiveIndexes[player]].gameObject.name;
+            defensiveTexts[player].text = "Defensive: " + finalDefensive;
+            var finalComplementary1 = complementarySkills[0][complementaryIndexes[player, 0]].gameObject.name;
+            complementary1Texts[player].text = "Skill 1: " + finalComplementary1;
+            var finalComplementary2 = complementarySkills[1][complementaryIndexes[player, 1]].gameObject.name;
+            complementary2Texts[player].text = "Skill 2: " + finalComplementary2;
 
             blackScreens[player].gameObject.SetActive(false);
         }
@@ -285,9 +291,24 @@ public class CharacterSelectionManager : MonoBehaviour
             }
         }
 
+        var finalWeapon = weapons[weaponIndexes[player]].gameObject.name;
+        weaponTexts[player].text = "Weapon: " + finalWeapon;
+        var finalDefensive = defensiveSkills[defensiveIndexes[player]].gameObject.name;
+        defensiveTexts[player].text = "Defensive: " + finalDefensive;
+        
         var finalComplementary = complementarySkills[compIndex][complementaryIndexes[player, compIndex]].gameObject.name;
-        if (compIndex == 0) complementary1Texts[player].text = "<   Skill " + (compIndex + 1) + ": " + finalComplementary + "   >";
-        if (compIndex == 1) complementary2Texts[player].text = "<   Skill " + (compIndex + 1) + ": " + finalComplementary + "   >";
+        if (compIndex == 0)
+        {
+            complementary1Texts[player].text = "<   Skill " + (compIndex + 1) + ": " + finalComplementary + "   >";
+            var finalComplementary2 = complementarySkills[1][complementaryIndexes[player, 1]].gameObject.name;
+            complementary2Texts[player].text = "Skill 2: " + finalComplementary2;
+        }
+        if (compIndex == 1)
+        {
+            var finalComplementary1 = complementarySkills[0][complementaryIndexes[player, 0]].gameObject.name;
+            complementary1Texts[player].text = "Skill 1: " + finalComplementary1;
+            complementary2Texts[player].text = "<   Skill " + (compIndex + 1) + ": " + finalComplementary + "   >";
+        }
     }
 
     void SelectDefensive(int player)
@@ -319,7 +340,13 @@ public class CharacterSelectionManager : MonoBehaviour
             }
         }
 
+        var finalWeapon = weapons[weaponIndexes[player]].gameObject.name;
+        weaponTexts[player].text = "Weapon: " + finalWeapon;
         var finalDefensive = defensiveSkills[defensiveIndexes[player]].gameObject.name;
         defensiveTexts[player].text = "<   Defensive: " + finalDefensive + "   >";
+        var finalComplementary1 = complementarySkills[0][complementaryIndexes[player, 0]].gameObject.name;
+        complementary1Texts[player].text = "Skill 1: " + finalComplementary1;
+        var finalComplementary2 = complementarySkills[1][complementaryIndexes[player, 1]].gameObject.name;
+        complementary2Texts[player].text = "Skill 2: " + finalComplementary2;
     }
 }
