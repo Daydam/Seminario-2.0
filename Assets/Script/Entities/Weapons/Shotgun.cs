@@ -5,7 +5,7 @@ using System.Linq;
 
 public class Shotgun : TapWeapon
 {
-    public float maxDispersionRadius = 120;
+    public float maxDispersionRadius = 12;
     public float pellets = 12;
 
     public override void Shoot()
@@ -19,7 +19,7 @@ public class Shotgun : TapWeapon
         {
             var dispersionPoint = Random.Range(0f, maxDispersionRadius);
 
-            var deltaAngle = Mathf.Atan(depth / dispersionPoint);
+            var deltaAngle = Mathf.Atan2(dispersionPoint, depth);
 
             deltaAngle = i + 1 <= pellets / 2 ? deltaAngle *= -1 : deltaAngle;
 
