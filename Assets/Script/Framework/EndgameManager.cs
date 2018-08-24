@@ -85,7 +85,7 @@ public class EndgameManager : MonoBehaviour
             players[i].DeactivateCamera();
         }
 
-        GameObject.Find("---CAMERA CANVAS---").SetActive(false);
+        playerCanvas.SetActive(false);
           
     }
 

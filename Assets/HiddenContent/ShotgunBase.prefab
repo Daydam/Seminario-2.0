@@ -36,9 +36,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4161953717733232}
-  - component: {fileID: 114347313097468368}
+  - component: {fileID: 114841584297815172}
   m_Layer: 0
-  m_Name: Shotgun
+  m_Name: ShotgunBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -184,7 +184,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1685027468285484}
   m_Mesh: {fileID: 4300002, guid: 1960ef64c9a21ff43bdb4e1c782af2c0, type: 3}
---- !u!114 &114347313097468368
+--- !u!114 &114841584297815172
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -192,7 +192,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1827251232949272}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76d9a879a473d4e4e819a9ad69ad8223, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c038aa19862b1a45949c0bb752e8065, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damageFalloff:
@@ -218,7 +218,7 @@ MonoBehaviour:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
+    m_RotationOrder: 4
   knockbackFalloff:
     serializedVersion: 2
     m_Curve:
@@ -242,12 +242,10 @@ MonoBehaviour:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
-  particle: {fileID: 1847104954241580, guid: 65cb080cc7b200946a2c821269d3ee71, type: 2}
+    m_RotationOrder: 4
+  particle: {fileID: 0}
   maxCooldown: 5
   minDamage: 1
-  maxDamage: 100
+  maxDamage: 10
   falloffStart: 1.5
   falloffEnd: 2.2
-  maxDispersionRadius: 5
-  pellets: 12

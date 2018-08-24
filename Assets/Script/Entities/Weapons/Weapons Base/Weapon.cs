@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-//[ExecuteInEditMode]
 public abstract class Weapon : MonoBehaviour
 {
-    //CREATE A FEW CLASSES THAT INHERIT FROM THIS, AND MAKE THIS AN INTERFACE. CREATE "TapWeapon" and "AutomaticWeapon".
-    //In each case, create cooldown timers to make sure no dumbass can spam bullets.
-
     protected Controller control;
     protected Player _owner;
-    public AnimationCurve damageFalloff;
-    public AnimationCurve knockbackFalloff;
+    [SerializeField] protected AnimationCurve damageFalloff;
+    [SerializeField] protected AnimationCurve knockbackFalloff;
 
-    //public bool IDIOTA = false;
+    /// <summary>
+    /// TEST
+    /// </summary>
+    public GameObject particle;
 
     [Range(1, 10)]
     public int maxCooldown;
@@ -33,7 +32,6 @@ public abstract class Weapon : MonoBehaviour
         }
     }
 
-    public float bulletSpeed;
     public float minDamage;
     public float maxDamage;
     float minKnockback = 5;
@@ -129,4 +127,6 @@ public abstract class Weapon : MonoBehaviour
     }
 
     protected abstract void CheckInput();
+
+    public abstract void Shoot();
 }

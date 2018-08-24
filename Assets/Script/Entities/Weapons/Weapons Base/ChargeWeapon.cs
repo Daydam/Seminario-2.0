@@ -6,6 +6,7 @@ public class ChargeWeapon : Weapon
 {
     public float maxChargeTime;
 
+    public float bulletSpeed;
     float currentChargeTime;
     public AnimationCurve damageByCharge;
 
@@ -32,11 +33,15 @@ public class ChargeWeapon : Weapon
         }
         else if (currentChargeTime > 0)
         {
-           // new HitscanBullet(Owner.transform.position, Owner.transform.forward, Owner, damageFalloff, knockbackFalloff);
+            Shoot();
 
-
-            BulletSpawner.Instance.BulletPool.GetObjectFromPool().Spawn(bulletSpeed, damageFalloff, knockbackFalloff, transform.position, _owner.transform.rotation, gameObject.tag, _owner);
             currentChargeTime = 0;
         }
+    }
+
+    public override void Shoot()
+    {
+        BulletSpawner.Instance.BulletPool.GetObjectFromPool().Spawn(bulletSpeed, damageFalloff, knockbackFalloff, transform.position, _owner.transform.rotation, gameObject.tag, _owner);
+
     }
 }
