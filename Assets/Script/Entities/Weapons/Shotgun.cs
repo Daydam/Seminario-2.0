@@ -5,7 +5,7 @@ using System.Linq;
 
 public class Shotgun : TapWeapon
 {
-    public float maxDispersionRadius = 12;
+    public float maxDispersionRadius = 120;
     public float pellets = 12;
 
     public override void Shoot()
