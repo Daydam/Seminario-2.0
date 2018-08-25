@@ -122,20 +122,9 @@ public class CharacterSelectionManager : MonoBehaviour
 
                 if (regPlayers.Length >= 2)
                 {
-                    var reg = new RegisteredPlayers()
-                    {
-                        playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray()
-                    };
+                    var reg = Resources.Load("Save Files/Registered Players") as RegisteredPlayers;
+                    reg.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
 
-                    reg.SaveDataToDisk("Assets/Resources/Save Files/Registered Players.dat" /*ass*/);
-
-                    for (int j = 0; j < players.Length; j++)
-                    {
-                        if (players[j] != null)
-                        {
-                            URLs[j].SaveDataToDisk("Assets/Resources/Save Files/Player " + (j + 1) + ".dat");
-                        }
-                    }
                     SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
                 }
             }
@@ -146,10 +135,8 @@ public class CharacterSelectionManager : MonoBehaviour
     {
         if (JoystickInput.allKeys[JoystickKey.A](previousGamePads[player], currentGamePads[player]))
         {
-            string path = "Assets/Resources/Save Files/Player " + player + 1 + ".dat";
-
-            URLs[player] = Serializacion.LoadDataFromDisk<CharacterURLs>(path);
-            if (URLs[player] == default(CharacterURLs))
+            URLs[player] = Resources.Load("Save Files/Player " + (player + 1)) as CharacterURLs;
+            /*if (URLs[player] == default(CharacterURLs))
             {
                 var weaponNameChars = weapons[weaponIndexes[player]].gameObject.name.TakeWhile(a => a != '(').ToArray();
                 string weaponName = new string(weaponNameChars);
@@ -162,22 +149,20 @@ public class CharacterSelectionManager : MonoBehaviour
 
                 var defNameChars = defensiveSkills[defensiveIndexes[player]].gameObject.name.TakeWhile(a => a != '(').ToArray();
                 string defName = new string(defNameChars);
-
-                URLs[player] = new CharacterURLs
-                {
-                    bodyURL = "Beetledrone",
-                    weaponURL = weaponName,
-                    complementaryURL = new string[2] { compName1, compName2 },
-                    defensiveURL = defName
-                };
+                URLs[player].bodyURL = "Beetledrone";
+                URLs[player].weaponURL = weaponName;
+                URLs[player].complementaryURL = new string[2] { compName1, compName2 };
+                URLs[player].defensiveURL = defName;
             }
             else
-            {
+            {*/
                 weaponIndexes[player] = weapons.IndexOf(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Weapons/" + URLs[player].weaponURL));
                 complementaryIndexes[player, 0] = complementarySkills[0].IndexOf(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary 1/" + URLs[player].complementaryURL[0]));
                 complementaryIndexes[player, 1] = complementarySkills[1].IndexOf(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary 2/" + URLs[player].complementaryURL[1]));
-                defensiveIndexes[player] = defensiveSkills.IndexOf(Resources.Load<GameObject>(URLs[player].defensiveURL));
-            }
+                defensiveIndexes[player] = defensiveSkills.IndexOf(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL));
+
+
+            //}
 
             players[player] = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Bodies/" + URLs[player].bodyURL), playerSpawnPoints[player].transform.position, Quaternion.identity);
             currentWeapons[player] = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Weapons/" + URLs[player].weaponURL), players[player].transform.position, Quaternion.identity);

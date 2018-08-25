@@ -78,6 +78,12 @@ public class Player : MonoBehaviour
         _rend = GetComponentInChildren<SkinnedMeshRenderer>();
         MovementMultiplier = 1;
         Hp = maxHP;
+        gameObject.name = "Player " + (playerID + 1);
+    }
+
+    private void Start()
+    {
+        GameManager.Instance.OnResetRound += ResetRound;
     }
 
     void Update()
@@ -147,6 +153,17 @@ public class Player : MonoBehaviour
     {
         Hp = maxHP;
         _rend.material.SetFloat("_Life", Hp / maxHP);
+    }
+
+    public void ResetRound()
+    {
+        StopAllCoroutines();
+        _isStunned = false;
+        _isDisarmed = false;
+        _isUnableToMove = false;
+        _movementMultiplier = 1;
+        isPushed = false;
+        myPusher = null;
     }
 
     public void ActivatePlayerEndgame(bool activate, string replaceName, string replaceScore)

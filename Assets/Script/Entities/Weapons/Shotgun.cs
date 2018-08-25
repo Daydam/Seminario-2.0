@@ -26,7 +26,11 @@ public class Shotgun : TapWeapon
             var vectorRotated = Quaternion.Euler(0, deltaAngle, 0) * Owner.transform.forward;
 
             var b = new HitscanBullet(Owner.transform.position, vectorRotated.normalized, Owner, damageFalloff, knockbackFalloff, pellets);
-            b.SpawnParticle(particle, Owner.transform.position, Owner.transform.rotation * Quaternion.Euler(vectorRotated));
+            var part = particle.GetComponentInChildren<ParticleSystem>();
+            var speed = part.main.startSpeed.constant * part.main.simulationSpeed;
+            var lifeTime = b.objDist / speed;
+
+            b.SpawnParticle(particle, Owner.transform.position, Owner.transform.rotation * Quaternion.Euler(vectorRotated), lifeTime);
         }
 
     }

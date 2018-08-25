@@ -18,6 +18,8 @@ public class HitscanBullet
         }
     }
 
+    public float objDist;
+
     public HitscanBullet(Vector3 origin, Vector3 dir, Player player, AnimationCurve damage, AnimationCurve knockback)
     {
         var rch = new RaycastHit();
@@ -25,6 +27,8 @@ public class HitscanBullet
         var hitDamagable = Physics.Raycast(origin, dir.normalized, out rch, 100, damagableMask);
         var col = rch.collider;
         var dist = rch.distance;
+
+        objDist = dist;
 
         if (hitDamagable)
         {
@@ -63,6 +67,7 @@ public class HitscanBullet
         var hitDamagable = Physics.Raycast(origin, dir.normalized, out rch, 100, damagableMask);
         var col = rch.collider;
         var dist = rch.distance;
+        objDist = dist;
 
         if (hitDamagable)
         {
@@ -92,6 +97,11 @@ public class HitscanBullet
                 //do stuff
             }
         }
+        else
+        {
+            objDist = 125;
+            Debug.DrawRay(origin, dir * objDist, Color.magenta, 3);
+        }
     }
 
     public void SpawnParticle(GameObject part, Vector3 pos, Vector3 dir)
@@ -100,9 +110,21 @@ public class HitscanBullet
         GameObject.Destroy(p, 3);
     }
 
+    public void SpawnParticle(GameObject part, Vector3 pos, Vector3 dir, float lifeTime)
+    {
+        var p = GameObject.Instantiate(part, pos, Quaternion.Euler(dir));
+        GameObject.Destroy(p, lifeTime);
+    }
+
     public void SpawnParticle(GameObject part, Vector3 pos, Quaternion dir)
     {
         var p = GameObject.Instantiate(part, pos, dir);
         GameObject.Destroy(p, 3);
+    }
+
+    public void SpawnParticle(GameObject part, Vector3 pos, Quaternion dir, float lifeTime)
+    {
+        var p = GameObject.Instantiate(part, pos, dir);
+        GameObject.Destroy(p, lifeTime);
     }
 }
