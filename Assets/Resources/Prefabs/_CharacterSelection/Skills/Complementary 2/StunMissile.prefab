@@ -19,9 +19,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4828917476913862}
-  - component: {fileID: 114145129551092294}
   m_Layer: 8
-  m_Name: GrenadeImpactFrag
+  m_Name: StunMissile
   m_TagString: Player 1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,17 +39,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114145129551092294
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1887171015903558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f22f4facd4ee044080ab1936f4e30c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxCooldown: 5
-  minRange: 3
-  maxRange: 10

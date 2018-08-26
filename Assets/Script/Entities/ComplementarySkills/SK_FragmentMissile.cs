@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SK_GrenadeImpactStun : ComplementarySkillBase
+public class SK_FragmentMissile : ComplementarySkillBase
 {
     public float maxCooldown;
     public float minRange, maxRange;
@@ -14,8 +14,7 @@ public class SK_GrenadeImpactStun : ComplementarySkillBase
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
         else if (inputMethod() && !_owner.IsStunned && !_owner.IsDisarmed)
         {
-            //TODO: Que sea cargable el rango
-            GrenadeImpactStunSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, _owner.gameObject.transform.forward, maxRange, _owner.gameObject.tag);
+            FragmentMissileSpawner.Instance.ObjectPool.GetObjectFromPool().SpawnGrenade(transform.position, _owner.gameObject.transform.forward, maxRange, _owner.gameObject.tag, _owner);
             _currentCooldown = maxCooldown;
         }
     }

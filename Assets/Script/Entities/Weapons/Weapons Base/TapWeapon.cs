@@ -8,7 +8,7 @@ public class TapWeapon : Weapon
 
     public override void Shoot()
     {
-        new HitscanBullet(Owner.transform.position, Owner.transform.forward, Owner, damageFalloff, knockbackFalloff);
+        new HitscanBullet(Owner.transform.position, Owner.transform.forward, Owner, damageFalloff, knockbackFalloff, 1);
     }
 
     protected override void CheckInput()
@@ -21,7 +21,6 @@ public class TapWeapon : Weapon
             {
                 Shoot();
 
-                //BulletSpawner.Instance.BulletPool.GetObjectFromPool().Spawn(bulletSpeed, damageFalloff, knockbackFalloff, transform.position, _owner.transform.rotation, gameObject.tag, _owner);
                 canShoot = false;
                 currentCooldown = realCooldown;
             }

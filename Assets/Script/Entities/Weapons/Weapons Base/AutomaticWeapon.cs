@@ -17,7 +17,7 @@ public class AutomaticWeapon : Weapon
 
     public override void Shoot()
     {
-        var b = new HitscanBullet(Owner.transform.position, Owner.transform.forward, Owner, damageFalloff, knockbackFalloff);
+        var b = new HitscanBullet(Owner.transform.position, Owner.transform.forward, Owner, damageFalloff, knockbackFalloff, 1);
         var part = particle.GetComponentInChildren<ParticleSystem>();
         var speed = part.main.startSpeed.constant * part.main.simulationSpeed;
         var lifeTime = b.objDist / speed;

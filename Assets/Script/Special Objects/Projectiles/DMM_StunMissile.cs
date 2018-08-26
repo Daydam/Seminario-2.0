@@ -8,7 +8,7 @@ using System.Linq;
 ///60% de Efecto en AoE: hasta 70% del área máxima.
 ///15% de Efecto en AoE: hasta 100% del área máxima.
 /// </summary>
-public class DMM_GrenadeImpactStun : MonoBehaviour
+public class DMM_StunMissile : MonoBehaviour
 {
     AnimationCurve _AOEDecay;
     Rigidbody _rb;
@@ -49,7 +49,7 @@ public class DMM_GrenadeImpactStun : MonoBehaviour
         _AOEDecay.AddKey(zero);
     }
 
-    public DMM_GrenadeImpactStun Spawn(Vector3 spawnPos, Vector3 fwd, float maximumDistance, string emmitter)
+    public DMM_StunMissile Spawn(Vector3 spawnPos, Vector3 fwd, float maximumDistance, string emmitter)
     {
         transform.position = spawnPos;
         transform.forward = fwd;
@@ -77,12 +77,12 @@ public class DMM_GrenadeImpactStun : MonoBehaviour
         }
     }
 
-    public static void Initialize(DMM_GrenadeImpactStun grenadeObj)
+    public static void Initialize(DMM_StunMissile grenadeObj)
     {
         grenadeObj.gameObject.SetActive(true);
     }
 
-    public static void Dispose(DMM_GrenadeImpactStun grenadeObj)
+    public static void Dispose(DMM_StunMissile grenadeObj)
     {
         grenadeObj.gameObject.SetActive(false);
     }
@@ -141,7 +141,7 @@ public class DMM_GrenadeImpactStun : MonoBehaviour
     void ReturnToPool()
     {
         _showGizmos = false;
-        GrenadeImpactStunSpawner.Instance.ReturnToPool(this);
+        StunMissileSpawner.Instance.ReturnToPool(this);
     }
 
     private void OnDrawGizmos()

@@ -22,10 +22,10 @@ GameObject:
   - component: {fileID: 33907344062503932}
   - component: {fileID: 23293806111106460}
   - component: {fileID: 54476826796396908}
-  - component: {fileID: 114261391687793686}
+  - component: {fileID: 114622613855053262}
   - component: {fileID: 65802739819613478}
   m_Layer: 0
-  m_Name: GrenadeImpactFrag
+  m_Name: StunMissile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39,7 +39,7 @@ Transform:
   m_GameObject: {fileID: 1159326870859458}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -58,7 +58,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 864c05fec8e49b042a67bb655d00e1fd, type: 2}
+  - {fileID: 2100000, guid: 2d6ca1a93f21d0c478966a52077e0bf9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -112,7 +112,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114261391687793686
+--- !u!114 &114622613855053262
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -120,10 +120,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1159326870859458}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88ed91e2c62b9f4478486ea242c974cc, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ae2129c1fce7d14fade63872c5e0071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maximumRadius: 2
-  damage: 10
-  knockback: 100
-  speed: 46
+  maximumRadius: 1.3
+  damage: 0
+  knockback: 0
+  speed: 30
+  duration: 2
