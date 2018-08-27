@@ -21,13 +21,21 @@ public class Shotgun : TapWeapon
             var dir = Owner.transform.forward + (Owner.transform.right * dispersionPoint);
 
             var b = new HitscanBullet(Owner.transform.position, dir.normalized, Owner, damageFalloff, knockbackFalloff, pellets);
-            var part = particle.GetComponentInChildren<ParticleSystem>();
-            var speed = part.main.startSpeed.constant * part.main.simulationSpeed;
+
+            var bulletParticleID = SimpleParticleSpawner.ParticleID.BULLET;
+
+            var bulletParticle = SimpleParticleSpawner.Instance.particles[bulletParticleID].GetComponentInChildren<ParticleSystem>();
+            var speed = bulletParticle.main.startSpeed.constant * bulletParticle.main.simulationSpeed;
             var lifeTime = b.objDist / speed;
 
-            b.SpawnParticle(particle, Owner.transform.position, dir, lifeTime);
+            SimpleParticleSpawner.Instance.SpawnParticle(bulletParticle.gameObject, Owner.transform.position, dir, lifeTime);
+            
         }
 
+        var muzzleFlashID = SimpleParticleSpawner.ParticleID.MUZZLEFLASH;
+        var muzzleFlashParticle = SimpleParticleSpawner.Instance.particles[muzzleFlashID].GetComponentInChildren<ParticleSystem>();
+
+        SimpleParticleSpawner.Instance.SpawnParticle(muzzleFlashParticle.gameObject, _muzzle.transform.position, Owner.transform.forward, Owner.transform);
     }
 
 }

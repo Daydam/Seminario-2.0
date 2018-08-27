@@ -10,11 +10,6 @@ public abstract class Weapon : MonoBehaviour
     [SerializeField] protected AnimationCurve damageFalloff;
     [SerializeField] protected AnimationCurve knockbackFalloff;
 
-    /// <summary>
-    /// TEST
-    /// </summary>
-    public GameObject particle;
-
     [Range(1, 10)]
     public int maxCooldown;
 
@@ -39,10 +34,13 @@ public abstract class Weapon : MonoBehaviour
     public float falloffStart;
     public float falloffEnd;
 
+    protected Transform _muzzle;
+
     protected virtual void Awake()
     {
         InitializeCooldowns(2);
         SetCurveValues();
+        _muzzle = transform.Find("Muzzle");
     }
 
     protected virtual void SetCurveValues()

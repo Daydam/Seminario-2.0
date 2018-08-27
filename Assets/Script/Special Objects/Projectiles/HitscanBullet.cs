@@ -30,12 +30,18 @@ public class HitscanBullet
             {
                 if (col.gameObject.TagMatchesWith("Shield"))
                 {
+                    //do shield feedback stuff
                     return;
                 }
 
                 var target = col.GetComponent<Player>();
 
                 target.TakeDamage(damage.Evaluate(dist) / pellets, player.tag);
+
+                var damageParticleID = SimpleParticleSpawner.ParticleID.DAMAGE;
+                var damageParticle = SimpleParticleSpawner.Instance.particles[damageParticleID].GetComponentInChildren<ParticleSystem>();
+
+                SimpleParticleSpawner.Instance.SpawnParticle(damageParticle.gameObject, rch.point, rch.normal);
 
                 target.ApplyKnockback(knockback.Evaluate(dist) / pellets, dir.normalized, player);
             }
@@ -49,32 +55,6 @@ public class HitscanBullet
             objDist = 125;
             Debug.DrawRay(origin, dir * objDist, Color.magenta, 3);
         }
-    }
-
-    public void SpawnParticle(GameObject part, Vector3 pos, Vector3 dir)
-    {
-        var p = GameObject.Instantiate(part, pos, Quaternion.identity);
-        p.transform.forward = dir.normalized;
-        GameObject.Destroy(p, 3);
-    }
-
-    public void SpawnParticle(GameObject part, Vector3 pos, Vector3 dir, float lifeTime)
-    {
-        var p = GameObject.Instantiate(part, pos, Quaternion.identity);
-        p.transform.forward = dir.normalized;
-        GameObject.Destroy(p, lifeTime);
-    }
-
-    public void SpawnParticle(GameObject part, Vector3 pos, Quaternion dir)
-    {
-        var p = GameObject.Instantiate(part, pos, dir);
-        GameObject.Destroy(p, 3);
-    }
-
-    public void SpawnParticle(GameObject part, Vector3 pos, Quaternion dir, float lifeTime)
-    {
-        var p = GameObject.Instantiate(part, pos, dir);
-        GameObject.Destroy(p, lifeTime);
     }
 
     public struct HitscanLayers
