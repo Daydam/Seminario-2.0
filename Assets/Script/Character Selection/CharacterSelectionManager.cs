@@ -24,7 +24,7 @@ public class CharacterSelectionManager : MonoBehaviour
             return instance;
         }
     }
-
+    
     public GameObject[] playerSpawnPoints;
     public GameObject[] blackScreens;
     public Text[] weaponTexts;
@@ -32,6 +32,9 @@ public class CharacterSelectionManager : MonoBehaviour
     public Text[] complementary1Texts;
     public Text[] complementary2Texts;
 
+
+    public GameObject[] readyScreens;
+    bool[] ready;
     GameObject[] players;
     GameObject[] currentWeapons;
     GameObject[,] currentComplementary;
@@ -57,6 +60,8 @@ public class CharacterSelectionManager : MonoBehaviour
 
     void Start()
     {
+        ready = new bool[4] { false, false, false, false };
+
         players = new GameObject[4];
         URLs = new CharacterURLs[4];
 
@@ -105,7 +110,7 @@ public class CharacterSelectionManager : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             if (players[i] == null) CheckStart(i);
-            else
+            else if(!ready[i])
             {
                 CheckSelect(i);
                 if (selectedModifier[i] == 0) SelectWeapon(i);
@@ -118,9 +123,17 @@ public class CharacterSelectionManager : MonoBehaviour
 
             if (JoystickInput.allKeys[JoystickKey.START](previousGamePads[i], currentGamePads[i]))
             {
-                var regPlayers = players.Where(a => a != default(Player)).ToArray();
+                ready[i] = !ready[i];
+                readyScreens[i].gameObject.SetActive(ready[i]);
 
-                if (regPlayers.Length >= 2)
+                var regPlayers = players.Where(a => a != default(Player)).ToArray();
+                bool allReady = true;
+                for (int f = 0; f < regPlayers.Length; f++)
+                {
+                    if (!ready[System.Array.IndexOf(players, regPlayers[f])]) allReady = false;
+                }
+
+                if (regPlayers.Length >= 2 && allReady)
                 {
                     var reg = Resources.Load("Save Files/Registered Players") as RegisteredPlayers;
                     reg.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
