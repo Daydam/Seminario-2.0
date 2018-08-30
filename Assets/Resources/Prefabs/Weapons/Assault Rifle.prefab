@@ -80,57 +80,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65773d33150aa574a83efe1592b651b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageFalloff:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 6
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 7
-      value: 6
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 14
-      value: 4
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  knockbackFalloff:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 80
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 7
-      value: 80
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 14
-      value: 10
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  particle: {fileID: 1847104954241580, guid: 65cb080cc7b200946a2c821269d3ee71, type: 2}
-  maxCooldown: 4
-  minDamage: 4
-  maxDamage: 6
+  RPMScore: 8
+  minDamage: 17
+  maxDamage: 25
   falloffStart: 7
   falloffEnd: 14

@@ -7,11 +7,11 @@ public abstract class Weapon : MonoBehaviour
 {
     protected Controller control;
     protected Player _owner;
-    [SerializeField] protected AnimationCurve damageFalloff;
-    [SerializeField] protected AnimationCurve knockbackFalloff;
+    /*[SerializeField]*/ protected AnimationCurve damageFalloff;
+    /*[SerializeField]*/ protected AnimationCurve knockbackFalloff;
 
     [Range(1, 10)]
-    public int maxCooldown;
+    public int RPMScore;
 
     protected float realCooldown;
     protected float currentCooldown = 0;
@@ -38,7 +38,7 @@ public abstract class Weapon : MonoBehaviour
 
     protected virtual void Awake()
     {
-        InitializeCooldowns(2);
+        InitializeCooldowns(1);
         SetCurveValues();
         _muzzle = transform.Find("Muzzle");
     }
@@ -73,7 +73,7 @@ public abstract class Weapon : MonoBehaviour
 
     void Start()
     {
-        realCooldown = WeaponCooldowns[maxCooldown];
+        realCooldown = WeaponCooldowns[RPMScore];
         _owner = GetComponentInParent<Player>();
         control = _owner.Control;
     }
@@ -88,39 +88,19 @@ public abstract class Weapon : MonoBehaviour
     /// TODO !!
     /// CARGAR DESDE ARCHIVO
     /// </summary>
-    void InitializeCooldowns()
+    void InitializeCooldowns(float multiplier = 1)
     {
         weaponRealCooldowns = new Dictionary<int, float>();
 
-        weaponRealCooldowns.Add(1, 1.24f);
-        weaponRealCooldowns.Add(2, 1.11f);
-        weaponRealCooldowns.Add(3, 0.98f);
-        weaponRealCooldowns.Add(4, 0.85f);
-        weaponRealCooldowns.Add(5, 0.72f);
-        weaponRealCooldowns.Add(6, 0.59f);
-        weaponRealCooldowns.Add(7, 0.46f);
-        weaponRealCooldowns.Add(8, 0.33f);
-        weaponRealCooldowns.Add(9, 0.2f);
-        weaponRealCooldowns.Add(10, 0.1f);
-    }
-
-    /// <summary>
-    /// TODO !!
-    /// CARGAR DESDE ARCHIVO
-    /// </summary>
-    void InitializeCooldowns(float multiplier)
-    {
-        weaponRealCooldowns = new Dictionary<int, float>();
-
-        weaponRealCooldowns.Add(1, 1.24f / multiplier);
-        weaponRealCooldowns.Add(2, 1.11f / multiplier);
-        weaponRealCooldowns.Add(3, 0.98f / multiplier);
-        weaponRealCooldowns.Add(4, 0.85f / multiplier);
-        weaponRealCooldowns.Add(5, 0.72f / multiplier);
-        weaponRealCooldowns.Add(6, 0.59f / multiplier);
-        weaponRealCooldowns.Add(7, 0.46f / multiplier);
-        weaponRealCooldowns.Add(8, 0.33f / multiplier);
-        weaponRealCooldowns.Add(9, 0.2f / multiplier);
+        weaponRealCooldowns.Add(1, 1 / multiplier);
+        weaponRealCooldowns.Add(2, 0.5217391304f / multiplier);
+        weaponRealCooldowns.Add(3, 0.3692307692f / multiplier);
+        weaponRealCooldowns.Add(4, 0.3f / multiplier);
+        weaponRealCooldowns.Add(5, 0.2307692308f / multiplier);
+        weaponRealCooldowns.Add(6, 0.2f / multiplier);
+        weaponRealCooldowns.Add(7, 0.1846153846f / multiplier);
+        weaponRealCooldowns.Add(8, 0.16f / multiplier);
+        weaponRealCooldowns.Add(9, 0.133333333f / multiplier);
         weaponRealCooldowns.Add(10, 0.1f / multiplier);
     }
 

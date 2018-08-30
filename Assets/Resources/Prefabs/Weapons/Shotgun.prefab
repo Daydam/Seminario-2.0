@@ -224,58 +224,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76d9a879a473d4e4e819a9ad69ad8223, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageFalloff:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 10
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1.5
-      value: 10
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 2.2
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  knockbackFalloff:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 80
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1.5
-      value: 80
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 2.2
-      value: 10
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  maxCooldown: 5
-  minDamage: 1
+  RPMScore: 5
+  minDamage: 10
   maxDamage: 100
-  falloffStart: 1.5
-  falloffEnd: 2.2
+  falloffStart: 3
+  falloffEnd: 6
   maxDispersionRadius: 0.1
   pellets: 12
