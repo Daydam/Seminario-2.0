@@ -29,8 +29,8 @@ public abstract class Weapon : MonoBehaviour
 
     public float minDamage;
     public float maxDamage;
-    float minKnockback = 5;
-    float maxKnockback = 15;
+    float _minKnockback = 2.5f;
+    float _maxKnockback = 7.5f;
     public float falloffStart;
     public float falloffEnd;
 
@@ -63,11 +63,11 @@ public abstract class Weapon : MonoBehaviour
     void SetKnockbackCurve()
     {
         knockbackFalloff = new AnimationCurve();
-        var initialKey = new Keyframe(0, maxKnockback, 0, 0);
+        var initialKey = new Keyframe(0, _maxKnockback, 0, 0);
         knockbackFalloff.AddKey(initialKey);
-        var startFalloff = new Keyframe(falloffStart, maxKnockback, 0, 0);
+        var startFalloff = new Keyframe(falloffStart, _maxKnockback, 0, 0);
         knockbackFalloff.AddKey(startFalloff);
-        var endFalloff = new Keyframe(falloffEnd, minKnockback, 0, 0);
+        var endFalloff = new Keyframe(falloffEnd, _minKnockback, 0, 0);
         knockbackFalloff.AddKey(endFalloff);
     }
 

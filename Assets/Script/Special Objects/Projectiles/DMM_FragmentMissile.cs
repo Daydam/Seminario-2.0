@@ -22,7 +22,7 @@ public class DMM_FragmentMissile : MonoBehaviour
 
     bool _stopMoving;
 
-    bool _showGizmos;
+    bool _showGizmos = true;
 
     void Awake()
     {
@@ -52,7 +52,7 @@ public class DMM_FragmentMissile : MonoBehaviour
     }
 
     [System.Obsolete()]
-    public DMM_FragmentMissile SpawnGrenade(Vector3 spawnPos, Vector3 fwd, float maximumDistance, string emmitter)
+    public DMM_FragmentMissile Spawn(Vector3 spawnPos, Vector3 fwd, float maximumDistance, string emmitter)
     {
         transform.position = spawnPos;
         transform.forward = fwd;
@@ -65,7 +65,7 @@ public class DMM_FragmentMissile : MonoBehaviour
         return this;
     }
 
-    public DMM_FragmentMissile SpawnGrenade(Vector3 spawnPos, Vector3 fwd, float maximumDistance, string emmitter, Player owner)
+    public DMM_FragmentMissile Spawn(Vector3 spawnPos, Vector3 fwd, float maximumDistance, string emmitter, Player owner)
     {
         transform.position = spawnPos;
         transform.forward = fwd;
@@ -94,14 +94,14 @@ public class DMM_FragmentMissile : MonoBehaviour
         }
     }
 
-    public static void Initialize(DMM_FragmentMissile bulletObj)
+    public static void Initialize(DMM_FragmentMissile obj)
     {
-        bulletObj.gameObject.SetActive(true);
+        obj.gameObject.SetActive(true);
     }
 
-    public static void Dispose(DMM_FragmentMissile bulletObj)
+    public static void Dispose(DMM_FragmentMissile obj)
     {
-        bulletObj.gameObject.SetActive(false);
+        obj.gameObject.SetActive(false);
     }
 
     void OnTriggerEnter(Collider col)
@@ -155,7 +155,7 @@ public class DMM_FragmentMissile : MonoBehaviour
         {
             var multiplier = _AOEDecay.Evaluate(medAoE);
             play.TakeDamage(damage * multiplier);
-            var forceDir = transform.position - play.transform.position;
+            var forceDir = (play.transform.position - transform.position);
             if (_owner) play.ApplyKnockback(knockback * multiplier, forceDir.normalized, _owner);
             else play.ApplyKnockback(knockback * multiplier, forceDir.normalized);
         }
@@ -166,7 +166,7 @@ public class DMM_FragmentMissile : MonoBehaviour
         {
             var multiplier = _AOEDecay.Evaluate(maxAoE);
             play.TakeDamage(damage * multiplier);
-            var forceDir = transform.position - play.transform.position;
+            var forceDir = (play.transform.position - transform.position);
             if (_owner) play.ApplyKnockback(knockback * multiplier, forceDir.normalized, _owner);
             else play.ApplyKnockback(knockback * multiplier, forceDir.normalized);
         }

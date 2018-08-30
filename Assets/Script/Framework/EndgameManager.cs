@@ -83,6 +83,7 @@ public class EndgameManager : MonoBehaviour
             players[i].transform.forward = -spawnPos[i].forward;
             players[i].ActivatePlayerEndgame(true, replaceStringName, replaceStringScore);
             players[i].DeactivateCamera();
+            players[i].StopVibrating();
         }
 
         playerCanvas.SetActive(false);

@@ -14,7 +14,7 @@ public class SK_FragmentMissile : ComplementarySkillBase
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
         else if (inputMethod() && !_owner.IsStunned && !_owner.IsDisarmed)
         {
-            FragmentMissileSpawner.Instance.ObjectPool.GetObjectFromPool().SpawnGrenade(transform.position, _owner.gameObject.transform.forward, maxRange, _owner.gameObject.tag, _owner);
+            FragmentMissileSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, _owner.gameObject.transform.forward, maxRange, _owner.gameObject.tag, _owner);
             _currentCooldown = maxCooldown;
         }
     }

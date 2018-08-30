@@ -84,6 +84,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnResetRound += ResetRound;
+        GameManager.Instance.OnResetRound += () => Control.SetVibration(0, 0);
     }
 
     void Update()
@@ -329,6 +330,26 @@ public class Player : MonoBehaviour
         isPushed = false;
 
         //_actualPushCouroutine = null;
+    }
+
+    public void ApplyVibration(float leftMotor, float rightMotor, float duration)
+    {
+        StartCoroutine(Vibrate(duration, leftMotor, rightMotor));
+    }
+
+    public void StopVibrating()
+    {
+        Control.SetVibration(0, 0);
+
+    }
+
+    IEnumerator Vibrate(float duration, float leftMotor, float rightMotor)
+    {
+       Control.SetVibration(leftMotor, rightMotor);
+
+        yield return new WaitForSeconds(duration);
+
+        StopVibrating();
     }
 
 }

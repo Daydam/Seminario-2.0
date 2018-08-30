@@ -36,6 +36,11 @@ public class Controller
         state = GamePad.GetState(player);
     }
 
+    public void SetVibration(float left, float right)
+    {
+        GamePad.SetVibration(player, left, right);
+    }
+
     public Vector2 LeftAnalog()
     {
         return JoystickInput.LeftAnalog(state);

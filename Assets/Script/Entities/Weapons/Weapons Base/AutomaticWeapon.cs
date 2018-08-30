@@ -17,6 +17,9 @@ public class AutomaticWeapon : Weapon
 
     public override void Shoot()
     {
+        Owner.ApplyVibration(1, 1, realCooldown);
+
+
         var b = new HitscanBullet(Owner.transform.position, Owner.transform.forward, Owner, damageFalloff, knockbackFalloff, 1);
 
         var particleID = SimpleParticleSpawner.ParticleID.BULLET;
