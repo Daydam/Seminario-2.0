@@ -8,7 +8,8 @@ public class TapWeapon : Weapon
 
     public override void Shoot()
     {
-        Owner.ApplyVibration(1, 1, realCooldown);
+        Owner.ApplyVibration(VibrationIntensity, VibrationDuration);
+        Owner.ApplyShake(ShakeDuration, ShakeIntensity);
         new HitscanBullet(Owner.transform.position, Owner.transform.forward, Owner, damageFalloff, knockbackFalloff, 1);
     }
 

@@ -36,6 +36,26 @@ public abstract class Weapon : MonoBehaviour
 
     protected Transform _muzzle;
 
+    protected float VibrationDuration
+    {
+        get { return Mathf.Min(realCooldown, .1f); }
+    }
+
+    protected float VibrationIntensity
+    {
+        get { return Mathf.Max(maxDamage / 50, 2); }
+    }
+
+    protected float ShakeDuration
+    {
+        get { return Mathf.Min(realCooldown, .2f); }
+    }
+
+    protected float ShakeIntensity
+    {
+        get { return Mathf.Min(maxDamage/50, 2); }
+    }
+
     protected virtual void Awake()
     {
         InitializeCooldowns(1);

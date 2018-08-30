@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     public GameObject playerUI;
 
     CamFollow _cam;
+    CameraShake _camShake;
 
     Coroutine _actualPushCouroutine;
 
@@ -84,7 +85,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnResetRound += ResetRound;
-        GameManager.Instance.OnResetRound += () => Control.SetVibration(0, 0);
+        GameManager.Instance.OnResetRound += () => Control.SetVibration(0);
     }
 
     void Update()
@@ -102,6 +103,7 @@ public class Player : MonoBehaviour
     public void AssignCamera(CamFollow cam)
     {
         _cam = cam;
+        _camShake = cam.GetComponent<CameraShake>();
     }
 
     public void DeactivateCamera()
@@ -332,24 +334,28 @@ public class Player : MonoBehaviour
         //_actualPushCouroutine = null;
     }
 
-    public void ApplyVibration(float leftMotor, float rightMotor, float duration)
+    public void ApplyVibration(float intensity, float duration)
     {
-        StartCoroutine(Vibrate(duration, leftMotor, rightMotor));
+        StartCoroutine(Vibrate(duration, intensity));
     }
 
     public void StopVibrating()
     {
-        Control.SetVibration(0, 0);
-
+        Control.SetVibration(0);
     }
 
-    IEnumerator Vibrate(float duration, float leftMotor, float rightMotor)
+    IEnumerator Vibrate(float intensity, float duration)
     {
-       Control.SetVibration(leftMotor, rightMotor);
+       Control.SetVibration(intensity);
 
         yield return new WaitForSeconds(duration);
 
         StopVibrating();
+    }
+
+    public void ApplyShake(float duration, float intensity)
+    {
+        _camShake.Shake(duration, intensity);
     }
 
 }
