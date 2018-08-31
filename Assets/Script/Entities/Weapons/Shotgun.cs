@@ -10,7 +10,7 @@ public class Shotgun : TapWeapon
 
     public override void Shoot()
     {
-        Owner.ApplyVibration(VibrationIntensity, VibrationDuration);
+        Owner.ApplyVibration(0, VibrationIntensity, VibrationDuration);
         Owner.ApplyShake(ShakeDuration, ShakeIntensity);
         CalculatePelletsDispersion(falloffEnd);
     }
