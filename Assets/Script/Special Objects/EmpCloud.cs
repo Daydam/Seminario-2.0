@@ -16,7 +16,7 @@ public class EmpCloud : MonoBehaviour
         col = GetComponent<Collider>();
         initialScale = transform.localScale;
         StartCoroutine(StartShrinking(1));
-        GameManager.Instance.OnResetGame += Clean;
+        //GameManager.Instance.OnResetGame += Clean;
     }
 
     void Update()

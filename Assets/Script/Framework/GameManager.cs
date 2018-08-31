@@ -183,6 +183,7 @@ public class GameManager : MonoBehaviour
             Players[i].gameObject.SetActive(true);
             Players[i].transform.position = spawns[i].transform.position;
             Players[i].ResetHP();
+            Players[i].StopAllCoroutines();
         }
     }
 
@@ -193,7 +194,7 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
-        EndgameManager.Instance.InitEndgame(1);
+        EndgameManager.Instance.InitEndgame(3);
         EndRoundHandler.ResetTime();
     }
 
@@ -214,7 +215,6 @@ public class GameManager : MonoBehaviour
         StopAllCoroutines();
         instance = null;
         players = null;
-        //Destroy(gameObject);
     }
 
     void Clean()

@@ -20,6 +20,7 @@ public class EndgameManager : MonoBehaviour
     public Transform[] spawnPos;
 
     Player _winner;
+    bool _ending;
 
     static EndgameManager instance;
     public static EndgameManager Instance
@@ -43,13 +44,14 @@ public class EndgameManager : MonoBehaviour
         GameManager.Instance.OnResetGame += DestroyStatic;
         fader.gameObject.SetActive(true);
         StartCoroutine(FadeToBlack(delay));
+        _ending = true;
     }
 
     IEnumerator FadeToBlack(float delay)
     {
-        var fadeInstruction = new YieldInstruction();
+        var fadeInstruction = new WaitForEndOfFrame();
 
-        float elapsedTime = 0.0f;
+        var elapsedTime = 0f;
         Color c = fader.color;
         while (elapsedTime < delay)
         {
@@ -82,8 +84,9 @@ public class EndgameManager : MonoBehaviour
             players[i].transform.position = spawnPos[i].position;
             players[i].transform.forward = -spawnPos[i].forward;
             players[i].ActivatePlayerEndgame(true, replaceStringName, replaceStringScore);
-            players[i].DeactivateCamera();
             players[i].StopVibrating();
+            players[i].StopAllCoroutines();
+            players[i].DeactivateCamera();
         }
 
         playerCanvas.SetActive(false);
@@ -107,7 +110,7 @@ public class EndgameManager : MonoBehaviour
 
     IEnumerator ReverseFade(float delay)
     {
-        var fadeInstruction = new YieldInstruction();
+        var fadeInstruction = new WaitForEndOfFrame();
 
         float elapsedTime = 0.0f;
         Color c = fader.color;
@@ -122,7 +125,7 @@ public class EndgameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.R)) ResetGame();
+        if (Input.GetKeyUp(KeyCode.R) && _ending) ResetGame();
     }
 
     void QuitGame()
