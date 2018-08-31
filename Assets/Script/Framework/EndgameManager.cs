@@ -53,6 +53,8 @@ public class EndgameManager : MonoBehaviour
 
         var elapsedTime = 0f;
         Color c = fader.color;
+        c.a = 0;
+        fader.color = c;
         while (elapsedTime < delay)
         {
             yield return fadeInstruction;
