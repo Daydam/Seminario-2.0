@@ -210,6 +210,7 @@ public class GameManager : MonoBehaviour
 
     void DestroyStatic()
     {
+        RemoveEvents();
         StopAllCoroutines();
         instance = null;
         players = null;
