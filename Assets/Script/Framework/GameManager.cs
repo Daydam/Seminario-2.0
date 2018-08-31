@@ -212,6 +212,7 @@ public class GameManager : MonoBehaviour
     {
         StopAllCoroutines();
         instance = null;
+        players = null;
         //Destroy(gameObject);
     }
 

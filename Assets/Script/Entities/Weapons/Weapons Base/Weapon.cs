@@ -7,8 +7,10 @@ public abstract class Weapon : MonoBehaviour
 {
     protected Controller control;
     protected Player _owner;
-    /*[SerializeField]*/ protected AnimationCurve damageFalloff;
-    /*[SerializeField]*/ protected AnimationCurve knockbackFalloff;
+    /*[SerializeField]*/
+    protected AnimationCurve damageFalloff;
+    /*[SerializeField]*/
+    protected AnimationCurve knockbackFalloff;
 
     [Range(1, 10)]
     public int RPMScore;
@@ -38,7 +40,7 @@ public abstract class Weapon : MonoBehaviour
 
     protected float VibrationDuration
     {
-        get { return Mathf.Min(realCooldown, .1f); }
+        get { return Mathf.Min(realCooldown, .2f); }
     }
 
     protected float VibrationIntensity
@@ -53,7 +55,7 @@ public abstract class Weapon : MonoBehaviour
 
     protected float ShakeIntensity
     {
-        get { return Mathf.Min(maxDamage/50, 2); }
+        get { return Mathf.Max(maxDamage / 50, 2); }
     }
 
     protected virtual void Awake()
