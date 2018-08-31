@@ -29,7 +29,5 @@ public abstract class DefensiveSkillBase : SkillBase
         var indic = GameObject.Instantiate(Resources.Load<SkillStateIndicator>("Prefabs/Skills/Helpers/ModuleFeedback"), transform);
         indic.InitializeIndicator(this, _owner.GetComponentInChildren<SkinnedMeshRenderer>());
         return (indic);
-
-        //return _owner.GetComponentsInChildren<SkillStateIndicator>().Where(x => x.transform.parent.name == "DefensiveModule").First();
     }
 }

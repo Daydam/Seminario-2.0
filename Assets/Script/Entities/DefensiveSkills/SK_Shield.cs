@@ -81,7 +81,7 @@ public class SK_Shield : DefensiveSkillBase
 
     public override void ResetRound()
     {
-        DeactivateShield(true);
+        DeactivateShield();
     }
 
     IEnumerator ApplyActivationFloat(AnimationCurve curve)
