@@ -85,7 +85,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnResetRound += ResetRound;
-        GameManager.Instance.OnResetRound += () => Control.SetVibration(0);
+        GameManager.Instance.OnResetRound += () => Control.SetVibration(0, 0);
     }
 
     void Update()
@@ -334,19 +334,19 @@ public class Player : MonoBehaviour
         //_actualPushCouroutine = null;
     }
 
-    public void ApplyVibration(float intensity, float duration)
+    public void ApplyVibration(float lowFrequencyIntensity, float highFrequencyIntensity, float duration)
     {
-        StartCoroutine(Vibrate(duration, intensity));
+        StartCoroutine(Vibrate(lowFrequencyIntensity, highFrequencyIntensity, duration));
     }
 
     public void StopVibrating()
     {
-        Control.SetVibration(0);
+        Control.SetVibration(0, 0);
     }
 
-    IEnumerator Vibrate(float intensity, float duration)
+    IEnumerator Vibrate(float lowFrequencyIntensity, float highFrequencyIntensity, float duration)
     {
-       Control.SetVibration(intensity);
+       Control.SetVibration(lowFrequencyIntensity, highFrequencyIntensity);
 
         yield return new WaitForSeconds(duration);
 

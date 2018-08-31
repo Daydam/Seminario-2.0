@@ -36,9 +36,9 @@ public class Controller
         state = GamePad.GetState(player);
     }
 
-    public void SetVibration(float intensity)
+    public void SetVibration(float lowFrequencyIntensity, float highFrequencyIntensity)
     {
-        GamePad.SetVibration(player, intensity, intensity);
+        GamePad.SetVibration(player, lowFrequencyIntensity, highFrequencyIntensity);
     }
 
     public Vector2 LeftAnalog()
