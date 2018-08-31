@@ -41,10 +41,14 @@ public class EndgameManager : MonoBehaviour
 
     public void InitEndgame(float delay)
     {
-        GameManager.Instance.OnResetGame += DestroyStatic;
-        fader.gameObject.SetActive(true);
-        StartCoroutine(FadeToBlack(delay));
-        _ending = true;
+        if (!_ending)
+        {
+            GameManager.Instance.OnResetGame += DestroyStatic;
+            fader.gameObject.SetActive(true);
+            StartCoroutine(FadeToBlack(delay));
+            _ending = true;
+        }
+        
     }
 
     IEnumerator FadeToBlack(float delay)
