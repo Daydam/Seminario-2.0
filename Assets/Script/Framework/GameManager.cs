@@ -49,11 +49,11 @@ public class GameManager : MonoBehaviour
     {
         spawns = GameObject.Find("Stage").transform.Find("SpawnPoints").GetComponentsInChildren<Transform>().Where(x => x.name != "SpawnPoints").ToArray();
 
-        playerInfo = Resources.Load("Save Files/Registered Players") as RegisteredPlayers;
+        playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
 
         for (int i = 0; i < playerInfo.playerControllers.Length; i++)
         {
-            var URLs = Resources.Load("Save Files/Player " + (playerInfo.playerControllers[i] + 1)) as CharacterURLs;
+            var URLs = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (playerInfo.playerControllers[i] + 1));
             
             //Dejo los objetos ccomo children del body por cuestiones de carga de los scripts. Assembler no debería generar problemas, ya que su parent objetivo sería el mismo.
             var player = Instantiate(Resources.Load<GameObject>("Prefabs/Bodies/" + URLs.bodyURL), spawns[i].transform.position, Quaternion.identity).GetComponent<Player>();

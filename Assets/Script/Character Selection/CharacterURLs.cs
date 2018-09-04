@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Player File", menuName = "ScriptableObjects/Save Files/Player File")]
-public class CharacterURLs : ScriptableObject
+[System.Serializable]
+public class CharacterURLs
 {
 
     public string bodyURL;

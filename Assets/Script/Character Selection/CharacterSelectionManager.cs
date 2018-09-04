@@ -126,19 +126,24 @@ public class CharacterSelectionManager : MonoBehaviour
                 ready[i] = !ready[i];
                 readyScreens[i].gameObject.SetActive(ready[i]);
 
-                var regPlayers = players.Where(a => a != default(Player)).ToArray();
-                bool allReady = true;
-                for (int f = 0; f < regPlayers.Length; f++)
+                if(ready[i])
                 {
-                    if (!ready[System.Array.IndexOf(players, regPlayers[f])]) allReady = false;
-                }
+                    var regPlayers = players.Where(a => a != default(Player)).ToArray();
+                    bool allReady = true;
+                    for (int f = 0; f < regPlayers.Length; f++)
+                    {
+                        int playerIndex = System.Array.IndexOf(players, regPlayers[f]);
+                        URLs[playerIndex].SaveJsonToDisk("Player " + (playerIndex + 1));
+                        if (!ready[playerIndex]) allReady = false;
+                    }
 
-                if (regPlayers.Length >= 2 && allReady)
-                {
-                    var reg = Resources.Load("Save Files/Registered Players") as RegisteredPlayers;
-                    reg.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
-
-                    SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
+                    if (regPlayers.Length >= 2 && allReady)
+                    {
+                        var reg = new RegisteredPlayers();
+                        reg.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
+                        Serializacion.SaveJsonToDisk(reg, "Registered Players");
+                        SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
+                    }
                 }
             }
         }
@@ -148,9 +153,10 @@ public class CharacterSelectionManager : MonoBehaviour
     {
         if (JoystickInput.allKeys[JoystickKey.A](previousGamePads[player], currentGamePads[player]))
         {
-            URLs[player] = Resources.Load("Save Files/Player " + (player + 1)) as CharacterURLs;
-            /*if (URLs[player] == default(CharacterURLs))
+            URLs[player] = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (player + 1));
+            if (URLs[player] == default(CharacterURLs))
             {
+                URLs[player] = new CharacterURLs();
                 var weaponNameChars = weapons[weaponIndexes[player]].gameObject.name.TakeWhile(a => a != '(').ToArray();
                 string weaponName = new string(weaponNameChars);
 
@@ -167,15 +173,11 @@ public class CharacterSelectionManager : MonoBehaviour
                 URLs[player].complementaryURL = new string[2] { compName1, compName2 };
                 URLs[player].defensiveURL = defName;
             }
-            else
-            {*/
-                weaponIndexes[player] = weapons.IndexOf(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Weapons/" + URLs[player].weaponURL));
-                complementaryIndexes[player, 0] = complementarySkills[0].IndexOf(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary 1/" + URLs[player].complementaryURL[0]));
-                complementaryIndexes[player, 1] = complementarySkills[1].IndexOf(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary 2/" + URLs[player].complementaryURL[1]));
-                defensiveIndexes[player] = defensiveSkills.IndexOf(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL));
 
-
-            //}
+            weaponIndexes[player] = weapons.IndexOf(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Weapons/" + URLs[player].weaponURL));
+            complementaryIndexes[player, 0] = complementarySkills[0].IndexOf(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary 1/" + URLs[player].complementaryURL[0]));
+            complementaryIndexes[player, 1] = complementarySkills[1].IndexOf(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary 2/" + URLs[player].complementaryURL[1]));
+            defensiveIndexes[player] = defensiveSkills.IndexOf(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL));
 
             players[player] = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Bodies/" + URLs[player].bodyURL), playerSpawnPoints[player].transform.position, Quaternion.identity);
             currentWeapons[player] = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Weapons/" + URLs[player].weaponURL), players[player].transform.position, Quaternion.identity);

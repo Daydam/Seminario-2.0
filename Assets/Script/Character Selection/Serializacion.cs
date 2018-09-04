@@ -7,28 +7,20 @@ using System;
 
 public static class Serializacion
 {
-    public static void SaveDataToDisk<T>(this T classToSerialize, string path)
+    public static void SaveJsonToDisk<T>(this T classToSerialize, string path)
     {
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(path);
-        
-        bf.Serialize(file, classToSerialize);
-        
-        file.Close();
+        string json = JsonUtility.ToJson(classToSerialize);
+        File.WriteAllText(Application.persistentDataPath + "/" + path + ".json", json);
     }
     
-    public static T LoadDataFromDisk<T>(string path)
+    public static T LoadJsonFromDisk<T>(string path)
     {
-        if (File.Exists(path))
+        if(File.Exists(Application.persistentDataPath + "/" + path + ".json"))
         {
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(path, FileMode.Open);
-            
-            T newClass = (T)bf.Deserialize(file);
-            
-            file.Close();
-            return newClass;
+            TextAsset fileToLoad = Resources.Load(path) as TextAsset;
+            T data = JsonUtility.FromJson<T>(File.ReadAllText(Application.persistentDataPath + "/" + path + ".json"));
+            return data;
         }
-        else return default(T);
+        return default(T);
     }
 }

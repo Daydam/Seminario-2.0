@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Registered Players", menuName = "ScriptableObjects/Save Files/Registered Players")]
-public class RegisteredPlayers : ScriptableObject
+[System.Serializable]
+public class RegisteredPlayers
 {
     public int[] playerControllers;
 }
