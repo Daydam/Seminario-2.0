@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public int ScoreToReach;
 
     public Camera cam;
+    public GameObject[] playerCameras;
 
     public int actualRound = 1;
     public Dictionary<int, Tuple<Player, int>> roundResults;
@@ -50,6 +51,7 @@ public class GameManager : MonoBehaviour
         spawns = GameObject.Find("Stage").transform.Find("SpawnPoints").GetComponentsInChildren<Transform>().Where(x => x.name != "SpawnPoints").ToArray();
 
         playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
+        playerCameras[playerInfo.playerControllers.Length - 2].SetActive(true);
 
         for (int i = 0; i < playerInfo.playerControllers.Length; i++)
         {
