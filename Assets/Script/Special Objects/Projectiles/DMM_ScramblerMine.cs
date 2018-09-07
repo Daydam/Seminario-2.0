@@ -7,7 +7,7 @@ using UnityEngine.AI;
 public class DMM_ScramblerMine : MonoBehaviour
 {
     Rigidbody _rb;
-    /*Collider _coll;*/
+    Collider _coll;
     NavMeshAgent _nav;
     public float damage, activationDelay, speed/*, targettingRadius*/, maxHP;
 
@@ -40,7 +40,7 @@ public class DMM_ScramblerMine : MonoBehaviour
     void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        /*_coll = GetComponent<Collider>();*/
+        _coll = GetComponent<Collider>();
         _nav = GetComponent<NavMeshAgent>();
     }
 
@@ -77,7 +77,7 @@ public class DMM_ScramblerMine : MonoBehaviour
 
         _hp = maxHP;
 
-        //_coll.isTrigger = true;
+        _coll.isTrigger = true;
 
         _duration = duration;
         _explosionRadius = explosionRadius;
