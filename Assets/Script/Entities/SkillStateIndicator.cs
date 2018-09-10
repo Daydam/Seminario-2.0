@@ -50,12 +50,7 @@ public class SkillStateIndicator : MonoBehaviour
 
     public void CheckActualState()
     {
-#if UNITY_EDITOR
         if (_rend) ApplyStateFeedback(mySkill.GetActualState());
-#else
-        ApplyStateFeedback(mySkill.GetActualState());
-#endif
-
     }
 
     public void ApplyStateFeedback(SkillState state)
