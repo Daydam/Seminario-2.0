@@ -122,21 +122,21 @@ public class DMM_ScramblerMine : MonoBehaviour
 
     Player GetTarget()
     {
-        return GameManager.Instance.Players.Where(x => x.gameObject.tag != gameObject.tag).Aggregate(
+        /*return GameManager.Instance.Players.Where(x => x.gameObject.tag != gameObject.tag).Aggregate(
             (accum, current) =>
             {
                 var currentDistance = Vector3.Distance(current.transform.position, transform.position);
                 var accumDistance = Vector3.Distance(accum.transform.position, transform.position);
                 accum = currentDistance > accumDistance ? current : accum;
                 return accum;
-            });
+            });*/
+        return GameManager.Instance.Players.Where(x => x.gameObject.tag != gameObject.tag).OrderBy(a => Vector3.Distance(a.transform.position, transform.position)).First();
     }
 
     void HuntTarget()
     {
         if (!_target) _target = GetTarget();
-        if (!_target) return;
-        _nav.SetDestination(_target.transform.position);
+        if (_target) _nav.SetDestination(_target.transform.position);
     }
 
     void Update()
