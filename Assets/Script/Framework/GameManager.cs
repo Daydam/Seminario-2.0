@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System.Linq;
 using Events;
 using System;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,7 +14,9 @@ public class GameManager : MonoBehaviour
     public int scoreByThrownOff = -2;
     public int scoreBySurvivor = 1;
 
-    public event Action OnResetGame = delegate { };
+    bool _gameEnded = false;
+
+    public event Action OnChangeScene = delegate { };
     public event Action OnResetRound = delegate { };
 
     public int ScoreToReach;
@@ -54,36 +57,36 @@ public class GameManager : MonoBehaviour
 
         playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
         playerCameras[playerInfo.playerControllers.Length - 2].SetActive(true);
-        if(playerInfo.playerControllers.Length == 2)
+        if (playerInfo.playerControllers.Length == 2)
         {
-        	for(int i = 0; i < 2; i++)
-        	{
-        		Camera c = GameObject.Find("Camera_P" + (i+1)).GetComponent<Camera>();
-        		c.rect = new Rect(0,0,2,1);
-        		cameraTexturesForTwoPlayers[i].width = 1280;
-        	}
+            for (int i = 0; i < 2; i++)
+            {
+                Camera c = GameObject.Find("Camera_P" + (i + 1)).GetComponent<Camera>();
+                c.rect = new Rect(0, 0, 2, 1);
+                cameraTexturesForTwoPlayers[i].width = 1280;
+            }
         }
         else
         {
-        	for(int i = 0; i < 2; i++)
-        	{
-        		Camera c = GameObject.Find("Camera_P" + (i+1)).GetComponent<Camera>();
-        		c.rect = new Rect(0,0,2,1);
-        		cameraTexturesForTwoPlayers[i].width = 640;
-        	}
+            for (int i = 0; i < 2; i++)
+            {
+                Camera c = GameObject.Find("Camera_P" + (i + 1)).GetComponent<Camera>();
+                c.rect = new Rect(0, 0, 2, 1);
+                cameraTexturesForTwoPlayers[i].width = 640;
+            }
         }
 
         for (int i = 0; i < playerInfo.playerControllers.Length; i++)
         {
             var URLs = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (playerInfo.playerControllers[i] + 1));
-            
+
             //Dejo los objetos ccomo children del body por cuestiones de carga de los scripts. Assembler no debería generar problemas, ya que su parent objetivo sería el mismo.
             var player = Instantiate(Resources.Load<GameObject>("Prefabs/Bodies/" + URLs.bodyURL), spawns[i].transform.position, Quaternion.identity).GetComponent<Player>();
             var weapon = Instantiate(Resources.Load<GameObject>("Prefabs/Weapons/" + URLs.weaponURL), player.transform.position, Quaternion.identity, player.transform);
             var comp1 = Instantiate(Resources.Load<GameObject>("Prefabs/Skills/Complementary 1/" + URLs.complementaryURL[0]), player.transform.position, Quaternion.identity, player.transform);
             var comp2 = Instantiate(Resources.Load<GameObject>("Prefabs/Skills/Complementary 2/" + URLs.complementaryURL[1]), player.transform.position, Quaternion.identity, player.transform);
             var def = Instantiate(Resources.Load<GameObject>("Prefabs/Skills/Defensive/" + URLs.defensiveURL), player.transform.position, Quaternion.identity, player.transform);
-            
+
             CharacterAssembler.Assemble(player.gameObject, def, comp1, comp2, weapon);
 
             comp1.GetComponent<ComplementarySkillBase>().RegisterInput(0);
@@ -97,18 +100,81 @@ public class GameManager : MonoBehaviour
                 t.gameObject.tag = "Player " + (playerInfo.playerControllers[i] + 1);
             }
 
-            CamFollow cam = GameObject.Find("Camera_P" + (i+1)).GetComponent<CamFollow>();
+            CamFollow cam = GameObject.Find("Camera_P" + (i + 1)).GetComponent<CamFollow>();
             cam.AssignTarget(player);
         }
 
         AddEvents();
+
+        EndgamePreparation();
     }
 
+    void EndgamePreparation()
+    {
+        StartCoroutine(LoadAsync());
+    }
+
+    IEnumerator LoadAsync()
+    {
+
+        var asyncOp = SceneManager.LoadSceneAsync("EndgameScreen", LoadSceneMode.Single);
+        asyncOp.allowSceneActivation = false;
+
+        while (!asyncOp.isDone)
+        {
+            while (asyncOp.progress <= .99f && !_gameEnded)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+
+            ChangeToEndgameScene(asyncOp);
+
+            yield return null;
+        }
+
+        
+    }
+
+    void ChangeToEndgameScene(AsyncOperation asyncOp)
+    {
+        var holder = Instantiate(new GameObject("PlayerContainer"));
+        holder.name = "PlayerContainer";
+        DontDestroyOnLoad(holder);
+
+        for (int i = 0; i < Players.Count; i++)
+        {
+            var URLs = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (playerInfo.playerControllers[i] + 1));
+
+            var player = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Bodies/" + URLs.bodyURL), spawns[i].transform.position, Quaternion.identity, holder.transform);
+            var weapon = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Weapons/" + URLs.weaponURL), player.transform.position, Quaternion.identity, player.transform);
+            var comp1 = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary 1/" + URLs.complementaryURL[0]), player.transform.position, Quaternion.identity, player.transform);
+            var comp2 = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary 2/" + URLs.complementaryURL[1]), player.transform.position, Quaternion.identity, player.transform);
+            var def = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Defensive/" + URLs.defensiveURL), player.transform.position, Quaternion.identity, player.transform);
+
+            CharacterAssembler.Assemble(player.gameObject, def, comp1, comp2, weapon);
+
+            player.name = Players[i].gameObject.name;
+
+            var scoreHolder = Instantiate(new GameObject("Score"), player.transform);
+            scoreHolder.name = "Score";
+            var actualScore = Instantiate(new GameObject(Players[i].Score.ToString()), scoreHolder.transform);
+            actualScore.AddComponent(typeof(ScoreObject));
+            actualScore.name = Players[i].Score.ToString();
+            Players[i].playerEndgameTexts.SetActive(true);
+            var scoreUI = Instantiate(Players[i].playerEndgameTexts, player.transform);
+            scoreUI.name = Players[i].playerEndgameTexts.name;
+
+            DontDestroyOnLoad(player);
+        }
+
+        OnChangeScene();
+        asyncOp.allowSceneActivation = true;
+    }
 
     void AddEvents()
     {
         EventManager.AddEventListener(PlayerEvents.Death, OnPlayerDeath);
-        OnResetGame += DestroyStatic;
+        OnChangeScene += DestroyStatic;
         OnResetRound += SpawnPlayers;
         OnResetRound += () => actualRound++;
         OnResetRound += EndRoundHandler.ResetTime;
@@ -211,24 +277,18 @@ public class GameManager : MonoBehaviour
 
     public bool CheckIfReachedPoints()
     {
-        return Players.Select(x => x.Score).OrderByDescending(x =>x).First() >= ScoreToReach;
+        return Players.Select(x => x.Score).OrderByDescending(x => x).First() >= ScoreToReach;
     }
 
     public void EndGame()
     {
-        EndgameManager.Instance.InitEndgame(3);
         EndRoundHandler.ResetTime();
+        _gameEnded = true;
     }
 
     public void ActivateCamera(bool activate)
     {
         cam.gameObject.SetActive(activate);
-    }
-
-    public void ResetGame()
-    {
-        OnResetGame();
-        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
     }
 
     void DestroyStatic()

@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
-public class EndgameManager : MonoBehaviour
+/*public class EndgameManager : MonoBehaviour
 {
     public Camera cam;
     public Image fader;
@@ -13,31 +12,43 @@ public class EndgameManager : MonoBehaviour
     public Text backToMenu;
     public Text restart;
     public Text quit;
-    GameObject _holder;
-    GameObject[] _players;
+    public GameObject playerCanvas;
 
     public string replaceStringName;
     public string replaceStringScore;
 
     public Transform[] spawnPos;
 
-    GameObject _winner;
+    Player _winner;
     bool _ending;
 
-    void Start()
+    static EndgameManager instance;
+    public static EndgameManager Instance
     {
-        InitEndgame(.1f);
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<EndgameManager>();
+                if (instance == null)
+                {
+                    instance = new GameObject("new EndgameManager Object").AddComponent<EndgameManager>().GetComponent<EndgameManager>();
+                }
+            }
+            return instance;
+        }
     }
 
     public void InitEndgame(float delay)
     {
         if (!_ending)
         {
+            GameManager.Instance.OnResetGame += DestroyStatic;
             fader.gameObject.SetActive(true);
             StartCoroutine(FadeToBlack(delay));
             _ending = true;
         }
-
+        
     }
 
     IEnumerator FadeToBlack(float delay)
@@ -59,33 +70,33 @@ public class EndgameManager : MonoBehaviour
         MovePlayersToPedestals();
         ApplyTexts();
         ActivateCamera(true);
+        GameManager.Instance.ActivateCamera(false);
 
-        yield return new WaitForSeconds(delay / 3);
+        yield return new WaitForSeconds(delay/3);
 
         StartCoroutine(ReverseFade(delay));
     }
 
     void MovePlayersToPedestals()
     {
-        _holder = GameObject.Find("PlayerContainer");
-        _players = _holder.GetComponentsInChildren<Transform>(true).Select(x => x.gameObject).Where(x => x.name != _holder.name).ToArray();
-        _winner = _players.First();
+        var players = GameManager.Instance.Players.OrderByDescending(x => x.Score).ToArray();
+        _winner = players.First();
 
-        for (int i = 0; i < _players.Length; i++)
+        for (int i = 0; i < players.Length; i++)
         {
-            var score = _players[i].transform.GetComponentInChildren<ScoreObject>();
-            EndgamePlayerText(_players[i], score.gameObject.name);
-
-            _players[i].transform.parent = null;
-            _players[i].transform.position = spawnPos[i].position;
-            _players[i].transform.forward = -spawnPos[i].forward;
+            players[i].gameObject.SetActive(true);
+            players[i].lockedByGame = true;
+            players[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
+            players[i].transform.position = spawnPos[i].position;
+            players[i].transform.forward = -spawnPos[i].forward;
+            players[i].ActivatePlayerEndgame(true, replaceStringName, replaceStringScore);
+            players[i].StopVibrating();
+            players[i].StopAllCoroutines();
+            players[i].DeactivateCamera();
         }
-    }
 
-    void EndgamePlayerText(GameObject playerText, string score)
-    {
-        var tx = playerText.GetComponentInChildren<Text>();
-        tx.text = playerText.name + "\n" + score;
+        playerCanvas.SetActive(false);
+          
     }
 
     void ApplyTexts()
@@ -121,51 +132,30 @@ public class EndgameManager : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.R) && _ending) ResetGame();
-        if (Input.GetKeyUp(KeyCode.Q) && _ending) QuitGame();
-        if (Input.GetKeyUp(KeyCode.B) && _ending) GoBackToMenu();
     }
 
     void QuitGame()
     {
-        Application.Quit();
+
     }
 
     void ResetGame()
     {
-        StartLoading("RingsStage");
+        GameManager.Instance.ResetGame();
+
     }
 
     void GoBackToMenu()
     {
-        StartLoading("CharacterSelection");
+
     }
 
-    void Destruction()
+    void DestroyStatic()
     {
-        Destroy(_holder);
-        for (int i = 0; i < _players.Length; i++)
-        {
-            Destroy(_players[i].gameObject);
-        }
+        StopAllCoroutines();
+        instance = null;
+        //Destroy(gameObject);
     }
 
-    void StartLoading(string sceneName)
-    {
-        StartCoroutine(LoadAsync());
-    }
-
-    IEnumerator LoadAsync()
-    {
-        var asyncOp = SceneManager.LoadSceneAsync("RingsStage", LoadSceneMode.Single);
-        asyncOp.allowSceneActivation = false;
-
-        while (asyncOp.progress <= .99f)
-        {
-            yield return new WaitForEndOfFrame();
-        }
-
-        Destruction();
-
-        asyncOp.allowSceneActivation = true;
-    }
 }
+*/

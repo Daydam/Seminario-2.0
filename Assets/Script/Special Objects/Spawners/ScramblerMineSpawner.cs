@@ -35,7 +35,7 @@ public class ScramblerMineSpawner : MonoBehaviour
 
     void Start()
     {
-        GameManager.Instance.OnResetGame += DestroyStatic;
+        GameManager.Instance.OnChangeScene += DestroyStatic;
         GameManager.Instance.OnResetRound += ResetRound;
     }
 
