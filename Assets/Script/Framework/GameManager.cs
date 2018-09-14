@@ -1,6 +1,7 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Linq;
 using Events;
 using System;
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour
 
     public Camera cam;
     public GameObject[] playerCameras;
+    public Texture[] cameraTexturesForTwoPlayers;
 
     public int actualRound = 1;
     public Dictionary<int, Tuple<Player, int>> roundResults;
@@ -52,6 +54,24 @@ public class GameManager : MonoBehaviour
 
         playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
         playerCameras[playerInfo.playerControllers.Length - 2].SetActive(true);
+        if(playerInfo.playerControllers.Length == 2)
+        {
+        	for(int i = 0; i < 2; i++)
+        	{
+        		Camera c = GameObject.Find("Camera_P" + (i+1)).GetComponent<Camera>();
+        		c.rect = new Rect(0,0,2,1);
+        		cameraTexturesForTwoPlayers[i].width = 1280;
+        	}
+        }
+        else
+        {
+        	for(int i = 0; i < 2; i++)
+        	{
+        		Camera c = GameObject.Find("Camera_P" + (i+1)).GetComponent<Camera>();
+        		c.rect = new Rect(0,0,2,1);
+        		cameraTexturesForTwoPlayers[i].width = 640;
+        	}
+        }
 
         for (int i = 0; i < playerInfo.playerControllers.Length; i++)
         {
