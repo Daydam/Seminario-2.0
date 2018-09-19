@@ -69,6 +69,25 @@ public class Bullet : MonoBehaviour
         return this;
     }
 
+    public Bullet Spawn(float speed, float damage, AnimationCurve knockCurve, Vector3 position, Quaternion rotation, string emitter, Player owner)
+    {
+        this.speed = speed;
+        _damageCurve = new AnimationCurve(new Keyframe(0, damage));
+        _knockbackCurve = knockCurve;
+
+        gameObject.tag = emitter;
+        transform.position = position;
+        _initialPos = position;
+
+        transform.rotation = rotation;
+        transform.parent = null;
+        _owner = owner;
+
+        _rb = GetComponent<Rigidbody>();
+
+        return this;
+    }
+
     /// <summary>
     /// Item1: Player
     /// Item2: Knockback amount

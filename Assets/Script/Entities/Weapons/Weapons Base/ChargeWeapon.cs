@@ -41,7 +41,6 @@ public class ChargeWeapon : Weapon
 
     public override void Shoot()
     {
-        BulletSpawner.Instance.BulletPool.GetObjectFromPool().Spawn(bulletSpeed, damageFalloff, knockbackFalloff, transform.position, _owner.transform.rotation, gameObject.tag, _owner);
-
+        BulletSpawner.Instance.BulletPool.GetObjectFromPool().Spawn(bulletSpeed, damageByCharge.Evaluate(currentChargeTime), knockbackFalloff, transform.position, _owner.transform.rotation, gameObject.tag, _owner);
     }
 }
