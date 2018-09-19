@@ -183,13 +183,13 @@ public class Player : MonoBehaviour
 
     void DestroyPlayer(DeathType type)
     {
-        EventManager.DispatchEvent(PlayerEvents.Death, this, type, isPushed, gameObject.tag);
+        EventManager.Instance.DispatchEvent(PlayerEvents.Death, this, type, isPushed, gameObject.tag);
         gameObject.SetActive(false);
     }
 
     void DestroyPlayer(DeathType type, string killerTag)
     {
-        EventManager.DispatchEvent(PlayerEvents.Death, this, type, isPushed, killerTag);
+        EventManager.Instance.DispatchEvent(PlayerEvents.Death, this, type, isPushed, killerTag);
         gameObject.SetActive(false);
 
     }

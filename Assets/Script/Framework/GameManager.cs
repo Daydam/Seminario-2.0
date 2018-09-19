@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < 2; i++)
             {
                 Camera c = GameObject.Find("Camera_P" + (i + 1)).GetComponent<Camera>();
-                c.rect = new Rect(0, 0, 2, 1);
+                c.rect = new Rect(0, 0, 1, 1);
                 cameraTexturesForTwoPlayers[i].width = 640;
             }
         }
@@ -173,7 +173,7 @@ public class GameManager : MonoBehaviour
 
     void AddEvents()
     {
-        EventManager.AddEventListener(PlayerEvents.Death, OnPlayerDeath);
+        EventManager.Instance.AddEventListener(PlayerEvents.Death, OnPlayerDeath);
         OnChangeScene += DestroyStatic;
         OnResetRound += SpawnPlayers;
         OnResetRound += () => actualRound++;
@@ -182,7 +182,7 @@ public class GameManager : MonoBehaviour
 
     void RemoveEvents()
     {
-        EventManager.RemoveEventListener(PlayerEvents.Death, OnPlayerDeath);
+        EventManager.Instance.RemoveEventListener(PlayerEvents.Death, OnPlayerDeath);
     }
 
     #region EventCallbacks
@@ -262,6 +262,7 @@ public class GameManager : MonoBehaviour
     public void ResetRound()
     {
         OnResetRound();
+        EventManager.Instance.DispatchEvent(GameEvents.RoundReset);
     }
 
     public void SpawnPlayers()

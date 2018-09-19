@@ -5,11 +5,28 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
+    private static EventManager instance;
+    public static EventManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<EventManager>();
+                if (instance == null)
+                {
+                    instance = new GameObject("new EventManager Object").AddComponent<EventManager>().GetComponent<EventManager>();
+                }
+            }
+            return instance;
+        }
+    }
+
     public delegate void EventCallback(params object[] paramsContainer);
 
-    private static Dictionary<string, EventCallback> _events;
+    private Dictionary<string, EventCallback> _events;
 
-    public static void AddEventListener(string eventName, EventCallback listener)
+    public void AddEventListener(string eventName, EventCallback listener)
     {
         if (_events == null) _events = new Dictionary<string, EventCallback>();
 
@@ -18,22 +35,22 @@ public class EventManager : MonoBehaviour
         _events[eventName] += listener;
     }
 
-    public static void RemoveEventListener(string eventName, EventCallback listener)
+    public void RemoveEventListener(string eventName, EventCallback listener)
     {
         if (_events != null && _events.ContainsKey(eventName)) _events[eventName] -= listener;
     }
 
-    public static void DispatchEvent(string eventName)
+    public void DispatchEvent(string eventName)
     {
         DispatchEvent(eventName, null);
     }
 
-    public static void DispatchEvent(string eventName, params object[] paramsContainer)
+    public void DispatchEvent(string eventName, params object[] paramsContainer)
     {
         if (_events != null && _events.ContainsKey(eventName) && _events[eventName] != null) _events[eventName](paramsContainer);
     }
 
-    public static void ClearAllEvents()
+    public void ClearAllEvents()
     {
         _events = null;
     }
