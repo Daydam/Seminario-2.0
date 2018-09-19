@@ -8,5 +8,6 @@ namespace Events
     public static class GameEvents
     {
         public const string GameStart = "PlayersLoaded";
+        public const string RoundReset = "RoundReset";
     }
 }
