@@ -45,7 +45,7 @@ public abstract class Weapon : MonoBehaviour
 
     protected float VibrationIntensity
     {
-        get { return Mathf.Min(maxDamage / 50, 2); }
+        get { return Mathf.Min(maxDamage / 75, 1.5f); }
     }
 
     protected float ShakeDuration

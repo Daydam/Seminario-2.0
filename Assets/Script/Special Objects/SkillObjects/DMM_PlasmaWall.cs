@@ -10,17 +10,17 @@ public class DMM_PlasmaWall : MonoBehaviour, IDamageable
 
     Coroutine _lifeTimerRoutine;
 
-    float hp;
+    float _hp;
     public float Hp
     {
         get
         {
-            return hp;
+            return _hp;
         }
 
         private set
         {
-            hp = value >= maxHP ? maxHP : value <= 0 ? 0 : value;
+            _hp = value >= maxHP ? maxHP : value <= 0 ? 0 : value;
         }
     }
 
@@ -30,6 +30,8 @@ public class DMM_PlasmaWall : MonoBehaviour, IDamageable
         transform.forward = fwd;
         transform.parent = null;
 
+        ResetHP();
+
         _lifeTimerRoutine = StartCoroutine(LifeTimer());
 
         return this;
@@ -38,7 +40,6 @@ public class DMM_PlasmaWall : MonoBehaviour, IDamageable
     public static void Initialize(DMM_PlasmaWall obj)
     {
         obj.gameObject.SetActive(true);
-        obj.ResetHP();
     }
 
     public static void Dispose(DMM_PlasmaWall ojb)

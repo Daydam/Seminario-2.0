@@ -4,12 +4,12 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.AI;
 
-public class DMM_ScramblerMine : MonoBehaviour
+public class DMM_ScramblerMine : MonoBehaviour, IDamageable
 {
     Rigidbody _rb;
     Collider _coll;
     NavMeshAgent _nav;
-    public float damage, activationDelay, speed/*, targettingRadius*/, maxHP;
+    public float damage, activationDelay, speed, maxHP;
 
     float _duration, _explosionRadius, _hp;
 
@@ -17,25 +17,18 @@ public class DMM_ScramblerMine : MonoBehaviour
 
     Player _target;
 
-    #region States -- TODO!
-    /*bool _isStunned;
-    bool _isDisarmed;
-    bool _isUnableToMove;
-    public bool IsStunned { get { return _isStunned; } }
-    public bool IsDisarmed { get { return _isDisarmed; } }
-    public bool IsUnableToMove { get { return _isUnableToMove; } }
-
-    /// <summary>
-    /// TODO: Hacer que pueda ser mayor a 1 (si llegamos a usar cosas de aumentar la velocidad de movimiento)
-    /// </summary>
-    public float MovementMultiplier
+    public float Hp
     {
-        get { return Mathf.Clamp01(_movementMultiplier); }
-        set { _movementMultiplier = Mathf.Clamp01(value); }
-    }
+        get
+        {
+            return _hp;
+        }
 
-    float _movementMultiplier = 1;*/
-    #endregion
+        private set
+        {
+            _hp = value >= maxHP ? maxHP : value <= 0 ? 0 : value;
+        }
+    }
 
     void Awake()
     {
@@ -75,7 +68,7 @@ public class DMM_ScramblerMine : MonoBehaviour
         gameObject.tag = emmitter;
         _activated = false;
 
-        _hp = maxHP;
+        ResetHP();
 
         _coll.isTrigger = true;
 
@@ -122,14 +115,6 @@ public class DMM_ScramblerMine : MonoBehaviour
 
     Player GetTarget()
     {
-        /*return GameManager.Instance.Players.Where(x => x.gameObject.tag != gameObject.tag).Aggregate(
-            (accum, current) =>
-            {
-                var currentDistance = Vector3.Distance(current.transform.position, transform.position);
-                var accumDistance = Vector3.Distance(accum.transform.position, transform.position);
-                accum = currentDistance > accumDistance ? current : accum;
-                return accum;
-            });*/
         return GameManager.Instance.Players.Where(x => x.gameObject.tag != gameObject.tag).OrderBy(a => Vector3.Distance(a.transform.position, transform.position)).First();
     }
 
@@ -141,18 +126,9 @@ public class DMM_ScramblerMine : MonoBehaviour
 
     void Update()
     {
-        if (_activated /* && _hasTarget */)
+        if (_activated)
         {
             HuntTarget();
-        }
-    }
-
-    void TakeDamage(float dmg)
-    {
-        _hp -= dmg;
-        if (_hp <= 0)
-        {
-            Explode(true);
         }
     }
 
@@ -200,38 +176,30 @@ public class DMM_ScramblerMine : MonoBehaviour
         }
     }
 
-    void CollidedAgainstStateChanger()
+    public void ResetHP()
     {
-
+        Hp = maxHP;
     }
 
-    #region StateChangers -- TODO!
-
-    /*public void ApplyNeutralizeMovement(float duration)
+    public void TakeDamage(float damage)
     {
-        StartCoroutine(ExecuteNeutralizedMovement(duration));
-    }
-    public void ApplySlowMovement(float duration, float amount)
-    {
-        StartCoroutine(ExecuteSlowMovement(duration, amount));
-    }
-    IEnumerator ExecuteNeutralizedMovement(float duration)
-    {
-        _isUnableToMove = true;
-
-        yield return new WaitForSeconds(duration);
-
-        _isUnableToMove = false;
+        SubstractLife(damage);
+        if (Hp <= 0) Explode(true);
     }
 
-    IEnumerator ExecuteSlowMovement(float duration, float amount)
+    public void TakeDamage(float damage, string killerTag)
     {
-        MovementMultiplier = amount;
+        SubstractLife(damage);
+        if (Hp <= 0) Explode(true);
+    }
 
-        yield return new WaitForSeconds(duration);
+    void SubstractLife(float damage)
+    {
+        Hp -= damage;
+    }
 
-        MovementMultiplier = 1;
-    }*/
-
-    #endregion
+    void Destruction()
+    {
+        ReturnToPool();
+    }
 }

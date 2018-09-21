@@ -285,6 +285,10 @@ public class GameManager : MonoBehaviour
     {
         EndRoundHandler.ResetTime();
         _gameEnded = true;
+        for (int i = 0; i < Players.Count; i++)
+        {
+            Players[i].Control.SetVibration(0, 0);
+        }
     }
 
     public void ActivateCamera(bool activate)
