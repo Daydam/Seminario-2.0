@@ -7,8 +7,10 @@ public class HitscanBullet
 {
     public float objDist;
 
-    public HitscanBullet(Vector3 origin, Vector3 dir, Player player, AnimationCurve damage, AnimationCurve knockback, int pellets)
+    public HitscanBullet(Vector3 origin, Vector3 dir, Player player, AnimationCurve damage, AnimationCurve knockback, int inputPellets)
     {
+        var pellets = Mathf.Max(1, inputPellets);
+
         var rch = new RaycastHit();
         var damagableMask = HitscanLayers.BlockerLayerMask()/*.SubstractFrom(player.gameObject.layer)*/;
         var hitDamagable = Physics.Raycast(origin, dir.normalized, out rch, 100, damagableMask);
@@ -20,23 +22,23 @@ public class HitscanBullet
         {
             Debug.DrawRay(origin, dir * dist, Color.magenta, 3);
 
+            var appliableDamage = GetCurveOutput(damage, objDist, pellets);
+            var appliableKnockback = GetCurveOutput(damage, objDist, pellets);
+
             var plays = new int[] { LayerMask.NameToLayer("Player1"), LayerMask.NameToLayer("Player2"), LayerMask.NameToLayer("Player3"), LayerMask.NameToLayer("Player4") };
 
-            if (col.gameObject.LayerMatchesWith(LayerMask.NameToLayer("DestructibleWall"), LayerMask.NameToLayer("DestructibleStructure")))
+            if (col.gameObject.LayerMatchesWith(LayerMask.NameToLayer("DestructibleWall"), LayerMask.NameToLayer("DestructibleStructure"), LayerMask.NameToLayer("Shield")))
             {
-                col.gameObject.SetActive(false);
+                var structure = col.GetComponent(typeof(IDamageable)) as IDamageable;
+
+                structure.TakeDamage(appliableDamage);
             }
             else if (col.gameObject.LayerDifferentFrom(player.gameObject.layer) && col.gameObject.LayerMatchesWith(plays))
             {
-                if (col.gameObject.TagMatchesWith("Shield"))
-                {
-                    //do shield feedback stuff
-                    return;
-                }
 
                 var target = col.GetComponent<Player>();
 
-                target.TakeDamage(damage.Evaluate(dist) / pellets, player.tag);
+                target.TakeDamage(appliableDamage, player.tag);
 
                 var damageParticleID = SimpleParticleSpawner.ParticleID.DAMAGE;
                 var damageParticle = SimpleParticleSpawner.Instance.particles[damageParticleID].GetComponentInChildren<ParticleSystem>();
@@ -55,6 +57,11 @@ public class HitscanBullet
             objDist = 125;
             Debug.DrawRay(origin, dir * objDist, Color.magenta, 3);
         }
+    }
+
+    public float GetCurveOutput(AnimationCurve curve, float distance, float pellets)
+    {
+        return curve.Evaluate(distance) / pellets;
     }
 
     public struct HitscanLayers

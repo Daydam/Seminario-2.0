@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {
     public float turningSpeed;
 
@@ -44,9 +44,8 @@ public class Player : MonoBehaviour
 
     float _movementMultiplier = 1;
 
-
     public float maxHP = 100;
-    private float hp;
+    float hp;
     public float Hp
     {
         get
@@ -62,7 +61,7 @@ public class Player : MonoBehaviour
 
     public bool isPushed;
     public Player myPusher;
-    private int _score;
+    int _score;
     public float pushTimeCheck = 2;
 
     public int Score
@@ -82,7 +81,7 @@ public class Player : MonoBehaviour
         gameObject.name = "Player " + (playerID + 1);
     }
 
-    private void Start()
+    void Start()
     {
         GameManager.Instance.OnResetRound += ResetRound;
         GameManager.Instance.OnResetRound += () => Control.SetVibration(0, 0);
@@ -346,7 +345,7 @@ public class Player : MonoBehaviour
 
     IEnumerator Vibrate(float lowFrequencyIntensity, float highFrequencyIntensity, float duration)
     {
-       Control.SetVibration(lowFrequencyIntensity, highFrequencyIntensity);
+        Control.SetVibration(lowFrequencyIntensity, highFrequencyIntensity);
 
         yield return new WaitForSeconds(duration);
 
