@@ -57,8 +57,8 @@ public class HitscanBullet
             }
             else
             {
-                objDist = 125;
-                Debug.DrawRay(origin, dir * objDist, Color.magenta, 3);
+                objDist = dist;
+                Debug.DrawRay(origin, dir * objDist, Color.red, 3);
             }
         }
         else
