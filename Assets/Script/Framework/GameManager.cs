@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
         spawns = GameObject.Find("Stage").transform.Find("SpawnPoints").GetComponentsInChildren<Transform>().Where(x => x.name != "SpawnPoints").ToArray();
 
         playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
+        playerInfo.playerScores = new int[playerInfo.playerControllers.Length];
         playerCameras[playerInfo.playerControllers.Length - 2].SetActive(true);
         if (playerInfo.playerControllers.Length == 2)
         {
@@ -105,71 +106,8 @@ public class GameManager : MonoBehaviour
         }
 
         AddEvents();
-
-        EndgamePreparation();
     }
-
-    void EndgamePreparation()
-    {
-        StartCoroutine(LoadAsync());
-    }
-
-    IEnumerator LoadAsync()
-    {
-
-        var asyncOp = SceneManager.LoadSceneAsync("EndgameScreen", LoadSceneMode.Single);
-        asyncOp.allowSceneActivation = false;
-
-        while (!asyncOp.isDone)
-        {
-            while (asyncOp.progress <= .99f && !_gameEnded)
-            {
-                yield return new WaitForEndOfFrame();
-            }
-
-            ChangeToEndgameScene(asyncOp);
-
-            yield return null;
-        }
-
         
-    }
-
-    void ChangeToEndgameScene(AsyncOperation asyncOp)
-    {
-        var holder = Instantiate(new GameObject("PlayerContainer"));
-        holder.name = "PlayerContainer";
-        DontDestroyOnLoad(holder);
-
-        for (int i = 0; i < Players.Count; i++)
-        {
-            var URLs = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (playerInfo.playerControllers[i] + 1));
-
-            var player = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Bodies/" + URLs.bodyURL), spawns[i].transform.position, Quaternion.identity, holder.transform);
-            var weapon = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Weapons/" + URLs.weaponURL), player.transform.position, Quaternion.identity, player.transform);
-            var comp1 = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary 1/" + URLs.complementaryURL[0]), player.transform.position, Quaternion.identity, player.transform);
-            var comp2 = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary 2/" + URLs.complementaryURL[1]), player.transform.position, Quaternion.identity, player.transform);
-            var def = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Defensive/" + URLs.defensiveURL), player.transform.position, Quaternion.identity, player.transform);
-
-            CharacterAssembler.Assemble(player.gameObject, def, comp1, comp2, weapon);
-
-            player.name = Players[i].gameObject.name;
-
-            var scoreHolder = Instantiate(new GameObject("Score"), player.transform);
-            scoreHolder.name = "Score";
-            var actualScore = Instantiate(new GameObject(Players[i].Score.ToString()), scoreHolder.transform);
-            actualScore.AddComponent(typeof(ScoreObject));
-            actualScore.name = Players[i].Score.ToString();
-            Players[i].playerEndgameTexts.SetActive(true);
-            var scoreUI = Instantiate(Players[i].playerEndgameTexts, player.transform);
-            scoreUI.name = Players[i].playerEndgameTexts.name;
-
-            DontDestroyOnLoad(player);
-        }
-
-        OnChangeScene();
-        asyncOp.allowSceneActivation = true;
-    }
 
     void AddEvents()
     {
@@ -288,6 +226,20 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < Players.Count; i++)
         {
             Players[i].Control.SetVibration(0, 0);
+            playerInfo.playerScores[i] = Players[i].Score;
+        }
+        Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
+        StartCoroutine(EndGameCoroutine());
+    }
+
+    IEnumerator EndGameCoroutine()
+    {
+        var asyncOp = SceneManager.LoadSceneAsync("EndgameScreen", LoadSceneMode.Single);
+        asyncOp.allowSceneActivation = true;
+
+        while (asyncOp.progress <= .99f)
+        {
+            yield return new WaitForEndOfFrame();
         }
     }
 

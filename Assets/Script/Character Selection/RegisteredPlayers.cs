@@ -6,4 +6,5 @@ using UnityEngine;
 public class RegisteredPlayers
 {
     public int[] playerControllers;
+    public int[] playerScores;
 }

@@ -7,18 +7,18 @@ using System;
 
 public static class Serializacion
 {
-    public static void SaveJsonToDisk<T>(this T classToSerialize, string path)
+    public static void SaveJsonToDisk<T>(this T classToSerialize, string fileName)
     {
         string json = JsonUtility.ToJson(classToSerialize);
-        File.WriteAllText(Application.persistentDataPath + "/" + path + ".json", json);
+        File.WriteAllText(Application.persistentDataPath + "/" + fileName + ".json", json);
     }
     
-    public static T LoadJsonFromDisk<T>(string path)
+    public static T LoadJsonFromDisk<T>(string fileName)
     {
-        if(File.Exists(Application.persistentDataPath + "/" + path + ".json"))
+        if(File.Exists(Application.persistentDataPath + "/" + fileName + ".json"))
         {
-            TextAsset fileToLoad = Resources.Load(path) as TextAsset;
-            T data = JsonUtility.FromJson<T>(File.ReadAllText(Application.persistentDataPath + "/" + path + ".json"));
+            TextAsset fileToLoad = Resources.Load(fileName) as TextAsset;
+            T data = JsonUtility.FromJson<T>(File.ReadAllText(Application.persistentDataPath + "/" + fileName + ".json"));
             return data;
         }
         return default(T);
