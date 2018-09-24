@@ -317,7 +317,6 @@ public class Player : MonoBehaviour, IDamageable
         myPusher = null;
         isPushed = false;
 
-        //_actualPushCouroutine = null;
     }
 
     IEnumerator ApplyPush(float time, Player pusher)
@@ -330,7 +329,6 @@ public class Player : MonoBehaviour, IDamageable
         myPusher = null;
         isPushed = false;
 
-        //_actualPushCouroutine = null;
     }
 
     public void ApplyVibration(float lowFrequencyIntensity, float highFrequencyIntensity, float duration)
