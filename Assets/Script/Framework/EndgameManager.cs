@@ -13,7 +13,6 @@ public class EndgameManager : MonoBehaviour
     public Text backToMenu;
     public Text restart;
     public Text quit;
-    GameObject _holder;
     GameObject[] _players;
 
     public string replaceStringName;
@@ -22,7 +21,6 @@ public class EndgameManager : MonoBehaviour
     public Transform[] spawnPos;
 
     GameObject _winner;
-    bool _ending;
 
     void Start()
     {
@@ -31,13 +29,12 @@ public class EndgameManager : MonoBehaviour
 
     public void InitEndgame(float delay)
     {
-        if (!_ending)
-        {
-            fader.gameObject.SetActive(true);
-            StartCoroutine(FadeToBlack(delay));
-            _ending = true;
-        }
+        LoadPlayers();
+        ApplyTexts();
+        ActivateCamera(true);
 
+        fader.gameObject.SetActive(true);
+        StartCoroutine(ReverseFade(delay));
     }
 
     IEnumerator FadeToBlack(float delay)
@@ -56,19 +53,43 @@ public class EndgameManager : MonoBehaviour
             fader.color = c;
         }
 
-        MovePlayersToPedestals();
-        ApplyTexts();
-        ActivateCamera(true);
+        
 
         yield return new WaitForSeconds(delay / 3);
 
-        StartCoroutine(ReverseFade(delay));
     }
 
-    void MovePlayersToPedestals()
+    void LoadPlayers()
     {
-        _holder = GameObject.Find("PlayerContainer");
-        _players = _holder.GetComponentsInChildren<Transform>(true).Select(x => x.gameObject).Where(x => x.name != _holder.name).ToArray();
+        var playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
+        var organizedPlayers = playerInfo.playerControllers.OrderByDescending(a => playerInfo.playerScores[System.Array.IndexOf(playerInfo.playerControllers, a)]).ToArray();
+
+
+        for (int i = 0; i < organizedPlayers.Length; i++)
+        {
+            var URLs = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (organizedPlayers[i] + 1));
+
+            //Dejo los objetos ccomo children del body por cuestiones de carga de los scripts. Assembler no debería generar problemas, ya que su parent objetivo sería el mismo.
+            var player = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Bodies/" + URLs.bodyURL), spawnPos[i].position, Quaternion.identity).GetComponent<Player>();
+            var weapon = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs.weaponURL), player.transform.position, Quaternion.identity, player.transform);
+            var comp1 = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary 1/" + URLs.complementaryURL[0]), player.transform.position, Quaternion.identity, player.transform);
+            var comp2 = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary 2/" + URLs.complementaryURL[1]), player.transform.position, Quaternion.identity, player.transform);
+            var def = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs.defensiveURL), player.transform.position, Quaternion.identity, player.transform);
+            
+            CharacterAssembler.Assemble(player.gameObject, def, comp1, comp2, weapon);
+
+            player.gameObject.layer = LayerMask.NameToLayer("Player" + (playerInfo.playerControllers[i] + 1));
+            player.gameObject.tag = "Player " + (playerInfo.playerControllers[i] + 1);
+            foreach (Transform t in player.transform)
+            {
+                t.gameObject.layer = LayerMask.NameToLayer("Player" + (playerInfo.playerControllers[i] + 1));
+                t.gameObject.tag = "Player " + (playerInfo.playerControllers[i] + 1);
+            }
+
+
+            player.transform.forward = -spawnPos[i].forward;
+        }
+
         _winner = _players.First();
 
         for (int i = 0; i < _players.Length; i++)
@@ -120,9 +141,9 @@ public class EndgameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.R) && _ending) ResetGame();
-        if (Input.GetKeyUp(KeyCode.Q) && _ending) QuitGame();
-        if (Input.GetKeyUp(KeyCode.B) && _ending) GoBackToMenu();
+        if (Input.GetKeyUp(KeyCode.R)) ResetGame();
+        if (Input.GetKeyUp(KeyCode.Q)) QuitGame();
+        if (Input.GetKeyUp(KeyCode.B)) GoBackToMenu();
     }
 
     void QuitGame()
@@ -140,32 +161,19 @@ public class EndgameManager : MonoBehaviour
         StartLoading("CharacterSelection");
     }
 
-    void Destruction()
-    {
-        Destroy(_holder);
-        for (int i = 0; i < _players.Length; i++)
-        {
-            Destroy(_players[i].gameObject);
-        }
-    }
-
     void StartLoading(string sceneName)
     {
-        StartCoroutine(LoadAsync());
+        StartCoroutine(LoadSceneCoroutine(sceneName));
     }
 
-    IEnumerator LoadAsync()
+    IEnumerator LoadSceneCoroutine(string sceneName)
     {
-        var asyncOp = SceneManager.LoadSceneAsync("RingsStage", LoadSceneMode.Single);
-        asyncOp.allowSceneActivation = false;
+        var asyncOp = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
+        asyncOp.allowSceneActivation = true;
 
         while (asyncOp.progress <= .99f)
         {
             yield return new WaitForEndOfFrame();
         }
-
-        Destruction();
-
-        asyncOp.allowSceneActivation = true;
     }
 }

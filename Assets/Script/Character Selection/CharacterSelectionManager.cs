@@ -78,16 +78,16 @@ public class CharacterSelectionManager : MonoBehaviour
         lastAnalogValue = new Vector2[4] { Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero };
 
         weapons = new List<GameObject>();
-        weapons = Resources.LoadAll("Prefabs/_CharacterSelection/Weapons").Select(x => (GameObject)x).ToList();
+        weapons = Resources.LoadAll("Prefabs/CharacterSelection/Weapons").Select(x => (GameObject)x).ToList();
 
         complementarySkills = new List<GameObject>[2];
         complementarySkills[0] = new List<GameObject>();
-        complementarySkills[0] = Resources.LoadAll("Prefabs/_CharacterSelection/Skills/Complementary 1").Select(x => (GameObject)x).ToList();
+        complementarySkills[0] = Resources.LoadAll("Prefabs/CharacterSelection/Skills/Complementary 1").Select(x => (GameObject)x).ToList();
         complementarySkills[1] = new List<GameObject>();
-        complementarySkills[1] = Resources.LoadAll("Prefabs/_CharacterSelection/Skills/Complementary 2").Select(x => (GameObject)x).ToList();
+        complementarySkills[1] = Resources.LoadAll("Prefabs/CharacterSelection/Skills/Complementary 2").Select(x => (GameObject)x).ToList();
 
         defensiveSkills = new List<GameObject>();
-        defensiveSkills = Resources.LoadAll("Prefabs/_CharacterSelection/Skills/Defensive").Select(x => (GameObject)x).ToList();
+        defensiveSkills = Resources.LoadAll("Prefabs/CharacterSelection/Skills/Defensive").Select(x => (GameObject)x).ToList();
 
 
         playerIndexes = new PlayerIndex[4];
@@ -142,10 +142,21 @@ public class CharacterSelectionManager : MonoBehaviour
                         var reg = new RegisteredPlayers();
                         reg.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
                         Serializacion.SaveJsonToDisk(reg, "Registered Players");
-                        SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
+                        StartCoroutine(StartGameCoroutine());
                     }
                 }
             }
+        }
+    }
+
+    IEnumerator StartGameCoroutine()
+    {
+        var asyncOp = SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
+        asyncOp.allowSceneActivation = true;
+
+        while (asyncOp.progress <= .99f)
+        {
+            yield return new WaitForEndOfFrame();
         }
     }
 
@@ -157,6 +168,7 @@ public class CharacterSelectionManager : MonoBehaviour
             if (URLs[player] == default(CharacterURLs))
             {
                 URLs[player] = new CharacterURLs();
+
                 var weaponNameChars = weapons[weaponIndexes[player]].gameObject.name.TakeWhile(a => a != '(').ToArray();
                 string weaponName = new string(weaponNameChars);
 
@@ -174,16 +186,16 @@ public class CharacterSelectionManager : MonoBehaviour
                 URLs[player].defensiveURL = defName;
             }
 
-            weaponIndexes[player] = weapons.IndexOf(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Weapons/" + URLs[player].weaponURL));
-            complementaryIndexes[player, 0] = complementarySkills[0].IndexOf(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary 1/" + URLs[player].complementaryURL[0]));
-            complementaryIndexes[player, 1] = complementarySkills[1].IndexOf(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary 2/" + URLs[player].complementaryURL[1]));
-            defensiveIndexes[player] = defensiveSkills.IndexOf(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL));
+            weaponIndexes[player] = weapons.IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs[player].weaponURL));
+            complementaryIndexes[player, 0] = complementarySkills[0].IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary 1/" + URLs[player].complementaryURL[0]));
+            complementaryIndexes[player, 1] = complementarySkills[1].IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary 2/" + URLs[player].complementaryURL[1]));
+            defensiveIndexes[player] = defensiveSkills.IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL));
 
-            players[player] = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Bodies/" + URLs[player].bodyURL), playerSpawnPoints[player].transform.position, Quaternion.identity);
-            currentWeapons[player] = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Weapons/" + URLs[player].weaponURL), players[player].transform.position, Quaternion.identity);
-            currentComplementary[player, 0] = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary 1/" + URLs[player].complementaryURL[0]), players[player].transform.position, Quaternion.identity);
-            currentComplementary[player, 1] = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary 2/" + URLs[player].complementaryURL[1]), players[player].transform.position, Quaternion.identity);
-            currentDefensive[player] = Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL), players[player].transform.position, Quaternion.identity);
+            players[player] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Bodies/" + URLs[player].bodyURL), playerSpawnPoints[player].transform.position, Quaternion.identity);
+            currentWeapons[player] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs[player].weaponURL), players[player].transform.position, Quaternion.identity);
+            currentComplementary[player, 0] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary 1/" + URLs[player].complementaryURL[0]), players[player].transform.position, Quaternion.identity);
+            currentComplementary[player, 1] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary 2/" + URLs[player].complementaryURL[1]), players[player].transform.position, Quaternion.identity);
+            currentDefensive[player] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL), players[player].transform.position, Quaternion.identity);
 
             CharacterAssembler.Assemble(players[player], currentDefensive[player], currentComplementary[player, 0], currentComplementary[player, 1], currentWeapons[player]);
 
@@ -229,7 +241,7 @@ public class CharacterSelectionManager : MonoBehaviour
                 URLs[player].weaponURL = weaponName;
 
                 Destroy(currentWeapons[player].gameObject);
-                currentWeapons[player] = CharacterAssembler.ChangePart(currentWeapons[player], Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Weapons/" + URLs[player].weaponURL), players[player].transform.position, Quaternion.identity));
+                currentWeapons[player] = CharacterAssembler.ChangePart(currentWeapons[player], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs[player].weaponURL), players[player].transform.position, Quaternion.identity));
             }
 
             if (JoystickInput.LeftAnalog(currentGamePads[player]).x <= -0.3f)
@@ -241,7 +253,7 @@ public class CharacterSelectionManager : MonoBehaviour
                 URLs[player].weaponURL = weaponName;
 
                 Destroy(currentWeapons[player].gameObject);
-                currentWeapons[player] = CharacterAssembler.ChangePart(currentWeapons[player], Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Weapons/" + URLs[player].weaponURL), players[player].transform.position, Quaternion.identity));
+                currentWeapons[player] = CharacterAssembler.ChangePart(currentWeapons[player], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs[player].weaponURL), players[player].transform.position, Quaternion.identity));
             }
         }
 
@@ -272,7 +284,7 @@ public class CharacterSelectionManager : MonoBehaviour
                 URLs[player].complementaryURL[compIndex] = complementaryName;
 
                 Destroy(currentComplementary[player, compIndex].gameObject);
-                currentComplementary[player, compIndex] = CharacterAssembler.ChangePart(currentComplementary[player, compIndex], Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary " + (compIndex + 1) + "/" + URLs[player].complementaryURL[compIndex]), players[player].transform.position, Quaternion.identity));
+                currentComplementary[player, compIndex] = CharacterAssembler.ChangePart(currentComplementary[player, compIndex], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary " + (compIndex + 1) + "/" + URLs[player].complementaryURL[compIndex]), players[player].transform.position, Quaternion.identity));
             }
 
             if (JoystickInput.LeftAnalog(currentGamePads[player]).x <= -0.3f)
@@ -287,7 +299,7 @@ public class CharacterSelectionManager : MonoBehaviour
                 URLs[player].complementaryURL[compIndex] = complementaryName;
 
                 Destroy(currentComplementary[player, compIndex].gameObject);
-                currentComplementary[player, compIndex] = CharacterAssembler.ChangePart(currentComplementary[player, compIndex], Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Complementary " + (compIndex + 1) + "/" + URLs[player].complementaryURL[compIndex]), players[player].transform.position, Quaternion.identity));
+                currentComplementary[player, compIndex] = CharacterAssembler.ChangePart(currentComplementary[player, compIndex], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary " + (compIndex + 1) + "/" + URLs[player].complementaryURL[compIndex]), players[player].transform.position, Quaternion.identity));
             }
         }
 
@@ -324,7 +336,7 @@ public class CharacterSelectionManager : MonoBehaviour
                 URLs[player].defensiveURL = defName;
 
                 Destroy(currentDefensive[player].gameObject);
-                currentDefensive[player] = CharacterAssembler.ChangePart(currentDefensive[player], Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL), players[player].transform.position, Quaternion.identity));
+                currentDefensive[player] = CharacterAssembler.ChangePart(currentDefensive[player], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL), players[player].transform.position, Quaternion.identity));
             }
 
             if (JoystickInput.LeftAnalog(currentGamePads[player]).x <= -0.3f)
@@ -336,7 +348,7 @@ public class CharacterSelectionManager : MonoBehaviour
                 URLs[player].defensiveURL = defName;
 
                 Destroy(currentDefensive[player].gameObject);
-                currentDefensive[player] = CharacterAssembler.ChangePart(currentDefensive[player], Instantiate(Resources.Load<GameObject>("Prefabs/_CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL), players[player].transform.position, Quaternion.identity));
+                currentDefensive[player] = CharacterAssembler.ChangePart(currentDefensive[player], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL), players[player].transform.position, Quaternion.identity));
             }
         }
 
