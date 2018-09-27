@@ -51,20 +51,6 @@ public class DMM_FragmentMissile : MonoBehaviour
         _AOEDecay.AddKey(zero);
     }
 
-    [System.Obsolete()]
-    public DMM_FragmentMissile Spawn(Vector3 spawnPos, Vector3 fwd, float maximumDistance, string emmitter)
-    {
-        transform.position = spawnPos;
-        transform.forward = fwd;
-        transform.parent = null;
-        _maximumDistance = maximumDistance;
-        _travelledDistance = 0;
-        gameObject.tag = emmitter;
-        _stopMoving = false;
-
-        return this;
-    }
-
     public DMM_FragmentMissile Spawn(Vector3 spawnPos, Vector3 fwd, float maximumDistance, string emmitter, Player owner)
     {
         transform.position = spawnPos;

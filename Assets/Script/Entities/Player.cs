@@ -28,9 +28,11 @@ public class Player : MonoBehaviour, IDamageable
     bool _isStunned;
     bool _isDisarmed;
     bool _isUnableToMove;
+    bool _isCasting;
     public bool IsStunned { get { return _isStunned; } }
     public bool IsDisarmed { get { return _isDisarmed; } }
     public bool IsUnableToMove { get { return _isUnableToMove; } }
+    public bool IsCasting { get { return _isCasting; } }
 
     Renderer _rend;
     /// <summary>
@@ -251,6 +253,32 @@ public class Player : MonoBehaviour, IDamageable
         if (gameObject.activeInHierarchy) _actualPushCouroutine = StartCoroutine(ApplyPush(pushedTime, pusher));
     }
 
+    public void ApplyExplosionForce(float amount, Vector3 position, float radius, float upwardsModifier = 0)
+    {
+        _rb.AddExplosionForce(amount, position, radius, upwardsModifier, ForceMode.VelocityChange);
+
+    }
+
+    public void ApplyExplosionForce(float amount, Vector3 position, float radius, Player pusher, float upwardsModifier = 0)
+    {
+        _rb.AddExplosionForce(amount, position, radius, upwardsModifier, ForceMode.VelocityChange);
+
+        print("cacatua");
+
+        if (_actualPushCouroutine != null) StopCoroutine(_actualPushCouroutine);
+
+        if (gameObject.activeInHierarchy) _actualPushCouroutine = StartCoroutine(ApplyPush( pusher));
+    }
+
+    public void ApplyExplosionForce(float amount, Vector3 position, float radius, float pushedTime, Player pusher, float upwardsModifier = 0 )
+    {
+        _rb.AddExplosionForce(amount, position, radius, upwardsModifier, ForceMode.VelocityChange);
+
+        if (_actualPushCouroutine != null) StopCoroutine(_actualPushCouroutine);
+
+        if (gameObject.activeInHierarchy) _actualPushCouroutine = StartCoroutine(ApplyPush(pushedTime, pusher));
+    }
+
     public void ApplyStun(float duration)
     {
         StartCoroutine(ExecuteStun(duration));
@@ -271,6 +299,21 @@ public class Player : MonoBehaviour, IDamageable
         StartCoroutine(ExecuteSlowMovement(duration, amount));
     }
 
+    public void ApplyCastState(float duration)
+    {
+        StartCoroutine(ExecuteNeutralizedMovement(duration));
+    }
+
+    public void FinishCasting()
+    {
+        _isCasting = false;
+    }
+
+    public bool FinishedCasting()
+    {
+        return true;
+    }
+
     IEnumerator ExecuteStun(float duration)
     {
         _isStunned = true;
@@ -287,6 +330,15 @@ public class Player : MonoBehaviour, IDamageable
         yield return new WaitForSeconds(duration);
 
         _isDisarmed = false;
+    }
+
+    IEnumerator ExecuteCastTime(float duration)
+    {
+        _isCasting = true;
+
+        yield return new WaitForSeconds(duration);
+
+        _isCasting = false;
     }
 
     IEnumerator ExecuteNeutralizedMovement(float duration)
