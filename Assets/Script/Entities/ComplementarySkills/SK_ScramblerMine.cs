@@ -17,7 +17,7 @@ public class SK_ScramblerMine : ComplementarySkillBase
     protected override void CheckInput()
     {
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
-        else if (inputMethod() && !_owner.IsStunned && !_owner.IsDisarmed)
+        else if (inputMethod() && !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting)
         {
             if (MineActive()) _mine.Explode(true);
             

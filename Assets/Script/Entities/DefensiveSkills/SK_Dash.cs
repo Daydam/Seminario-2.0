@@ -37,7 +37,7 @@ public class SK_Dash : DefensiveSkillBase
     {
         if (control.DefensiveSkill())
         {
-            if (_actualCharges > 0 && !_owner.IsStunned && !_owner.IsDisarmed && !_isDashing && _canUse)
+            if (_actualCharges > 0 && !_owner.IsStunned && !_owner.IsDisarmed && !_isDashing && _canUse && !_owner.IsCasting)
             {
                 _trail.ShowTrails();
 

@@ -12,7 +12,7 @@ public class SK_StunMissile : ComplementarySkillBase
     protected override void CheckInput()
     {
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
-        else if (inputMethod() && !_owner.IsStunned && !_owner.IsDisarmed)
+        else if (inputMethod() && !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting)
         {
             StunMissileSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, _owner.gameObject.transform.forward, maxRange, _owner.gameObject.tag);
             _currentCooldown = maxCooldown;

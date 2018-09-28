@@ -1,11 +1,19 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SK_Blink : DefensiveSkillBase
 {
+    Renderer[] _rends;
+
+    public Shader[] acceptedShaders;
+
     public float maxCooldown;
     public float blinkDistance;
+    public float blinkDuration;
+    public float disableDuration;
     SkillTrail _trail;
 
     float _currentCooldown = 0;
@@ -14,6 +22,16 @@ public class SK_Blink : DefensiveSkillBase
     {
         base.Start();
         _trail = GetTrail();
+
+        _rends = _owner.GetComponentsInChildren<Renderer>()
+            .Aggregate(FList.Create<Renderer>(), (acum, curr) =>
+            {
+                for (int i = 0; i < acceptedShaders.Length; i++)
+                {
+                    if (curr.material.shader == acceptedShaders[i]) acum += curr;
+                }
+                return acum;
+            }).ToArray();
     }
 
     SkillTrail GetTrail()
@@ -24,7 +42,7 @@ public class SK_Blink : DefensiveSkillBase
     protected override void CheckInput()
     {
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
-        else if (control.DefensiveSkill() && !_owner.IsStunned && !_owner.IsDisarmed)
+        else if (control.DefensiveSkill() && !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting)
         {
             _trail.ShowTrails();
 
@@ -37,18 +55,58 @@ public class SK_Blink : DefensiveSkillBase
 
             _currentCooldown = maxCooldown;
 
-            StartCoroutine(TeleportTo(blinkPos));
+            StartCoroutine(TeleportHandler(blinkPos));
         }
     }
 
-    IEnumerator TeleportTo(Vector3 pos)
+    IEnumerator TeleportHandler(Vector3 pos)
     {
-        _owner.GetRigidbody.MovePosition(pos);
+        _owner.ApplyCastState(blinkDuration + disableDuration);
+        _owner.ApplyInvulnerability(blinkDuration);
 
-        yield return new WaitForSeconds(.3f);
+        var dir = pos - _owner.GetRigidbody.position;
+
+        var collapsePoint = Vector3.Lerp(_owner.GetRigidbody.position, pos, .5f);
+
+        foreach (var item in _rends)
+        {
+            item.material.SetVector("_CollapsePosition", collapsePoint);
+        }
+
+        _owner.GetRigidbody.isKinematic = true;
+
+        var distanceTraveled = 0f;
+
+        var amountByDelta = Time.fixedDeltaTime * blinkDistance / blinkDuration;
+
+        while (distanceTraveled < blinkDistance)
+        {
+            distanceTraveled += amountByDelta;
+            var nextPos = _owner.GetRigidbody.position + amountByDelta * dir.normalized;
+            _owner.GetRigidbody.MovePosition(nextPos);
+
+            yield return new WaitForFixedUpdate();
+        }
 
         _trail.StopShowing();
 
+        _owner.GetRigidbody.isKinematic = false;
+
+        foreach (var item in _rends)
+        {
+            item.material.SetVector("_CollapsePosition", new Vector3(500, 500, 500));
+        }
+
+        StartCoroutine(WaitForCastEnd(_owner.FinishedCasting));
+    }
+
+    public IEnumerator WaitForCastEnd(Func<bool> callback)
+    {
+        yield return new WaitUntil(callback);
+
+        _currentCooldown = maxCooldown;
+
+        //do coso con el shader
     }
 
     public override void ResetRound()

@@ -41,7 +41,7 @@ public class SK_EMPCaltrop : ComplementarySkillBase
     {
         if (inputMethod())
         {
-            if (_actualCharges > 0 && !_owner.IsStunned && !_owner.IsDisarmed && _canUse)
+            if (_actualCharges > 0 && !_owner.IsStunned && !_owner.IsDisarmed && _canUse && !_owner.IsCasting)
             {
                 _actualCharges--;
                 _canUse = false;

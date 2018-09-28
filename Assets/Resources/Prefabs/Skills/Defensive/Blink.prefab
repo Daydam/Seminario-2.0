@@ -2729,8 +2729,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1432fbe289fe44a4784c1b34f8db008e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  acceptedShaders:
+  - {fileID: 4800000, guid: 4e1fdf452b250354d987e6cf7a3068dc, type: 3}
+  - {fileID: 4800000, guid: b69c06e98c96ca241be5c309728903b6, type: 3}
   maxCooldown: 2
   blinkDistance: 3.5
+  blinkDuration: 0.7
+  disableDuration: 0.5
 --- !u!114 &114722725638050284
 MonoBehaviour:
   m_ObjectHideFlags: 1

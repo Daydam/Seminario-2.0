@@ -29,10 +29,12 @@ public class Player : MonoBehaviour, IDamageable
     bool _isDisarmed;
     bool _isUnableToMove;
     bool _isCasting;
+    bool _invulnerable;
     public bool IsStunned { get { return _isStunned; } }
     public bool IsDisarmed { get { return _isDisarmed; } }
     public bool IsUnableToMove { get { return _isUnableToMove; } }
     public bool IsCasting { get { return _isCasting; } }
+    public bool Invulnerable { get { return _invulnerable; } }
 
     Renderer _rend;
     /// <summary>
@@ -197,7 +199,7 @@ public class Player : MonoBehaviour, IDamageable
 
     void FixedUpdate()
     {
-        if (!IsStunned && !IsUnableToMove && !lockedByGame)
+        if (!IsStunned && !IsUnableToMove && !lockedByGame && !IsCasting)
         {
             Movement();
         }
@@ -226,17 +228,21 @@ public class Player : MonoBehaviour, IDamageable
 
     void SubstractLife(float damage)
     {
+        if (_invulnerable) return;
         Hp -= damage;
         _rend.material.SetFloat("_Life", Hp / maxHP);
     }
 
     public void ApplyKnockback(float amount, Vector3 dir)
     {
+        if (_invulnerable) return;
         _rb.AddForce(dir * amount, ForceMode.Impulse);
     }
 
     public void ApplyKnockback(float amount, Vector3 dir, Player pusher)
     {
+        if (_invulnerable) return;
+
         _rb.AddForce(dir * amount, ForceMode.Impulse);
 
         if (_actualPushCouroutine != null) StopCoroutine(_actualPushCouroutine);
@@ -246,6 +252,8 @@ public class Player : MonoBehaviour, IDamageable
 
     public void ApplyKnockback(float amount, Vector3 dir, float pushedTime, Player pusher)
     {
+        if (_invulnerable) return;
+
         _rb.AddForce(dir * amount, ForceMode.Impulse);
 
         if (_actualPushCouroutine != null) StopCoroutine(_actualPushCouroutine);
@@ -255,23 +263,28 @@ public class Player : MonoBehaviour, IDamageable
 
     public void ApplyExplosionForce(float amount, Vector3 position, float radius, float upwardsModifier = 0)
     {
+        if (_invulnerable) return;
+
         _rb.AddExplosionForce(amount, position, radius, upwardsModifier, ForceMode.VelocityChange);
 
     }
 
     public void ApplyExplosionForce(float amount, Vector3 position, float radius, Player pusher, float upwardsModifier = 0)
     {
+        if (_invulnerable) return;
+
         _rb.AddExplosionForce(amount, position, radius, upwardsModifier, ForceMode.VelocityChange);
 
-        print("cacatua");
 
         if (_actualPushCouroutine != null) StopCoroutine(_actualPushCouroutine);
 
-        if (gameObject.activeInHierarchy) _actualPushCouroutine = StartCoroutine(ApplyPush( pusher));
+        if (gameObject.activeInHierarchy) _actualPushCouroutine = StartCoroutine(ApplyPush(pusher));
     }
 
-    public void ApplyExplosionForce(float amount, Vector3 position, float radius, float pushedTime, Player pusher, float upwardsModifier = 0 )
+    public void ApplyExplosionForce(float amount, Vector3 position, float radius, float pushedTime, Player pusher, float upwardsModifier = 0)
     {
+        if (_invulnerable) return;
+
         _rb.AddExplosionForce(amount, position, radius, upwardsModifier, ForceMode.VelocityChange);
 
         if (_actualPushCouroutine != null) StopCoroutine(_actualPushCouroutine);
@@ -281,32 +294,40 @@ public class Player : MonoBehaviour, IDamageable
 
     public void ApplyStun(float duration)
     {
+        if (_invulnerable) return;
+
         StartCoroutine(ExecuteStun(duration));
     }
 
     public void ApplyDisarm(float duration)
     {
+        if (_invulnerable) return;
+
         StartCoroutine(ExecuteDisarm(duration));
     }
 
     public void ApplyNeutralizeMovement(float duration)
     {
+        if (_invulnerable) return;
+
         StartCoroutine(ExecuteNeutralizedMovement(duration));
     }
 
     public void ApplySlowMovement(float duration, float amount)
     {
+        if (_invulnerable) return;
+
         StartCoroutine(ExecuteSlowMovement(duration, amount));
     }
 
     public void ApplyCastState(float duration)
     {
-        StartCoroutine(ExecuteNeutralizedMovement(duration));
+        StartCoroutine(ExecuteCastTime(duration));
     }
 
-    public void FinishCasting()
+    public void ApplyInvulnerability(float duration)
     {
-        _isCasting = false;
+        StartCoroutine(ExecuteInvulnerabilityTime(duration));
     }
 
     public bool FinishedCasting()
@@ -339,6 +360,16 @@ public class Player : MonoBehaviour, IDamageable
         yield return new WaitForSeconds(duration);
 
         _isCasting = false;
+        FinishedCasting();
+    }
+
+    IEnumerator ExecuteInvulnerabilityTime(float duration)
+    {
+        _invulnerable = true;
+
+        yield return new WaitForSeconds(duration);
+
+        _invulnerable = false;
     }
 
     IEnumerator ExecuteNeutralizedMovement(float duration)

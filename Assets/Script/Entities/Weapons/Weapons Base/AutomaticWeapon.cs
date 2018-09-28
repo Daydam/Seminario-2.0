@@ -8,7 +8,7 @@ public class AutomaticWeapon : Weapon
     protected override void CheckInput()
     {
         if (currentCooldown > 0) currentCooldown -= Time.deltaTime;
-        else if (control.MainWeapon() && !_owner.IsStunned && !_owner.IsDisarmed)
+        else if (control.MainWeapon() && !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting)
         {
             Shoot();
             currentCooldown = realCooldown;

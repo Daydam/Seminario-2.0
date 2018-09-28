@@ -11,7 +11,12 @@ ModelImporter:
     2300000: //RootNode
     3300000: //RootNode
     4300000: Blink
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: _Blinkwire_086086086
+    second: {fileID: 2100000, guid: da7dd51730c6a1d47b54aebe649cfa5d, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
