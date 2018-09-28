@@ -4,6 +4,8 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using XInputDotNetPure;
+using System;
 
 public class EndgameManager : MonoBehaviour
 {
@@ -14,27 +16,39 @@ public class EndgameManager : MonoBehaviour
     public Text restart;
     public Text quit;
     GameObject[] _players;
+    Controller[] _controls;
+    public GameObject playerText;
+    public Color readyColor;
+    public Color backToMenuColor;
+    public Color notReadyColor;
 
     public string replaceStringName;
     public string replaceStringScore;
 
     public Transform[] spawnPos;
+    public Renderer[] pedestals;
+
+    bool _inputsAllowed = false;
 
     GameObject _winner;
 
-    void Start()
-    {
-        InitEndgame(.1f);
-    }
+    #region Pero mirá como está este copy & paste del CharacterSelectionManager papá
+    bool[] _resetInputs;
+    //XInput
+    PlayerIndex[] playerIndexes;
+    GamePadState[] previousGamePads;
+    GamePadState[] currentGamePads;
+    #endregion
 
-    public void InitEndgame(float delay)
+    void Start()
     {
         LoadPlayers();
         ApplyTexts();
         ActivateCamera(true);
 
         fader.gameObject.SetActive(true);
-        StartCoroutine(ReverseFade(delay));
+
+        _inputsAllowed = true;
     }
 
     IEnumerator FadeToBlack(float delay)
@@ -53,8 +67,6 @@ public class EndgameManager : MonoBehaviour
             fader.color = c;
         }
 
-        
-
         yield return new WaitForSeconds(delay / 3);
 
     }
@@ -68,6 +80,8 @@ public class EndgameManager : MonoBehaviour
         for (int i = 0; i < organizedPlayers.Length; i++)
         {
             var URLs = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (organizedPlayers[i] + 1));
+            _controls = new Controller[4];
+            _controls[i] = new Controller(i);
 
             //Dejo los objetos ccomo children del body por cuestiones de carga de los scripts. Assembler no debería generar problemas, ya que su parent objetivo sería el mismo.
             var player = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Bodies/" + URLs.bodyURL), spawnPos[i].position, Quaternion.identity);
@@ -75,7 +89,10 @@ public class EndgameManager : MonoBehaviour
             var comp1 = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary 1/" + URLs.complementaryURL[0]), player.transform.position, Quaternion.identity, player.transform);
             var comp2 = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary 2/" + URLs.complementaryURL[1]), player.transform.position, Quaternion.identity, player.transform);
             var def = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs.defensiveURL), player.transform.position, Quaternion.identity, player.transform);
-            
+            var tx = Instantiate(playerText, player.transform.position, Quaternion.identity, player.transform);
+            tx.transform.localPosition = Vector3.zero;
+            tx.transform.Rotate(transform.up, 180);
+
             CharacterAssembler.Assemble(player.gameObject, def, comp1, comp2, weapon);
 
             player.gameObject.layer = LayerMask.NameToLayer("Player" + (playerInfo.playerControllers[i] + 1));
@@ -85,24 +102,37 @@ public class EndgameManager : MonoBehaviour
                 t.gameObject.layer = LayerMask.NameToLayer("Player" + (playerInfo.playerControllers[i] + 1));
                 t.gameObject.tag = "Player " + (playerInfo.playerControllers[i] + 1);
             }
-            
+
             player.transform.forward = spawnPos[i].forward;
             _players[i] = player;
+
+            //tx.GetComponentInChildren<Text>().text = player.gameObject.tag + "\n" + organizedPlayers[i];
         }
 
         _winner = _players.First();
 
+        var l = _players.Length;
+        _resetInputs = new bool[l];
+        playerIndexes = new PlayerIndex[l];
+        previousGamePads = new GamePadState[l];
+        currentGamePads = new GamePadState[l];
+        for (int i = 0; i < currentGamePads.Length; i++)
+        {
+            currentGamePads[i] = GamePad.GetState((PlayerIndex)i);
+        }
+
         for (int i = 0; i < _players.Length; i++)
         {
             var score = playerInfo.playerScores[System.Array.IndexOf(playerInfo.playerControllers, organizedPlayers[i])];
-            EndgamePlayerText(_players[i], _players[i].gameObject.name);
+            EndgamePlayerText(_players[i], _players[i].gameObject.tag, score.ToString());
+            _resetInputs[i] = false;
         }
     }
 
-    void EndgamePlayerText(GameObject playerText, string score)
+    void EndgamePlayerText(GameObject playerText, string name, string score)
     {
         var tx = playerText.GetComponentInChildren<Text>();
-        tx.text = playerText.name + "\n" + score;
+        tx.text = name + "\n" + score;
     }
 
     void ApplyTexts()
@@ -112,7 +142,7 @@ public class EndgameManager : MonoBehaviour
         restart.gameObject.SetActive(true);
         quit.gameObject.SetActive(true);
 
-        winnerText.text = winnerText.text.Replace(replaceStringName, _winner.name);
+        winnerText.text = winnerText.text.Replace(replaceStringName, _winner.tag);
     }
 
     public void ActivateCamera(bool activate)
@@ -137,24 +167,59 @@ public class EndgameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.R)) ResetGame();
-        if (Input.GetKeyUp(KeyCode.Q)) QuitGame();
-        if (Input.GetKeyUp(KeyCode.B)) GoBackToMenu();
+        if (!_inputsAllowed) return;
+
+        for (int i = 0; i < currentGamePads.Length; i++)
+        {
+            previousGamePads[i] = currentGamePads[i];
+            currentGamePads[i] = GamePad.GetState((PlayerIndex)i);
+        }
+
+        if (ResetGame())
+        {
+            _inputsAllowed = false;
+            StartLoading("RingsStage");
+        }
+        else if (BackToMenu())
+        {
+            _inputsAllowed = false;
+            StartLoading("Character Selection");
+        }
     }
+
+    #region Enfermedad mágica mística me cago en dios
+    bool ResetGame()
+    {
+        for (int i = 0; i < currentGamePads.Length; i++)
+        {
+            if (JoystickInput.allKeys[JoystickKey.START](previousGamePads[i], currentGamePads[i]))
+            {
+                _resetInputs[i] = !_resetInputs[i];
+                var color = _resetInputs[i] ? readyColor : notReadyColor;
+                pedestals[i].material.SetColor("_EmissionColor", color);
+            }
+        }
+
+        return _resetInputs.All(x => x);
+    }
+
+    bool BackToMenu()
+    {
+        for (int i = 0; i < currentGamePads.Length; i++)
+        {
+            if (JoystickInput.allKeys[JoystickKey.BACK](previousGamePads[i], currentGamePads[i]))
+            {
+                pedestals[i].material.SetColor("_EmissionColor", backToMenuColor);
+                return true;
+            }
+        }
+        return false;
+    }
+    #endregion
 
     void QuitGame()
     {
         Application.Quit();
-    }
-
-    void ResetGame()
-    {
-        StartLoading("RingsStage");
-    }
-
-    void GoBackToMenu()
-    {
-        StartLoading("CharacterSelection");
     }
 
     void StartLoading(string sceneName)

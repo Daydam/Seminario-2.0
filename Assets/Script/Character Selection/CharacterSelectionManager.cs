@@ -56,8 +56,6 @@ public class CharacterSelectionManager : MonoBehaviour
     GamePadState[] previousGamePads;
     GamePadState[] currentGamePads;
 
-
-
     void Start()
     {
         ready = new bool[4] { false, false, false, false };
