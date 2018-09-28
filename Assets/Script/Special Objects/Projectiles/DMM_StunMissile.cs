@@ -102,6 +102,13 @@ public class DMM_StunMissile : MonoBehaviour
 
     void ActivateAOE()
     {
+        var particleID = SimpleParticleSpawner.ParticleID.STUNMISSILE;
+        var particle = SimpleParticleSpawner.Instance.particles[particleID].GetComponentInChildren<ParticleSystem>();
+
+        SimpleParticleSpawner.Instance.SpawnParticle(particle.gameObject, transform.position, transform.forward, null);
+
+        SimpleParticleSpawner.Instance.DestroyParticle(particle);
+
         _showGizmos = true;
         _stopMoving = true;
 

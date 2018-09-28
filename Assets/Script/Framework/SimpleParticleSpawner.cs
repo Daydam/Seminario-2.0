@@ -29,6 +29,9 @@ public class SimpleParticleSpawner : MonoBehaviour
         public const int BULLET = 0;
         public const int DAMAGE = 1;
         public const int MUZZLEFLASH = 2;
+        public const int REPULSIVEBATTERY = 3;
+        public const int FRAGMENTMISSILE = 4;
+        public const int STUNMISSILE = 5;
     }
 
     public void SpawnParticle(GameObject part, Vector3 pos, Vector3 dir, Transform prnt = null)
@@ -55,5 +58,15 @@ public class SimpleParticleSpawner : MonoBehaviour
     {
         var p = prnt ? GameObject.Instantiate(part, pos, dir, prnt) : GameObject.Instantiate(part, pos, dir);
         GameObject.Destroy(p, lifeTime);
+    }
+
+    public void DestroyParticle(ParticleSystem part)
+    {
+        Destroy(part.gameObject, 3);
+    }
+
+    public void DestroyParticle(ParticleSystem part, float t)
+    {
+        Destroy(part.gameObject, t);
     }
 }
