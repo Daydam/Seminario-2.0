@@ -63,8 +63,8 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < 2; i++)
             {
                 Camera c = GameObject.Find("Camera_P" + (i + 1)).GetComponent<Camera>();
-                c.rect = new Rect(0, 0, 2, 1);
                 cameraTexturesForTwoPlayers[i].width = 1280;
+                c.rect = new Rect(0, 0, 2, 1);
             }
         }
         else
@@ -72,8 +72,8 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < 2; i++)
             {
                 Camera c = GameObject.Find("Camera_P" + (i + 1)).GetComponent<Camera>();
-                c.rect = new Rect(0, 0, 1, 1);
                 cameraTexturesForTwoPlayers[i].width = 640;
+                c.rect = new Rect(0, 0, 1, 1);
             }
         }
 
