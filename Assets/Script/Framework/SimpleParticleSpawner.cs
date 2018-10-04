@@ -32,6 +32,7 @@ public class SimpleParticleSpawner : MonoBehaviour
         public const int REPULSIVEBATTERY = 3;
         public const int FRAGMENTMISSILE = 4;
         public const int STUNMISSILE = 5;
+        public const int VORTEX = 6;
     }
 
     public void SpawnParticle(GameObject part, Vector3 pos, Vector3 dir, Transform prnt = null)
@@ -57,6 +58,32 @@ public class SimpleParticleSpawner : MonoBehaviour
     public void SpawnParticle(GameObject part, Vector3 pos, Quaternion dir, float lifeTime, Transform prnt = null)
     {
         var p = prnt ? GameObject.Instantiate(part, pos, dir, prnt) : GameObject.Instantiate(part, pos, dir);
+        GameObject.Destroy(p, lifeTime);
+    }
+
+    public void SpawnParticle(int part, Vector3 pos, Vector3 dir, Transform prnt = null)
+    {
+        var p = prnt ? GameObject.Instantiate(particles[part], pos, Quaternion.identity, prnt) : GameObject.Instantiate(particles[part], pos, Quaternion.identity);
+        p.transform.forward = dir.normalized;
+        GameObject.Destroy(p, 3);
+    }
+
+    public void SpawnParticle(int part, Vector3 pos, Vector3 dir, float lifeTime, Transform prnt = null)
+    {
+        var p = prnt ? GameObject.Instantiate(particles[part], pos, Quaternion.identity, prnt) : GameObject.Instantiate(particles[part], pos, Quaternion.identity);
+        p.transform.forward = dir.normalized;
+        GameObject.Destroy(p, lifeTime);
+    }
+
+    public void SpawnParticle(int part, Vector3 pos, Quaternion dir, Transform prnt = null)
+    {
+        var p = prnt ? GameObject.Instantiate(particles[part], pos, dir, prnt) : GameObject.Instantiate(particles[part], pos, dir);
+        GameObject.Destroy(p, 3);
+    }
+
+    public void SpawnParticle(int part, Vector3 pos, Quaternion dir, float lifeTime, Transform prnt = null)
+    {
+        var p = prnt ? GameObject.Instantiate(particles[part], pos, dir, prnt) : GameObject.Instantiate(particles[part], pos, dir);
         GameObject.Destroy(p, lifeTime);
     }
 }

@@ -44,7 +44,7 @@ public class SK_Vortex : DefensiveSkillBase
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
         else if (control.DefensiveSkill() && !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting)
         {
-            _trail.ShowTrails();
+            //_trail.ShowTrails();
 
             var blinkPos = _owner.transform.position + _owner.transform.forward * blinkDistance;
 
@@ -54,6 +54,8 @@ public class SK_Vortex : DefensiveSkillBase
             }
 
             _currentCooldown = maxCooldown;
+
+            SimpleParticleSpawner.Instance.SpawnParticle(SimpleParticleSpawner.ParticleID.VORTEX, _owner.transform.position, _owner.movDir.normalized);
 
             StartCoroutine(TeleportHandler(blinkPos));
         }
@@ -88,7 +90,7 @@ public class SK_Vortex : DefensiveSkillBase
             yield return new WaitForFixedUpdate();
         }
 
-        _trail.StopShowing();
+        //_trail.StopShowing();
 
         _owner.GetRigidbody.isKinematic = false;
 
