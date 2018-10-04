@@ -19,11 +19,11 @@ public class HitscanBullet
         objDist = dist;
 
         var otherPlayerLayers = new int[] { LayerMask.NameToLayer("Player1"), LayerMask.NameToLayer("Player2"), LayerMask.NameToLayer("Player3"), LayerMask.NameToLayer("Player4") }
-                                       .Except(FList.Create(player.gameObject.layer))
-                                       .ToArray();
+                                            .Where(x => x != player.gameObject.layer)
+                                            .ToArray();
         var otherPlayerTags = new string[] { "Player1", "Player2", "Player3", "Player4" }
-                        .Except(FList.Create(player.gameObject.tag))
-                        .ToArray();
+                                             .Where(x => x != player.gameObject.tag)
+                                             .ToArray();
 
         if (hitDamagable)
         {
@@ -32,14 +32,17 @@ public class HitscanBullet
             var appliableDamage = GetCurveOutput(damage, objDist, pellets);
             var appliableKnockback = GetCurveOutput(damage, objDist, pellets);
 
-            if (col.gameObject.LayerMatchesWith(LayerMask.NameToLayer("DestructibleWall"), LayerMask.NameToLayer("DestructibleStructure")))
+            if (col.gameObject.LayerMatchesWith(LayerMask.NameToLayer("DestructibleWall"), LayerMask.NameToLayer("DestructibleStructure"))
+               || col.gameObject.TagMatchesWith("Shield")
+               || col.gameObject.TagMatchesWith(otherPlayerTags)
+               )
             {
-                var structure = col.GetComponent(typeof(IDamageable)) as IDamageable;
-                structure.TakeDamage(appliableDamage);
+                var damageable = col.GetComponent(typeof(IDamageable)) as IDamageable;
+                damageable.TakeDamage(appliableDamage);
             }
             else if (col.gameObject.LayerMatchesWith(otherPlayerLayers))
             {
-                var target = col.GetComponent<Player>();
+                var target = col.GetComponent(typeof(IDamageable)) as IDamageable;
 
                 target.TakeDamage(appliableDamage, player.tag);
 
@@ -48,12 +51,8 @@ public class HitscanBullet
 
                 SimpleParticleSpawner.Instance.SpawnParticle(damageParticle.gameObject, rch.point, rch.normal);
 
-                target.ApplyKnockback(knockback.Evaluate(dist) / pellets, dir.normalized, player);
-            }
-            else if (col.gameObject.TagMatchesWith("Shield") || col.gameObject.TagMatchesWith(otherPlayerTags))
-            {
-                var damageable = col.GetComponent(typeof(IDamageable)) as IDamageable;
-                damageable.TakeDamage(appliableDamage);
+                var playerComponent = col.GetComponent<Player>();
+                playerComponent.ApplyKnockback(knockback.Evaluate(dist) / pellets, dir.normalized, player);
             }
             else
             {

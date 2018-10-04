@@ -7,14 +7,13 @@ using UnityEngine.AI;
 public class DMM_ScramblerMine : MonoBehaviour, IDamageable
 {
     Rigidbody _rb;
-    Collider _coll;
+    Collider _col;
     NavMeshAgent _nav;
     public float damage, activationDelay, speed, maxHP;
 
     float _duration, _explosionRadius, _hp;
 
-    bool _activated, _hasTarget;
-
+    bool _activated;
     Player _target;
 
     public float Hp
@@ -26,14 +25,16 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
 
         private set
         {
-            _hp = value >= maxHP ? maxHP : value <= 0 ? 0 : value;
+            if (value <= 0) _hp = 0;
+            else if (value >= maxHP) _hp = maxHP;
+            else _hp = value;
         }
     }
 
     void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        _coll = GetComponent<Collider>();
+        _col = GetComponent<Collider>();
         _nav = GetComponent<NavMeshAgent>();
     }
 
@@ -70,7 +71,7 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
 
         ResetHP();
 
-        _coll.isTrigger = true;
+        _col.isTrigger = true;
 
         _duration = duration;
         _explosionRadius = explosionRadius;
@@ -115,7 +116,7 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
 
     Player GetTarget()
     {
-        return GameManager.Instance.Players.Where(x => x.gameObject.tag != gameObject.tag).OrderBy(a => Vector3.Distance(a.transform.position, transform.position)).First();
+        return GameManager.Instance.Players.Where(x => x.gameObject.tag != gameObject.tag).Where(x => x.gameObject.activeInHierarchy).OrderBy(a => Vector3.Distance(a.transform.position, transform.position)).First();
     }
 
     void HuntTarget()
@@ -195,6 +196,7 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
 
     void SubstractLife(float damage)
     {
+        print("Puta rastrera de mierda hija de re mil puta");
         Hp -= damage;
     }
 
