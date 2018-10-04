@@ -89,6 +89,7 @@ public class GameManager : MonoBehaviour
             var def = Instantiate(Resources.Load<GameObject>("Prefabs/Skills/Defensive/" + URLs.defensiveURL), player.transform.position, Quaternion.identity, player.transform);
 
             CharacterAssembler.Assemble(player.gameObject, def, comp1, comp2, weapon);
+            player.transform.forward = spawns[i].forward;
 
             comp1.GetComponent<ComplementarySkillBase>().RegisterInput(0);
             comp2.GetComponent<ComplementarySkillBase>().RegisterInput(1);

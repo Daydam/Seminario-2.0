@@ -21,7 +21,7 @@ public class SK_Vortex : DefensiveSkillBase
     protected override void Start()
     {
         base.Start();
-        _trail = GetTrail();
+        //_trail = GetTrail();
 
         _rends = _owner.GetComponentsInChildren<Renderer>()
             .Aggregate(FList.Create<Renderer>(), (acum, curr) =>
@@ -44,18 +44,18 @@ public class SK_Vortex : DefensiveSkillBase
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
         else if (control.DefensiveSkill() && !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting)
         {
-            //_trail.ShowTrails();
-
             var blinkPos = _owner.transform.position + _owner.transform.forward * blinkDistance;
+            var partDir = _owner.transform.forward;
 
             if (_owner.movDir != Vector3.zero)
             {
                 blinkPos = _owner.transform.position + _owner.movDir.normalized * blinkDistance;
+                partDir = _owner.movDir.normalized;
             }
 
             _currentCooldown = maxCooldown;
 
-            SimpleParticleSpawner.Instance.SpawnParticle(SimpleParticleSpawner.ParticleID.VORTEX, _owner.transform.position, _owner.movDir.normalized);
+            SimpleParticleSpawner.Instance.SpawnParticle(SimpleParticleSpawner.ParticleID.VORTEX, _owner.transform.position, partDir);
 
             StartCoroutine(TeleportHandler(blinkPos));
         }
@@ -90,8 +90,6 @@ public class SK_Vortex : DefensiveSkillBase
             yield return new WaitForFixedUpdate();
         }
 
-        //_trail.StopShowing();
-
         _owner.GetRigidbody.isKinematic = false;
 
         foreach (var item in _rends)
@@ -108,13 +106,11 @@ public class SK_Vortex : DefensiveSkillBase
 
         _currentCooldown = maxCooldown;
 
-        //do coso con el shader
     }
 
     public override void ResetRound()
     {
         _currentCooldown = 0;
-        _trail.StopShowing();
     }
 
     public override SkillState GetActualState()
