@@ -53,8 +53,6 @@ public class DMM_RepulsiveBattery : MonoBehaviour
 
         SimpleParticleSpawner.Instance.SpawnParticle(particle.gameObject, transform.position, transform.forward, null);
 
-        SimpleParticleSpawner.Instance.DestroyParticle(particle);
-
         var cols = Physics.OverlapSphere(transform.position, radius);
 
         if (!cols.Any()) return;

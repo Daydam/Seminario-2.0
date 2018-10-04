@@ -110,8 +110,6 @@ public class DMM_FragmentMissile : MonoBehaviour
 
         SimpleParticleSpawner.Instance.SpawnParticle(particle.gameObject, transform.position, transform.forward, null);
 
-        SimpleParticleSpawner.Instance.DestroyParticle(particle);
-
         _showGizmos = true;
         _stopMoving = true;
 

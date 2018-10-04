@@ -64,7 +64,7 @@ public class SK_PlasmaWall : DefensiveSkillBase
 
     void SpawnWall()
     {
-        PlasmaWallSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(SpawnPos.position, SpawnPos.forward);
+        PlasmaWallSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(SpawnPos.position, _owner.transform.forward);
     }
 
     public override void ResetRound()

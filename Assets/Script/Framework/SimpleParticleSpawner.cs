@@ -59,14 +59,4 @@ public class SimpleParticleSpawner : MonoBehaviour
         var p = prnt ? GameObject.Instantiate(part, pos, dir, prnt) : GameObject.Instantiate(part, pos, dir);
         GameObject.Destroy(p, lifeTime);
     }
-
-    public void DestroyParticle(ParticleSystem part)
-    {
-        Destroy(part.gameObject, 3);
-    }
-
-    public void DestroyParticle(ParticleSystem part, float t)
-    {
-        Destroy(part.gameObject, t);
-    }
 }

@@ -167,6 +167,8 @@ public class Player : MonoBehaviour, IDamageable
         _isStunned = false;
         _isDisarmed = false;
         _isUnableToMove = false;
+        _isCasting = false;
+        _invulnerable = false;
         _movementMultiplier = 1;
         isPushed = false;
         myPusher = null;

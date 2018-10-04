@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class SK_Blink : DefensiveSkillBase
+public class SK_Vortex : DefensiveSkillBase
 {
     Renderer[] _rends;
 

@@ -107,8 +107,6 @@ public class DMM_StunMissile : MonoBehaviour
 
         SimpleParticleSpawner.Instance.SpawnParticle(particle.gameObject, transform.position, transform.forward, null);
 
-        SimpleParticleSpawner.Instance.DestroyParticle(particle);
-
         _showGizmos = true;
         _stopMoving = true;
 
