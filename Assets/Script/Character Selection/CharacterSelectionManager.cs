@@ -49,6 +49,7 @@ public class CharacterSelectionManager : MonoBehaviour
 
     //A 4 index array that has values set for 0, 1, 2 or 3, 0 being weapon, 1 defensive, 2 first complementary, 3 second comp
     int[] selectedModifier;
+    public int[] SelectedModifier { get { return selectedModifier; } }
     Vector2[] lastAnalogValue;
 
     //XInput
