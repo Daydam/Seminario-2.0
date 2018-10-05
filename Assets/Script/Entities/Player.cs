@@ -87,8 +87,8 @@ public class Player : MonoBehaviour, IDamageable
 
     void Start()
     {
+        GameManager.Instance.OnResetRound += StopVibrating;
         GameManager.Instance.OnResetRound += ResetRound;
-        GameManager.Instance.OnResetRound += () => Control.SetVibration(0, 0);
     }
 
     void Update()
@@ -188,12 +188,14 @@ public class Player : MonoBehaviour, IDamageable
 
     void DestroyPlayer(DeathType type)
     {
+        StopVibrating();
         EventManager.Instance.DispatchEvent(PlayerEvents.Death, this, type, isPushed, gameObject.tag);
         gameObject.SetActive(false);
     }
 
     void DestroyPlayer(DeathType type, string killerTag)
     {
+        StopVibrating();
         EventManager.Instance.DispatchEvent(PlayerEvents.Death, this, type, isPushed, killerTag);
         gameObject.SetActive(false);
 

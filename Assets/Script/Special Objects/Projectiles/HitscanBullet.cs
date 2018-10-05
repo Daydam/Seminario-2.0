@@ -21,7 +21,7 @@ public class HitscanBullet
         var otherPlayerLayers = new int[] { LayerMask.NameToLayer("Player1"), LayerMask.NameToLayer("Player2"), LayerMask.NameToLayer("Player3"), LayerMask.NameToLayer("Player4") }
                                             .Where(x => x != player.gameObject.layer)
                                             .ToArray();
-        var otherPlayerTags = new string[] { "Player1", "Player2", "Player3", "Player4" }
+        var otherPlayerTags = new string[] { "Player 1", "Player 2", "Player 3", "Player 4" }
                                              .Where(x => x != player.gameObject.tag)
                                              .ToArray();
 
@@ -37,22 +37,25 @@ public class HitscanBullet
                || col.gameObject.TagMatchesWith(otherPlayerTags)
                )
             {
-                var damageable = col.GetComponent(typeof(IDamageable)) as IDamageable;
-                damageable.TakeDamage(appliableDamage);
-            }
-            else if (col.gameObject.LayerMatchesWith(otherPlayerLayers))
-            {
-                var target = col.GetComponent(typeof(IDamageable)) as IDamageable;
+                if (col.gameObject.LayerMatchesWith(otherPlayerLayers))
+                {
+                    var target = col.GetComponent(typeof(IDamageable)) as IDamageable;
 
-                target.TakeDamage(appliableDamage, player.tag);
+                    target.TakeDamage(appliableDamage, player.tag);
 
-                var damageParticleID = SimpleParticleSpawner.ParticleID.DAMAGE;
-                var damageParticle = SimpleParticleSpawner.Instance.particles[damageParticleID].GetComponentInChildren<ParticleSystem>();
+                    var damageParticleID = SimpleParticleSpawner.ParticleID.DAMAGE;
+                    var damageParticle = SimpleParticleSpawner.Instance.particles[damageParticleID].GetComponentInChildren<ParticleSystem>();
 
-                SimpleParticleSpawner.Instance.SpawnParticle(damageParticle.gameObject, rch.point, rch.normal);
+                    SimpleParticleSpawner.Instance.SpawnParticle(damageParticle.gameObject, rch.point, rch.normal);
 
-                var playerComponent = col.GetComponent<Player>();
-                playerComponent.ApplyKnockback(knockback.Evaluate(dist) / pellets, dir.normalized, player);
+                    var playerComponent = col.GetComponent<Player>();
+                    playerComponent.ApplyKnockback(knockback.Evaluate(dist) / pellets, dir.normalized, player);
+                }
+                else
+                {
+                    var damageable = col.GetComponent(typeof(IDamageable)) as IDamageable;
+                    damageable.TakeDamage(appliableDamage);
+                }
             }
             else
             {

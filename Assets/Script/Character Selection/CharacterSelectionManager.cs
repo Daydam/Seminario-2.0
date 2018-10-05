@@ -109,39 +109,42 @@ public class CharacterSelectionManager : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             if (players[i] == null) CheckStart(i);
-            else if(!ready[i])
+            else
             {
-                CheckSelect(i);
-                if (selectedModifier[i] == 0) SelectWeapon(i);
-                if (selectedModifier[i] == 1) SelectDefensive(i);
-                if (selectedModifier[i] == 2) SelectComplementary(i, 0);
-                if (selectedModifier[i] == 3) SelectComplementary(i, 1);
-            }
-            lastAnalogValue[i] = JoystickInput.LeftAnalog(currentGamePads[i]);
-
-
-            if (JoystickInput.allKeys[JoystickKey.START](previousGamePads[i], currentGamePads[i]))
-            {
-                ready[i] = !ready[i];
-                readyScreens[i].gameObject.SetActive(ready[i]);
-
-                if(ready[i])
+                if (!ready[i])
                 {
-                    var regPlayers = players.Where(a => a != default(Player)).ToArray();
-                    bool allReady = true;
-                    for (int f = 0; f < regPlayers.Length; f++)
-                    {
-                        int playerIndex = System.Array.IndexOf(players, regPlayers[f]);
-                        URLs[playerIndex].SaveJsonToDisk("Player " + (playerIndex + 1));
-                        if (!ready[playerIndex]) allReady = false;
-                    }
+                    CheckSelect(i);
+                    if (selectedModifier[i] == 0) SelectWeapon(i);
+                    if (selectedModifier[i] == 1) SelectDefensive(i);
+                    if (selectedModifier[i] == 2) SelectComplementary(i, 0);
+                    if (selectedModifier[i] == 3) SelectComplementary(i, 1);
+                }
+                lastAnalogValue[i] = JoystickInput.LeftAnalog(currentGamePads[i]);
 
-                    if (regPlayers.Length >= 2 && allReady)
+
+                if (JoystickInput.allKeys[JoystickKey.START](previousGamePads[i], currentGamePads[i]))
+                {
+                    ready[i] = !ready[i];
+                    readyScreens[i].gameObject.SetActive(ready[i]);
+
+                    if (ready[i])
                     {
-                        var reg = new RegisteredPlayers();
-                        reg.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
-                        Serializacion.SaveJsonToDisk(reg, "Registered Players");
-                        StartCoroutine(StartGameCoroutine());
+                        var regPlayers = players.Where(a => a != default(Player)).ToArray();
+                        bool allReady = true;
+                        for (int f = 0; f < regPlayers.Length; f++)
+                        {
+                            int playerIndex = System.Array.IndexOf(players, regPlayers[f]);
+                            URLs[playerIndex].SaveJsonToDisk("Player " + (playerIndex + 1));
+                            if (!ready[playerIndex]) allReady = false;
+                        }
+
+                        if (regPlayers.Length >= 2 && allReady)
+                        {
+                            var reg = new RegisteredPlayers();
+                            reg.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
+                            Serializacion.SaveJsonToDisk(reg, "Registered Players");
+                            StartCoroutine(StartGameCoroutine());
+                        }
                     }
                 }
             }

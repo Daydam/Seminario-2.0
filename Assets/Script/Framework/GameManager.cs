@@ -102,6 +102,8 @@ public class GameManager : MonoBehaviour
                 t.gameObject.tag = "Player " + (playerInfo.playerControllers[i] + 1);
             }
 
+            player.Score = 0;
+
             CamFollow cam = GameObject.Find("Camera_P" + (i + 1)).GetComponent<CamFollow>();
             cam.AssignTarget(player);
         }
@@ -224,6 +226,7 @@ public class GameManager : MonoBehaviour
     {
         EndRoundHandler.ResetTime();
         _gameEnded = true;
+        playerInfo.playerScores = new int[players.Count];
         for (int i = 0; i < Players.Count; i++)
         {
             Players[i].Control.SetVibration(0, 0);
