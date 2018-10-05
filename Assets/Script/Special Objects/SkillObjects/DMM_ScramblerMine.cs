@@ -15,6 +15,15 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
 
     bool _activated;
     Player _target;
+    TrailRenderer[] _rend;
+    public TrailRenderer[] Trail
+    {
+        get
+        {
+            if (_rend == null) _rend = GetComponentsInChildren<TrailRenderer>(true);
+            return _rend;
+        }
+    }
 
     public float Hp
     {
@@ -33,6 +42,10 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
 
     void Awake()
     {
+        foreach (var item in Trail)
+        {
+            item.enabled = false;
+        }
         _rb = GetComponent<Rigidbody>();
         _col = GetComponent<Collider>();
         _nav = GetComponent<NavMeshAgent>();
@@ -62,6 +75,11 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
 
     public DMM_ScramblerMine Spawn(Vector3 spawnPos, Vector3 fwd, float duration, float explosionRadius, string emmitter)
     {
+        foreach (var item in Trail)
+        {
+            item.enabled = false;
+        }
+
         transform.position = spawnPos;
 
         transform.forward = fwd;
@@ -111,6 +129,10 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
 
     void Activate()
     {
+        foreach (var item in Trail)
+        {
+            item.enabled = true;
+        }
         _activated = true;
     }
 
@@ -142,6 +164,11 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
         foreach (var pl in players)
         {
             pl.ApplyDisarm(_duration);
+        }
+
+        foreach (var item in Trail)
+        {
+            item.enabled = false;
         }
 
         ReturnToPool();
