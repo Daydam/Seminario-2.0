@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour
 
         AddEvents();
     }
-        
+
 
     void AddEvents()
     {
@@ -212,6 +212,7 @@ public class GameManager : MonoBehaviour
         {
             Players[i].gameObject.SetActive(true);
             Players[i].transform.position = spawns[i].transform.position;
+            Players[i].transform.forward = spawns[i].forward;
             Players[i].ResetHP();
             Players[i].StopAllCoroutines();
         }
@@ -229,7 +230,7 @@ public class GameManager : MonoBehaviour
         playerInfo.playerScores = new int[players.Count];
         for (int i = 0; i < Players.Count; i++)
         {
-            Players[i].Control.SetVibration(0, 0);
+            Players[i].StopVibrating();
             playerInfo.playerScores[i] = Players[i].Score;
         }
         Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
