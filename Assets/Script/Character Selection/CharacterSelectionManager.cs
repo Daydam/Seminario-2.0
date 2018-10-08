@@ -31,6 +31,7 @@ public class CharacterSelectionManager : MonoBehaviour
     public Text[] defensiveTexts;
     public Text[] complementary1Texts;
     public Text[] complementary2Texts;
+    public Text startWhenReadyText;
 
 
     public GameObject[] readyScreens;
@@ -164,6 +165,7 @@ public class CharacterSelectionManager : MonoBehaviour
 
     void CheckStart(int player)
     {
+        if(!startWhenReadyText.gameObject.activeSelf) startWhenReadyText.gameObject.SetActive(true);
         if (JoystickInput.allKeys[JoystickKey.A](previousGamePads[player], currentGamePads[player]))
         {
             URLs[player] = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (player + 1));
@@ -218,12 +220,14 @@ public class CharacterSelectionManager : MonoBehaviour
     {
         if (-0.3f < lastAnalogValue[player].y && lastAnalogValue[player].y < 0.3f)
         {
-            if (JoystickInput.LeftAnalog(currentGamePads[player]).y <= -0.3f)
+            if (JoystickInput.LeftAnalog(currentGamePads[player]).y <= -0.3f
+                || JoystickInput.allKeys[JoystickKey.A](previousGamePads[player], currentGamePads[player]))
             {
                 selectedModifier[player] = selectedModifier[player] + 1 > 3 ? 0 : selectedModifier[player] + 1;
             }
 
-            if (JoystickInput.LeftAnalog(currentGamePads[player]).y >= 0.3f)
+            if (JoystickInput.LeftAnalog(currentGamePads[player]).y >= 0.3f
+                || JoystickInput.allKeys[JoystickKey.B](previousGamePads[player], currentGamePads[player]))
             {
                 selectedModifier[player] = selectedModifier[player] - 1 < 0 ? 3 : selectedModifier[player] - 1;
             }

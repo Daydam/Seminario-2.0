@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Key Bindings", menuName = "ScriptableObjects/Configuration Files/Input/Key Bindings")]
+[CreateAssetMenu(fileName = "Key Bindings", menuName = "Scriptable Objects/Configuration/Input/Key Bindings")]
 public class SO_KeyBindings : ScriptableObject
 {
     public JoystickKey mainWeapon;
