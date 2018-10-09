@@ -165,9 +165,9 @@ public class CharacterSelectionManager : MonoBehaviour
 
     void CheckStart(int player)
     {
-        if(!startWhenReadyText.gameObject.activeSelf) startWhenReadyText.gameObject.SetActive(true);
         if (JoystickInput.allKeys[JoystickKey.A](previousGamePads[player], currentGamePads[player]))
         {
+            if (!startWhenReadyText.gameObject.activeSelf) startWhenReadyText.gameObject.SetActive(true);
             URLs[player] = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (player + 1));
             if (URLs[player] == default(CharacterURLs))
             {

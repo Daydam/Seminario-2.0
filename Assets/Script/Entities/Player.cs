@@ -152,7 +152,7 @@ public class Player : MonoBehaviour, IDamageable
 
     public void UpdateScore(int score)
     {
-        Score += score;
+        Score = Mathf.Max(0, Score + score);
     }
 
     public void ResetHP()

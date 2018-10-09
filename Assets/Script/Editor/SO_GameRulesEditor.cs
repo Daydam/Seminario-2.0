@@ -15,16 +15,19 @@ public class SO_GameRulesEditor : Editor
         if (titleStyle == null) titleStyle = new GUIStyle();
         titleStyle.fontStyle = FontStyle.Bold;
 
+        SerializedObject gameRules = new SerializedObject(Target);
+        gameRules.Update();
+
         EditorGUILayout.LabelField("Points awarded:", titleStyle);
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Points for killing");
-        Target.pointsPerKill = EditorGUILayout.DelayedIntField(Target.pointsPerKill);
+        EditorGUILayout.PropertyField(gameRules.FindProperty("pointsPerKill"));
         EditorGUILayout.LabelField("Points for being thrown off the arena");
-        Target.pointsPerDrop = EditorGUILayout.DelayedIntField(Target.pointsPerDrop);
+        EditorGUILayout.PropertyField(gameRules.FindProperty("pointsPerDrop"));
         EditorGUILayout.LabelField("Points for being last");
-        Target.pointsForLast = EditorGUILayout.DelayedIntField(Target.pointsForLast);
+        EditorGUILayout.PropertyField(gameRules.FindProperty("pointsForLast"));
         EditorGUILayout.LabelField("Points for suiciding");
-        Target.pointsPerSuicide = EditorGUILayout.DelayedIntField(Target.pointsPerSuicide);
+        EditorGUILayout.PropertyField(gameRules.FindProperty("pointsPerSuicide"));
         EditorGUILayout.Space();
 
         EditorGUILayout.LabelField("Points required to win:", titleStyle);
@@ -32,7 +35,10 @@ public class SO_GameRulesEditor : Editor
         if (Target.pointsToWin == null) Target.pointsToWin = new int[3];
         for (int i = 0; i < 3; i++)
         {
-            Target.pointsToWin[i] = EditorGUILayout.DelayedIntField((i+2) + " Players", Target.pointsToWin[i]);
+            var property = gameRules.FindProperty("pointsToWin");
+            EditorGUILayout.PropertyField(property.GetArrayElementAtIndex(i), new GUIContent((i + 2) + " Players"));
         }
+
+        gameRules.ApplyModifiedProperties();
     }
 }

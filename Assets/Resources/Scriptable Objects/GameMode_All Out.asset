@@ -9,10 +9,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00edd8a2b31c2bf4f97df3978208e2b3, type: 3}
-  m_Name: GameMode_Standard
+  m_Name: GameMode_All Out
   m_EditorClassIdentifier: 
-  pointsPerKill: 2
-  pointsPerDrop: -2
-  pointsPerSuicide: -1
-  pointsForLast: 1
+  pointsPerKill: 3
+  pointsPerDrop: -1000
+  pointsPerSuicide: -1000
+  pointsForLast: 0
   pointsToWin: 050000000700000009000000

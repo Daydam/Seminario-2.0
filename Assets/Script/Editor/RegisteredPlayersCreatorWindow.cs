@@ -2,41 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.Linq;
 
-public class DataCreatorWindow : EditorWindow
+public class RegisteredPlayersCreatorWindow : EditorWindow
 {
-    [Range(1, 4)]
-    int player = 1;
-    CharacterURLs character;
-
     bool showRegHelp;
     [Range(2, 4)]
     int amountOfPlayers = 2;
     RegisteredPlayers reg;
     List<int> regPlayers;
+    int currentModeIndex;
+    int[] modeIndexes;
+
+    string[] allModes;
 
     GUIStyle titleStyle;
-    GUIStyle subtitleStyle;
 
-    [MenuItem("Assistants/Data Creator")]
+    [MenuItem("Assistants/Data Creators/Registered Players")]
     static void CreateWindow()
     {
-        GetWindow(typeof(DataCreatorWindow), false, "Data Creator").Show();
+        GetWindow(typeof(RegisteredPlayersCreatorWindow), false, "Game Configuration Creator").Show();
     }
 
-    private void OnGUI()
+    void OnGUI()
     {
         if (titleStyle == null) titleStyle = new GUIStyle();
         titleStyle.fontStyle = FontStyle.Bold;
 
-        if (character == null) character = new CharacterURLs();
-        EditorGUILayout.LabelField("Character URLs", titleStyle);
-        EditorGUILayout.LabelField("This feature is under development. Please be patient, for my creator is pretending to be an artist right now. Sorry!");
-
-        EditorGUILayout.Space();
+        //RegisteredPlayers
         EditorGUILayout.LabelField("Game Configuration", titleStyle);
         if (GUILayout.Button("Show Help")) showRegHelp = !showRegHelp;
-        if (showRegHelp) EditorGUILayout.HelpBox("This is the Game Configuration section. Here, you can edit the amount of players and their respective controllers, as well as the game mode. Please remember that, when setting up the controllers, you must substract 1 from the actual controller number. For example, write 0 for controller 1", MessageType.Info);
+        if (showRegHelp) EditorGUILayout.HelpBox("This is the Game Configuration Window. Here, you can edit the amount of players and their respective controllers, as well as the game mode. Please remember that, when setting up the controllers, you must substract 1 from the actual controller number. For example, write 0 for controller 1", MessageType.Info);
         if (reg == null) reg = new RegisteredPlayers();
         if (regPlayers == null) regPlayers = new List<int> { 0, 0 };
         for (int i = 0; i < regPlayers.Count; i++)
@@ -51,7 +47,24 @@ public class DataCreatorWindow : EditorWindow
         }
         if (regPlayers.Count < 4)
             if (GUILayout.Button("Add")) regPlayers.Add(0);
-        reg.gameMode = EditorGUILayout.TextField("Game Mode", reg.gameMode);
+
+        if (allModes == null)
+        {
+            allModes = Resources.LoadAll<SO_GameRules>("Scriptable Objects").Select(a => a.name.Substring(9)).ToArray();
+            reg.gameMode = allModes[0];
+        }
+        if (modeIndexes == null)
+        {
+            modeIndexes = new int[allModes.Length];
+            for (int i = 0; i < modeIndexes.Length; i++)
+            {
+                modeIndexes[i] = i;
+            }
+        }
+        
+        currentModeIndex = EditorGUILayout.IntPopup(currentModeIndex, allModes, modeIndexes);
+        reg.gameMode = allModes[currentModeIndex];
+
         if(GUILayout.Button("Save Game Configuration"))
         {
             reg.playerControllers = new int[regPlayers.Count];
