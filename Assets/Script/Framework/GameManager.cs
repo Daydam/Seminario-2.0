@@ -9,17 +9,12 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public int scoreByKill = 2;
-    public int scoreByFalling = -1;
-    public int scoreByThrownOff = -2;
-    public int scoreBySurvivor = 1;
+    public SO_GameRules gameRules;
 
     bool _gameEnded = false;
 
     public event Action OnChangeScene = delegate { };
     public event Action OnResetRound = delegate { };
-
-    public int ScoreToReach;
 
     public Camera cam;
     public GameObject[] playerCameras;
@@ -76,6 +71,9 @@ public class GameManager : MonoBehaviour
                 c.rect = new Rect(0, 0, 1, 1);
             }
         }
+
+        //Setting the mode!
+        gameRules = Resources.Load("Scriptable Objects/GameMode_" + playerInfo.gameMode) as SO_GameRules;
 
         for (int i = 0; i < playerInfo.playerControllers.Length; i++)
         {
@@ -142,13 +140,13 @@ public class GameManager : MonoBehaviour
 
         if (deathType == DeathType.LaserGrid)
         {
-            var score = wasPushed ? scoreByThrownOff : scoreByFalling;
+            var score = wasPushed ? gameRules.pointsPerDrop : gameRules.pointsPerSuicide;
             dyingPlayer.UpdateScore(score);
         }
 
         if (dyingPlayer != playerKiller)
         {
-            playerKiller.UpdateScore(scoreByKill);
+            playerKiller.UpdateScore(gameRules.pointsPerKill);
         }
 
         Unregister(dyingPlayer);
@@ -175,7 +173,7 @@ public class GameManager : MonoBehaviour
     {
         if (players.Where(x => x.isActiveAndEnabled).Count() == 1)
         {
-            Players.First().UpdateScore(scoreBySurvivor);
+            Players.First().UpdateScore(gameRules.pointsForLast);
             EndRound();
         }
     }
@@ -220,7 +218,7 @@ public class GameManager : MonoBehaviour
 
     public bool CheckIfReachedPoints()
     {
-        return Players.Select(x => x.Score).OrderByDescending(x => x).First() >= ScoreToReach;
+        return Players.Select(x => x.Score).OrderByDescending(x => x).First() >= gameRules.pointsToWin[playerInfo.playerControllers.Length - 2];
     }
 
     public void EndGame()
