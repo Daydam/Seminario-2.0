@@ -29,7 +29,7 @@ public class StunMissileSpawner: MonoBehaviour
     void Awake()
     {
         instance = this;
-        objPrefab = Resources.Load<DMM_StunMissile>("Prefabs/StunMissile");
+        objPrefab = Resources.Load<DMM_StunMissile>("Prefabs/Projectiles/StunMissile");
         objPool = new Pool<DMM_StunMissile>(8, Factory, DMM_StunMissile.Initialize, DMM_StunMissile.Dispose, true);
     }
 

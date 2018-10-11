@@ -29,7 +29,7 @@ public class ScramblerMineSpawner : MonoBehaviour
     void Awake()
     {
         instance = this;
-        objPrefab = Resources.Load<DMM_ScramblerMine>("Prefabs/ScramblerMine");
+        objPrefab = Resources.Load<DMM_ScramblerMine>("Prefabs/Projectiles/ScramblerMine");
         objPool = new Pool<DMM_ScramblerMine>(8, Factory, DMM_ScramblerMine.Initialize, DMM_ScramblerMine.Dispose, true);
     }
 

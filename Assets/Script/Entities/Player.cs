@@ -25,6 +25,21 @@ public class Player : MonoBehaviour, IDamageable
     Rigidbody _rb;
     public Rigidbody GetRigidbody { get { return _rb; } }
 
+    Animator _scoreAnimator;
+    Animator ScoreAnimator
+    {
+        get
+        {
+            if (_scoreAnimator == null ) _scoreAnimator = transform.Find("ScorePopUp").GetComponent<Animator>();
+            return _scoreAnimator;
+        }
+
+        set
+        {
+            _scoreAnimator = value;
+        }
+    }
+
     bool _isStunned;
     bool _isDisarmed;
     bool _isUnableToMove;
@@ -83,6 +98,9 @@ public class Player : MonoBehaviour, IDamageable
         MovementMultiplier = 1;
         Hp = maxHP;
         gameObject.name = "Player " + (playerID + 1);
+        _scoreAnimator = transform.Find("ScorePopUp").GetComponent<Animator>();
+        _scoreAnimator.gameObject.layer = gameObject.layer;
+        _scoreAnimator.gameObject.tag = gameObject.tag;
     }
 
     void Start()
@@ -150,9 +168,16 @@ public class Player : MonoBehaviour, IDamageable
         }
     }
 
-    public void UpdateScore(int score)
+    public void UpdateScore(int points)
     {
-        Score = Mathf.Max(0, Score + score);
+        Score = Mathf.Max(0, Score + points);
+
+        ScoreAnimator.ResetTrigger("In");
+        ScoreAnimator.ResetTrigger("Out");
+
+        ScoreAnimator.Play("Hidden");
+        ScoreAnimator.SetTrigger("In");
+        ScoreAnimator.GetComponentInChildren<TextMesh>().text = "+ " + points.ToString();
     }
 
     public void ResetHP()
@@ -172,6 +197,10 @@ public class Player : MonoBehaviour, IDamageable
         _movementMultiplier = 1;
         isPushed = false;
         myPusher = null;
+
+        ScoreAnimator.ResetTrigger("In");
+        ScoreAnimator.ResetTrigger("Out");
+        ScoreAnimator.Play("Hidden");
     }
 
     public void ActivatePlayerEndgame(bool activate, string replaceName, string replaceScore)

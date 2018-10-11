@@ -66,7 +66,7 @@ public class SK_Vortex : DefensiveSkillBase
         _owner.ApplyCastState(blinkDuration + disableDuration);
         _owner.ApplyInvulnerability(blinkDuration);
 
-        var dir = pos - _owner.GetRigidbody.position;
+        var dir = pos - _owner.transform.position;
 
         var collapsePoint = Vector3.Lerp(_owner.GetRigidbody.position, pos, .5f);
 
@@ -81,10 +81,10 @@ public class SK_Vortex : DefensiveSkillBase
 
         var amountByDelta = Time.fixedDeltaTime * blinkDistance / blinkDuration;
 
-        while (distanceTraveled < blinkDistance)
+        while (distanceTraveled <= blinkDistance)
         {
             distanceTraveled += amountByDelta;
-            var nextPos = _owner.GetRigidbody.position + amountByDelta * dir.normalized;
+            var nextPos = _owner.transform.position + amountByDelta * dir.normalized;
             _owner.GetRigidbody.MovePosition(nextPos);
 
             yield return new WaitForFixedUpdate();

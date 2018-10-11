@@ -29,7 +29,7 @@ public class RepulsiveBatterySpawner : MonoBehaviour
     void Awake()
     {
         instance = this;
-        objPrefab = Resources.Load<DMM_RepulsiveBattery>("Prefabs/RepulsiveBattery");
+        objPrefab = Resources.Load<DMM_RepulsiveBattery>("Prefabs/Projectiles/RepulsiveBattery");
         objPool = new Pool<DMM_RepulsiveBattery>(8, Factory, DMM_RepulsiveBattery.Initialize, DMM_RepulsiveBattery.Dispose, true);
     }
 

@@ -29,7 +29,7 @@ public class FragmentMissileSpawner: MonoBehaviour
     void Awake()
     {
         instance = this;
-        objPrefab = Resources.Load<DMM_FragmentMissile>("Prefabs/FragmentMissile");
+        objPrefab = Resources.Load<DMM_FragmentMissile>("Prefabs/Projectiles/FragmentMissile");
         objPool = new Pool<DMM_FragmentMissile>(8, Factory, DMM_FragmentMissile.Initialize, DMM_FragmentMissile.Dispose, true);
     }
 

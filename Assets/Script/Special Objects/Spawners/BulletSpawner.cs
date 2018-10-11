@@ -29,7 +29,7 @@ public class BulletSpawner: MonoBehaviour
     void Awake()
     {
         instance = this;
-        bulletPrefab = Resources.Load<Bullet>("Prefabs/Bullet");
+        bulletPrefab = Resources.Load<Bullet>("Prefabs/Projectiles/Bullet");
         bulletPool = new Pool<Bullet>(8, Factory, Bullet.Initialize, Bullet.Dispose, true);
     }
 

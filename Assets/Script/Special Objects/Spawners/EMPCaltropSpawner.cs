@@ -29,7 +29,7 @@ public class EMPCaltropSpawner : MonoBehaviour
     void Awake()
     {
         instance = this;
-        objPrefab = Resources.Load<DMM_EMPCaltrop>("Prefabs/EMPCaltrop");
+        objPrefab = Resources.Load<DMM_EMPCaltrop>("Prefabs/Projectiles/EMPCaltrop");
         objPool = new Pool<DMM_EMPCaltrop>(8, Factory, DMM_EMPCaltrop.Initialize, DMM_EMPCaltrop.Dispose, true);
     }
 

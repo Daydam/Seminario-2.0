@@ -29,7 +29,7 @@ public class PlasmaWallSpawner : MonoBehaviour
     void Awake()
     {
         instance = this;
-        objPrefab = Resources.Load<DMM_PlasmaWall>("Prefabs/PlasmaWall");
+        objPrefab = Resources.Load<DMM_PlasmaWall>("Prefabs/Projectiles/PlasmaWall");
         objPool = new Pool<DMM_PlasmaWall>(8, Factory, DMM_PlasmaWall.Initialize, DMM_PlasmaWall.Dispose, true);
     }
 
