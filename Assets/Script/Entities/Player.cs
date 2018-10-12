@@ -99,7 +99,7 @@ public class Player : MonoBehaviour, IDamageable
         int playerID = GameManager.Instance.Register(this);
         control = new Controller(playerID);
         _rb = GetComponent<Rigidbody>();
-        _rend = GetComponentInChildren<SkinnedMeshRenderer>();
+        _rend = GetComponentInChildren<Renderer>();
         MovementMultiplier = 1;
         Hp = maxHP;
         gameObject.name = "Player " + (playerID + 1);
@@ -112,6 +112,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         GameManager.Instance.OnResetRound += StopVibrating;
         GameManager.Instance.OnResetRound += ResetRound;
+        GameManager.Instance.OnChangeScene += StopVibrating;
     }
 
     void Update()
@@ -199,6 +200,7 @@ public class Player : MonoBehaviour, IDamageable
     public void ResetRound()
     {
         StopAllCoroutines();
+        StopVibrating();
         _isStunned = false;
         _isDisarmed = false;
         _isUnableToMove = false;
@@ -229,6 +231,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         StopVibrating();
         EventManager.Instance.DispatchEvent(PlayerEvents.Death, this, type, isPushed, gameObject.tag);
+        _rb.velocity = Vector3.zero;
         gameObject.SetActive(false);
     }
 
@@ -236,6 +239,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         StopVibrating();
         EventManager.Instance.DispatchEvent(PlayerEvents.Death, this, type, isPushed, killerTag);
+        _rb.velocity = Vector3.zero;
         gameObject.SetActive(false);
     }
 

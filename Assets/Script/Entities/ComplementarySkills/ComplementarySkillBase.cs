@@ -36,7 +36,7 @@ public abstract class ComplementarySkillBase : SkillBase
 
     protected SkillStateIndicator GetModuleFeedback(int index)
     {
-        var indic = GameObject.Instantiate(Resources.Load<SkillStateIndicator>("Prefabs/Skills/Helpers/ModuleFeedback"), transform);
+        var indic = Instantiate(Resources.Load<SkillStateIndicator>("Prefabs/Skills/Helpers/ModuleFeedback"), transform);
         indic.InitializeIndicator(this);
         return (indic);
 
