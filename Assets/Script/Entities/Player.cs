@@ -30,7 +30,12 @@ public class Player : MonoBehaviour, IDamageable
     {
         get
         {
-            if (_scoreAnimator == null ) _scoreAnimator = transform.Find("ScorePopUp").GetComponent<Animator>();
+            if (_scoreAnimator == null)
+            {
+                _scoreAnimator = transform.Find("ScorePopUp").GetComponent<Animator>();
+                _scoreAnimator.gameObject.layer = gameObject.layer;
+                _scoreAnimator.gameObject.tag = gameObject.tag;
+            }
             return _scoreAnimator;
         }
 
@@ -170,14 +175,19 @@ public class Player : MonoBehaviour, IDamageable
 
     public void UpdateScore(int points)
     {
+        if (points == 0) return;
+
+        var sufix = points < 0 ? "- " : "+ ";
+
         Score = Mathf.Max(0, Score + points);
 
         ScoreAnimator.ResetTrigger("In");
         ScoreAnimator.ResetTrigger("Out");
 
+
         ScoreAnimator.Play("Hidden");
         ScoreAnimator.SetTrigger("In");
-        ScoreAnimator.GetComponentInChildren<TextMesh>().text = "+ " + points.ToString();
+        ScoreAnimator.GetComponentInChildren<TextMesh>().text = sufix + Mathf.Abs(points).ToString();
     }
 
     public void ResetHP()
@@ -227,7 +237,6 @@ public class Player : MonoBehaviour, IDamageable
         StopVibrating();
         EventManager.Instance.DispatchEvent(PlayerEvents.Death, this, type, isPushed, killerTag);
         gameObject.SetActive(false);
-
     }
 
     void FixedUpdate()

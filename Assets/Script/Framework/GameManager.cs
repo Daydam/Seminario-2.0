@@ -156,8 +156,8 @@ public class GameManager : MonoBehaviour
 
     public int Register(Player player)
     {
-        if (players == null) players = new List<Player>();
-        players.Add(player);
+        if (Players == null) players = new List<Player>();
+        Players.Add(player);
 
         var id = playerInfo.playerControllers[players.Count - 1];
         return id;
@@ -171,9 +171,10 @@ public class GameManager : MonoBehaviour
 
     public void CheckIfSurvivor()
     {
-        if (players.Where(x => x.isActiveAndEnabled).Count() == 1)
+        var alivePlayers = Players.Where(x => x.gameObject.activeInHierarchy);
+        if (alivePlayers.Count() < 2)
         {
-            Players.First().UpdateScore(gameRules.pointsForLast);
+            alivePlayers.First().UpdateScore(gameRules.pointsForLast);
             EndRound();
         }
     }

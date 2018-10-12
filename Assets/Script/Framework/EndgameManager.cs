@@ -75,11 +75,20 @@ public class EndgameManager : MonoBehaviour
     {
         var playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
         var organizedPlayers = playerInfo.playerControllers.OrderByDescending(a => playerInfo.playerScores[System.Array.IndexOf(playerInfo.playerControllers, a)]).ToArray();
-        _players = new GameObject[organizedPlayers.Length];
+        _players = new GameObject[playerInfo.playerControllers.Length];
+        var tupleList = new List<Tuple<int, int>>();
 
-        for (int i = 0; i < organizedPlayers.Length; i++)
+        for (int i = 0; i < playerInfo.playerControllers.Length; i++)
         {
-            var URLs = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (organizedPlayers[i] + 1));
+            var tuple = Tuple.Create(i, playerInfo.playerScores[System.Array.IndexOf(playerInfo.playerControllers, playerInfo.playerControllers[i])]);
+            tupleList.Add(tuple);
+        }
+
+        tupleList = tupleList.OrderByDescending(x => x.Item2).ToList();
+
+        for (int i = 0; i < tupleList.Count; i++)
+        {
+            var URLs = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (tupleList[i].Item1 + 1));
             _controls = new Controller[4];
             _controls[i] = new Controller(i);
 
@@ -95,12 +104,12 @@ public class EndgameManager : MonoBehaviour
 
             CharacterAssembler.Assemble(player.gameObject, def, comp1, comp2, weapon);
 
-            player.gameObject.layer = LayerMask.NameToLayer("Player" + (playerInfo.playerControllers[i] + 1));
-            player.gameObject.tag = "Player " + (playerInfo.playerControllers[i] + 1);
+            player.gameObject.layer = LayerMask.NameToLayer("Player" + (tupleList[i].Item1 + 1));
+            player.gameObject.tag = "Player " + (tupleList[i].Item1 + 1);
             foreach (Transform t in player.transform)
             {
-                t.gameObject.layer = LayerMask.NameToLayer("Player" + (playerInfo.playerControllers[i] + 1));
-                t.gameObject.tag = "Player " + (playerInfo.playerControllers[i] + 1);
+                t.gameObject.layer = LayerMask.NameToLayer("Player" + (tupleList[i].Item1 + 1));
+                t.gameObject.tag = "Player " + (tupleList[i].Item1 + 1);
             }
 
             player.transform.forward = spawnPos[i].forward;
@@ -123,7 +132,7 @@ public class EndgameManager : MonoBehaviour
 
         for (int i = 0; i < _players.Length; i++)
         {
-            var score = playerInfo.playerScores[System.Array.IndexOf(playerInfo.playerControllers, organizedPlayers[i])];
+            var score = tupleList[i].Item2;
             EndgamePlayerText(_players[i], _players[i].gameObject.tag, score.ToString());
             _resetInputs[i] = false;
         }
