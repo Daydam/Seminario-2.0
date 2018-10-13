@@ -10,7 +10,7 @@ public class TapWeapon : Weapon
     {
         Owner.ApplyVibration(0, VibrationIntensity, VibrationDuration);
         Owner.ApplyShake(ShakeDuration, ShakeIntensity);
-        var b = new HitscanBullet(Owner.transform.position, Owner.transform.forward, Owner, damageFalloff, knockbackFalloff, 1);
+        var b = new HitscanBullet(Owner.transform.position, Owner.transform.forward, Owner, _damageFalloff, _knockbackFalloff, 1);
         var particleID = SimpleParticleSpawner.ParticleID.BULLET;
 
         var particle = SimpleParticleSpawner.Instance.particles[particleID].GetComponentInChildren<ParticleSystem>();
@@ -31,16 +31,16 @@ public class TapWeapon : Weapon
 
     protected override void CheckInput()
     {
-        if (currentCooldown > 0) currentCooldown -= Time.deltaTime;
+        if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
 
-        if (control.MainWeapon() && _canUseWeapon())
+        if (_control.MainWeapon() && _canUseWeapon())
         {
-            if(canShoot && currentCooldown <= 0)
+            if(canShoot && _currentCooldown <= 0)
             {
                 Shoot();
 
                 canShoot = false;
-                currentCooldown = realCooldown;
+                _currentCooldown = _realCooldown;
             }
         }
         else canShoot = true;

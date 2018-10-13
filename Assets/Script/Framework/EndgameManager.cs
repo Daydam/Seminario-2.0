@@ -27,6 +27,7 @@ public class EndgameManager : MonoBehaviour
 
     public Transform[] spawnPos;
     public Renderer[] pedestals;
+    public string pedestalName = "Pedestal";
 
     bool _inputsAllowed = false;
 
@@ -71,20 +72,25 @@ public class EndgameManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     void LoadPlayers()
     {
         var playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
-        var organizedPlayers = playerInfo.playerControllers.OrderByDescending(a => playerInfo.playerScores[System.Array.IndexOf(playerInfo.playerControllers, a)]).ToArray();
         _players = new GameObject[playerInfo.playerControllers.Length];
-        var tupleList = new List<Tuple<int, int>>();
+
+        //index, score, pedestal
+        var tupleList = new List<Tuple<int, int, Renderer>>();
 
         for (int i = 0; i < playerInfo.playerControllers.Length; i++)
         {
-            var tuple = Tuple.Create(i, playerInfo.playerScores[System.Array.IndexOf(playerInfo.playerControllers, playerInfo.playerControllers[i])]);
-            tupleList.Add(tuple);
+            var tpl = Tuple.Create(i, playerInfo.playerScores[Array.IndexOf(playerInfo.playerControllers, playerInfo.playerControllers[i])], pedestals[i]);
+            tupleList.Add(tpl);
         }
 
         tupleList = tupleList.OrderByDescending(x => x.Item2).ToList();
+        pedestals = tupleList.Select(x => x.Item3).ToArray();
 
         for (int i = 0; i < tupleList.Count; i++)
         {
@@ -115,7 +121,6 @@ public class EndgameManager : MonoBehaviour
             player.transform.forward = spawnPos[i].forward;
             _players[i] = player;
 
-            //tx.GetComponentInChildren<Text>().text = player.gameObject.tag + "\n" + organizedPlayers[i];
         }
 
         _winner = _players.First();

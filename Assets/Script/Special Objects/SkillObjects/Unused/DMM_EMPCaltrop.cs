@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+/*
 public class DMM_EMPCaltrop : MonoBehaviour
 {
     Rigidbody _rb;
@@ -108,3 +109,4 @@ public class DMM_EMPCaltrop : MonoBehaviour
         EMPCaltropSpawner.Instance.ReturnToPool(this);
     }
 }
+*/

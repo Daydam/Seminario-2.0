@@ -9,6 +9,7 @@ public class SK_PlasmaWall : DefensiveSkillBase
     public float maxCooldown = 6f;
 
     float _currentCooldown = 0;
+    bool _canTap = true;
 
     public Transform SpawnPos
     {
@@ -27,11 +28,17 @@ public class SK_PlasmaWall : DefensiveSkillBase
     protected override void CheckInput()
     {
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
-        else if (control.DefensiveSkill() && _canUseSkill())
+
+        if (control.DefensiveSkill() && _canUseSkill())
         {
-            SpawnWall();
-            _currentCooldown = maxCooldown;
+            if (_canTap && _currentCooldown <= 0)
+            {
+                _canTap = false;
+                SpawnWall();
+                _currentCooldown = maxCooldown;
+            }
         }
+        else _canTap = true;
     }
 
     void SpawnWall()

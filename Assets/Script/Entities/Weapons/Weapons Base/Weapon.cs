@@ -5,19 +5,19 @@ using System;
 
 public abstract class Weapon : MonoBehaviour
 {
-    protected Controller control;
+    protected Controller _control;
     protected Player _owner;
     /*[SerializeField]*/
-    protected AnimationCurve damageFalloff;
+    protected AnimationCurve _damageFalloff;
     /*[SerializeField]*/
-    protected AnimationCurve knockbackFalloff;
+    protected AnimationCurve _knockbackFalloff;
     protected Func<bool> _canUseWeapon;
 
     [Range(1, 10)]
     public int RPMScore;
 
-    protected float realCooldown;
-    protected float currentCooldown = 0;
+    protected float _realCooldown;
+    protected float _currentCooldown = 0;
 
     static Dictionary<int, float> weaponRealCooldowns;
     public static Dictionary<int, float> WeaponCooldowns { get { return weaponRealCooldowns; } }
@@ -41,7 +41,7 @@ public abstract class Weapon : MonoBehaviour
 
     protected float VibrationDuration
     {
-        get { return Mathf.Min(realCooldown, .2f); }
+        get { return Mathf.Min(_realCooldown, .2f); }
     }
 
     protected float VibrationIntensity
@@ -51,7 +51,7 @@ public abstract class Weapon : MonoBehaviour
 
     protected float ShakeDuration
     {
-        get { return Mathf.Min(realCooldown, .2f); }
+        get { return Mathf.Min(_realCooldown, .2f); }
     }
 
     protected float ShakeIntensity
@@ -64,6 +64,7 @@ public abstract class Weapon : MonoBehaviour
         InitializeCooldowns(1);
         SetCurveValues();
         _muzzle = transform.Find("Muzzle");
+
     }
 
     protected virtual void SetCurveValues()
@@ -74,31 +75,32 @@ public abstract class Weapon : MonoBehaviour
 
     void SetDamageCurve()
     {
-        damageFalloff = new AnimationCurve();
+        _damageFalloff = new AnimationCurve();
         var initialKey = new Keyframe(0, maxDamage, 0, 0);
-        damageFalloff.AddKey(initialKey);
+        _damageFalloff.AddKey(initialKey);
         var startFalloff = new Keyframe(falloffStart, maxDamage, 0, 0);
-        damageFalloff.AddKey(startFalloff);
+        _damageFalloff.AddKey(startFalloff);
         var endFalloff = new Keyframe(falloffEnd, minDamage, 0, 0);
-        damageFalloff.AddKey(endFalloff);
+        _damageFalloff.AddKey(endFalloff);
     }
 
     void SetKnockbackCurve()
     {
-        knockbackFalloff = new AnimationCurve();
+        _knockbackFalloff = new AnimationCurve();
         var initialKey = new Keyframe(0, maxKnockback, 0, 0);
-        knockbackFalloff.AddKey(initialKey);
+        _knockbackFalloff.AddKey(initialKey);
         var startFalloff = new Keyframe(falloffStart, maxKnockback, 0, 0);
-        knockbackFalloff.AddKey(startFalloff);
+        _knockbackFalloff.AddKey(startFalloff);
         var endFalloff = new Keyframe(falloffEnd, minKnockback, 0, 0);
-        knockbackFalloff.AddKey(endFalloff);
+        _knockbackFalloff.AddKey(endFalloff);
     }
 
     void Start()
     {
-        realCooldown = WeaponCooldowns[RPMScore];
+        InitializeUseCondition();
+        _realCooldown = WeaponCooldowns[RPMScore];
         _owner = GetComponentInParent<Player>();
-        control = _owner.Control;
+        _control = _owner.Control;
     }
 
     void Update()

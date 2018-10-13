@@ -140,19 +140,7 @@ public class Player : MonoBehaviour, IDamageable
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.LayerMatchesWith(LayerMask.NameToLayer("Bullet")) && gameObject.TagDifferentFrom(col.gameObject.tag))
-        {
-            Bullet b = col.GetComponent<Bullet>();
-            TakeDamage(b.Damage, b.tag);
-
-            var knockbackInfo = b.GetKnockbackInfo();
-            var forceDir = transform.position - knockbackInfo.Item3;
-
-            ApplyKnockback(knockbackInfo.Item2, forceDir.normalized, knockbackInfo.Item1);
-
-            BulletSpawner.Instance.ReturnToPool(b);
-        }
-        else if (col.gameObject.LayerMatchesWith(LayerMask.NameToLayer("DeathZone")))
+        if (col.gameObject.LayerMatchesWith(LayerMask.NameToLayer("DeathZone")))
         {
             if (isPushed && myPusher != null)
             {
@@ -282,12 +270,15 @@ public class Player : MonoBehaviour, IDamageable
     public void ApplyKnockback(float amount, Vector3 dir)
     {
         if (_invulnerable) return;
+        _rb.velocity = Vector3.zero;
         _rb.AddForce(dir * amount, ForceMode.Impulse);
     }
 
     public void ApplyKnockback(float amount, Vector3 dir, Player pusher)
     {
         if (_invulnerable) return;
+
+        _rb.velocity = Vector3.zero;
 
         _rb.AddForce(dir * amount, ForceMode.Impulse);
 
@@ -300,6 +291,9 @@ public class Player : MonoBehaviour, IDamageable
     {
         if (_invulnerable) return;
 
+        _rb.velocity = Vector3.zero;
+
+
         _rb.AddForce(dir * amount, ForceMode.Impulse);
 
         if (_actualPushCouroutine != null) StopCoroutine(_actualPushCouroutine);
@@ -311,6 +305,9 @@ public class Player : MonoBehaviour, IDamageable
     {
         if (_invulnerable) return;
 
+        _rb.velocity = Vector3.zero;
+
+
         _rb.AddExplosionForce(amount, position, radius, upwardsModifier, ForceMode.VelocityChange);
 
     }
@@ -318,6 +315,9 @@ public class Player : MonoBehaviour, IDamageable
     public void ApplyExplosionForce(float amount, Vector3 position, float radius, Player pusher, float upwardsModifier = 0)
     {
         if (_invulnerable) return;
+
+        _rb.velocity = Vector3.zero;
+
 
         _rb.AddExplosionForce(amount, position, radius, upwardsModifier, ForceMode.VelocityChange);
 
@@ -330,6 +330,9 @@ public class Player : MonoBehaviour, IDamageable
     public void ApplyExplosionForce(float amount, Vector3 position, float radius, float pushedTime, Player pusher, float upwardsModifier = 0)
     {
         if (_invulnerable) return;
+
+        _rb.velocity = Vector3.zero;
+
 
         _rb.AddExplosionForce(amount, position, radius, upwardsModifier, ForceMode.VelocityChange);
 

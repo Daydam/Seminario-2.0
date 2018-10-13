@@ -109,6 +109,30 @@ public class GameManager : MonoBehaviour
         AddEvents();
     }
 
+    void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            Players[0].Score = 6;
+            Players[1].Score = 5;
+            Players[2].Score = 9;
+            Players[3].Score = 13;
+        }
+        else if (Input.GetKeyUp(KeyCode.Y))
+        {
+            Players[1].Score = 6;
+            Players[0].Score = 5;
+            Players[2].Score = 9;
+            Players[3].Score = 13;
+        }
+        else if (Input.GetKeyUp(KeyCode.I))
+        {
+            Players[2].Score = 6;
+            Players[1].Score = 5;
+            Players[0].Score = 9;
+            Players[3].Score = 13;
+        }
+    }
 
     void AddEvents()
     {
@@ -258,11 +282,6 @@ public class GameManager : MonoBehaviour
         StopAllCoroutines();
         instance = null;
         players = null;
-    }
-
-    void Clean()
-    {
-
     }
 }
 

@@ -22,7 +22,7 @@ public class Shotgun : TapWeapon
             var dispersionPoint = Random.Range(-maxDispersionRadius, maxDispersionRadius);
             var dir = Owner.transform.forward + (Owner.transform.right * dispersionPoint);
 
-            var b = new HitscanBullet(Owner.transform.position, dir.normalized, Owner, damageFalloff, knockbackFalloff, pellets);
+            var b = new HitscanBullet(Owner.transform.position, dir.normalized, Owner, _damageFalloff, _knockbackFalloff, pellets);
 
             var bulletParticleID = SimpleParticleSpawner.ParticleID.BULLET;
 

@@ -8,6 +8,7 @@ public class SK_Dash : DefensiveSkillBase
     public float dashDistance;
     public float dashTime;
     SkillTrail _trail;
+    bool _canTap = true;
 
     bool _isDashing;
     float _currentCooldown = 0;
@@ -31,19 +32,27 @@ public class SK_Dash : DefensiveSkillBase
     protected override void CheckInput()
     {
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
-        else if (control.DefensiveSkill() && _canUseSkill())
+
+        if (control.DefensiveSkill() && _canUseSkill())
         {
-            _trail.ShowTrails();
-
-            var dirV = _owner.transform.forward;
-
-            if (_owner.movDir != Vector3.zero)
+            if (_canTap && _currentCooldown <= 0)
             {
-                dirV = _owner.movDir;
-            }
+                _trail.ShowTrails();
 
-            StartCoroutine(DashHandler(dirV.normalized));
+                var dirV = _owner.transform.forward;
+
+                if (_owner.movDir != Vector3.zero)
+                {
+                    dirV = _owner.movDir;
+                }
+
+                _canTap = false;
+                StartCoroutine(DashHandler(dirV.normalized));
+                _currentCooldown = maxCooldown;
+            }
+            
         }
+        else _canTap = true;
     }
 
     IEnumerator DashHandler(Vector3 dir)
@@ -66,6 +75,8 @@ public class SK_Dash : DefensiveSkillBase
         _trail.StopShowing();
 
         _isDashing = false;
+        _canTap = false;
+
     }
 
     public override void ResetRound()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+/*
 public class EMPCaltropSpawner : MonoBehaviour
 {
     DMM_EMPCaltrop objPrefab;
@@ -68,3 +69,4 @@ public class EMPCaltropSpawner : MonoBehaviour
     }
 
 }
+*/

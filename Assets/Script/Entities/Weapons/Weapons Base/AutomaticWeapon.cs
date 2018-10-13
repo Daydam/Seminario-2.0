@@ -13,11 +13,11 @@ public class AutomaticWeapon : Weapon
 
     protected override void CheckInput()
     {
-        if (currentCooldown > 0) currentCooldown -= Time.deltaTime;
-        else if (control.MainWeapon() && _canUseWeapon())
+        if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
+        else if (_control.MainWeapon() && _canUseWeapon())
         {
             Shoot();
-            currentCooldown = realCooldown;
+            _currentCooldown = _realCooldown;
         }
     }
 
@@ -26,7 +26,7 @@ public class AutomaticWeapon : Weapon
         Owner.ApplyVibration(0, VibrationIntensity, VibrationDuration);
         Owner.ApplyShake(ShakeDuration, ShakeIntensity);
 
-        var b = new HitscanBullet(Owner.transform.position, Owner.transform.forward, Owner, damageFalloff, knockbackFalloff, 1);
+        var b = new HitscanBullet(Owner.transform.position, Owner.transform.forward, Owner, _damageFalloff, _knockbackFalloff, 1);
 
         var particleID = SimpleParticleSpawner.ParticleID.BULLET;
 

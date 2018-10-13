@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+/*
 public class BulletSpawner: MonoBehaviour
 {
     Bullet bulletPrefab;
@@ -68,3 +69,4 @@ public class BulletSpawner: MonoBehaviour
         }
     }
 }
+*/
