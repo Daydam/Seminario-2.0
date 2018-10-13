@@ -10,8 +10,9 @@ public abstract class ComplementarySkillBase : SkillBase
     protected Player _owner;
     protected Func<bool> inputMethod;
 
-    protected virtual void Start()
+    protected override void Start()
     {
+        InitializeUseCondition();
         GameManager.Instance.OnResetRound += ResetRound;
     }
 
@@ -39,9 +40,5 @@ public abstract class ComplementarySkillBase : SkillBase
         var indic = Instantiate(Resources.Load<SkillStateIndicator>("Prefabs/Skills/Helpers/ModuleFeedback"), transform);
         indic.InitializeIndicator(this);
         return (indic);
-
-        /*var prefix = index == 0 ? "Left" : "Right";
-
-        return _owner.GetComponentsInChildren<SkillStateIndicator>().Where(x => x.transform.parent.name == prefix + "ComplementaryModule").First();*/
     }
 }

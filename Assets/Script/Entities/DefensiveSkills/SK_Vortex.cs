@@ -21,7 +21,6 @@ public class SK_Vortex : DefensiveSkillBase
     protected override void Start()
     {
         base.Start();
-        //_trail = GetTrail();
 
         _rends = _owner.GetComponentsInChildren<Renderer>()
             .Aggregate(FList.Create<Renderer>(), (acum, curr) =>
@@ -34,6 +33,11 @@ public class SK_Vortex : DefensiveSkillBase
             }).ToArray();
     }
 
+    protected override void InitializeUseCondition()
+    {
+        _canUseSkill = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting;
+    }
+
     SkillTrail GetTrail()
     {
         return GetComponentInChildren<SkillTrail>();
@@ -42,7 +46,7 @@ public class SK_Vortex : DefensiveSkillBase
     protected override void CheckInput()
     {
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
-        else if (control.DefensiveSkill() && !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting)
+        else if (control.DefensiveSkill() && _canUseSkill())
         {
             var blinkPos = _owner.transform.position + _owner.transform.forward * blinkDistance;
             var partDir = _owner.transform.forward;

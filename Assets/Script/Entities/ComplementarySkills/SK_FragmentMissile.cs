@@ -9,10 +9,15 @@ public class SK_FragmentMissile : ComplementarySkillBase
 
     float _currentCooldown = 0;
 
+    protected override void InitializeUseCondition()
+    {
+        _canUseSkill = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting;
+    }
+
     protected override void CheckInput()
     {
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
-        else if (inputMethod() && !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting)
+        else if (inputMethod() && _canUseSkill())
         {
             FragmentMissileSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, _owner.gameObject.transform.forward, maxRange, _owner.gameObject.tag, _owner);
             _currentCooldown = maxCooldown;

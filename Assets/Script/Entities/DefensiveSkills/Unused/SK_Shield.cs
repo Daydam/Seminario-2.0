@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+/*
 public class SK_Shield : DefensiveSkillBase
 {
     public float maxCooldown;
@@ -112,3 +113,4 @@ public class SK_Shield : DefensiveSkillBase
         else return SkillState.Available;
     }
 }
+*/

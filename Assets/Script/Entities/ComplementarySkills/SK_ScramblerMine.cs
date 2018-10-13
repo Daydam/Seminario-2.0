@@ -12,12 +12,15 @@ public class SK_ScramblerMine : ComplementarySkillBase
 
     bool _inUse;
 
-    //TODO HACER QUE NO SE PUEDA TIRAR MÁS DE UNA SCRAMBLER
+    protected override void InitializeUseCondition()
+    {
+        _canUseSkill = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting;
+    }
 
     protected override void CheckInput()
     {
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
-        else if (inputMethod() && !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting)
+        else if (inputMethod() && _canUseSkill())
         {
             if (MineActive()) _mine.Explode(true);
             

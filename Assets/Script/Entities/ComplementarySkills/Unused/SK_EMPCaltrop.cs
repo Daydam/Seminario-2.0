@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+/*
 public class SK_EMPCaltrop : ComplementarySkillBase
 {
     public float maxCooldown, duration, amount, radius;
@@ -75,3 +76,4 @@ public class SK_EMPCaltrop : ComplementarySkillBase
         else return SkillState.Available;
     }
 }
+*/

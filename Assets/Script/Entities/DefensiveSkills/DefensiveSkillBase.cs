@@ -8,8 +8,9 @@ public abstract class DefensiveSkillBase : SkillBase
     protected Controller control;
     protected Player _owner;
 
-    protected virtual void Start()
+    protected override void Start()
     {
+        InitializeUseCondition();
         _owner = GetComponentInParent<Player>();
         control = _owner.Control;
         GameManager.Instance.OnResetRound += ResetRound;
