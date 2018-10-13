@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
 public class ChargeWeapon : Weapon
 {
     public float maxChargeTime;
@@ -25,9 +26,14 @@ public class ChargeWeapon : Weapon
         damageByCharge.AddKey(maxChargeKey);
     }
 
+    protected override void InitializeUseCondition()
+    {
+        _canUseWeapon = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting;
+    }
+
     protected override void CheckInput()
     {
-        if (control.MainWeapon() && !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting)
+        if (control.MainWeapon() && _canUseWeapon())
         {
             currentChargeTime = Mathf.Min(currentChargeTime + Time.deltaTime, maxChargeTime);
         }
@@ -44,3 +50,4 @@ public class ChargeWeapon : Weapon
         BulletSpawner.Instance.BulletPool.GetObjectFromPool().Spawn(bulletSpeed, damageByCharge.Evaluate(currentChargeTime), knockbackFalloff, transform.position, _owner.transform.rotation, gameObject.tag, _owner);
     }
 }
+*/

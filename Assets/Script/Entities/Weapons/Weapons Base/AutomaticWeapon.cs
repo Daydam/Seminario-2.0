@@ -5,10 +5,16 @@ using UnityEngine;
 
 public class AutomaticWeapon : Weapon
 {
+
+    protected override void InitializeUseCondition()
+    {
+        _canUseWeapon = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting;
+    }
+
     protected override void CheckInput()
     {
         if (currentCooldown > 0) currentCooldown -= Time.deltaTime;
-        else if (control.MainWeapon() && !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting)
+        else if (control.MainWeapon() && _canUseWeapon())
         {
             Shoot();
             currentCooldown = realCooldown;

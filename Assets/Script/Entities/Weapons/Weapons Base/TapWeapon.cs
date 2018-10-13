@@ -24,11 +24,16 @@ public class TapWeapon : Weapon
         SimpleParticleSpawner.Instance.SpawnParticle(muzzleFlashParticle.gameObject, _muzzle.transform.position, Owner.transform.forward, Owner.transform);
     }
 
+    protected override void InitializeUseCondition()
+    {
+        _canUseWeapon = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting;
+    }
+
     protected override void CheckInput()
     {
         if (currentCooldown > 0) currentCooldown -= Time.deltaTime;
 
-        if (control.MainWeapon() && !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting)
+        if (control.MainWeapon() && _canUseWeapon())
         {
             if(canShoot && currentCooldown <= 0)
             {
