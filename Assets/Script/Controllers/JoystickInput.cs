@@ -9,9 +9,6 @@ public class JoystickInput
     public static Dictionary<JoystickKey, Func<GamePadState, GamePadState, bool>> allKeys =
         new Dictionary<JoystickKey, Func<GamePadState, GamePadState, bool>>
         {
-            //Agarraos de las bolas, pues este será el peor hardcodeo de la historia tio. Joder.
-            //(a - 1 ) * 20 consigue el int de la tecla de cualquier jugador.
-            //PELOTUDO
             { JoystickKey.A, (a,b) => a.Buttons.A == ButtonState.Released && b.Buttons.A == ButtonState.Pressed},
             { JoystickKey.B, (a,b) => a.Buttons.B == ButtonState.Released && b.Buttons.B == ButtonState.Pressed},
             { JoystickKey.X, (a,b) => a.Buttons.X == ButtonState.Released && b.Buttons.X == ButtonState.Pressed},
@@ -24,6 +21,10 @@ public class JoystickInput
             { JoystickKey.RIGHT_STICK_CLICK, (a,b) => a.Buttons.RightStick == ButtonState.Released && b.Buttons.RightStick == ButtonState.Pressed},
             { JoystickKey.LT, (a,b) => b.Triggers.Left > 0},
             { JoystickKey.RT, (a,b) => b.Triggers.Right > 0},
+            { JoystickKey.DPAD_UP, (a,b) => a.DPad.Up == ButtonState.Released && b.DPad.Up == ButtonState.Pressed},
+            { JoystickKey.DPAD_DOWN, (a,b) => a.DPad.Down == ButtonState.Released && b.DPad.Down == ButtonState.Pressed},
+            { JoystickKey.DPAD_LEFT, (a,b) => a.DPad.Left == ButtonState.Released && b.DPad.Left == ButtonState.Pressed},
+            { JoystickKey.DPAD_RIGHT, (a,b) => a.DPad.Right == ButtonState.Released && b.DPad.Right == ButtonState.Pressed},
         };
 
     public static Vector2 LeftAnalog(GamePadState gamepad)
@@ -54,4 +55,8 @@ public enum JoystickKey
     START,
     LEFT_STICK_CLICK,
     RIGHT_STICK_CLICK,
+    DPAD_UP,
+    DPAD_DOWN,
+    DPAD_LEFT,
+    DPAD_RIGHT
 }

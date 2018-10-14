@@ -86,6 +86,7 @@ public class MutatorRing : MonoBehaviour
     {
         Reactivate();
         transform.position = startPos;
+        gameObject.SetActive(true);
     }
 
 }

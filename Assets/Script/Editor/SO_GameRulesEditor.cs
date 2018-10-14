@@ -9,6 +9,7 @@ public class SO_GameRulesEditor : Editor
 {
     SO_GameRules Target { get { return (SO_GameRules)target; } }
     GUIStyle titleStyle;
+    bool showHelp;
 
     public override void OnInspectorGUI()
     {
@@ -18,15 +19,17 @@ public class SO_GameRulesEditor : Editor
         SerializedObject gameRules = new SerializedObject(Target);
         gameRules.Update();
 
+        if (GUILayout.Button("Show/Hide Help")) showHelp = !showHelp;
+
         EditorGUILayout.LabelField("Points awarded:", titleStyle);
         EditorGUILayout.Space();
-        EditorGUILayout.LabelField("Points for killing");
+        if(showHelp) EditorGUILayout.HelpBox("Points for killing", MessageType.Info);
         EditorGUILayout.PropertyField(gameRules.FindProperty("pointsPerKill"));
-        EditorGUILayout.LabelField("Points for being thrown off the arena");
+        if (showHelp) EditorGUILayout.HelpBox("Points for being thrown off the arena", MessageType.Info);
         EditorGUILayout.PropertyField(gameRules.FindProperty("pointsPerDrop"));
-        EditorGUILayout.LabelField("Points for being last");
+        if (showHelp) EditorGUILayout.HelpBox("Points for being last", MessageType.Info);
         EditorGUILayout.PropertyField(gameRules.FindProperty("pointsForLast"));
-        EditorGUILayout.LabelField("Points for suiciding");
+        if (showHelp) EditorGUILayout.HelpBox("Points for suiciding", MessageType.Info);
         EditorGUILayout.PropertyField(gameRules.FindProperty("pointsPerSuicide"));
         EditorGUILayout.Space();
 

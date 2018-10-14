@@ -36,6 +36,7 @@ public class CharacterSelectionManager : MonoBehaviour
 
     public GameObject[] readyScreens;
     bool[] ready;
+    public bool[] Ready { get { return ready; } }
     GameObject[] players;
     GameObject[] currentWeapons;
     GameObject[,] currentComplementary;
@@ -148,6 +149,12 @@ public class CharacterSelectionManager : MonoBehaviour
                         }
                     }
                 }
+                else if (JoystickInput.allKeys[JoystickKey.B](previousGamePads[i], currentGamePads[i])
+                || JoystickInput.allKeys[JoystickKey.BACK](previousGamePads[i], currentGamePads[i]))
+                {
+                    ready[i] = false;
+                    readyScreens[i].gameObject.SetActive(false);
+                }
             }
         }
     }
@@ -221,24 +228,29 @@ public class CharacterSelectionManager : MonoBehaviour
         if (-0.3f < lastAnalogValue[player].y && lastAnalogValue[player].y < 0.3f)
         {
             if (JoystickInput.LeftAnalog(currentGamePads[player]).y <= -0.3f
-                || JoystickInput.allKeys[JoystickKey.A](previousGamePads[player], currentGamePads[player]))
+            || JoystickInput.allKeys[JoystickKey.DPAD_DOWN](previousGamePads[player], currentGamePads[player]))
             {
                 selectedModifier[player] = selectedModifier[player] + 1 > 3 ? 0 : selectedModifier[player] + 1;
             }
 
             if (JoystickInput.LeftAnalog(currentGamePads[player]).y >= 0.3f
-                || JoystickInput.allKeys[JoystickKey.B](previousGamePads[player], currentGamePads[player]))
+            || JoystickInput.allKeys[JoystickKey.DPAD_UP](previousGamePads[player], currentGamePads[player]))
             {
                 selectedModifier[player] = selectedModifier[player] - 1 < 0 ? 3 : selectedModifier[player] - 1;
             }
         }
+
+        if (JoystickInput.allKeys[JoystickKey.B](previousGamePads[player], currentGamePads[player])
+            || JoystickInput.allKeys[JoystickKey.BACK](previousGamePads[player], currentGamePads[player]))
+            CancelPlayer(player);
     }
 
     void SelectWeapon(int player)
     {
         if (-0.3f < lastAnalogValue[player].x && lastAnalogValue[player].x < 0.3f)
         {
-            if (JoystickInput.LeftAnalog(currentGamePads[player]).x >= 0.3f)
+            if (JoystickInput.LeftAnalog(currentGamePads[player]).x >= 0.3f
+            || JoystickInput.allKeys[JoystickKey.DPAD_RIGHT](previousGamePads[player], currentGamePads[player]))
             {
                 weaponIndexes[player]++;
                 if (weaponIndexes[player] >= weapons.Count) weaponIndexes[player] = 0;
@@ -250,7 +262,8 @@ public class CharacterSelectionManager : MonoBehaviour
                 currentWeapons[player] = CharacterAssembler.ChangePart(currentWeapons[player], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs[player].weaponURL), players[player].transform.position, Quaternion.identity));
             }
 
-            if (JoystickInput.LeftAnalog(currentGamePads[player]).x <= -0.3f)
+            if (JoystickInput.LeftAnalog(currentGamePads[player]).x <= -0.3f
+            || JoystickInput.allKeys[JoystickKey.DPAD_LEFT](previousGamePads[player], currentGamePads[player]))
             {
                 weaponIndexes[player]--;
                 if (weaponIndexes[player] < 0) weaponIndexes[player] = weapons.Count - 1;
@@ -278,7 +291,8 @@ public class CharacterSelectionManager : MonoBehaviour
     {
         if (-0.3f < lastAnalogValue[player].x && lastAnalogValue[player].x < 0.3f)
         {
-            if (JoystickInput.LeftAnalog(currentGamePads[player]).x >= 0.3f)
+            if (JoystickInput.LeftAnalog(currentGamePads[player]).x >= 0.3f
+            || JoystickInput.allKeys[JoystickKey.DPAD_RIGHT](previousGamePads[player], currentGamePads[player]))
             {
                 do
                 {
@@ -293,7 +307,8 @@ public class CharacterSelectionManager : MonoBehaviour
                 currentComplementary[player, compIndex] = CharacterAssembler.ChangePart(currentComplementary[player, compIndex], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary " + (compIndex + 1) + "/" + URLs[player].complementaryURL[compIndex]), players[player].transform.position, Quaternion.identity));
             }
 
-            if (JoystickInput.LeftAnalog(currentGamePads[player]).x <= -0.3f)
+            if (JoystickInput.LeftAnalog(currentGamePads[player]).x <= -0.3f
+            || JoystickInput.allKeys[JoystickKey.DPAD_LEFT](previousGamePads[player], currentGamePads[player]))
             {
                 do
                 {
@@ -333,7 +348,8 @@ public class CharacterSelectionManager : MonoBehaviour
     {
         if (-0.3f < lastAnalogValue[player].x && lastAnalogValue[player].x < 0.3f)
         {
-            if (JoystickInput.LeftAnalog(currentGamePads[player]).x >= 0.3f)
+            if (JoystickInput.LeftAnalog(currentGamePads[player]).x >= 0.3f
+            || JoystickInput.allKeys[JoystickKey.DPAD_RIGHT](previousGamePads[player], currentGamePads[player]))
             {
                 defensiveIndexes[player]++;
                 if (defensiveIndexes[player] >= defensiveSkills.Count) defensiveIndexes[player] = 0;
@@ -345,7 +361,8 @@ public class CharacterSelectionManager : MonoBehaviour
                 currentDefensive[player] = CharacterAssembler.ChangePart(currentDefensive[player], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL), players[player].transform.position, Quaternion.identity));
             }
 
-            if (JoystickInput.LeftAnalog(currentGamePads[player]).x <= -0.3f)
+            if (JoystickInput.LeftAnalog(currentGamePads[player]).x <= -0.3f
+            || JoystickInput.allKeys[JoystickKey.DPAD_LEFT](previousGamePads[player], currentGamePads[player]))
             {
                 defensiveIndexes[player]--;
                 if (defensiveIndexes[player] < 0) defensiveIndexes[player] = defensiveSkills.Count - 1;
@@ -366,5 +383,13 @@ public class CharacterSelectionManager : MonoBehaviour
         complementary1Texts[player].text = "Skill 1: " + finalComplementary1;
         var finalComplementary2 = complementarySkills[1][complementaryIndexes[player, 1]].gameObject.name;
         complementary2Texts[player].text = "Skill 2: " + finalComplementary2;
+    }
+
+    void CancelPlayer(int player)
+    {
+        Destroy(players[player]);
+        players[player] = null;
+        if(players.Where(a => a != null).ToArray().Length <= 0) startWhenReadyText.gameObject.SetActive(false);
+        blackScreens[player].gameObject.SetActive(true);
     }
 }

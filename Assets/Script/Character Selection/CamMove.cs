@@ -8,10 +8,29 @@ public class CamMove : MonoBehaviour
     public Transform[] camPositions;
     [Range(0,1)]
     public float movementSpeed;
+    CameraRotate parentRotation;
+    Vector3 originalParentForward;
 
-	void Update ()
+    void Start()
+    {
+        parentRotation = transform.parent.GetComponent<CameraRotate>();
+        originalParentForward = parentRotation.transform.forward;
+    }
+
+    void Update ()
 	{
-        transform.position = Vector3.Lerp(transform.position, camPositions[CharacterSelectionManager.Instance.SelectedModifier[playerIndex]].position, movementSpeed);
-        transform.forward = Vector3.Lerp(transform.forward, camPositions[CharacterSelectionManager.Instance.SelectedModifier[playerIndex]].forward, movementSpeed);
+        if(CharacterSelectionManager.Instance.Ready[playerIndex])
+        {
+            parentRotation.enabled = true;
+            transform.position = Vector3.Lerp(transform.position, camPositions[camPositions.Length-1].position, movementSpeed);
+            transform.forward = Vector3.Lerp(transform.forward, camPositions[camPositions.Length - 1].forward, movementSpeed);
+        }
+        else
+        {
+            parentRotation.enabled = false;
+            parentRotation.transform.forward = Vector3.Lerp(parentRotation.transform.forward, originalParentForward, movementSpeed);
+            transform.position = Vector3.Lerp(transform.position, camPositions[CharacterSelectionManager.Instance.SelectedModifier[playerIndex]].position, movementSpeed);
+            transform.forward = Vector3.Lerp(transform.forward, camPositions[CharacterSelectionManager.Instance.SelectedModifier[playerIndex]].forward, movementSpeed);
+        }
     }
 }

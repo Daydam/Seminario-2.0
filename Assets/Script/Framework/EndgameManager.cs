@@ -16,7 +16,6 @@ public class EndgameManager : MonoBehaviour
     public Text restart;
     public Text quit;
     GameObject[] _players;
-    Controller[] _controls;
     public GameObject playerText;
     public Color readyColor;
     public Color backToMenuColor;
@@ -78,27 +77,15 @@ public class EndgameManager : MonoBehaviour
     void LoadPlayers()
     {
         var playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
-        _players = new GameObject[playerInfo.playerControllers.Length];
+        var playerControllersOrdered = playerInfo.playerControllers.OrderByDescending(x => playerInfo.playerScores[Array.IndexOf(playerInfo.playerControllers, x)]).ToArray();
+        var playerScoresOrdered = playerInfo.playerScores.OrderByDescending(y => y).ToArray();
+        _players = new GameObject[playerControllersOrdered.Length];
 
-        //index, score, pedestal
-        var tupleList = new List<Tuple<int, int, Renderer>>();
-
-        for (int i = 0; i < playerInfo.playerControllers.Length; i++)
+        for (int i = 0; i < playerControllersOrdered.Length; i++)
         {
-            var tpl = Tuple.Create(i, playerInfo.playerScores[Array.IndexOf(playerInfo.playerControllers, playerInfo.playerControllers[i])], pedestals[i]);
-            tupleList.Add(tpl);
-        }
+            var URLs = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (playerControllersOrdered[i] + 1));
 
-        tupleList = tupleList.OrderByDescending(x => x.Item2).ToList();
-        pedestals = tupleList.Select(x => x.Item3).ToArray();
-
-        for (int i = 0; i < tupleList.Count; i++)
-        {
-            var URLs = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (tupleList[i].Item1 + 1));
-            _controls = new Controller[4];
-            _controls[i] = new Controller(i);
-
-            //Dejo los objetos ccomo children del body por cuestiones de carga de los scripts. Assembler no debería generar problemas, ya que su parent objetivo sería el mismo.
+            //Dejo los objetos como children del body por cuestiones de carga de los scripts. Assembler no debería generar problemas, ya que su parent objetivo sería el mismo.
             var player = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Bodies/" + URLs.bodyURL), spawnPos[i].position, Quaternion.identity);
             var weapon = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs.weaponURL), player.transform.position, Quaternion.identity, player.transform);
             var comp1 = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary 1/" + URLs.complementaryURL[0]), player.transform.position, Quaternion.identity, player.transform);
@@ -110,12 +97,12 @@ public class EndgameManager : MonoBehaviour
 
             CharacterAssembler.Assemble(player.gameObject, def, comp1, comp2, weapon);
 
-            player.gameObject.layer = LayerMask.NameToLayer("Player" + (tupleList[i].Item1 + 1));
-            player.gameObject.tag = "Player " + (tupleList[i].Item1 + 1);
+            player.gameObject.layer = LayerMask.NameToLayer("Player" + (playerControllersOrdered[i] + 1));
+            player.gameObject.tag = "Player " + (playerControllersOrdered[i] + 1);
             foreach (Transform t in player.transform)
             {
-                t.gameObject.layer = LayerMask.NameToLayer("Player" + (tupleList[i].Item1 + 1));
-                t.gameObject.tag = "Player " + (tupleList[i].Item1 + 1);
+                t.gameObject.layer = LayerMask.NameToLayer("Player" + (playerControllersOrdered[i] + 1));
+                t.gameObject.tag = "Player " + (playerControllersOrdered[i] + 1);
             }
 
             player.transform.forward = spawnPos[i].forward;
@@ -132,12 +119,13 @@ public class EndgameManager : MonoBehaviour
         currentGamePads = new GamePadState[l];
         for (int i = 0; i < currentGamePads.Length; i++)
         {
-            currentGamePads[i] = GamePad.GetState((PlayerIndex)i);
+            playerIndexes[i] = (PlayerIndex)playerControllersOrdered[i];
+            currentGamePads[i] = GamePad.GetState(playerIndexes[i]);
         }
 
         for (int i = 0; i < _players.Length; i++)
         {
-            var score = tupleList[i].Item2;
+            var score = playerScoresOrdered[i];
             EndgamePlayerText(_players[i], _players[i].gameObject.tag, score.ToString());
             _resetInputs[i] = false;
         }
@@ -186,7 +174,15 @@ public class EndgameManager : MonoBehaviour
         for (int i = 0; i < currentGamePads.Length; i++)
         {
             previousGamePads[i] = currentGamePads[i];
-            currentGamePads[i] = GamePad.GetState((PlayerIndex)i);
+            currentGamePads[i] = GamePad.GetState(playerIndexes[i]);
+
+            if (JoystickInput.allKeys[JoystickKey.START](previousGamePads[i], currentGamePads[i]))
+            {
+                _resetInputs[i] = !_resetInputs[i];
+                var color = _resetInputs[i] ? readyColor : notReadyColor;
+                pedestals[i].material.SetColor("_EmissionColor", color);
+            }
+
         }
 
         if (ResetGame())
@@ -204,16 +200,6 @@ public class EndgameManager : MonoBehaviour
     #region Enfermedad mágica mística me cago en dios
     bool ResetGame()
     {
-        for (int i = 0; i < currentGamePads.Length; i++)
-        {
-            if (JoystickInput.allKeys[JoystickKey.START](previousGamePads[i], currentGamePads[i]))
-            {
-                _resetInputs[i] = !_resetInputs[i];
-                var color = _resetInputs[i] ? readyColor : notReadyColor;
-                pedestals[i].material.SetColor("_EmissionColor", color);
-            }
-        }
-
         return _resetInputs.All(x => x);
     }
 
