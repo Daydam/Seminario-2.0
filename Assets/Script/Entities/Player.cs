@@ -199,6 +199,7 @@ public class Player : MonoBehaviour, IDamageable
         _movementMultiplier = 1;
         isPushed = false;
         myPusher = null;
+        CancelForces();
 
         ScoreAnimator.ResetTrigger("In");
         ScoreAnimator.ResetTrigger("Out");
@@ -273,7 +274,7 @@ public class Player : MonoBehaviour, IDamageable
     public void ApplyKnockback(float amount, Vector3 dir)
     {
         if (_invulnerable) return;
-        _rb.velocity = Vector3.zero;
+        CancelForces();
         _rb.AddForce(dir * amount, ForceMode.Impulse);
     }
 
@@ -281,8 +282,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         if (_invulnerable) return;
 
-        _rb.velocity = Vector3.zero;
-
+        CancelForces();
         _rb.AddForce(dir * amount, ForceMode.Impulse);
 
         if (_actualPushCouroutine != null) StopCoroutine(_actualPushCouroutine);
@@ -294,8 +294,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         if (_invulnerable) return;
 
-        _rb.velocity = Vector3.zero;
-
+        CancelForces();
 
         _rb.AddForce(dir * amount, ForceMode.Impulse);
 
@@ -308,8 +307,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         if (_invulnerable) return;
 
-        _rb.velocity = Vector3.zero;
-
+        CancelForces();
 
         _rb.AddExplosionForce(amount, position, radius, upwardsModifier, ForceMode.VelocityChange);
 
@@ -319,8 +317,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         if (_invulnerable) return;
 
-        _rb.velocity = Vector3.zero;
-
+        CancelForces();
 
         _rb.AddExplosionForce(amount, position, radius, upwardsModifier, ForceMode.VelocityChange);
 
@@ -334,14 +331,19 @@ public class Player : MonoBehaviour, IDamageable
     {
         if (_invulnerable) return;
 
-        _rb.velocity = Vector3.zero;
-
+        CancelForces();
 
         _rb.AddExplosionForce(amount, position, radius, upwardsModifier, ForceMode.VelocityChange);
 
         if (_actualPushCouroutine != null) StopCoroutine(_actualPushCouroutine);
 
         if (gameObject.activeInHierarchy) _actualPushCouroutine = StartCoroutine(ApplyPush(pushedTime, pusher));
+    }
+
+    public void CancelForces()
+    {
+        _rb.velocity = Vector3.zero;
+
     }
 
     public void ApplyStun(float duration)

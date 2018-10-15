@@ -67,6 +67,7 @@ public class SK_Dash : DefensiveSkillBase
 
     IEnumerator DashHandler(Vector3 dir)
     {
+        _owner.CancelForces();
         _isDashing = true;
 
         var distanceTraveled = 0f;
