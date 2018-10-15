@@ -16,6 +16,7 @@ public class AutomaticWeapon : Weapon
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
         else if (_control.MainWeapon() && _canUseWeapon())
         {
+            PlaySound(shootSound);
             Shoot();
             _currentCooldown = _realCooldown;
         }
@@ -39,5 +40,10 @@ public class AutomaticWeapon : Weapon
         var muzzleFlashParticle = SimpleParticleSpawner.Instance.particles[muzzleFlashID].GetComponentInChildren<ParticleSystem>();
 
         SimpleParticleSpawner.Instance.SpawnParticle(muzzleFlashParticle.gameObject, _muzzle.transform.position, Owner.transform.forward, Owner.transform);
+    }
+
+    public override void PlaySound(AudioClip sound)
+    {
+        _audioSource.PlayOneShot(sound);
     }
 }

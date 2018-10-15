@@ -12,7 +12,7 @@ public abstract class ComplementarySkillBase : SkillBase
 
     protected override void Start()
     {
-        InitializeUseCondition();
+        base.Start();
         GameManager.Instance.OnResetRound += ResetRound;
     }
 

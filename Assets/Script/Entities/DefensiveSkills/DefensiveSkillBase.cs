@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public abstract class DefensiveSkillBase : SkillBase
 {
     protected Controller control;
     protected Player _owner;
+    protected Func<bool> inputMethod;
 
     protected override void Start()
     {
-        InitializeUseCondition();
+        base.Start();
         _owner = GetComponentInParent<Player>();
         control = _owner.Control;
+        inputMethod = control.DefensiveSkill;
         GameManager.Instance.OnResetRound += ResetRound;
         _feedback = GetModuleFeedback();
     }

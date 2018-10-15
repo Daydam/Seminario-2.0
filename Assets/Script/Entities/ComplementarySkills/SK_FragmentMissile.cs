@@ -7,21 +7,31 @@ public class SK_FragmentMissile : ComplementarySkillBase
     public float maxCooldown;
     public float minRange, maxRange;
 
+    bool _canTap = true;
     float _currentCooldown = 0;
 
     protected override void InitializeUseCondition()
     {
-        _canUseSkill = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting;
+        _canUseSkill = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting && _currentCooldown <= 0;
     }
 
     protected override void CheckInput()
     {
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
-        else if (inputMethod() && _canUseSkill())
+        if (inputMethod())
         {
-            FragmentMissileSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, _owner.gameObject.transform.forward, maxRange, _owner.gameObject.tag, _owner);
-            _currentCooldown = maxCooldown;
+            if (_canUseSkill())
+            {
+                if (_canTap)
+                {
+                    _canTap = false;
+                    FragmentMissileSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, _owner.gameObject.transform.forward, maxRange, _owner.gameObject.tag, _owner);
+                    _currentCooldown = maxCooldown;
+                }
+            }
+            else _stateSource.PlayOneShot(unavailableSound);
         }
+        else _canTap = true;
     }
 
     public override void ResetRound()

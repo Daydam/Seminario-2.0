@@ -9,24 +9,34 @@ public class SK_ScramblerMine : ComplementarySkillBase
 
     float _currentCooldown = 0;
     DMM_ScramblerMine _mine;
-
+    bool _canTap = true;
     bool _inUse;
 
     protected override void InitializeUseCondition()
     {
-        _canUseSkill = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting;
+        _canUseSkill = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting && _currentCooldown <= 0;
     }
 
     protected override void CheckInput()
     {
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
-        else if (inputMethod() && _canUseSkill())
+
+        if (inputMethod())
         {
-            if (MineActive()) _mine.Explode(true);
-            
-            _mine = ScramblerMineSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(_owner.transform.position, _owner.gameObject.transform.forward, duration, radius, _owner.gameObject.tag);
-            _currentCooldown = maxCooldown;
+            if (_canUseSkill())
+            {
+                if (_canTap)
+                {
+                    _canTap = false;
+                    if (MineActive()) _mine.Explode(true);
+
+                    _mine = ScramblerMineSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(_owner.transform.position, _owner.gameObject.transform.forward, duration, radius, _owner.gameObject.tag);
+                    _currentCooldown = maxCooldown;
+                }
+            }
+            else _stateSource.PlayOneShot(unavailableSound);
         }
+        else _canTap = true;
     }
 
     public override void ResetRound()

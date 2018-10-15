@@ -37,6 +37,7 @@ public class TapWeapon : Weapon
         {
             if(canShoot && _currentCooldown <= 0)
             {
+                PlaySound(shootSound);
                 Shoot();
 
                 canShoot = false;

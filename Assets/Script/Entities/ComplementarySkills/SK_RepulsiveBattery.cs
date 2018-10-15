@@ -9,20 +9,31 @@ public class SK_RepulsiveBattery : ComplementarySkillBase
     public float maxCooldown;
     public float castTime;
 
+    bool _canTap = true;
     float _currentCooldown = 0;
 
     protected override void InitializeUseCondition()
     {
-        _canUseSkill = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting;
+        _canUseSkill = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting && _currentCooldown <= 0;
     }
 
     protected override void CheckInput()
     {
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
-        else if (inputMethod() && _canUseSkill())
+
+        if (inputMethod())
         {
-            UseSkill();
+            if (_canUseSkill())
+            {
+                if (_canTap)
+                {
+                    _canTap = false;
+                    UseSkill();
+                }
+            }
+            else _stateSource.PlayOneShot(unavailableSound);
         }
+        else _canTap = true;
     }
 
     void UseSkill()
@@ -36,6 +47,8 @@ public class SK_RepulsiveBattery : ComplementarySkillBase
         yield return new WaitUntil(callback);
         RepulsiveBatterySpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, _owner);
         _currentCooldown = maxCooldown;
+        _canTap = false;
+
     }
 
     public override void ResetRound()

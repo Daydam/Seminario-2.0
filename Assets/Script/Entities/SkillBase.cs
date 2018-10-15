@@ -9,7 +9,14 @@ public abstract class SkillBase : MonoBehaviour
     protected SkillStateIndicator _feedback;
     protected Func<bool> _canUseSkill;
 
-    protected abstract void Start();
+    protected AudioSource _stateSource;
+    public AudioClip unavailableSound;
+
+    protected virtual void Start()
+    {
+        _stateSource = GetComponent<AudioSource>();
+        InitializeUseCondition();
+    }
     protected abstract void InitializeUseCondition();
 
     /// <summary>

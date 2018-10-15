@@ -14,8 +14,9 @@ public class SK_Vortex : DefensiveSkillBase
     public float blinkDistance;
     public float blinkDuration;
     public float disableDuration;
-    SkillTrail _trail;
 
+    SkillTrail _trail;
+    bool _canTap = true;
     float _currentCooldown = 0;
 
     protected override void Start()
@@ -35,7 +36,7 @@ public class SK_Vortex : DefensiveSkillBase
 
     protected override void InitializeUseCondition()
     {
-        _canUseSkill = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting;
+        _canUseSkill = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting && _currentCooldown <= 0;
     }
 
     SkillTrail GetTrail()
@@ -46,23 +47,40 @@ public class SK_Vortex : DefensiveSkillBase
     protected override void CheckInput()
     {
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
-        else if (control.DefensiveSkill() && _canUseSkill())
+
+        if (control.DefensiveSkill())
         {
-            var blinkPos = _owner.transform.position + _owner.transform.forward * blinkDistance;
-            var partDir = _owner.transform.forward;
-
-            if (_owner.movDir != Vector3.zero)
+            if (_canUseSkill())
             {
-                blinkPos = _owner.transform.position + _owner.movDir.normalized * blinkDistance;
-                partDir = _owner.movDir.normalized;
+                if (_canTap)
+                {
+                    _canTap = false;
+                    var blinkPos = _owner.transform.position + _owner.transform.forward * blinkDistance;
+                    var partDir = _owner.transform.forward;
+
+                    if (_owner.movDir != Vector3.zero)
+                    {
+                        blinkPos = _owner.transform.position + _owner.movDir.normalized * blinkDistance;
+                        partDir = _owner.movDir.normalized;
+                    }
+
+                    _currentCooldown = maxCooldown;
+
+                    SimpleParticleSpawner.Instance.SpawnParticle(SimpleParticleSpawner.ParticleID.VORTEX, _owner.transform.position, partDir);
+
+                    StartCoroutine(TeleportHandler(blinkPos));
+                }
             }
-
-            _currentCooldown = maxCooldown;
-
-            SimpleParticleSpawner.Instance.SpawnParticle(SimpleParticleSpawner.ParticleID.VORTEX, _owner.transform.position, partDir);
-
-            StartCoroutine(TeleportHandler(blinkPos));
+            else
+            {
+                if (_canTap)
+                {
+                    _canTap = false;
+                    _stateSource.PlayOneShot(unavailableSound);
+                }
+            }
         }
+        else _canTap = true;
     }
 
     IEnumerator TeleportHandler(Vector3 pos)
@@ -109,7 +127,7 @@ public class SK_Vortex : DefensiveSkillBase
         yield return new WaitUntil(callback);
 
         _currentCooldown = maxCooldown;
-
+        _canTap = false;
     }
 
     public override void ResetRound()

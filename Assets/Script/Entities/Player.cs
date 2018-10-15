@@ -17,6 +17,7 @@ public class Player : MonoBehaviour, IDamageable
 
     CamFollow _cam;
     CameraShake _camShake;
+    DroneSoundController _soundModule;
 
     Coroutine _actualPushCouroutine;
 
@@ -106,6 +107,7 @@ public class Player : MonoBehaviour, IDamageable
         _scoreAnimator = transform.Find("ScorePopUp").GetComponent<Animator>();
         _scoreAnimator.gameObject.layer = gameObject.layer;
         _scoreAnimator.gameObject.tag = gameObject.tag;
+        _soundModule = GetComponent<DroneSoundController>();
     }
 
     void Start()
@@ -245,6 +247,7 @@ public class Player : MonoBehaviour, IDamageable
         var movVector = _rb.position + dir.normalized * Time.fixedDeltaTime * movementSpeed * MovementMultiplier;
         movDir = dir;
         _rb.MovePosition(movVector);
+        _soundModule.SetEnginePitch((control.LeftAnalog().y + control.LeftAnalog().x)/2 * movementSpeed * MovementMultiplier);
     }
 
     public void TakeDamage(float damage)

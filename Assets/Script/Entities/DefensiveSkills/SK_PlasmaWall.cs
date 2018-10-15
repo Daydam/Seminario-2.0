@@ -22,20 +22,31 @@ public class SK_PlasmaWall : DefensiveSkillBase
 
     protected override void InitializeUseCondition()
     {
-        _canUseSkill = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting;
+        _canUseSkill = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting && _currentCooldown <= 0;
     }
 
     protected override void CheckInput()
     {
         if (_currentCooldown > 0) _currentCooldown -= Time.deltaTime;
 
-        if (control.DefensiveSkill() && _canUseSkill())
+        if (control.DefensiveSkill())
         {
-            if (_canTap && _currentCooldown <= 0)
+            if (_canUseSkill())
             {
-                _canTap = false;
-                SpawnWall();
-                _currentCooldown = maxCooldown;
+                if (_canTap)
+                {
+                    _canTap = false;
+                    SpawnWall();
+                    _currentCooldown = maxCooldown;
+                }
+            }
+            else
+            {
+                if (_canTap)
+                {
+                    _canTap = false;
+                    _stateSource.PlayOneShot(unavailableSound);
+                }
             }
         }
         else _canTap = true;

@@ -13,6 +13,10 @@ public abstract class Weapon : MonoBehaviour
     protected AnimationCurve _knockbackFalloff;
     protected Func<bool> _canUseWeapon;
 
+    public AudioClip shootSound;
+    protected AudioSource _audioSource;
+    protected float _audioSourceOriginalPitch;
+
     [Range(1, 10)]
     public int RPMScore;
 
@@ -61,10 +65,11 @@ public abstract class Weapon : MonoBehaviour
 
     protected virtual void Awake()
     {
+        _audioSource = GetComponent<AudioSource>();
+        _audioSourceOriginalPitch = _audioSource.pitch;
         InitializeCooldowns(1);
         SetCurveValues();
         _muzzle = transform.Find("Muzzle");
-
     }
 
     protected virtual void SetCurveValues()
@@ -134,4 +139,16 @@ public abstract class Weapon : MonoBehaviour
     protected abstract void CheckInput();
 
     public abstract void Shoot();
+
+    public virtual void PlaySound(AudioClip sound)
+    {
+        _audioSource.PlayOneShot(sound);
+    }
+
+    [Obsolete("No usar ahora", true)]
+    public virtual void PlaySound(AudioClip sound, float minPitch, float maxPitch)
+    {
+        _audioSource.pitch = UnityEngine.Random.Range(minPitch, maxPitch);
+        _audioSource.PlayOneShot(sound);
+    }
 }
