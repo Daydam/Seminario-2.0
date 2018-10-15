@@ -71,9 +71,6 @@ public class EndgameManager : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     void LoadPlayers()
     {
         var playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
@@ -129,6 +126,20 @@ public class EndgameManager : MonoBehaviour
             EndgamePlayerText(_players[i], _players[i].gameObject.tag, score.ToString());
             _resetInputs[i] = false;
         }
+
+        HideUnusedPedestals();
+    }
+
+    void HideUnusedPedestals()
+    {
+        if (currentGamePads.Length < pedestals.Length)
+        {
+            var filteredPedestals = pedestals.Skip(currentGamePads.Length);
+            foreach (var item in filteredPedestals)
+            {
+                item.gameObject.SetActive(false);
+            }
+        }
     }
 
     void EndgamePlayerText(GameObject playerText, string name, string score)
@@ -182,7 +193,6 @@ public class EndgameManager : MonoBehaviour
                 var color = _resetInputs[i] ? readyColor : notReadyColor;
                 pedestals[i].material.SetColor("_EmissionColor", color);
             }
-
         }
 
         if (ResetGame())
