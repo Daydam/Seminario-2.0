@@ -26,6 +26,11 @@ public class Player : MonoBehaviour, IDamageable
     Rigidbody _rb;
     public Rigidbody GetRigidbody { get { return _rb; } }
 
+    PlayerScoreController _scoreController;
+
+    public int myID;
+
+
     Animator _scoreAnimator;
     Animator ScoreAnimator
     {
@@ -98,16 +103,20 @@ public class Player : MonoBehaviour, IDamageable
     void Awake()
     {
         int playerID = GameManager.Instance.Register(this);
+        myID = playerID;
         control = new Controller(playerID);
         _rb = GetComponent<Rigidbody>();
         _rend = GetComponentInChildren<Renderer>();
         MovementMultiplier = 1;
         Hp = maxHP;
         gameObject.name = "Player " + (playerID + 1);
+
+        _scoreController = GetComponent<PlayerScoreController>();
+        _soundModule = GetComponent<DroneSoundController>();
+
         _scoreAnimator = transform.Find("ScorePopUp").GetComponent<Animator>();
         _scoreAnimator.gameObject.layer = gameObject.layer;
         _scoreAnimator.gameObject.tag = gameObject.tag;
-        _soundModule = GetComponent<DroneSoundController>();
     }
 
     void Start()
@@ -168,17 +177,18 @@ public class Player : MonoBehaviour, IDamageable
     {
         if (points == 0) return;
 
-        var sufix = points < 0 ? "- " : "+ ";
+        var prefix = points < 0 ? "- " : "+ ";
 
         Score = Mathf.Max(0, Score + points);
 
-        ScoreAnimator.ResetTrigger("In");
-        ScoreAnimator.ResetTrigger("Out");
+        _scoreController.SetScore(Score, points);
 
+        /*ScoreAnimator.ResetTrigger("In");
+        ScoreAnimator.ResetTrigger("Out");
 
         ScoreAnimator.Play("Hidden");
         ScoreAnimator.SetTrigger("In");
-        ScoreAnimator.GetComponentInChildren<TextMesh>().text = sufix + Mathf.Abs(points).ToString();
+        ScoreAnimator.GetComponentInChildren<TextMesh>().text = sufix + Mathf.Abs(points).ToString();*/
     }
 
     public void ResetHP()
