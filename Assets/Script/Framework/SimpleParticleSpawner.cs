@@ -48,6 +48,7 @@ public class SimpleParticleSpawner : MonoBehaviour
         public const int FRAGMENTMISSILE = 4;
         public const int STUNMISSILE = 5;
         public const int VORTEX = 6;
+        public const int DEATHPARTICLE = 7;
     }
 
     void Start()

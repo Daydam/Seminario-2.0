@@ -231,6 +231,11 @@ public class Player : MonoBehaviour, IDamageable
     void DestroyPlayer(DeathType type)
     {
         StopVibrating();
+
+        var deathPartID = SimpleParticleSpawner.ParticleID.DEATHPARTICLE;
+        var deathParticle = SimpleParticleSpawner.Instance.particles[deathPartID].GetComponentInChildren<ParticleSystem>();
+        SimpleParticleSpawner.Instance.SpawnParticle(deathParticle.gameObject, transform.position, transform.forward, transform);
+
         EventManager.Instance.DispatchEvent(PlayerEvents.Death, this, type, isPushed, gameObject.tag);
         _rb.velocity = Vector3.zero;
         gameObject.SetActive(false);
@@ -239,6 +244,11 @@ public class Player : MonoBehaviour, IDamageable
     void DestroyPlayer(DeathType type, string killerTag)
     {
         StopVibrating();
+
+        var deathPartID = SimpleParticleSpawner.ParticleID.DEATHPARTICLE;
+        var deathParticle = SimpleParticleSpawner.Instance.particles[deathPartID].GetComponentInChildren<ParticleSystem>();
+        SimpleParticleSpawner.Instance.SpawnParticle(deathParticle.gameObject, transform.position, transform.forward);
+
         EventManager.Instance.DispatchEvent(PlayerEvents.Death, this, type, isPushed, killerTag);
         _rb.velocity = Vector3.zero;
         gameObject.SetActive(false);
