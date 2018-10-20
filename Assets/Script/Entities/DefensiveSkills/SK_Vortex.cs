@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// El favorito de papi :)
+/// </summary>
 public class SK_Vortex : DefensiveSkillBase
 {
     Renderer[] _rends;
@@ -132,6 +135,8 @@ public class SK_Vortex : DefensiveSkillBase
 
     public override void ResetRound()
     {
+        StopAllCoroutines();
+        _owner.GetRigidbody.isKinematic = false;
         _currentCooldown = 0;
     }
 

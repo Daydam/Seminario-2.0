@@ -29,7 +29,7 @@ Shader "Shader Forge/Electricity" {
             }
             Blend One One
             
-			Cull Front
+			Cull Off
 
             CGPROGRAM
             #pragma vertex vert

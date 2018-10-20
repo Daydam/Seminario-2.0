@@ -61,6 +61,8 @@ public class MutatorRing : MonoBehaviour
 
     public void Reactivate()
     {
+        StopAllCoroutines();
+
         for (int i = 0; i < _pieces.Length; i++)
         {
             _pieces[i].gameObject.SetActive(true);
@@ -87,6 +89,7 @@ public class MutatorRing : MonoBehaviour
         Reactivate();
         transform.position = startPos;
         gameObject.SetActive(true);
+        StopAllCoroutines();
     }
 
 }

@@ -268,13 +268,12 @@ public class Player : MonoBehaviour, IDamageable
         var movVector = _rb.position + dir.normalized * Time.fixedDeltaTime * movementSpeed * MovementMultiplier;
         movDir = dir;
         _rb.MovePosition(movVector);
-        _soundModule.SetEnginePitch((control.LeftAnalog().y + control.LeftAnalog().x)/2 * movementSpeed * MovementMultiplier);
+        //_soundModule.SetEnginePitch((control.LeftAnalog().y + control.LeftAnalog().x)/2 * movementSpeed * MovementMultiplier);
     }
 
     public void TakeDamage(float damage)
     {
         SubstractLife(damage);
-
         if (Hp <= 0) DestroyPlayer(DeathType.Player);
     }
 
@@ -287,6 +286,7 @@ public class Player : MonoBehaviour, IDamageable
     void SubstractLife(float damage)
     {
         if (_invulnerable) return;
+        ApplyVibration(1f, 0, 0.2f);
         Hp -= damage;
         _rend.material.SetFloat("_Life", Hp / maxHP);
     }
@@ -370,6 +370,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         if (_invulnerable) return;
 
+        _soundModule.PlayStunSound();
         StartCoroutine(ExecuteStun(duration));
     }
 
@@ -377,21 +378,8 @@ public class Player : MonoBehaviour, IDamageable
     {
         if (_invulnerable) return;
 
+        _soundModule.PlayDisarmSound();
         StartCoroutine(ExecuteDisarm(duration));
-    }
-
-    public void ApplyNeutralizeMovement(float duration)
-    {
-        if (_invulnerable) return;
-
-        StartCoroutine(ExecuteNeutralizedMovement(duration));
-    }
-
-    public void ApplySlowMovement(float duration, float amount)
-    {
-        if (_invulnerable) return;
-
-        StartCoroutine(ExecuteSlowMovement(duration, amount));
     }
 
     public void ApplyCastState(float duration)
@@ -444,24 +432,6 @@ public class Player : MonoBehaviour, IDamageable
         yield return new WaitForSeconds(duration);
 
         _invulnerable = false;
-    }
-
-    IEnumerator ExecuteNeutralizedMovement(float duration)
-    {
-        _isUnableToMove = true;
-
-        yield return new WaitForSeconds(duration);
-
-        _isUnableToMove = false;
-    }
-
-    IEnumerator ExecuteSlowMovement(float duration, float amount)
-    {
-        MovementMultiplier = amount;
-
-        yield return new WaitForSeconds(duration);
-
-        MovementMultiplier = 1;
     }
 
     IEnumerator ApplyPush(Player pusher)

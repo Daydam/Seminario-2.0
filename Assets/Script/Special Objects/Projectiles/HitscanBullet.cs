@@ -49,12 +49,13 @@ public class HitscanBullet
                     SimpleParticleSpawner.Instance.SpawnParticle(damageParticle.gameObject, rch.point, rch.normal);
 
                     var playerComponent = col.GetComponent<Player>();
-                    playerComponent.ApplyKnockback(knockback.Evaluate(dist) / pellets, dir.normalized, player);
+                    if (playerComponent) playerComponent.ApplyKnockback(knockback.Evaluate(dist) / pellets, dir.normalized, player);
+                    
                 }
                 else
                 {
                     var damageable = col.GetComponent(typeof(IDamageable)) as IDamageable;
-                    damageable.TakeDamage(appliableDamage);
+                    if(damageable != null) damageable.TakeDamage(appliableDamage);
                 }
             }
             else
