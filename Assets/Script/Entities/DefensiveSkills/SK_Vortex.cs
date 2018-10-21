@@ -9,9 +9,9 @@ using UnityEngine;
 /// </summary>
 public class SK_Vortex : DefensiveSkillBase
 {
-    Renderer[] _rends;
+    public AudioClip startVortex, endVortex;
 
-    public Shader[] acceptedShaders;
+    Renderer[] _rends;
 
     public float maxCooldown;
     public float blinkDistance;
@@ -25,16 +25,7 @@ public class SK_Vortex : DefensiveSkillBase
     protected override void Start()
     {
         base.Start();
-
-        _rends = _owner.GetComponentsInChildren<Renderer>()
-            .Aggregate(FList.Create<Renderer>(), (acum, curr) =>
-            {
-                for (int i = 0; i < acceptedShaders.Length; i++)
-                {
-                    if (curr.material.shader == acceptedShaders[i]) acum += curr;
-                }
-                return acum;
-            }).ToArray();
+        _rends = _owner.GetComponentsInChildren<Renderer>().Where(x => x.material.GetTag("VertexCollapse", true, "Nothing") != "Nothing").ToArray();
     }
 
     protected override void InitializeUseCondition()
@@ -79,7 +70,7 @@ public class SK_Vortex : DefensiveSkillBase
                 if (_canTap)
                 {
                     _canTap = false;
-                    _stateSource.PlayOneShot(unavailableSound);
+                    //_stateSource.PlayOneShot(unavailableSound);
                 }
             }
         }
@@ -88,8 +79,11 @@ public class SK_Vortex : DefensiveSkillBase
 
     IEnumerator TeleportHandler(Vector3 pos)
     {
+        bool mid = false;
+
         _owner.ApplyCastState(blinkDuration + disableDuration);
         _owner.ApplyInvulnerability(blinkDuration);
+        _stateSource.PlayOneShot(startVortex);
 
         var dir = pos - _owner.transform.position;
 
@@ -108,6 +102,12 @@ public class SK_Vortex : DefensiveSkillBase
 
         while (distanceTraveled <= blinkDistance)
         {
+            if (Mathf.Abs(distanceTraveled / blinkDistance) - 0.5f <= Mathf.Epsilon && !mid)
+            {
+                _stateSource.PlayOneShot(endVortex);
+                mid = true;
+            }
+
             distanceTraveled += amountByDelta;
             var nextPos = _owner.transform.position + amountByDelta * dir.normalized;
             _owner.GetRigidbody.MovePosition(nextPos);

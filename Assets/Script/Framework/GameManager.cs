@@ -43,8 +43,18 @@ public class GameManager : MonoBehaviour
     List<Player> players;
     public List<Player> Players { get { return players; } }
 
+    public AudioSource AudioSource
+    {
+        get
+        {
+            if (_audioSource == null) _audioSource = GetComponent<AudioSource>();
+            return _audioSource;
+        }
+    }
+
     RegisteredPlayers playerInfo;
     Transform[] spawns;
+    AudioSource _audioSource;
 
     void Start()
     {
@@ -196,7 +206,7 @@ public class GameManager : MonoBehaviour
     public void CheckIfSurvivor()
     {
         var alivePlayers = Players.Where(x => x.gameObject.activeInHierarchy);
-        if (alivePlayers.Count() < 2)
+        if (alivePlayers.Count() == 1)
         {
             alivePlayers.First().UpdateScore(gameRules.pointsForLast);
             EndRound();

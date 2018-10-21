@@ -43,19 +43,27 @@ public class HitscanBullet
 
                     target.TakeDamage(appliableDamage, player.tag);
 
-                    var damageParticleID = SimpleParticleSpawner.ParticleID.DAMAGE;
-                    var damageParticle = SimpleParticleSpawner.Instance.particles[damageParticleID].GetComponentInChildren<ParticleSystem>();
-
-                    SimpleParticleSpawner.Instance.SpawnParticle(damageParticle.gameObject, rch.point, rch.normal);
-
                     var playerComponent = col.GetComponent<Player>();
-                    if (playerComponent) playerComponent.ApplyKnockback(knockback.Evaluate(dist) / pellets, dir.normalized, player);
-                    
+                    if (playerComponent)
+                    {
+                        playerComponent.ApplyKnockback(knockback.Evaluate(dist) / pellets, dir.normalized, player);
+                        var damageParticleID = SimpleParticleSpawner.ParticleID.DAMAGE;
+                        var damageParticle = SimpleParticleSpawner.Instance.particles[damageParticleID].GetComponentInChildren<ParticleSystem>();
+
+                        SimpleParticleSpawner.Instance.SpawnParticle(damageParticle.gameObject, rch.point, rch.normal);
+
+                    }
                 }
                 else
                 {
                     var damageable = col.GetComponent(typeof(IDamageable)) as IDamageable;
-                    if(damageable != null) damageable.TakeDamage(appliableDamage);
+                    if (damageable != null) damageable.TakeDamage(appliableDamage);
+
+                    var wall = col.GetComponent<RingWall>();
+                    if (wall)
+                    {
+                        wall.PlayBulletHitSound();
+                    }
                 }
             }
             else

@@ -10,7 +10,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: b5c6e20a2607f0443a0295499dae2410, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 0
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -33,8 +33,13 @@ Material:
     m_Floats:
     - _Alpha: 0.76
     - _BorderWidth: 3.78
+    - _Falloff: 1.3
     - _MaskClipValue: 0.5
     - _PanScale: 0.54
+    - _Size: 3
     - __dirty: 0
     m_Colors:
+    - _BackgroundTint: {r: 0.11724133, g: 1, b: 0, a: 0}
+    - _CollapsePosition: {r: 0, g: 0, b: 0, a: 0}
+    - _NumberTint: {r: 1, g: 0, b: 0, a: 0}
     - _Tint: {r: 0.117240794, g: 1, b: 0, a: 0}

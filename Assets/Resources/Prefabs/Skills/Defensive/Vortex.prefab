@@ -273,7 +273,7 @@ GameObject:
   - component: {fileID: 33328167673283474}
   - component: {fileID: 23568490613010822}
   m_Layer: 0
-  m_Name: Blink
+  m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2811,9 +2811,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unavailableSound: {fileID: 8300000, guid: 9bb6b586b5f532749a7433b37ede251c, type: 3}
-  acceptedShaders:
-  - {fileID: 4800000, guid: 4e1fdf452b250354d987e6cf7a3068dc, type: 3}
-  - {fileID: 4800000, guid: b69c06e98c96ca241be5c309728903b6, type: 3}
+  startVortex: {fileID: 8300000, guid: d047a38f51f8c2648b63a55f5e82942e, type: 3}
+  endVortex: {fileID: 8300000, guid: fe3ab55ff0a896349ab15e88b1960352, type: 3}
   maxCooldown: 2
   blinkDistance: 3.5
   blinkDuration: 0.7

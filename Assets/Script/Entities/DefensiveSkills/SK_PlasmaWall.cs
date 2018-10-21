@@ -45,7 +45,7 @@ public class SK_PlasmaWall : DefensiveSkillBase
                 if (_canTap)
                 {
                     _canTap = false;
-                    _stateSource.PlayOneShot(unavailableSound);
+                    //_stateSource.PlayOneShot(unavailableSound);
                 }
             }
         }

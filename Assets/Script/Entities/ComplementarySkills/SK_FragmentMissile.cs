@@ -29,7 +29,7 @@ public class SK_FragmentMissile : ComplementarySkillBase
                     _currentCooldown = maxCooldown;
                 }
             }
-            else _stateSource.PlayOneShot(unavailableSound);
+            //else _stateSource.PlayOneShot(unavailableSound);
         }
         else _canTap = true;
     }

@@ -6,6 +6,8 @@ using System;
 
 public class SK_RepulsiveBattery : ComplementarySkillBase
 {
+    public AudioClip skillUse;
+
     public float maxCooldown;
     public float castTime;
 
@@ -31,7 +33,7 @@ public class SK_RepulsiveBattery : ComplementarySkillBase
                     UseSkill();
                 }
             }
-            else _stateSource.PlayOneShot(unavailableSound);
+            //else _stateSource.PlayOneShot(unavailableSound);
         }
         else _canTap = true;
     }
@@ -46,6 +48,7 @@ public class SK_RepulsiveBattery : ComplementarySkillBase
     {
         yield return new WaitUntil(callback);
         RepulsiveBatterySpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, _owner);
+        _stateSource.PlayOneShot(skillUse);
         _currentCooldown = maxCooldown;
         _canTap = false;
 

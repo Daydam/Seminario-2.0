@@ -34,7 +34,7 @@ public class SK_ScramblerMine : ComplementarySkillBase
                     _currentCooldown = maxCooldown;
                 }
             }
-            else _stateSource.PlayOneShot(unavailableSound);
+            //else _stateSource.PlayOneShot(unavailableSound);
         }
         else _canTap = true;
     }

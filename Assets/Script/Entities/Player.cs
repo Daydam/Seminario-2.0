@@ -30,27 +30,6 @@ public class Player : MonoBehaviour, IDamageable
 
     public int myID;
 
-
-    Animator _scoreAnimator;
-    Animator ScoreAnimator
-    {
-        get
-        {
-            if (_scoreAnimator == null)
-            {
-                _scoreAnimator = transform.Find("ScorePopUp").GetComponent<Animator>();
-                _scoreAnimator.gameObject.layer = gameObject.layer;
-                _scoreAnimator.gameObject.tag = gameObject.tag;
-            }
-            return _scoreAnimator;
-        }
-
-        set
-        {
-            _scoreAnimator = value;
-        }
-    }
-
     bool _isStunned;
     bool _isDisarmed;
     bool _isUnableToMove;
@@ -113,10 +92,6 @@ public class Player : MonoBehaviour, IDamageable
 
         _scoreController = GetComponent<PlayerScoreController>();
         _soundModule = GetComponent<DroneSoundController>();
-
-        _scoreAnimator = transform.Find("ScorePopUp").GetComponent<Animator>();
-        _scoreAnimator.gameObject.layer = gameObject.layer;
-        _scoreAnimator.gameObject.tag = gameObject.tag;
     }
 
     void Start()
@@ -182,13 +157,6 @@ public class Player : MonoBehaviour, IDamageable
         Score = Mathf.Max(0, Score + points);
 
         _scoreController.SetScore(Score, points);
-
-        /*ScoreAnimator.ResetTrigger("In");
-        ScoreAnimator.ResetTrigger("Out");
-
-        ScoreAnimator.Play("Hidden");
-        ScoreAnimator.SetTrigger("In");
-        ScoreAnimator.GetComponentInChildren<TextMesh>().text = sufix + Mathf.Abs(points).ToString();*/
     }
 
     public void ResetHP()
@@ -210,10 +178,6 @@ public class Player : MonoBehaviour, IDamageable
         isPushed = false;
         myPusher = null;
         CancelForces();
-
-        ScoreAnimator.ResetTrigger("In");
-        ScoreAnimator.ResetTrigger("Out");
-        ScoreAnimator.Play("Hidden");
     }
 
     public void ActivatePlayerEndgame(bool activate, string replaceName, string replaceScore)
@@ -231,6 +195,7 @@ public class Player : MonoBehaviour, IDamageable
     void DestroyPlayer(DeathType type)
     {
         StopVibrating();
+        _soundModule.PlayDeathSound();
 
         var deathPartID = SimpleParticleSpawner.ParticleID.DEATHPARTICLE;
         var deathParticle = SimpleParticleSpawner.Instance.particles[deathPartID].GetComponentInChildren<ParticleSystem>();
@@ -244,7 +209,7 @@ public class Player : MonoBehaviour, IDamageable
     void DestroyPlayer(DeathType type, string killerTag)
     {
         StopVibrating();
-
+        _soundModule.PlayDeathSound();
         var deathPartID = SimpleParticleSpawner.ParticleID.DEATHPARTICLE;
         var deathParticle = SimpleParticleSpawner.Instance.particles[deathPartID].GetComponentInChildren<ParticleSystem>();
         SimpleParticleSpawner.Instance.SpawnParticle(deathParticle.gameObject, transform.position, transform.forward);

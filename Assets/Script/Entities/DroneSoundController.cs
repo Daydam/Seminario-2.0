@@ -8,7 +8,7 @@ public class DroneSoundController : MonoBehaviour
 {
     [SerializeField] AudioSource _stateSource;
     public AudioClip stunSound;
-    public AudioClip disarmSound;
+    public AudioClip disarmSound, deathSound;
 
     Player _owner;
 
@@ -25,6 +25,10 @@ public class DroneSoundController : MonoBehaviour
     public void PlayDisarmSound()
     {
         _stateSource.PlayOneShot(disarmSound);
+    }
 
+    public void PlayDeathSound()
+    {
+        GameManager.Instance.AudioSource.PlayOneShot(deathSound);
     }
 }
