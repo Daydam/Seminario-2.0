@@ -127,10 +127,21 @@ public class CharacterSelectionManager : MonoBehaviour
                 if (JoystickInput.allKeys[JoystickKey.START](previousGamePads[i], currentGamePads[i]))
                 {
                     ready[i] = !ready[i];
-                    readyScreens[i].gameObject.SetActive(ready[i]);
-
+                    //readyScreens[i].gameObject.SetActive(ready[i]);
+                    readyScreens[i].GetComponentInChildren<Text>().text = ready[i] ? "Player " + (i + 1) + " Ready" : "Player " + (i + 1);
                     if (ready[i])
                     {
+                        //Set the text!
+                        var finalWeapon = weapons[weaponIndexes[i]].gameObject.name;
+                        weaponTexts[i].text = "Weapon: " + finalWeapon;
+                        var finalDefensive = defensiveSkills[defensiveIndexes[i]].gameObject.name;
+                        defensiveTexts[i].text = "Defensive: " + finalDefensive;
+                        var finalComplementary1 = complementarySkills[0][complementaryIndexes[i, 0]].gameObject.name;
+                        complementary1Texts[i].text = "Skill 1: " + finalComplementary1;
+                        var finalComplementary2 = complementarySkills[1][complementaryIndexes[i, 1]].gameObject.name;
+                        complementary2Texts[i].text = "Skill 2: " + finalComplementary2;
+
+                        //Check if they're all ready
                         var regPlayers = players.Where(a => a != default(Player)).ToArray();
                         bool allReady = true;
                         for (int f = 0; f < regPlayers.Length; f++)
@@ -153,7 +164,7 @@ public class CharacterSelectionManager : MonoBehaviour
                 || JoystickInput.allKeys[JoystickKey.BACK](previousGamePads[i], currentGamePads[i]))
                 {
                     ready[i] = false;
-                    readyScreens[i].gameObject.SetActive(false);
+                    //readyScreens[i].gameObject.SetActive(false);
                 }
             }
         }
