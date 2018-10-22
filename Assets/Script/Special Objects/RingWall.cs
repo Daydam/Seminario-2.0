@@ -64,6 +64,7 @@ public class RingWall : MonoBehaviour, IDamageable
 
     public void PlayBulletHitSound()
     {
-        _source.PlayOneShot(bulletHit);
+        //No parece quedar bien
+       // _source.PlayOneShot(bulletHit);
     }
 }
