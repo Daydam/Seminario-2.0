@@ -130,7 +130,7 @@ public class DMM_FragmentMissile : MonoBehaviour
         foreach (var play in inMinAoe)
         {
             var multiplier = _AOEDecay.Evaluate(minAoE);
-            play.TakeDamage(damage * multiplier);
+            play.TakeDamage(damage * multiplier, _owner.gameObject.tag);
             play.Stats.DamageTaken += damage * multiplier;
             _owner.Stats.DamageDealt += damage * multiplier;
             var forceDir = (play.transform.position - transform.position);
@@ -147,7 +147,7 @@ public class DMM_FragmentMissile : MonoBehaviour
         foreach (var play in inMedAoe)
         {
             var multiplier = _AOEDecay.Evaluate(medAoE);
-            play.TakeDamage(damage * multiplier);
+            play.TakeDamage(damage * multiplier, _owner.gameObject.tag);
             play.Stats.DamageTaken += damage * multiplier;
             _owner.Stats.DamageDealt += damage * multiplier;
             var forceDir = (play.transform.position - transform.position);
@@ -160,7 +160,7 @@ public class DMM_FragmentMissile : MonoBehaviour
         foreach (var play in inMaxAoe)
         {
             var multiplier = _AOEDecay.Evaluate(maxAoE);
-            play.TakeDamage(damage * multiplier);
+            play.TakeDamage(damage * multiplier, _owner.gameObject.tag);
             play.Stats.DamageTaken += damage * multiplier;
             _owner.Stats.DamageDealt += damage * multiplier;
             var forceDir = (play.transform.position - transform.position);
