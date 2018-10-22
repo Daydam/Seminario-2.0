@@ -6,42 +6,30 @@ using UnityEngine.UI;
 
 public class PlayerScoreController : MonoBehaviour
 {
-    public string canvasName = "ScoreCanvas";
-    public string mainScoreName = "MainScore";
-    public string addedScoreName = "AddScore";
+    public string canvasName = "ScoreContainer";
+
+    readonly string _idleState = "Idle";
+    readonly string _addState = "Add";
+    readonly string _removeState = "Remove";
 
     public Text mainScore;
-    public ScoreObject[] addedScore;
-    public int maxIndexesToAdd = 4;
-
-    int _actualAddIndex = 0;
-
-    int ActualAddIndex
-    {
-        get { return _actualAddIndex; }
-
-        set
-        {
-            _actualAddIndex = value >= maxIndexesToAdd ? 0 : value;
-        }
-    }
+    Animator _an;
 
     void Start()
     {
-        var canvas = GameObject.Find(canvasName).transform.Find(gameObject.tag);
+        var id = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players").playerControllers.Length;
+        //var canvas = GameObject.Find(id.ToString() + " Player").transform.Find(canvasName).transform.Find(gameObject.tag);
 
-        mainScore = canvas.Find(mainScoreName).GetComponentInChildren<Text>();
-
-        addedScore = canvas.Find(addedScoreName).GetComponentsInChildren<ScoreObject>();
-
+        mainScore = GameObject.Find(id.ToString() + " Player").transform.Find(canvasName).transform.Find(gameObject.tag).GetComponentInChildren<Text>();
+        _an = mainScore.GetComponent<Animator>();
     }
 
     public void SetScore(int main, int toAdd)
     {
         mainScore.text = main.ToString();
 
-        addedScore[_actualAddIndex].SetScore(toAdd);
-        ActualAddIndex++;
+        var toPlay = toAdd < 0 ? _removeState : toAdd > 0 ? _addState : _idleState;
 
+        _an.Play(toPlay);
     }
 }

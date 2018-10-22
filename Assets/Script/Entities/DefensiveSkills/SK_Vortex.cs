@@ -119,7 +119,7 @@ public class SK_Vortex : DefensiveSkillBase
 
         foreach (var item in _rends)
         {
-            item.material.SetVector("_CollapsePosition", new Vector3(500, 500, 500));
+            item.material.SetVector("_CollapsePosition", new Vector3(50000, 50000, 50000));
         }
 
         StartCoroutine(WaitForCastEnd(_owner.FinishedCasting));
@@ -137,6 +137,10 @@ public class SK_Vortex : DefensiveSkillBase
     {
         StopAllCoroutines();
         _owner.GetRigidbody.isKinematic = false;
+        foreach (var item in _rends)
+        {
+            item.material.SetVector("_CollapsePosition", new Vector3(50000, 50000, 50000));
+        }
         _currentCooldown = 0;
     }
 

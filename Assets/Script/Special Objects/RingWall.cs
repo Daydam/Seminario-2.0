@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-[RequireComponent(typeof(AudioSource))]
 public class RingWall : MonoBehaviour, IDamageable
 {
     public AudioClip bulletHit;
-    AudioSource _source;
+    //AudioSource _source;
 
     public float maxHP = 5;
     private float hp;
@@ -26,7 +25,7 @@ public class RingWall : MonoBehaviour, IDamageable
 
     private void Start()
     {
-        _source = GetComponent<AudioSource>();
+        //_source = GetComponent<AudioSource>();
     }
 
     void OnEnable()
