@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
         spawns = GameObject.Find("Stage").transform.Find("SpawnPoints").GetComponentsInChildren<Transform>().Where(x => x.name != "SpawnPoints").ToArray();
 
         playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
-        playerInfo.playerScores = new int[playerInfo.playerControllers.Length];
+        playerInfo.playerStats = new PlayerStats[playerInfo.playerControllers.Length];
         playerCameras[playerInfo.playerControllers.Length - 2].SetActive(true);
         if (playerInfo.playerControllers.Length == 2)
         {
@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour
                 t.gameObject.tag = "Player " + (playerInfo.playerControllers[i] + 1);
             }
 
-            player.Score = 0;
+            player.Stats.Score = 0;
 
             CamFollow cam = GameObject.Find("Camera_P" + (i + 1)).GetComponent<CamFollow>();
             cam.AssignTarget(player);
@@ -123,24 +123,24 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.R))
         {
-            Players[0].Score = 6;
-            Players[1].Score = 5;
-            Players[2].Score = 9;
-            Players[3].Score = 13;
+            Players[0].Stats.Score = 6;
+            Players[1].Stats.Score = 5;
+            Players[2].Stats.Score = 9;
+            Players[3].Stats.Score = 13;
         }
         else if (Input.GetKeyUp(KeyCode.Y))
         {
-            Players[1].Score = 6;
-            Players[0].Score = 5;
-            Players[2].Score = 9;
-            Players[3].Score = 13;
+            Players[1].Stats.Score = 6;
+            Players[0].Stats.Score = 5;
+            Players[2].Stats.Score = 9;
+            Players[3].Stats.Score = 13;
         }
         else if (Input.GetKeyUp(KeyCode.I))
         {
-            Players[2].Score = 6;
-            Players[1].Score = 5;
-            Players[0].Score = 9;
-            Players[3].Score = 13;
+            Players[2].Stats.Score = 6;
+            Players[1].Stats.Score = 5;
+            Players[0].Stats.Score = 9;
+            Players[3].Stats.Score = 13;
         }
     }
 
@@ -171,6 +171,7 @@ public class GameManager : MonoBehaviour
         var deathType = (DeathType)parameterContainer[1];
         var wasPushed = (bool)parameterContainer[2];
         var playerKiller = players.Where(x => x.tag == (string)parameterContainer[3]).First();
+        dyingPlayer.Stats.Deaths++;
 
         if (deathType == DeathType.LaserGrid)
         {
@@ -181,6 +182,7 @@ public class GameManager : MonoBehaviour
         if (dyingPlayer != playerKiller)
         {
             playerKiller.UpdateScore(gameRules.pointsPerKill);
+            playerKiller.Stats.Kills++;
         }
 
         Unregister(dyingPlayer);
@@ -209,6 +211,7 @@ public class GameManager : MonoBehaviour
         if (alivePlayers.Count() == 1)
         {
             alivePlayers.First().UpdateScore(gameRules.pointsForLast);
+            alivePlayers.First().Stats.Survived++;
             EndRound();
         }
     }
@@ -225,7 +228,7 @@ public class GameManager : MonoBehaviour
         else
         {
             if (roundResults == null) roundResults = new Dictionary<int, Tuple<Player, int>>();
-            roundResults[actualRound] = Tuple.Create(players.First(), players.First().Score);
+            roundResults[actualRound] = Tuple.Create(players.First(), players.First().Stats.Score);
 
             //do show winner and ui stuff
 
@@ -253,18 +256,18 @@ public class GameManager : MonoBehaviour
 
     public bool CheckIfReachedPoints()
     {
-        return Players.Select(x => x.Score).OrderByDescending(x => x).First() >= gameRules.pointsToWin[playerInfo.playerControllers.Length - 2];
+        return Players.Select(x => x.Stats.Score).OrderByDescending(x => x).First() >= gameRules.pointsToWin[playerInfo.playerControllers.Length - 2];
     }
 
     public void EndGame()
     {
         EndRoundHandler.ResetTime();
         _gameEnded = true;
-        playerInfo.playerScores = new int[players.Count];
+        playerInfo.playerStats = new PlayerStats[players.Count];
         for (int i = 0; i < Players.Count; i++)
         {
             Players[i].StopVibrating();
-            playerInfo.playerScores[i] = Players[i].Score;
+            playerInfo.playerStats[i] = Players[i].Stats;
         }
         Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
         StartCoroutine(EndGameCoroutine());

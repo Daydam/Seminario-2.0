@@ -46,6 +46,8 @@ public class HitscanBullet
                     var playerComponent = col.GetComponent<Player>();
                     if (playerComponent)
                     {
+                        player.Stats.DamageDealt += appliableDamage;
+                        playerComponent.Stats.DamageTaken += appliableDamage;
                         playerComponent.ApplyKnockback(knockback.Evaluate(dist) / pellets, dir.normalized, player);
                         var damageParticleID = SimpleParticleSpawner.ParticleID.DAMAGE;
                         var damageParticle = SimpleParticleSpawner.Instance.particles[damageParticleID].GetComponentInChildren<ParticleSystem>();

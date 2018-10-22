@@ -32,6 +32,13 @@ public class EndgameManager : MonoBehaviour
 
     GameObject _winner;
 
+    //Lo nuevo de DJ Tincho. Deaths no la implemento por razones lógicas... todos mueren la misma cantidad de veces menos el ganador.
+    int mostKills;
+    int mostDrops;
+    int mostSurvived;
+    int mostDamageDealt;
+    int leastDamageTaken;
+
     #region Pero mirá como está este copy & paste del CharacterSelectionManager papá
     bool[] _resetInputs;
     //XInput
@@ -74,8 +81,8 @@ public class EndgameManager : MonoBehaviour
     void LoadPlayers()
     {
         var playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
-        var playerControllersOrdered = playerInfo.playerControllers.OrderByDescending(x => playerInfo.playerScores[Array.IndexOf(playerInfo.playerControllers, x)]).ToArray();
-        var playerScoresOrdered = playerInfo.playerScores.OrderByDescending(y => y).ToArray();
+        var playerControllersOrdered = playerInfo.playerControllers.OrderByDescending(x => playerInfo.playerStats[Array.IndexOf(playerInfo.playerControllers, x)].Score).ToArray();
+        var playerScoresOrdered = playerInfo.playerStats.OrderByDescending(y => y.Score).ToArray();
         _players = new GameObject[playerControllersOrdered.Length];
 
         for (int i = 0; i < playerControllersOrdered.Length; i++)
@@ -104,7 +111,6 @@ public class EndgameManager : MonoBehaviour
 
             player.transform.forward = spawnPos[i].forward;
             _players[i] = player;
-
         }
 
         _winner = _players.First();
@@ -122,10 +128,24 @@ public class EndgameManager : MonoBehaviour
 
         for (int i = 0; i < _players.Length; i++)
         {
-            var score = playerScoresOrdered[i];
+            var score = playerScoresOrdered[i].Score;
             EndgamePlayerText(_players[i], _players[i].gameObject.tag, score.ToString());
             _resetInputs[i] = false;
         }
+        
+        mostKills = playerInfo.playerControllers.OrderByDescending(x => playerInfo.playerStats[Array.IndexOf(playerInfo.playerControllers, x)].Kills).First();
+        var killAmount = playerInfo.playerStats.OrderByDescending(y => y.Kills).First().Kills;
+        mostSurvived = playerInfo.playerControllers.OrderByDescending(x => playerInfo.playerStats[Array.IndexOf(playerInfo.playerControllers, x)].Survived).First();
+        var survivedAmount = playerInfo.playerStats.OrderByDescending(y => y.Survived).First().Survived;
+        mostDamageDealt = playerInfo.playerControllers.OrderByDescending(x => playerInfo.playerStats[Array.IndexOf(playerInfo.playerControllers, x)].DamageDealt).First();
+        var damageDealtAmount = playerInfo.playerStats.OrderByDescending(y => y.DamageDealt).First().DamageDealt;
+        leastDamageTaken = playerInfo.playerControllers.OrderBy(x => playerInfo.playerStats[Array.IndexOf(playerInfo.playerControllers, x)].DamageTaken).First();
+        var damageTakenAmount = playerInfo.playerStats.OrderBy(y => y.DamageTaken).First().DamageTaken;
+
+        print("Psycho Killer Award goes to: Player " + (mostKills + 1) + " with " + killAmount + " kills");
+        print("Survived Award goes to: Player " + (mostSurvived + 1) + " with " + survivedAmount + " rounds survived");
+        print("Dealer Award goes to: Player " + (mostDamageDealt + 1) + " with " + damageDealtAmount + " damage dealt");
+        print("Bulletproof Award goes to: Player " + (leastDamageTaken + 1) + " with " + damageTakenAmount + " damage taken");
 
         HideUnusedPedestals();
     }

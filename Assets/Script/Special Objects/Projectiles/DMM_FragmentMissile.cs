@@ -131,6 +131,8 @@ public class DMM_FragmentMissile : MonoBehaviour
         {
             var multiplier = _AOEDecay.Evaluate(minAoE);
             play.TakeDamage(damage * multiplier);
+            play.Stats.DamageTaken += damage * multiplier;
+            _owner.Stats.DamageDealt += damage * multiplier;
             var forceDir = (play.transform.position - transform.position);
             if (_owner) play.ApplyKnockback(knockback * multiplier, forceDir.normalized, _owner);
             else play.ApplyKnockback(knockback * multiplier, forceDir.normalized);
@@ -146,6 +148,8 @@ public class DMM_FragmentMissile : MonoBehaviour
         {
             var multiplier = _AOEDecay.Evaluate(medAoE);
             play.TakeDamage(damage * multiplier);
+            play.Stats.DamageTaken += damage * multiplier;
+            _owner.Stats.DamageDealt += damage * multiplier;
             var forceDir = (play.transform.position - transform.position);
             if (_owner) play.ApplyKnockback(knockback * multiplier, forceDir.normalized, _owner);
             else play.ApplyKnockback(knockback * multiplier, forceDir.normalized);
@@ -157,6 +161,8 @@ public class DMM_FragmentMissile : MonoBehaviour
         {
             var multiplier = _AOEDecay.Evaluate(maxAoE);
             play.TakeDamage(damage * multiplier);
+            play.Stats.DamageTaken += damage * multiplier;
+            _owner.Stats.DamageDealt += damage * multiplier;
             var forceDir = (play.transform.position - transform.position);
             if (_owner) play.ApplyKnockback(knockback * multiplier, forceDir.normalized, _owner);
             else play.ApplyKnockback(knockback * multiplier, forceDir.normalized);

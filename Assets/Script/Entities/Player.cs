@@ -70,13 +70,13 @@ public class Player : MonoBehaviour, IDamageable
 
     public bool isPushed;
     public Player myPusher;
-    int _score;
+    PlayerStats stats;
     public float pushTimeCheck = 2;
 
-    public int Score
+    public PlayerStats Stats
     {
-        get { return _score; }
-        set { _score = value <= 0 ? 0 : value; }
+        get { return stats; }
+        set { stats = value; }
     }
 
     void Awake()
@@ -89,6 +89,8 @@ public class Player : MonoBehaviour, IDamageable
         MovementMultiplier = 1;
         Hp = maxHP;
         gameObject.name = "Player " + (playerID + 1);
+
+        stats = new PlayerStats();
 
         _scoreController = GetComponent<PlayerScoreController>();
         _soundModule = GetComponent<DroneSoundController>();
@@ -154,9 +156,9 @@ public class Player : MonoBehaviour, IDamageable
 
         var prefix = points < 0 ? "- " : "+ ";
 
-        Score = Mathf.Max(0, Score + points);
+        stats.Score = Mathf.Max(0, stats.Score + points);
 
-        _scoreController.SetScore(Score, points);
+        _scoreController.SetScore(stats.Score, points);
     }
 
     public void ResetHP()
@@ -184,7 +186,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         playerEndgameTexts.SetActive(activate);
         var tx = playerEndgameTexts.GetComponentInChildren<UnityEngine.UI.Text>();
-        tx.text = gameObject.name + "\n" + Score.ToString();
+        tx.text = gameObject.name + "\n" + stats.Score.ToString();
     }
 
     public void ActivatePlayerEndgame(bool activate = false)
