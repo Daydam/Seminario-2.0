@@ -123,10 +123,10 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.R))
         {
-            Players[0].Stats.Score = 6;
+            Players[0].Stats.Score = 15;
             Players[1].Stats.Score = 5;
             Players[2].Stats.Score = 9;
-            Players[3].Stats.Score = 13;
+            Players[3].Stats.Score = 15;
         }
         else if (Input.GetKeyUp(KeyCode.Y))
         {
@@ -220,9 +220,8 @@ public class GameManager : MonoBehaviour
     {
         EndRoundHandler.ApplyTimeChanges();
 
-        if (CheckIfReachedPoints())
+        if (CheckIfReachedPoints() && CheckIfOnlyWinner())
         {
-            //do ui endgame stuff
             EndGame();
         }
         else
@@ -257,6 +256,18 @@ public class GameManager : MonoBehaviour
     public bool CheckIfReachedPoints()
     {
         return Players.Select(x => x.Stats.Score).OrderByDescending(x => x).First() >= gameRules.pointsToWin[playerInfo.playerControllers.Length - 2];
+    }
+
+    bool CheckIfOnlyWinner()
+    {
+        var list = Players.Where(x => x.Stats.Score >= gameRules.pointsToWin[playerInfo.playerControllers.Length - 2]);
+
+        if (list.Count() == 1) return true;
+
+        var firstScore = list.First().Stats.Score;
+
+        return list.Where(x => x.Stats.Score == firstScore).Count() == 1;
+
     }
 
     public void EndGame()
