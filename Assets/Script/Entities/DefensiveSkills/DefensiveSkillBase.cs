@@ -31,7 +31,7 @@ public abstract class DefensiveSkillBase : SkillBase
     protected SkillStateIndicator GetModuleFeedback()
     {
         var indic = Instantiate(Resources.Load<SkillStateIndicator>("Prefabs/Skills/Helpers/ModuleFeedback"), transform);
-        indic.InitializeIndicator(this, _owner.GetComponentInChildren<Renderer>());
+        indic.InitializeIndicator(this, _owner.GetComponentsInChildren<Renderer>(), true);
         return (indic);
     }
 }

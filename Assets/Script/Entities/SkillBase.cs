@@ -30,5 +30,5 @@ public abstract class SkillBase : MonoBehaviour
 
 }
 
-public enum SkillState { Unavailable, Available, Active, Reloading, UserDisabled, ERROR }
+public enum SkillState { Unavailable, Available, Active, UserDisabled, ERROR }
 

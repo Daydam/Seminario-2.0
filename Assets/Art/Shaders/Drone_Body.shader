@@ -23,7 +23,7 @@ Shader "Drone_Body"
 
 	SubShader
 	{
-		Tags{ "RenderType" = "Opaque"  "Queue" = "Geometry+0" "IsEmissive" = "true" "VertexCollapse"="true" }
+		Tags{ "RenderType" = "Opaque"  "Queue" = "Geometry+0" "IsEmissive" = "true" "SkillStateColor"="Defensive" "VertexCollapse"="true" }
 		Cull Back
 		CGPROGRAM
 		#pragma target 3.0
@@ -88,7 +88,7 @@ Shader "Drone_Body"
 }
 /*ASEBEGIN
 Version=13101
-168;29;707;692;1301.521;-11.87029;1.98584;True;False
+168;48;707;692;2540.521;401.2687;2.111781;True;False
 Node;AmplifyShaderEditor.ColorNode;11;-2072.285,-183.8761;Float;False;Constant;_Dead;Dead;5;0;1,0,0,0;0;5;COLOR;FLOAT;FLOAT;FLOAT;FLOAT
 Node;AmplifyShaderEditor.RangedFloatNode;12;-2060.053,185.1039;Float;False;InstancedProperty;_Life;Life;8;0;1;0;1;0;1;FLOAT
 Node;AmplifyShaderEditor.ColorNode;10;-2072.285,-18.75265;Float;False;Constant;_Alive;Alive;5;0;0,1,0,0;0;5;COLOR;FLOAT;FLOAT;FLOAT;FLOAT
@@ -108,7 +108,7 @@ Node;AmplifyShaderEditor.SamplerNode;4;-872.4241,326.5969;Float;True;Property;_M
 Node;AmplifyShaderEditor.SamplerNode;1;-815.3989,-613.9595;Float;True;Property;_Albedo;Albedo;0;0;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0.0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1.0;False;5;COLOR;FLOAT;FLOAT;FLOAT;FLOAT
 Node;AmplifyShaderEditor.FunctionNode;22;-106.0418,807.0375;Float;False;VertexCollapse;2;;1;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT4
 Node;AmplifyShaderEditor.OneMinusNode;6;-413.7469,381.6378;Float;False;1;0;COLOR;0.0;False;1;COLOR
-Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;14.29734,-16.08451;Float;False;True;2;Float;ASEMaterialInspector;0;0;Standard;Drone_Body;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;Back;0;0;False;0;0;Opaque;0.5;True;True;0;False;Opaque;Geometry;All;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;False;0;255;255;0;0;0;0;False;0;4;10;25;False;0.5;True;0;Zero;Zero;0;Zero;Zero;Add;Add;0;False;0;0,0,0,0;VertexOffset;False;Cylindrical;False;Relative;0;;-1;-1;-1;-1;0;1;VertexCollapse=true;15;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0.0;False;4;FLOAT;0.0;False;5;FLOAT;0.0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0.0;False;9;FLOAT;0.0;False;10;OBJECT;0.0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
+Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;14.29734,-16.08451;Float;False;True;2;Float;ASEMaterialInspector;0;0;Standard;Drone_Body;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;Back;0;0;False;0;0;Opaque;0.5;True;True;0;False;Opaque;Geometry;All;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;False;0;255;255;0;0;0;0;False;0;4;10;25;False;0.5;True;0;Zero;Zero;0;Zero;Zero;Add;Add;0;False;0;0,0,0,0;VertexOffset;False;Cylindrical;False;Relative;0;;-1;-1;-1;-1;0;2;SkillStateColor=Defensive;VertexCollapse=true;15;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0.0;False;4;FLOAT;0.0;False;5;FLOAT;0.0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0.0;False;9;FLOAT;0.0;False;10;OBJECT;0.0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
 WireConnection;8;0;11;0
 WireConnection;8;1;10;0
 WireConnection;8;2;12;0
@@ -129,4 +129,4 @@ WireConnection;0;3;4;0
 WireConnection;0;4;6;0
 WireConnection;0;11;22;0
 ASEEND*/
-//CHKSM=3699C6DB234B76399DF34541CE105070D53FF304
+//CHKSM=02100993888A1F022E193AA643BBE97A72B7CF99

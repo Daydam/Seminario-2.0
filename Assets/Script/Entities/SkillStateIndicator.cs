@@ -5,30 +5,17 @@ using System.Linq;
 
 public class SkillStateIndicator : MonoBehaviour
 {
-    Renderer _rend;
+    Renderer[] _rends;
     public Dictionary<SkillState, Color> moduleFeedback;
     public SkillBase mySkill;
-    bool _intermitentLighting;
+    public readonly string shaderTag = "SkillStateColor";
+    public readonly string defensiveTagValue = "Defensive";
+    public readonly string compTagValue = "Complementary";
 
-    /// <summary>
-    /// Use for complementary
-    /// </summary>
-    /// <param name="skill"></param>
-    public void InitializeIndicator(SkillBase skill)
+    public void InitializeIndicator(SkillBase skill, Renderer[] renderer, bool defensive)
     {
-        mySkill = skill;
-        _rend = mySkill.GetComponentInChildren<Renderer>();
-        InitModuleColors();
-    }
-
-    /// <summary>
-    /// Use for defensive
-    /// </summary>
-    /// <param name="skill"></param>
-    /// <param name="renderer"></param>
-    public void InitializeIndicator(SkillBase skill, Renderer renderer)
-    {
-        _rend = renderer;
+        var tagValue = defensive ? defensiveTagValue : compTagValue;
+        _rends = renderer.Where(x => x.material.GetTag(shaderTag, true, "Nothing") == tagValue).ToArray();
         mySkill = skill;
         InitModuleColors();
     }
@@ -38,7 +25,6 @@ public class SkillStateIndicator : MonoBehaviour
         moduleFeedback = new Dictionary<SkillState, Color>();
         moduleFeedback.Add(SkillState.Unavailable, Color.red);
         moduleFeedback.Add(SkillState.Available, Color.green);
-        moduleFeedback.Add(SkillState.Reloading, Color.green);
         moduleFeedback.Add(SkillState.Active, Color.yellow);
         moduleFeedback.Add(SkillState.UserDisabled, Color.black);
     }
@@ -50,43 +36,15 @@ public class SkillStateIndicator : MonoBehaviour
 
     public void CheckActualState()
     {
-        if (_rend) ApplyStateFeedback(mySkill.GetActualState());
+        if (_rends != null && _rends.Any()) ApplyStateFeedback(mySkill.GetActualState());
     }
 
     public void ApplyStateFeedback(SkillState state)
     {
-        if (_intermitentLighting)
+        foreach (var item in _rends)
         {
-            if (state != SkillState.Reloading)
-            {
-                _rend.material.SetColor("_SkillStateColor", moduleFeedback[state]);
-            }
+            item.material.SetColor("_SkillStateColor", moduleFeedback[state]);
         }
-        else
-        {
-            if (state != SkillState.Reloading)
-            {
-                _rend.material.SetColor("_SkillStateColor", moduleFeedback[state]);
-            }
-            else StartCoroutine(IntermitentLighting());
-        }
-
 
     }
-
-    IEnumerator IntermitentLighting()
-    {
-        _intermitentLighting = true;
-        while (mySkill.GetActualState() == SkillState.Reloading)
-        {
-            _rend.material.SetColor("_SkillStateColor", moduleFeedback[SkillState.Reloading]);
-            yield return new WaitForSeconds(.4f);
-
-            _rend.material.SetColor("_SkillStateColor", Color.cyan);
-            yield return new WaitForSeconds(.4f);
-        }
-        _intermitentLighting = false;
-
-    }
-
 }
