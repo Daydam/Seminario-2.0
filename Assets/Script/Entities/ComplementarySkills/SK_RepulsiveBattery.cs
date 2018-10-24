@@ -51,7 +51,6 @@ public class SK_RepulsiveBattery : ComplementarySkillBase
         _stateSource.PlayOneShot(skillUse);
         _currentCooldown = maxCooldown;
         _canTap = false;
-
     }
 
     public override void ResetRound()

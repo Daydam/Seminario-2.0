@@ -267,7 +267,6 @@ public class GameManager : MonoBehaviour
         var firstScore = list.First().Stats.Score;
 
         return list.Where(x => x.Stats.Score == firstScore).Count() == 1;
-
     }
 
     public void EndGame()
