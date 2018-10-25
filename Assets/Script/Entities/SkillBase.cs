@@ -12,9 +12,12 @@ public abstract class SkillBase : MonoBehaviour
     protected AudioSource _stateSource;
     public AudioClip unavailableSound;
 
+    protected Animation activationAnim;
+
     protected virtual void Start()
     {
         _stateSource = GetComponent<AudioSource>();
+        activationAnim = GetComponent<Animation>();
         InitializeUseCondition();
     }
     protected abstract void InitializeUseCondition();

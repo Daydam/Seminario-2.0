@@ -25,6 +25,7 @@ public class SK_FragmentMissile : ComplementarySkillBase
                 if (_canTap)
                 {
                     _canTap = false;
+                    if (activationAnim != null) activationAnim.Play();
                     FragmentMissileSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, _owner.gameObject.transform.forward, maxRange, _owner.gameObject.tag, _owner);
                     _currentCooldown = maxCooldown;
                 }

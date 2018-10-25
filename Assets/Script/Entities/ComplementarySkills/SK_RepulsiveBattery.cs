@@ -40,6 +40,7 @@ public class SK_RepulsiveBattery : ComplementarySkillBase
 
     void UseSkill()
     {
+        if (activationAnim != null) activationAnim.Play();
         _owner.ApplyCastState(castTime);
         StartCoroutine(WaitForCastEnd(_owner.FinishedCasting));
     }

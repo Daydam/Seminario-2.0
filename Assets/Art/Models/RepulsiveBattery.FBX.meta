@@ -1,50 +1,39 @@
 fileFormatVersion: 2
-guid: 68cfa454c38d530479e987aade7b3225
-timeCreated: 1540387179
+guid: 8275b4340b9a7254eaf46064f3a6419e
+timeCreated: 1540439421
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: Body
-    100002: Cable1
-    100004: Cable2
-    100006: //RootNode
-    100008: FragMisCover
-    100010: FragMisFront
-    100012: Sustain
-    400000: Body
-    400002: Cable1
-    400004: Cable2
-    400006: //RootNode
-    400008: FragMisCover
-    400010: FragMisFront
-    400012: Sustain
-    2100000: _Frag missile_Beetledrone_v2_part_30_Standard
-    2100002: _Frag missilewire_086086086
-    2100004: _Frag missilewire_115115115
-    2100006: _Frag missilewire_228184153
-    2300000: Body
-    2300002: Cable1
-    2300004: Cable2
-    2300006: //RootNode
-    2300008: FragMisCover
-    2300010: FragMisFront
-    2300012: Sustain
-    3300000: Body
-    3300002: Cable1
-    3300004: Cable2
-    3300006: //RootNode
-    3300008: FragMisCover
-    3300010: FragMisFront
-    3300012: Sustain
-    4300000: Base
-    4300002: Sustain
-    4300004: Body
-    4300006: FragMisCover
-    4300008: FragMisFront
-    4300010: Cable2
-    4300012: Cable1
-  externalObjects: {}
+    100000: InnerRings
+    100002: OuterRings
+    100004: //RootNode
+    100006: RepulsiveBattery
+    400000: InnerRings
+    400002: OuterRings
+    400004: //RootNode
+    400006: RepulsiveBattery
+    2100000: 13 - Default
+    2300000: InnerRings
+    2300002: OuterRings
+    2300004: //RootNode
+    2300006: RepulsiveBattery
+    3300000: InnerRings
+    3300002: OuterRings
+    3300004: //RootNode
+    3300006: RepulsiveBattery
+    4300000: RepulsiveBattery
+    4300002: OuterRings
+    4300004: InnerRings
+    7400000: Repulsive Fire
+    9500000: //RootNode
+    11100000: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 13 - Default
+    second: {fileID: 2100000, guid: 7a8338b56345ead42983984ff9c0b0be, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -70,7 +59,35 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Repulsive Fire
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
@@ -87,7 +104,7 @@ ModelImporter:
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
-    preserveHierarchy: 0
+    preserveHierarchy: 1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
@@ -115,10 +132,10 @@ ModelImporter:
     rootMotionBoneName: 
     rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 1
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
