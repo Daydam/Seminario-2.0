@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     public event Action OnChangeScene = delegate { };
     public event Action OnResetRound = delegate { };
+    public event Action StartRound = delegate { };
 
     public Camera cam;
     public GameObject[] playerCameras;
@@ -23,7 +24,7 @@ public class GameManager : MonoBehaviour
     public int actualRound = 1;
     public Dictionary<int, Tuple<Player, int>> roundResults;
 
-    private static GameManager instance;
+    static GameManager instance;
     public static GameManager Instance
     {
         get
@@ -114,34 +115,15 @@ public class GameManager : MonoBehaviour
 
             CamFollow cam = GameObject.Find("Camera_P" + (i + 1)).GetComponent<CamFollow>();
             cam.AssignTarget(player);
+            player.lockedByGame = true;
         }
 
-        AddEvents();
+        UIManager.Instance.Initialize(GameObject.Find(playerInfo.playerControllers.Length + " Player"), StartFirstRound);
     }
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.R))
-        {
-            Players[0].Stats.Score = 15;
-            Players[1].Stats.Score = 5;
-            Players[2].Stats.Score = 9;
-            Players[3].Stats.Score = 15;
-        }
-        else if (Input.GetKeyUp(KeyCode.Y))
-        {
-            Players[1].Stats.Score = 6;
-            Players[0].Stats.Score = 5;
-            Players[2].Stats.Score = 9;
-            Players[3].Stats.Score = 13;
-        }
-        else if (Input.GetKeyUp(KeyCode.I))
-        {
-            Players[2].Stats.Score = 6;
-            Players[1].Stats.Score = 5;
-            Players[0].Stats.Score = 9;
-            Players[3].Stats.Score = 13;
-        }
+        
     }
 
     void AddEvents()
@@ -153,42 +135,17 @@ public class GameManager : MonoBehaviour
         OnResetRound += EndRoundHandler.ResetTime;
     }
 
+    void StartFirstRound()
+    {
+        AddEvents();
+        StartRound();
+    }
+
     void RemoveEvents()
     {
         EventManager.Instance.RemoveEventListener(PlayerEvents.Death, OnPlayerDeath);
     }
 
-    #region EventCallbacks
-    /// <summary>
-    /// 0 - PlayerDying
-    /// 1 - DeathType
-    /// 2 - WasPushed?
-    /// 3 - PlayerKiller (tag del jugador)
-    /// </summary>
-    void OnPlayerDeath(object[] parameterContainer)
-    {
-        var dyingPlayer = players.Where(x => x == (Player)parameterContainer[0]).First();
-        var deathType = (DeathType)parameterContainer[1];
-        var wasPushed = (bool)parameterContainer[2];
-        var playerKiller = players.Where(x => x.tag == (string)parameterContainer[3]).First();
-        dyingPlayer.Stats.Deaths++;
-
-        if (deathType == DeathType.LaserGrid)
-        {
-            var score = wasPushed ? gameRules.pointsPerDrop : gameRules.pointsPerSuicide;
-            dyingPlayer.UpdateScore(score);
-        }
-
-        if (dyingPlayer != playerKiller)
-        {
-            playerKiller.UpdateScore(gameRules.pointsPerKill);
-            playerKiller.Stats.Kills++;
-        }
-
-        Unregister(dyingPlayer);
-    }
-
-    #endregion
 
     public int Register(Player player)
     {
@@ -228,10 +185,9 @@ public class GameManager : MonoBehaviour
         {
             if (roundResults == null) roundResults = new Dictionary<int, Tuple<Player, int>>();
             roundResults[actualRound] = Tuple.Create(players.First(), players.First().Stats.Score);
-
+            UIManager.Instance.EndRound(ResetRound);
             //do show winner and ui stuff
-
-            Invoke("ResetRound", 1);
+            //Invoke("ResetRound", 1);
         }
     }
 
@@ -239,6 +195,7 @@ public class GameManager : MonoBehaviour
     {
         OnResetRound();
         EventManager.Instance.DispatchEvent(GameEvents.RoundReset);
+        UIManager.Instance.StartRound(StartRound);
     }
 
     public void SpawnPlayers()
@@ -305,6 +262,63 @@ public class GameManager : MonoBehaviour
         StopAllCoroutines();
         instance = null;
         players = null;
+    }
+
+    #region EventCallbacks
+    /// <summary>
+    /// 0 - PlayerDying
+    /// 1 - DeathType
+    /// 2 - WasPushed?
+    /// 3 - PlayerKiller (tag del jugador)
+    /// </summary>
+    void OnPlayerDeath(object[] parameterContainer)
+    {
+        var dyingPlayer = players.Where(x => x == (Player)parameterContainer[0]).First();
+        var deathType = (DeathType)parameterContainer[1];
+        var wasPushed = (bool)parameterContainer[2];
+        var playerKiller = players.Where(x => x.tag == (string)parameterContainer[3]).First();
+        dyingPlayer.Stats.Deaths++;
+
+        if (deathType == DeathType.LaserGrid)
+        {
+            var score = wasPushed ? gameRules.pointsPerDrop : gameRules.pointsPerSuicide;
+            dyingPlayer.UpdateScore(score);
+        }
+
+        if (dyingPlayer != playerKiller)
+        {
+            playerKiller.UpdateScore(gameRules.pointsPerKill);
+            playerKiller.Stats.Kills++;
+        }
+
+        Unregister(dyingPlayer);
+    }
+
+    #endregion
+
+    void CheatThisFuckingGameFORTESTINGPREPUCIOS()
+    {
+        /*if (Input.GetKeyUp(KeyCode.R))
+        {
+            Players[0].Stats.Score = 15;
+            Players[1].Stats.Score = 5;
+            Players[2].Stats.Score = 9;
+            Players[3].Stats.Score = 15;
+        }
+        else if (Input.GetKeyUp(KeyCode.Y))
+        {
+            Players[1].Stats.Score = 6;
+            Players[0].Stats.Score = 5;
+            Players[2].Stats.Score = 9;
+            Players[3].Stats.Score = 13;
+        }
+        else if (Input.GetKeyUp(KeyCode.I))
+        {
+            Players[2].Stats.Score = 6;
+            Players[1].Stats.Score = 5;
+            Players[0].Stats.Score = 9;
+            Players[3].Stats.Score = 13;
+        }*/
     }
 }
 

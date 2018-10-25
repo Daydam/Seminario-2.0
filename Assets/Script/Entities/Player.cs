@@ -98,6 +98,7 @@ public class Player : MonoBehaviour, IDamageable
 
     void Start()
     {
+        GameManager.Instance.StartRound += () => lockedByGame = false;
         GameManager.Instance.OnResetRound += StopVibrating;
         GameManager.Instance.OnResetRound += ResetRound;
         GameManager.Instance.OnChangeScene += StopVibrating;
@@ -176,6 +177,7 @@ public class Player : MonoBehaviour, IDamageable
         _isUnableToMove = false;
         _isCasting = false;
         _invulnerable = false;
+        lockedByGame = true;
         _movementMultiplier = 1;
         isPushed = false;
         myPusher = null;

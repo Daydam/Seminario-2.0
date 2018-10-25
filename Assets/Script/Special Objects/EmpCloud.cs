@@ -15,8 +15,7 @@ public class EmpCloud : MonoBehaviour
     {
         col = GetComponent<Collider>();
         initialScale = transform.localScale;
-        StartCoroutine(StartShrinking(1));
-        //GameManager.Instance.OnResetGame += Clean;
+        GameManager.Instance.StartRound += () => StartCoroutine(StartShrinking(1));
     }
 
     void Update()
@@ -45,18 +44,12 @@ public class EmpCloud : MonoBehaviour
     public void ResetRound()
     {
         transform.localScale = initialScale;
-        StartCoroutine(StartShrinking(1));
+        //StartCoroutine(StartShrinking(1));
     }
-
 
     IEnumerator StartShrinking(float t)
     {
         yield return new WaitForSeconds(t);
         _shrink = true;
-    }
-
-    void Clean()
-    {
-        Destroy(gameObject);
     }
 }

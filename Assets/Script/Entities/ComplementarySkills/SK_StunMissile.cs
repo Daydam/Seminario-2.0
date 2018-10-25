@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SK_StunMissile : ComplementarySkillBase
@@ -26,13 +27,33 @@ public class SK_StunMissile : ComplementarySkillBase
                 if (_canTap)
                 {
                     _canTap = false;
-                    StunMissileSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, _owner.gameObject.transform.forward, maxRange, _owner.gameObject.tag);
+                    ShootProjectile();
                     _currentCooldown = maxCooldown;
                 }
             }
             //else _stateSource.PlayOneShot(unavailableSound);
         }
         else _canTap = true;
+    }
+
+    void ShootProjectile()
+    {
+        var otherPlayerLayers = new int[] { LayerMask.NameToLayer("Player1"), LayerMask.NameToLayer("Player2"), LayerMask.NameToLayer("Player3"), LayerMask.NameToLayer("Player4") }
+                                            .Where(x => x != _owner.gameObject.layer)
+                                            .ToArray();
+
+        var maskOfLayers = 0.MutateTo(otherPlayerLayers);
+
+        RaycastHit rch;
+        Vector3 dir;
+
+        if (Physics.Raycast(_owner.transform.position, _owner.gameObject.transform.forward, out rch, maxRange, maskOfLayers))
+        {
+            dir = rch.collider.transform.position - transform.position;
+        }
+        else dir = _owner.gameObject.transform.forward;
+
+        StunMissileSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, dir, maxRange, _owner.gameObject.tag);
     }
 
     public override void ResetRound()

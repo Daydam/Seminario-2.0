@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SK_FragmentMissile : ComplementarySkillBase
@@ -26,13 +27,33 @@ public class SK_FragmentMissile : ComplementarySkillBase
                 {
                     _canTap = false;
                     if (activationAnim != null) activationAnim.Play();
-                    FragmentMissileSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, _owner.gameObject.transform.forward, maxRange, _owner.gameObject.tag, _owner);
+                    ShootProjectile();
                     _currentCooldown = maxCooldown;
                 }
             }
             //else _stateSource.PlayOneShot(unavailableSound);
         }
         else _canTap = true;
+    }
+
+    void ShootProjectile()
+    {
+        var otherPlayerLayers = new int[] { LayerMask.NameToLayer("Player1"), LayerMask.NameToLayer("Player2"), LayerMask.NameToLayer("Player3"), LayerMask.NameToLayer("Player4") }
+                                            .Where(x => x != _owner.gameObject.layer)
+                                            .ToArray();
+
+        var maskOfLayers = 0.MutateTo(otherPlayerLayers);
+
+        RaycastHit rch;
+        Vector3 dir;
+
+        if (Physics.Raycast(_owner.transform.position, _owner.gameObject.transform.forward, out rch, maxRange, maskOfLayers))
+        {
+            dir = rch.collider.transform.position - transform.position;
+        }
+        else dir = _owner.gameObject.transform.forward;
+
+        FragmentMissileSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, dir, maxRange, _owner.gameObject.tag, _owner);
     }
 
     public override void ResetRound()
