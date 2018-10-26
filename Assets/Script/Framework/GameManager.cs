@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour
             player.lockedByGame = true;
         }
 
-        UIManager.Instance.Initialize(GameObject.Find(playerInfo.playerControllers.Length + " Player"), StartFirstRound);
+        UIManager.Instance.Initialize(Players, StartFirstRound);
     }
 
     void Update()

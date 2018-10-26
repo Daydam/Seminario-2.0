@@ -26,17 +26,34 @@ public class UIManager : MonoBehaviour
 
     public readonly string blackFadeName = "BlackFade";
     public readonly string coundownName = "Countdown";
+    public readonly string canvasName = "---CAMERA CANVAS---";
+
+    GameObject _canvas;
     public Image fader;
     public Animator countdown;
     public readonly float fadeInDuration = 6f;
     public readonly float fadeOutDuration = 1f;
 
-    public void Initialize(GameObject playerUIContainer, Action callback)
+    public void Initialize(IEnumerable<Player> players, Action callback)
     {
-        fader = playerUIContainer.transform.Find(blackFadeName).GetComponent<Image>();
-        countdown = playerUIContainer.transform.Find(coundownName).GetComponent<Animator>();
+        _canvas = GameObject.Find(canvasName);
+        fader = _canvas.transform.Find(blackFadeName).GetComponent<Image>();
+        countdown = _canvas.transform.Find(coundownName).GetComponent<Animator>();
+
+        ApplyTextes(players.ToArray());
 
         StartCoroutine(FadeIn(callback));
+    }
+
+    void ApplyTextes(Player[] players)
+    {
+        var allTextes = _canvas.transform.Find(players.Length + " Player").Find("Textes").GetComponentsInChildren<Text>();
+
+        for (int i = 0; i < allTextes.Length; i++)
+        {
+            allTextes[i].text = "PLAYER " + (players[i].myID + 1);
+        }
+
     }
 
     public void StartRound(Action callback)
