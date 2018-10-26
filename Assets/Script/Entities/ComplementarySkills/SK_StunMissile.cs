@@ -26,6 +26,7 @@ public class SK_StunMissile : ComplementarySkillBase
             {
                 if (_canTap)
                 {
+                    if (activationAnim != null) activationAnim.Play();
                     _canTap = false;
                     ShootProjectile();
                     _currentCooldown = maxCooldown;
