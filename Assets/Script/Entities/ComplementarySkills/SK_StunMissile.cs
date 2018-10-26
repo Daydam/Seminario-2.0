@@ -13,7 +13,7 @@ public class SK_StunMissile : ComplementarySkillBase
 
     protected override void InitializeUseCondition()
     {
-        _canUseSkill = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting && _currentCooldown <= 0;
+        _canUseSkill = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting && !_owner.lockedByGame && _currentCooldown <= 0;
     }
 
     protected override void CheckInput()
@@ -26,6 +26,7 @@ public class SK_StunMissile : ComplementarySkillBase
             {
                 if (_canTap)
                 {
+                    if (activationAnim != null) activationAnim.Play();
                     _canTap = false;
                     ShootProjectile();
                     _currentCooldown = maxCooldown;

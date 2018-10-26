@@ -18,8 +18,8 @@ public class PlayerScoreController : MonoBehaviour
     void Start()
     {
         var playerCount = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players").playerControllers.Length;
-
-        mainScore = GameObject.Find(playerCount.ToString() + " Player").transform.Find(canvasName).transform.Find(gameObject.tag).GetComponentInChildren<Text>();
+        int playerIndex = GameManager.Instance.Players.IndexOf(GetComponent<Player>());
+        mainScore = GameObject.Find(playerCount.ToString() + " Player").transform.Find(canvasName).transform.Find("Player " + (playerIndex + 1)).GetComponentInChildren<Text>();
         _an = mainScore.GetComponent<Animator>();
     }
 

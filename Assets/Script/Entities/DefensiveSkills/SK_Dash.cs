@@ -26,7 +26,7 @@ public class SK_Dash : DefensiveSkillBase
 
     protected override void InitializeUseCondition()
     {
-        _canUseSkill = () => !_owner.IsStunned && !_owner.IsDisarmed && !_isDashing && !_owner.IsCasting && _currentCooldown <= 0;
+        _canUseSkill = () => !_owner.IsStunned && !_owner.IsDisarmed && !_isDashing && !_owner.IsCasting && !_owner.lockedByGame && _currentCooldown <= 0;
     }
 
     protected override void CheckInput()

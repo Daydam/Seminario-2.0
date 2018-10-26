@@ -30,7 +30,7 @@ public class SK_Vortex : DefensiveSkillBase
 
     protected override void InitializeUseCondition()
     {
-        _canUseSkill = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting && _currentCooldown <= 0;
+        _canUseSkill = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting && !_owner.lockedByGame && _currentCooldown <= 0;
     }
 
     SkillTrail GetTrail()

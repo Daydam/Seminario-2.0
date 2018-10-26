@@ -273,7 +273,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void OnPlayerDeath(object[] parameterContainer)
     {
-        var dyingPlayer = players.Where(x => x == (Player)parameterContainer[0]).First();
+        var dyingPlayer = (Player)parameterContainer[0];
         var deathType = (DeathType)parameterContainer[1];
         var wasPushed = (bool)parameterContainer[2];
         var playerKiller = players.Where(x => x.tag == (string)parameterContainer[3]).First();

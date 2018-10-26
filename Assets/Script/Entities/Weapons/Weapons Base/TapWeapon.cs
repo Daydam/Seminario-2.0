@@ -26,7 +26,7 @@ public class TapWeapon : Weapon
 
     protected override void InitializeUseCondition()
     {
-        _canUseWeapon = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting;
+        _canUseWeapon = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting && !_owner.lockedByGame;
     }
 
     protected override void CheckInput()
