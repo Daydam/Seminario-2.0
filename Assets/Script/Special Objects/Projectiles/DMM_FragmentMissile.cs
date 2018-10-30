@@ -122,7 +122,8 @@ public class DMM_FragmentMissile : MonoBehaviour
 
         foreach (var item in allDestruct)
         {
-            item.SetActive(false);
+            var wall = item.GetComponent<RingWall>();
+            if (wall != null) wall.TakeDamage(float.MaxValue);
         }
 
         var inMinAoe = players.Where(x => Vector3.Distance(x.gameObject.transform.position, transform.position) <= minAoE);

@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Events;
 
 public class RingWall : MonoBehaviour, IDamageable
 {
     public AudioClip bulletHit;
+    Material dissolveMaterial;
+    Collider col;
     //AudioSource _source;
 
     public float maxHP = 5;
@@ -26,16 +29,25 @@ public class RingWall : MonoBehaviour, IDamageable
     private void Start()
     {
         //_source = GetComponent<AudioSource>();
-    }
-
-    void OnEnable()
-    {
+        dissolveMaterial = GetComponent<Renderer>().material;
+        dissolveMaterial.SetFloat("_Dissolved", 0);
+        col = GetComponent<Collider>();
         ResetHP();
+        EventManager.Instance.AddEventListener(GameEvents.RoundReset, ResetHP);
     }
 
     public void ResetHP()
     {
         Hp = maxHP;
+        dissolveMaterial.SetFloat("_Dissolved", 0);
+        col.enabled = true;
+    }
+
+    public void ResetHP(params object[] info)
+    {
+        Hp = maxHP;
+        dissolveMaterial.SetFloat("_Dissolved", 0);
+        col.enabled = true;
     }
 
     public void TakeDamage(float damage)
@@ -53,7 +65,8 @@ public class RingWall : MonoBehaviour, IDamageable
 
     void Death()
     {
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
+        StartCoroutine(DestroyRingWall());
     }
 
     void SubstractLife(float damage)
@@ -65,5 +78,17 @@ public class RingWall : MonoBehaviour, IDamageable
     {
         //No parece quedar bien
        // _source.PlayOneShot(bulletHit);
+    }
+
+    IEnumerator DestroyRingWall()
+    {
+        col.enabled = false;
+        float dissolveAmount = 0f;
+        while (dissolveAmount < 1)
+        {
+            dissolveAmount += Time.deltaTime/2;
+            dissolveMaterial.SetFloat("_Dissolved", dissolveAmount);
+            yield return new WaitForEndOfFrame();
+        }
     }
 }
