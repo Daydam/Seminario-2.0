@@ -24,7 +24,7 @@ public class AutomaticWeapon : Weapon
 
     public override void Shoot()
     {
-        Owner.ApplyVibration(0, VibrationIntensity, VibrationDuration);
+        //Owner.ApplyVibration(0, VibrationIntensity, VibrationDuration);
         Owner.ApplyShake(ShakeDuration, ShakeIntensity);
 
         var b = new HitscanBullet(Owner.transform.position, Owner.transform.forward, Owner, _damageFalloff, _knockbackFalloff, 1);

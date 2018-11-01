@@ -31,7 +31,7 @@ public class UIManager : MonoBehaviour
     GameObject _canvas;
     public Image fader;
     public Animator countdown;
-    public readonly float fadeInDuration = 6f;
+    public readonly float fadeInDuration = 4f;
     public readonly float fadeOutDuration = 1f;
 
     public void Initialize(IEnumerable<Player> players, Action callback)
