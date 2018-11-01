@@ -18,6 +18,8 @@ public class SK_Vortex : DefensiveSkillBase
     public float blinkDuration;
     public float disableDuration;
 
+    readonly string _vertexShaderTag = "VertexCollapse";
+
     SkillTrail _trail;
     bool _canTap = true;
     float _currentCooldown = 0;
@@ -25,7 +27,7 @@ public class SK_Vortex : DefensiveSkillBase
     protected override void Start()
     {
         base.Start();
-        _rends = _owner.GetComponentsInChildren<Renderer>().Where(x => x.material.GetTag("VertexCollapse", true, "Nothing") != "Nothing").ToArray();
+        _rends = _owner.GetComponentsInChildren<Renderer>().Where(x => x.materials.Where(y => y.GetTag(_vertexShaderTag, true, "Nothing") == "true").Any()).ToArray();
     }
 
     protected override void InitializeUseCondition()
@@ -79,6 +81,11 @@ public class SK_Vortex : DefensiveSkillBase
 
     IEnumerator TeleportHandler(Vector3 pos)
     {
+        if (_rends == null)
+        {
+            _rends = _owner.GetComponentsInChildren<Renderer>().Where(x => x.materials.Where(y => y.GetTag(_vertexShaderTag, true, "Nothing") == "true").Any()).ToArray();
+        }
+
         bool mid = false;
 
         _owner.ApplyCastState(blinkDuration + disableDuration);
@@ -91,7 +98,10 @@ public class SK_Vortex : DefensiveSkillBase
 
         foreach (var item in _rends)
         {
-            item.material.SetVector("_CollapsePosition", collapsePoint);
+            foreach (var mat in item.materials)
+            {
+                mat.SetVector("_CollapsePosition", collapsePoint);
+            }
         }
 
         _owner.GetRigidbody.isKinematic = true;
@@ -119,7 +129,10 @@ public class SK_Vortex : DefensiveSkillBase
 
         foreach (var item in _rends)
         {
-            item.material.SetVector("_CollapsePosition", new Vector3(50000, 50000, 50000));
+            foreach (var mat in item.materials)
+            {
+                mat.SetVector("_CollapsePosition", new Vector3(50000, 50000, 50000));
+            }
         }
 
         StartCoroutine(WaitForCastEnd(_owner.FinishedCasting));

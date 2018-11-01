@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     void AddEvents()
@@ -264,6 +264,41 @@ public class GameManager : MonoBehaviour
         players = null;
     }
 
+    public bool HasTakenTheLead(int score)
+    {
+        var list = Players.Select(x => x.Stats.Score).OrderByDescending(x => x);
+
+        return list.First() == score;
+    }
+
+    public void ScoreUpdate()
+    {
+        var list = Players.OrderByDescending(x => x.Stats.Score);
+        var maxScores = list.Where(x => x.Stats.Score == list.First().Stats.Score);
+        var others = Players.Except(maxScores);
+
+        if (!others.Any())
+        {
+            foreach (var player in Players)
+            {
+                player.ScoreController.SetLeadingPlayer(false);
+            }
+        }
+        else
+        {
+            foreach (var player in maxScores)
+            {
+                player.ScoreController.SetLeadingPlayer(true);
+            }
+
+            foreach (var player in others)
+            {
+                player.ScoreController.SetLeadingPlayer(false);
+            }
+        }
+
+    }
+
     #region EventCallbacks
     /// <summary>
     /// 0 - PlayerDying
@@ -296,30 +331,6 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
-    void CheatThisFuckingGameFORTESTINGPREPUCIOS()
-    {
-        /*if (Input.GetKeyUp(KeyCode.R))
-        {
-            Players[0].Stats.Score = 15;
-            Players[1].Stats.Score = 5;
-            Players[2].Stats.Score = 9;
-            Players[3].Stats.Score = 15;
-        }
-        else if (Input.GetKeyUp(KeyCode.Y))
-        {
-            Players[1].Stats.Score = 6;
-            Players[0].Stats.Score = 5;
-            Players[2].Stats.Score = 9;
-            Players[3].Stats.Score = 13;
-        }
-        else if (Input.GetKeyUp(KeyCode.I))
-        {
-            Players[2].Stats.Score = 6;
-            Players[1].Stats.Score = 5;
-            Players[0].Stats.Score = 9;
-            Players[3].Stats.Score = 13;
-        }*/
-    }
 }
 
 ///PARA GASTON SI LO LLEGA A VER

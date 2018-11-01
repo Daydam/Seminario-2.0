@@ -27,6 +27,18 @@ public class Player : MonoBehaviour, IDamageable
     public Rigidbody GetRigidbody { get { return _rb; } }
 
     PlayerScoreController _scoreController;
+    public PlayerScoreController ScoreController
+    {
+        get
+        {
+            return _scoreController;
+        }
+
+        private set
+        {
+            _scoreController = value;
+        }
+    }
 
     public int myID;
 
@@ -92,7 +104,7 @@ public class Player : MonoBehaviour, IDamageable
 
         stats = new PlayerStats();
 
-        _scoreController = GetComponent<PlayerScoreController>();
+        ScoreController = GetComponent<PlayerScoreController>();
         _soundModule = GetComponent<DroneSoundController>();
     }
 
@@ -159,7 +171,7 @@ public class Player : MonoBehaviour, IDamageable
 
         stats.Score = Mathf.Max(0, stats.Score + points);
 
-        _scoreController.SetScore(stats.Score, points);
+        ScoreController.SetScore(stats.Score, points);
     }
 
     public void ResetHP()

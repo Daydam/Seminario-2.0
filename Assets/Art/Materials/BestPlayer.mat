@@ -10,7 +10,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: a5fad2ff13319ca4da77c35e37a65ddc, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 0
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -23,9 +23,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _Falloff: 1.3
     - _RimPower: 0
     - _ScanLines: 1
+    - _Size: 3
     - _Speed: 1
     - __dirty: 0
+    - _isBest: 0
     m_Colors:
-    - _HologramColor: {r: 1, g: 0.853, b: 0, a: 0}
+    - _CollapsePosition: {r: 0, g: 0, b: 0, a: 0}
+    - _HologramColor: {r: 1, g: 0.853, b: 0, a: 1}
