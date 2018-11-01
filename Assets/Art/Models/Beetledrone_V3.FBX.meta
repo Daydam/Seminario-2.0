@@ -1,0 +1,372 @@
+fileFormatVersion: 2
+guid: 219bc6ede079a7441aff7b648a0699fa
+timeCreated: 1541043106
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Left Propeller
+    100004: Left Propeller Cover
+    100006: Node_Comp1
+    100008: Node_Comp2
+    100010: Node_Def
+    100012: Node_Weapon
+    100014: Right Propeller
+    100016: Right Propeller Cover
+    100018: Beetledrone V2
+    400000: //RootNode
+    400002: Left Propeller
+    400004: Left Propeller Cover
+    400006: Node_Comp1
+    400008: Node_Comp2
+    400010: Node_Def
+    400012: Node_Weapon
+    400014: Right Propeller
+    400016: Right Propeller Cover
+    400018: Beetledrone V2
+    2100000: 08 - Default
+    2300000: //RootNode
+    2300002: Left Propeller
+    2300004: Left Propeller Cover
+    2300006: Right Propeller
+    2300008: Right Propeller Cover
+    2300010: Beetledrone V2
+    3300000: //RootNode
+    3300002: Left Propeller
+    3300004: Left Propeller Cover
+    3300006: Right Propeller
+    3300008: Right Propeller Cover
+    3300010: Beetledrone V2
+    4300000: Beetledrone V2
+    4300002: Left Propeller Cover
+    4300004: Left Propeller
+    4300006: Right Propeller Cover
+    4300008: Right Propeller
+    7400000: Fly Forward
+    7400002: Fly Backward
+    7400004: Fly Left
+    7400006: Fly Right
+    7400008: Propellers
+    9500000: //RootNode
+    11100000: //RootNode
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Fly Forward
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 3
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Beetledrone V2
+        weight: 0
+      - path: Beetledrone V2/Left Propeller Cover
+        weight: 1
+      - path: Beetledrone V2/Left Propeller Cover/Left Propeller
+        weight: 0
+      - path: Beetledrone V2/Node_Comp1
+        weight: 0
+      - path: Beetledrone V2/Node_Comp2
+        weight: 0
+      - path: Beetledrone V2/Node_Def
+        weight: 0
+      - path: Beetledrone V2/Node_Weapon
+        weight: 0
+      - path: Beetledrone V2/Right Propeller Cover
+        weight: 1
+      - path: Beetledrone V2/Right Propeller Cover/Right Propeller
+        weight: 0
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Fly Backward
+      takeName: Take 001
+      firstFrame: 6
+      lastFrame: 8
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Beetledrone V2
+        weight: 0
+      - path: Beetledrone V2/Left Propeller Cover
+        weight: 1
+      - path: Beetledrone V2/Left Propeller Cover/Left Propeller
+        weight: 0
+      - path: Beetledrone V2/Node_Comp1
+        weight: 0
+      - path: Beetledrone V2/Node_Comp2
+        weight: 0
+      - path: Beetledrone V2/Node_Def
+        weight: 0
+      - path: Beetledrone V2/Node_Weapon
+        weight: 0
+      - path: Beetledrone V2/Right Propeller Cover
+        weight: 1
+      - path: Beetledrone V2/Right Propeller Cover/Right Propeller
+        weight: 0
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Fly Left
+      takeName: Take 001
+      firstFrame: 11
+      lastFrame: 13
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Beetledrone V2
+        weight: 0
+      - path: Beetledrone V2/Left Propeller Cover
+        weight: 1
+      - path: Beetledrone V2/Left Propeller Cover/Left Propeller
+        weight: 0
+      - path: Beetledrone V2/Node_Comp1
+        weight: 0
+      - path: Beetledrone V2/Node_Comp2
+        weight: 0
+      - path: Beetledrone V2/Node_Def
+        weight: 0
+      - path: Beetledrone V2/Node_Weapon
+        weight: 0
+      - path: Beetledrone V2/Right Propeller Cover
+        weight: 1
+      - path: Beetledrone V2/Right Propeller Cover/Right Propeller
+        weight: 0
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Fly Right
+      takeName: Take 001
+      firstFrame: 16
+      lastFrame: 18
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Beetledrone V2
+        weight: 0
+      - path: Beetledrone V2/Left Propeller Cover
+        weight: 1
+      - path: Beetledrone V2/Left Propeller Cover/Left Propeller
+        weight: 0
+      - path: Beetledrone V2/Node_Comp1
+        weight: 0
+      - path: Beetledrone V2/Node_Comp2
+        weight: 0
+      - path: Beetledrone V2/Node_Def
+        weight: 0
+      - path: Beetledrone V2/Node_Weapon
+        weight: 0
+      - path: Beetledrone V2/Right Propeller Cover
+        weight: 1
+      - path: Beetledrone V2/Right Propeller Cover/Right Propeller
+        weight: 0
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Propellers
+      takeName: Take 001
+      firstFrame: 20
+      lastFrame: 24
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Beetledrone V2
+        weight: 0
+      - path: Beetledrone V2/Left Propeller Cover
+        weight: 0
+      - path: Beetledrone V2/Left Propeller Cover/Left Propeller
+        weight: 1
+      - path: Beetledrone V2/Node_Comp1
+        weight: 0
+      - path: Beetledrone V2/Node_Comp2
+        weight: 0
+      - path: Beetledrone V2/Node_Def
+        weight: 0
+      - path: Beetledrone V2/Node_Weapon
+        weight: 0
+      - path: Beetledrone V2/Right Propeller Cover
+        weight: 0
+      - path: Beetledrone V2/Right Propeller Cover/Right Propeller
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: Beetledrone V2
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
