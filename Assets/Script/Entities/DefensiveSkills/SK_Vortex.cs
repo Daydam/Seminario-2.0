@@ -28,6 +28,13 @@ public class SK_Vortex : DefensiveSkillBase
     {
         base.Start();
         _rends = _owner.GetComponentsInChildren<Renderer>().Where(x => x.materials.Where(y => y.GetTag(_vertexShaderTag, true, "Nothing") == "true").Any()).ToArray();
+        foreach (var item in _rends)
+        {
+            foreach (var mat in item.materials)
+            {
+                mat.SetVector("_CollapsePosition", new Vector3(int.MaxValue, int.MaxValue));
+            }
+        }
     }
 
     protected override void InitializeUseCondition()

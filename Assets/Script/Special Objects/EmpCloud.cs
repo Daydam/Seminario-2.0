@@ -35,7 +35,12 @@ public class EmpCloud : MonoBehaviour
 
     void CheckAntennas()
     {
-        if (!StageManager.instance.levelRings[StageManager.instance.actualRing].antennas.Where(x => col.bounds.Contains(x.position)).Any())
+        if (!StageManager.instance.
+            levelRings
+            [StageManager.instance.
+            actualRing]
+            .antennas.
+            Where(x => col.bounds.Contains(x.position)).Any())
         {
             StageManager.instance.DestroyRing();
         }
