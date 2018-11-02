@@ -251,7 +251,7 @@ public class Player : MonoBehaviour, IDamageable
         var movVector = _rb.position + dir.normalized * Time.fixedDeltaTime * movementSpeed * MovementMultiplier;
         movDir = dir;
         _rb.MovePosition(movVector);
-        _animationController.SetMovementDir(movDir.normalized);
+        _animationController.SetMovementDir(control.LeftAnalog());
         //_soundModule.SetEnginePitch((control.LeftAnalog().y + control.LeftAnalog().x)/2 * movementSpeed * MovementMultiplier);
     }
 

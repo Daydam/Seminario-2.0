@@ -12,9 +12,9 @@ public class PlayerAnimations : MonoBehaviour
         _an = GetComponent<Animator>();
 	}
 
-    public void SetMovementDir(Vector3 dir)
+    public void SetMovementDir(Vector2 dir)
     {
-        _an.SetFloat("Front", dir.z);
+        _an.SetFloat("Front", dir.y);
         _an.SetFloat("Sides", dir.x);
     }
 }
