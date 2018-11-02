@@ -43,6 +43,8 @@ public class Player : MonoBehaviour, IDamageable
 
     public int myID;
 
+    bool _vibrationAvailable = true;
+
     bool _isStunned;
     bool _isDisarmed;
     bool _isUnableToMove;
@@ -270,7 +272,13 @@ public class Player : MonoBehaviour, IDamageable
     void SubstractLife(float damage)
     {
         if (_invulnerable) return;
-        ApplyVibration(0, 2, 0.2f);
+        if (_vibrationAvailable)
+        {
+            ApplyVibration(0, 2, 0.2f);
+            _vibrationAvailable = false;
+            StartCoroutine(VibrationCooldown());
+        }
+
         Hp -= damage;
         _rend.material.SetFloat("_Life", Hp / maxHP);
     }
@@ -445,6 +453,13 @@ public class Player : MonoBehaviour, IDamageable
     public void ApplyVibration(float lowFrequencyIntensity, float highFrequencyIntensity, float duration)
     {
         StartCoroutine(Vibrate(lowFrequencyIntensity, highFrequencyIntensity, duration));
+    }
+
+    IEnumerator VibrationCooldown()
+    {
+        yield return new WaitForSeconds(0.2f);
+
+        _vibrationAvailable = true;
     }
 
     public void StopVibrating()
