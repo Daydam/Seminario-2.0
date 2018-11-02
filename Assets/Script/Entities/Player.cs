@@ -26,6 +26,7 @@ public class Player : MonoBehaviour, IDamageable
     Rigidbody _rb;
     public Rigidbody GetRigidbody { get { return _rb; } }
 
+    PlayerAnimations _animationController;
     PlayerScoreController _scoreController;
     public PlayerScoreController ScoreController
     {
@@ -106,6 +107,7 @@ public class Player : MonoBehaviour, IDamageable
 
         ScoreController = GetComponent<PlayerScoreController>();
         _soundModule = GetComponent<DroneSoundController>();
+        _animationController = GetComponent<PlayerAnimations>();
     }
 
     void Start()
@@ -249,6 +251,7 @@ public class Player : MonoBehaviour, IDamageable
         var movVector = _rb.position + dir.normalized * Time.fixedDeltaTime * movementSpeed * MovementMultiplier;
         movDir = dir;
         _rb.MovePosition(movVector);
+        _animationController.SetMovementDir(movDir.normalized);
         //_soundModule.SetEnginePitch((control.LeftAnalog().y + control.LeftAnalog().x)/2 * movementSpeed * MovementMultiplier);
     }
 
