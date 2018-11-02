@@ -270,7 +270,7 @@ public class Player : MonoBehaviour, IDamageable
     void SubstractLife(float damage)
     {
         if (_invulnerable) return;
-        ApplyVibration(1f, 0, 0.2f);
+        ApplyVibration(0, 2, 0.2f);
         Hp -= damage;
         _rend.material.SetFloat("_Life", Hp / maxHP);
     }
