@@ -18,6 +18,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - PlayerColorTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Albedo:
         m_Texture: {fileID: 0}
         m_Scale: {x: 15, y: 15}
@@ -48,6 +52,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _LifeEmission:
         m_Texture: {fileID: 2800000, guid: c4cf33ad1da445243b0b7df4d2f909a6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LifeRamp:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -106,7 +114,8 @@ Material:
     - _ZWrite: 1
     - __dirty: 0
     m_Colors:
-    - _CollapsePosition: {r: 0, g: 0, b: 0, a: 0}
+    - _CollapsePosition: {r: 5555, g: 5555, b: 5555, a: 0}
     - _Color: {r: 0, g: 0, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _PlayerColor: {r: 0, g: 0, b: 0, a: 0}
     - _SkillStateColor: {r: 0, g: 1, b: 1, a: 0}

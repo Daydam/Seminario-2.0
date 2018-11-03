@@ -38,6 +38,7 @@ public class RingWall : MonoBehaviour, IDamageable
 
     public void ResetHP()
     {
+        StopAllCoroutines();
         Hp = maxHP;
         dissolveMaterial.SetFloat("_Dissolved", 0);
         col.enabled = true;
@@ -45,6 +46,7 @@ public class RingWall : MonoBehaviour, IDamageable
 
     public void ResetHP(params object[] info)
     {
+        StopAllCoroutines();
         Hp = maxHP;
         dissolveMaterial.SetFloat("_Dissolved", 0);
         col.enabled = true;
@@ -77,6 +79,7 @@ public class RingWall : MonoBehaviour, IDamageable
     public void PlayBulletHitSound()
     {
         //No parece quedar bien
+        //  NO QUEDA BIEEEN
        // _source.PlayOneShot(bulletHit);
     }
 

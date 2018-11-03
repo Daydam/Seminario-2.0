@@ -101,7 +101,17 @@ ModelImporter:
     4300030: Inner Wall
     4300032: Middle Wall
     4300034: Outer Wall
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No Name
+    second: {fileID: 2100000, guid: 312d6941cb901184390d8dbf96f7e6e0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: _Wallswire_086086086
+    second: {fileID: 2100000, guid: 7a9bccdac2d22154cb2568069e774e5c, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
