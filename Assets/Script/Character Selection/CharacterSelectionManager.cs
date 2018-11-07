@@ -59,6 +59,8 @@ public class CharacterSelectionManager : MonoBehaviour
     GamePadState[] previousGamePads;
     GamePadState[] currentGamePads;
 
+    public Color[] playerColors;
+
     void Start()
     {
         ready = new bool[4] { false, false, false, false };
@@ -220,6 +222,8 @@ public class CharacterSelectionManager : MonoBehaviour
             currentDefensive[player] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL), players[player].transform.position, Quaternion.identity);
 
             CharacterAssembler.Assemble(players[player], currentDefensive[player], currentComplementary[player, 0], currentComplementary[player, 1], currentWeapons[player]);
+            players[player].GetComponentsInChildren<Renderer>().Where(x => x.material.GetTag("SkillStateColor", true, "Nothing") != "Nothing").First().material.SetColor("_PlayerColor", playerColors[player]);
+
 
             var finalWeapon = weapons[weaponIndexes[player]].gameObject.name;
             weaponTexts[player].text = "<   Weapon: " + finalWeapon + "   >";
