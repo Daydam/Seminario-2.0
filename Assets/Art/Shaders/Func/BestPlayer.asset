@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: BestPlayer
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor\n// Available at the Unity Asset
+    Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=13101\n63;143;858;469;417.9882;389.8025;1.214113;True;False\nNode;AmplifyShaderEditor.FunctionInput;14;-2380.545,214.6548;Float;False;Speed;1;3;False;1;0;FLOAT;0.0;False;1;FLOAT\nNode;AmplifyShaderEditor.FunctionInput;12;-2419.619,-70.78033;Float;False;ScanLinesAmount;1;2;False;1;0;FLOAT;0.0;False;1;FLOAT\nNode;AmplifyShaderEditor.FunctionInput;15;-2368.507,385.376;Float;False;RimPower;1;0;False;1;0;FLOAT;0.0;False;1;FLOAT\nNode;AmplifyShaderEditor.FunctionInput;16;-1024.977,191.6916;Float;False;isBest;1;1;False;1;0;FLOAT;0.0;False;1;FLOAT\nNode;AmplifyShaderEditor.FunctionNode;4;-1911.785,147.5379;Float;False;ScanLines;-1;;11;2;0;FLOAT;0.0;False;1;FLOAT;0.0;False;1;COLOR\nNode;AmplifyShaderEditor.FunctionNode;18;-1894.723,351.495;Float;False;Rim;0;;10;2;0;FLOAT;0.0;False;1;FLOAT;0.0;False;1;FLOAT\nNode;AmplifyShaderEditor.TruncOpNode;10;-661.8578,122.1707;Float;False;1;0;FLOAT;0.0;False;1;FLOAT\nNode;AmplifyShaderEditor.SimpleAddOpNode;8;-1568.346,257.3875;Float;False;2;2;0;COLOR;0.0;False;1;FLOAT;0.0,0,0,0;False;1;COLOR\nNode;AmplifyShaderEditor.ColorNode;6;-37.87888,-283.2238;Float;False;Constant;_HologramColor;HologramColor;2;0;1,0.9724138,0,0;0;5;COLOR;FLOAT;FLOAT;FLOAT;FLOAT\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;11;-260.929,-14.20477;Float;False;2;2;0;COLOR;0.0;False;1;FLOAT;0.0,0,0,0;False;1;COLOR\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;9;218.3548,-94.77153;Float;False;2;2;0;COLOR;0.0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR\nNode;AmplifyShaderEditor.SaturateNode;20;-67.10925,115.2686;Float;False;1;0;COLOR;0.0;False;1;COLOR\nNode;AmplifyShaderEditor.FunctionOutput;0;440,-73.47855;Float;False;True;Emission;1;1;0;COLOR;0.0;False;0\nNode;AmplifyShaderEditor.FunctionOutput;19;155.9129,73.58794;Float;False;False;LerpMask;0;1;0;COLOR;0.0;False;0\nWireConnection;4;0;12;0\nWireConnection;4;1;14;0\nWireConnection;18;0;15;0\nWireConnection;18;1;14;0\nWireConnection;10;0;16;0\nWireConnection;8;0;4;0\nWireConnection;8;1;18;0\nWireConnection;11;0;8;0\nWireConnection;11;1;10;0\nWireConnection;9;0;6;0\nWireConnection;9;1;11;0\nWireConnection;20;0;11;0\nWireConnection;0;0;9;0\nWireConnection;19;0;20;0\nASEEND*/\n//CHKSM=96EE31D16C45BCCDDFE0636445F800948F18CA8F"
+  m_functionName: 
+  m_description: BestPlayer

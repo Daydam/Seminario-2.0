@@ -17,10 +17,12 @@ public class PlayerScoreController : MonoBehaviour
     public Text mainScore;
     Animator _an;
     Renderer _rend;
+    int _rendQ;
 
     void Start()
     {
-        
+        _rend = GetComponentsInChildren<Renderer>().Where(x => x.material.GetTag(_bestPlayerShaderTag, true, "Nothing") == "true").First();
+        _rendQ = _rend.material.renderQueue;
 
         var playerCount = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players").playerControllers.Length;
         int playerIndex = GameManager.Instance.Players.IndexOf(GetComponent<Player>());
@@ -40,10 +42,12 @@ public class PlayerScoreController : MonoBehaviour
 
     public void SetLeadingPlayer(bool activate)
     {
-        if (!_rend) _rend = GetComponentsInChildren<Renderer>().Where(x => x.materials.Where(y => y.GetTag(_bestPlayerShaderTag, true, "Nothing") == "true").First()).First();
+        if (!_rend) _rend = GetComponentsInChildren<Renderer>().Where(x => x.material.GetTag(_bestPlayerShaderTag, true, "Nothing") == "true").First();
 
         var value = activate ? 1 : 0;
-        _rend.materials.Where(x => x.GetTag(_bestPlayerShaderTag, true, "Nothing") == "true").First().SetFloat("_isBest", value);
+        _rend.material.SetFloat("_isBest", value);
+
+        _rend.material.renderQueue = activate ? _rendQ + 1 : _rendQ;
 
     }
 }

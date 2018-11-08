@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: ScanLines
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor\n// Available at the Unity Asset
+    Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=13101\n37;166;1352;692;4124.315;652.0225;1;True;False\nNode;AmplifyShaderEditor.FunctionInput;21;-3839.027,-127.025;Float;False;Speed;1;1;False;1;0;FLOAT;1.0;False;1;FLOAT\nNode;AmplifyShaderEditor.TimeNode;1;-3831.762,102.3818;Float;False;0;5;FLOAT4;FLOAT;FLOAT;FLOAT;FLOAT\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;2;-3537.262,-43.91812;Float;False;2;2;0;FLOAT;0.0,0,0,0;False;1;FLOAT4;0.0;False;1;FLOAT4\nNode;AmplifyShaderEditor.FunctionInput;22;-3355.259,-450.9775;Float;False;Amount;1;0;False;1;0;FLOAT;1.0;False;1;FLOAT\nNode;AmplifyShaderEditor.WorldPosInputsNode;4;-3514.563,-292.4191;Float;False;0;4;FLOAT3;FLOAT;FLOAT;FLOAT\nNode;AmplifyShaderEditor.OneMinusNode;3;-3257.962,-9.718064;Float;False;1;0;FLOAT4;0.0;False;1;FLOAT4\nNode;AmplifyShaderEditor.ComponentMaskNode;6;-3017.96,-5.517137;Float;False;False;True;False;False;1;0;FLOAT4;0,0,0,0;False;1;FLOAT\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;7;-3035.66,-313.7171;Float;False;2;2;0;FLOAT;0.0;False;1;FLOAT;0.0;False;1;FLOAT\nNode;AmplifyShaderEditor.PiNode;9;-2603.861,156.8819;Float;False;1;0;FLOAT;2.49;False;1;FLOAT\nNode;AmplifyShaderEditor.SimpleAddOpNode;8;-2659.46,-129.4171;Float;False;2;2;0;FLOAT;0.0,0,0,0;False;1;FLOAT;0.0;False;1;FLOAT\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;10;-2374.461,-61.01823;Float;False;2;2;0;FLOAT;0.0;False;1;FLOAT;0.0;False;1;FLOAT\nNode;AmplifyShaderEditor.SinOpNode;11;-2054.862,-23.71805;Float;False;1;0;FLOAT;0.0;False;1;FLOAT\nNode;AmplifyShaderEditor.TFHCRemap;12;-1804.461,144.1819;Float;False;5;0;FLOAT;0.0;False;1;FLOAT;0.0;False;2;FLOAT;1.0;False;3;FLOAT;0.54;False;4;FLOAT;0.42;False;1;FLOAT\nNode;AmplifyShaderEditor.SaturateNode;15;-1409.36,279.3799;Float;False;1;0;FLOAT;0.0;False;1;FLOAT\nNode;AmplifyShaderEditor.WireNode;23;-1400.848,-288.3709;Float;False;1;0;FLOAT;0.0;False;1;FLOAT\nNode;AmplifyShaderEditor.LerpOp;16;-1098.561,-19.31815;Float;True;3;0;COLOR;1,1,1,1;False;1;COLOR;0,0,0,0;False;2;FLOAT;0.0;False;1;COLOR\nNode;AmplifyShaderEditor.SimpleSubtractOpNode;17;-767.7606,-123.4181;Float;True;2;0;COLOR;0.0;False;1;FLOAT;0,0,0,0;False;1;COLOR\nNode;AmplifyShaderEditor.FunctionOutput;0;-379.8,-129.5;Float;False;True;OutputLines;0;1;0;COLOR;0.0;False;0\nWireConnection;2;0;21;0\nWireConnection;2;1;1;0\nWireConnection;3;0;2;0\nWireConnection;6;0;3;0\nWireConnection;7;0;22;0\nWireConnection;7;1;4;2\nWireConnection;8;0;7;0\nWireConnection;8;1;6;0\nWireConnection;10;0;8;0\nWireConnection;10;1;9;0\nWireConnection;11;0;10;0\nWireConnection;12;0;11;0\nWireConnection;15;0;12;0\nWireConnection;23;0;11;0\nWireConnection;16;2;15;0\nWireConnection;17;0;16;0\nWireConnection;17;1;23;0\nWireConnection;0;0;17;0\nASEEND*/\n//CHKSM=2BB3CB5427FCFB359AA1DC0F51991CED82D0F59F"
+  m_functionName: 
+  m_description: 
