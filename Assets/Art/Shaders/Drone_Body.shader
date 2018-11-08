@@ -16,9 +16,6 @@ Shader "Drone_Body"
 		_Roughness("Roughness", 2D) = "white" {}
 		_AmbientOcclusion("AmbientOcclusion", 2D) = "white" {}
 		_SkillStateColor("SkillStateColor", Color) = (0,1,1,0)
-		[Header(VertexCollapse)]
-		_Size("Size", Float) = 33
-		_Falloff("Falloff", Range( 0 , 20)) = 1.3
 		_LifeRamp("LifeRamp", 2D) = "white" {}
 		_CollapsePosition("Collapse Position", Vector) = (5000,5000,5000,0)
 		_Life("Life", Range( 0 , 1)) = 0
@@ -58,8 +55,6 @@ Shader "Drone_Body"
 		uniform float4 _Roughness_ST;
 		uniform sampler2D _AmbientOcclusion;
 		uniform float4 _AmbientOcclusion_ST;
-		uniform float _Size;
-		uniform float _Falloff;
 
 		UNITY_INSTANCING_BUFFER_START(Drone_Body)
 			UNITY_DEFINE_INSTANCED_PROP(float4, _PlayerColor)
@@ -76,7 +71,7 @@ Shader "Drone_Body"
 			o.texcoord_0.xy = v.texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 			float3 ase_worldPos = mul(unity_ObjectToWorld, v.vertex);
 			float3 _CollapsePosition_Instance = UNITY_ACCESS_INSTANCED_PROP(_CollapsePosition_arr, _CollapsePosition);
-			float3 lerpResult12_g11 = lerp( float3( 0,0,0 ) , ( ( ase_worldPos + ( 1.0 - _CollapsePosition_Instance ) ) + float3(-1,-1,-1) ) , ( saturate( pow( ( distance( ase_worldPos , _CollapsePosition_Instance ) / _Size ) , _Falloff ) ) - 1.0 ));
+			float3 lerpResult12_g11 = lerp( float3( 0,0,0 ) , ( ( ase_worldPos + ( 1.0 - _CollapsePosition_Instance ) ) + float3(-1,-1,-1) ) , ( saturate( pow( ( distance( ase_worldPos , _CollapsePosition_Instance ) / 3.0 ) , 1.3 ) ) - 1.0 ));
 			float4 transform15_g11 = mul(unity_WorldToObject,float4( lerpResult12_g11 , 0.0 ));
 			v.vertex.xyz += transform15_g11.xyz;
 		}
@@ -139,7 +134,7 @@ Shader "Drone_Body"
 }
 /*ASEBEGIN
 Version=13101
-29;115;1091;606;1214.901;295.2918;1.652468;True;False
+516;136;498;664;1214.901;295.2918;1.652468;True;False
 Node;AmplifyShaderEditor.RangedFloatNode;35;-2614.488,-458.1126;Float;False;InstancedProperty;_Life;Life;16;0;0;0;1;0;1;FLOAT
 Node;AmplifyShaderEditor.TFHCRemap;38;-2220.62,-528.2474;Float;False;5;0;FLOAT;0.0;False;1;FLOAT;0.0;False;2;FLOAT;1.0;False;3;FLOAT;3.8;False;4;FLOAT;0.0;False;1;FLOAT
 Node;AmplifyShaderEditor.TextureCoordinatesNode;36;-2112.075,-795.5917;Float;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;FLOAT;FLOAT;FLOAT;FLOAT
@@ -169,12 +164,12 @@ Node;AmplifyShaderEditor.LerpOp;8;-2999.248,-113.8482;Float;True;3;0;COLOR;0.0;F
 Node;AmplifyShaderEditor.SamplerNode;53;-479.5526,383.8726;Float;True;Property;_Metallic;Metallic;5;0;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0.0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1.0;False;5;COLOR;FLOAT;FLOAT;FLOAT;FLOAT
 Node;AmplifyShaderEditor.ColorNode;10;-3393.131,-62.25648;Float;False;Constant;_Alive;Alive;5;0;0,1,0,0;0;5;COLOR;FLOAT;FLOAT;FLOAT;FLOAT
 Node;AmplifyShaderEditor.SimpleAddOpNode;48;154.9778,-239.6306;Float;False;2;2;0;FLOAT4;0.0,0,0,0;False;1;FLOAT4;0.0,0,0,0;False;1;FLOAT4
-Node;AmplifyShaderEditor.FunctionNode;22;-93.79565,1011.847;Float;False;VertexCollapse;9;;11;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT4
+Node;AmplifyShaderEditor.FunctionNode;22;-93.79565,1011.847;Float;False;VertexCollapse;-1;;11;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT4
 Node;AmplifyShaderEditor.ColorNode;11;-3393.131,-227.3799;Float;False;Constant;_Dead;Dead;5;0;1,0,0,0;0;5;COLOR;FLOAT;FLOAT;FLOAT;FLOAT
 Node;AmplifyShaderEditor.RangedFloatNode;12;-3380.899,141.6001;Float;False;InstancedProperty;_LifeOld;LifeOld;13;0;1;0;1;0;1;FLOAT
 Node;AmplifyShaderEditor.SamplerNode;51;-474.6315,-62.92128;Float;True;Property;_AmbientOcclusion;AmbientOcclusion;7;0;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0.0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1.0;False;5;COLOR;FLOAT;FLOAT;FLOAT;FLOAT
 Node;AmplifyShaderEditor.SamplerNode;52;-524.8096,158.3256;Float;True;Property;_NormalMap;NormalMap;4;0;None;True;0;True;white;Auto;True;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0.0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1.0;False;5;FLOAT3;FLOAT;FLOAT;FLOAT;FLOAT
-Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;457.3707,-240.0998;Float;False;True;2;Float;ASEMaterialInspector;0;0;Standard;Drone_Body;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;Back;0;0;False;0;0;Opaque;0.5;True;True;0;False;Opaque;Geometry;All;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;False;0;255;255;0;0;0;0;False;0;4;10;25;False;0.5;True;0;Zero;Zero;0;Zero;Zero;Add;Add;0;False;0;0,0,0,0;VertexOffset;False;Cylindrical;False;Relative;0;;-1;-1;-1;-1;0;2;SkillStateColor=Defensive;VertexCollapse=true;15;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0.0;False;4;FLOAT;0.0;False;5;FLOAT;0.0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0.0;False;9;FLOAT;0.0;False;10;OBJECT;0.0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
+Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;457.3707,-240.0998;Float;False;True;2;Float;ASEMaterialInspector;0;0;Standard;Drone_Body;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;Back;0;0;False;0;0;Opaque;0.5;True;True;0;False;Opaque;Geometry;All;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;False;255;255;255;7;6;0;0;False;0;4;10;25;False;0.5;True;0;Zero;Zero;0;Zero;Zero;Add;Add;0;False;0;0,0,0,0;VertexOffset;False;Cylindrical;False;Relative;0;;-1;-1;-1;-1;0;2;SkillStateColor=Defensive;VertexCollapse=true;15;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0.0;False;4;FLOAT;0.0;False;5;FLOAT;0.0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0.0;False;9;FLOAT;0.0;False;10;OBJECT;0.0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
 WireConnection;38;0;35;0
 WireConnection;28;0;36;1
 WireConnection;28;4;38;0
@@ -208,4 +203,4 @@ WireConnection;0;4;6;0
 WireConnection;0;5;51;0
 WireConnection;0;11;22;0
 ASEEND*/
-//CHKSM=0CA293989F00D2DA11186BB736A5262A1DEF1AFE
+//CHKSM=3C55DB0C292BC31D9F9468C6914C7FA0650F4314
