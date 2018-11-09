@@ -32,7 +32,7 @@ public class SK_Vortex : DefensiveSkillBase
         {
             foreach (var mat in item.materials)
             {
-                mat.SetVector("_CollapsePosition", new Vector3(int.MaxValue, int.MaxValue));
+                mat.SetVector("_CollapsePosition", new Vector3(55555, 55555,55555));
             }
         }
     }
@@ -98,11 +98,11 @@ public class SK_Vortex : DefensiveSkillBase
         _owner.ApplyCastState(blinkDuration + disableDuration);
         _owner.ApplyInvulnerability(blinkDuration);
         _stateSource.PlayOneShot(startVortex);
-        EventManager.Instance.DispatchEvent(Events.SkillEvents.VortexStart, _owner);
 
         var dir = pos - _owner.transform.position;
 
         var collapsePoint = Vector3.Lerp(_owner.GetRigidbody.position, pos, .5f);
+        EventManager.Instance.DispatchEvent(Events.SkillEvents.VortexStart, _owner);
 
         foreach (var item in _rends)
         {

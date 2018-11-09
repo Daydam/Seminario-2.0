@@ -33,12 +33,14 @@ public class UIManager : MonoBehaviour
     public Animator countdown;
     public readonly float fadeInDuration = 4f;
     public readonly float fadeOutDuration = 1f;
+    public Text targetPointsText;
 
-    public void Initialize(IEnumerable<Player> players, Action callback)
+    public void Initialize(IEnumerable<Player> players, Action callback, int pointsToWin)
     {
         _canvas = GameObject.Find(canvasName);
         fader = _canvas.transform.Find(blackFadeName).GetComponent<Image>();
         countdown = _canvas.transform.Find(coundownName).GetComponent<Animator>();
+        targetPointsText.text = "Reach " + pointsToWin + " points!";
 
         ApplyTextes(players.ToArray());
 

@@ -211,6 +211,7 @@ public class Player : MonoBehaviour, IDamageable
         _invulnerable = false;
         lockedByGame = true;
         _movementMultiplier = 1;
+        _vibrationAvailable = true;
         isPushed = false;
         myPusher = null;
         CancelForces();
@@ -469,6 +470,7 @@ public class Player : MonoBehaviour, IDamageable
     public void ApplyVibration(float lowFrequencyIntensity, float highFrequencyIntensity, float duration)
     {
         if (!_vibrationAvailable) return;
+        StopCoroutine("Vibrate");
         StartCoroutine(Vibrate(lowFrequencyIntensity, highFrequencyIntensity, duration));
     }
 

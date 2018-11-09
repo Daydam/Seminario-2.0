@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
             cam.AssignTarget(player);
         }
 
-        UIManager.Instance.Initialize(Players, StartFirstRound);
+        UIManager.Instance.Initialize(Players, StartFirstRound, gameRules.pointsToWin[playerInfo.playerControllers.Length - 2]);
     }
 
     void Update()

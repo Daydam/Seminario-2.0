@@ -175,9 +175,9 @@ public class EndgameManager : MonoBehaviour
     /// <param name="data"></param>
     void SetAwardsOnPedestal(Tuple<string, float, int, string> data)
     {
-        var pedCanvas = pedestals[data.Item3 -1].GetComponentInChildren<Canvas>();
+        var pedCanvas = pedestals[data.Item3 - 1].GetComponentInChildren<Canvas>();
         pedCanvas.transform.Find("AwardName").GetComponent<Text>().text = data.Item1;
-        pedCanvas.transform.Find("AwardAmount").GetComponent<Text>().text = data.Item2 + data.Item4;
+        pedCanvas.transform.Find("AwardAmount").GetComponent<Text>().text = (int)data.Item2 + " " + data.Item4;
     }
 
     //TODO 

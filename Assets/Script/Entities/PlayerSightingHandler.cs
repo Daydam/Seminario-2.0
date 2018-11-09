@@ -23,6 +23,8 @@ public class PlayerSightingHandler : MonoBehaviour
         _rim.gameObject.layer = LayerMask.NameToLayer("P" + layer + "ONLY");
         _rim.material.SetColor("_Tint", _me.Rend.material.GetColor("_PlayerColor"));
 
+        _rim.material.SetVector("_CollapsePosition", new Vector3(55555, 55555, 55555));
+
         EventManager.Instance.AddEventListener(Events.SkillEvents.VortexStart, OnVortexStart);
         EventManager.Instance.AddEventListener(Events.SkillEvents.VortexEnd, OnVortexEnd);
     }
