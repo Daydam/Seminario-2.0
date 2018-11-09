@@ -56,6 +56,7 @@ public class Player : MonoBehaviour, IDamageable
     public bool Invulnerable { get { return _invulnerable; } }
 
     Renderer _rend;
+    public Renderer Rend { get { return _rend; } }
     /// <summary>
     /// TODO: Hacer que pueda ser mayor a 1 (si llegamos a usar cosas de aumentar la velocidad de movimiento)
     /// </summary>
@@ -151,7 +152,6 @@ public class Player : MonoBehaviour, IDamageable
         Cam = cam;
         _camShake = cam.GetComponent<CameraShake>();
         GetComponent<PlayerSightingHandler>().Init();
-
     }
 
     public void DeactivateCamera()

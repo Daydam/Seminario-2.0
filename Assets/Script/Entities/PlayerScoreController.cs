@@ -53,7 +53,7 @@ public class PlayerScoreController : MonoBehaviour
         var value = activate ? 1 : 0;
         _rend.material.SetFloat("_isBest", value);
 
-        _rend.material.renderQueue = activate ? _rendQ + 1 : _rendQ;
+        //_rend.material.renderQueue = activate ? _rendQ + 1 : _rendQ;
 
     }
 }

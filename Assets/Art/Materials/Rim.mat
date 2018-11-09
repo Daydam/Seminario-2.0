@@ -6,11 +6,11 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Test_Rim
+  m_Name: Rim
   m_Shader: {fileID: 4800000, guid: 00fe7824a55c1914284036d5e7594b6a, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 1
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -19,6 +19,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Floats:
+    - _Active: 1
     - _Bias: 0
     - _ChromaticAberration: 0.0585
     - _MaskClipValue: 1.43
@@ -26,5 +27,5 @@ Material:
     - _Scale: 2
     - __dirty: 0
     m_Colors:
-    - _Tint: {r: 1, g: 0, b: 0, a: 0}
+    - _Tint: {r: 1, g: 1, b: 1, a: 1}
     - _albedeishon: {r: 1, g: 1, b: 1, a: 0}

@@ -12,7 +12,7 @@ Material:
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 0
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -22,11 +22,16 @@ Material:
         m_Texture: {fileID: 2800000, guid: cc3baa7be3b39fd47830647e4f8ecef5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TextureSample1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Falloff: 0
     - _MaskClipValue: 0.5
     - _RimPower: 0
     - _ScanLines: 1
+    - _ScanLinesAmount: 0
     - _Size: 0
     - _Speed: 1
     - __dirty: 0

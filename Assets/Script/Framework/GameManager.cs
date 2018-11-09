@@ -113,12 +113,12 @@ public class GameManager : MonoBehaviour
             }
 
             player.Stats.Score = 0;
-
-            CamFollow cam = GameObject.Find("Camera_P" + (i + 1)).GetComponent<CamFollow>();
-            cam.AssignTarget(player);
             player.lockedByGame = true;
 
             player.GetComponentsInChildren<Renderer>().Where(x => x.material.GetTag("SkillStateColor", true, "Nothing") != "Nothing").First().material.SetColor("_PlayerColor", playerColors[playerInfo.playerControllers[i]]);
+
+            CamFollow cam = GameObject.Find("Camera_P" + (i + 1)).GetComponent<CamFollow>();
+            cam.AssignTarget(player);
         }
 
         UIManager.Instance.Initialize(Players, StartFirstRound);
