@@ -15,7 +15,6 @@ public class Player : MonoBehaviour, IDamageable
     public GameObject playerEndgameTexts;
     public GameObject playerUI;
 
-    CamFollow _cam;
     CameraShake _camShake;
     DroneSoundController _soundModule;
 
@@ -94,6 +93,20 @@ public class Player : MonoBehaviour, IDamageable
         set { stats = value; }
     }
 
+    CamFollow _cam;
+    public CamFollow Cam
+    {
+        get
+        {
+            return _cam;
+        }
+
+        private set
+        {
+            _cam = value;
+        }
+    }
+
     void Awake()
     {
         int playerID = GameManager.Instance.Register(this);
@@ -110,6 +123,7 @@ public class Player : MonoBehaviour, IDamageable
         ScoreController = GetComponent<PlayerScoreController>();
         _soundModule = GetComponent<DroneSoundController>();
         _animationController = GetComponent<PlayerAnimations>();
+
     }
 
     void Start()
@@ -134,13 +148,15 @@ public class Player : MonoBehaviour, IDamageable
 
     public void AssignCamera(CamFollow cam)
     {
-        _cam = cam;
+        Cam = cam;
         _camShake = cam.GetComponent<CameraShake>();
+        GetComponent<PlayerSightingHandler>().Init();
+
     }
 
     public void DeactivateCamera()
     {
-        _cam.gameObject.SetActive(false);
+        Cam.gameObject.SetActive(false);
     }
 
     void OnTriggerEnter(Collider col)
@@ -452,6 +468,7 @@ public class Player : MonoBehaviour, IDamageable
 
     public void ApplyVibration(float lowFrequencyIntensity, float highFrequencyIntensity, float duration)
     {
+        if (!_vibrationAvailable) return;
         StartCoroutine(Vibrate(lowFrequencyIntensity, highFrequencyIntensity, duration));
     }
 

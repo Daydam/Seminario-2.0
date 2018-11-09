@@ -31,5 +31,10 @@ namespace AmplifyShaderEditor
 		{
 			AmplifyShaderEditorWindow.CreateNewTemplateShader( "0b6a9f8b4f707c74ca64c0be8e590de0" );
 		}
+		[ MenuItem( "Assets/Create/Amplify Shader/ZTest Alpha Blend", false, 85 )]
+		public static void ApplyTemplate5()
+		{
+			AmplifyShaderEditorWindow.CreateNewTemplateShader( "ee076fbc45de2d94ca9f370808ac0450" );
+		}
 	}
 }

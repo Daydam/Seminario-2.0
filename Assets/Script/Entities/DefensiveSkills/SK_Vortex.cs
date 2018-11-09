@@ -98,6 +98,7 @@ public class SK_Vortex : DefensiveSkillBase
         _owner.ApplyCastState(blinkDuration + disableDuration);
         _owner.ApplyInvulnerability(blinkDuration);
         _stateSource.PlayOneShot(startVortex);
+        EventManager.Instance.DispatchEvent(Events.SkillEvents.VortexStart, _owner);
 
         var dir = pos - _owner.transform.position;
 
@@ -143,6 +144,7 @@ public class SK_Vortex : DefensiveSkillBase
         }
 
         StartCoroutine(WaitForCastEnd(_owner.FinishedCasting));
+        EventManager.Instance.DispatchEvent(Events.SkillEvents.VortexEnd, _owner);
     }
 
     public IEnumerator WaitForCastEnd(Func<bool> callback)

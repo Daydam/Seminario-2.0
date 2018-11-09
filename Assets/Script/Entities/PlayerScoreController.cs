@@ -19,6 +19,8 @@ public class PlayerScoreController : MonoBehaviour
     Renderer _rend;
     int _rendQ;
 
+    PlayerSightingHandler _sighting;
+
     void Start()
     {
         _rend = GetComponentsInChildren<Renderer>().Where(x => x.material.GetTag(_bestPlayerShaderTag, true, "Nothing") == "true").First();
@@ -28,6 +30,8 @@ public class PlayerScoreController : MonoBehaviour
         int playerIndex = GameManager.Instance.Players.IndexOf(GetComponent<Player>());
         mainScore = GameObject.Find(playerCount.ToString() + " Player").transform.Find(canvasName).transform.Find("Player " + (playerIndex + 1)).GetComponentInChildren<Text>();
         _an = mainScore.GetComponent<Animator>();
+
+        _sighting = GetComponent<PlayerSightingHandler>();
     }
 
     public void SetScore(int main, int toAdd)
@@ -43,6 +47,8 @@ public class PlayerScoreController : MonoBehaviour
     public void SetLeadingPlayer(bool activate)
     {
         if (!_rend) _rend = GetComponentsInChildren<Renderer>().Where(x => x.material.GetTag(_bestPlayerShaderTag, true, "Nothing") == "true").First();
+
+        _sighting.SetBestPlayer(activate);
 
         var value = activate ? 1 : 0;
         _rend.material.SetFloat("_isBest", value);

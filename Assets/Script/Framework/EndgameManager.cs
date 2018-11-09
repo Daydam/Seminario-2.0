@@ -39,13 +39,12 @@ public class EndgameManager : MonoBehaviour
     int mostDamageDealt;
     int leastDamageTaken;
 
-    #region Pero mirá como está este copy & paste del CharacterSelectionManager papá
+    //Pero mirá como está este copy & paste del CharacterSelectionManager papá
     bool[] _resetInputs;
     //XInput
     PlayerIndex[] playerIndexes;
     GamePadState[] previousGamePads;
     GamePadState[] currentGamePads;
-    #endregion
 
     void Start()
     {
@@ -132,23 +131,64 @@ public class EndgameManager : MonoBehaviour
             EndgamePlayerText(_players[i], _players[i].gameObject.tag, score.ToString());
             _resetInputs[i] = false;
         }
-        
+
+        //award, award amount, player, desc
+        var awards = FList.Create(Tuple.Create("", 0f, 0, ""));
+
         mostKills = playerInfo.playerControllers.OrderByDescending(x => playerInfo.playerStats[Array.IndexOf(playerInfo.playerControllers, x)].Kills).First();
         var killAmount = playerInfo.playerStats.OrderByDescending(y => y.Kills).First().Kills;
+        awards += Tuple.Create("Most Kills", (float)killAmount, mostKills + 1, " kills");
+
         mostSurvived = playerInfo.playerControllers.OrderByDescending(x => playerInfo.playerStats[Array.IndexOf(playerInfo.playerControllers, x)].Survived).First();
         var survivedAmount = playerInfo.playerStats.OrderByDescending(y => y.Survived).First().Survived;
+        awards += Tuple.Create("Most Survived", (float)survivedAmount, mostSurvived + 1, "survived");
+
         mostDamageDealt = playerInfo.playerControllers.OrderByDescending(x => playerInfo.playerStats[Array.IndexOf(playerInfo.playerControllers, x)].DamageDealt).First();
         var damageDealtAmount = playerInfo.playerStats.OrderByDescending(y => y.DamageDealt).First().DamageDealt;
+        awards += Tuple.Create("Most Damage Dealt", damageDealtAmount, mostDamageDealt + 1, " dmg dealt");
+
         leastDamageTaken = playerInfo.playerControllers.OrderBy(x => playerInfo.playerStats[Array.IndexOf(playerInfo.playerControllers, x)].DamageTaken).First();
         var damageTakenAmount = playerInfo.playerStats.OrderBy(y => y.DamageTaken).First().DamageTaken;
+        awards += Tuple.Create("Bulletproof", damageTakenAmount, leastDamageTaken + 1, " dmg taken");
 
         print("Psycho Killer Award goes to: Player " + (mostKills + 1) + " with " + killAmount + " kills");
-        print("Survived Award goes to: Player " + (mostSurvived + 1) + " with " + survivedAmount + " rounds survived");
+        print("Survivor Award goes to: Player " + (mostSurvived + 1) + " with " + survivedAmount + " rounds survived");
         print("Dealer Award goes to: Player " + (mostDamageDealt + 1) + " with " + damageDealtAmount + " damage dealt");
         print("Bulletproof Award goes to: Player " + (leastDamageTaken + 1) + " with " + damageTakenAmount + " damage taken");
 
+        for (int i = 1; i <= currentGamePads.Length; i++)
+        {
+            var playList = awards.Skip(1).Where(x => x.Item3 == i).ToList();
+            if (playList.Any())
+            {
+                var rnd = UnityEngine.Random.Range(0, playList.Count);
+                SetAwardsOnPedestal(playList.Skip(UnityEngine.Random.Range(0, playList.Count - 1)).First());
+            }
+        }
+
         HideUnusedPedestals();
     }
+
+    /// <summary>
+    /// award, amount, player, desc
+    /// </summary>
+    /// <param name="data"></param>
+    void SetAwardsOnPedestal(Tuple<string, float, int, string> data)
+    {
+        var pedCanvas = pedestals[data.Item3 -1].GetComponentInChildren<Canvas>();
+        pedCanvas.transform.Find("AwardName").GetComponent<Text>().text = data.Item1;
+        pedCanvas.transform.Find("AwardAmount").GetComponent<Text>().text = data.Item2 + data.Item4;
+    }
+
+    //TODO 
+    //Hitler award for most kills
+    //Menem award for most survived
+    //Robledo Puch award for most damage dealt
+    //Nisman award for most suicides
+    //Camión de Prosegur award for least damage taken
+    //Rivero award for most shotgun kills
+    //Trump award for most pushes to the cloud
+    //Cerati award for most time stunned
 
     void HideUnusedPedestals()
     {
@@ -227,7 +267,7 @@ public class EndgameManager : MonoBehaviour
         }
     }
 
-    #region Enfermedad mágica mística me cago en dios
+    //Enfermedad mágica mística me cago en dios
     bool ResetGame()
     {
         return _resetInputs.All(x => x);
@@ -245,7 +285,6 @@ public class EndgameManager : MonoBehaviour
         }
         return false;
     }
-    #endregion
 
     void QuitGame()
     {
