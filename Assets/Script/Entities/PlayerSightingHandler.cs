@@ -18,7 +18,7 @@ public class PlayerSightingHandler : MonoBehaviour
         _me = GetComponent<Player>();
         _cam = _me.Cam.GetComponent<Camera>();
         _particle = transform.GetComponentsInChildren<Transform>().Where(x => x.name == particleName).First().gameObject;
-        var layer = _me.myID + 1;
+        var layer = GameManager.Instance.Players.IndexOf(_me) + 1;
         _particle.layer = LayerMask.NameToLayer("P" + layer + "ONLY");
 
         EventManager.Instance.AddEventListener(Events.SkillEvents.VortexStart, OnVortexStart);
