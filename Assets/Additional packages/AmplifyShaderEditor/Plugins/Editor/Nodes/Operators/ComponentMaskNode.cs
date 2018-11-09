@@ -8,7 +8,7 @@ using System;
 namespace AmplifyShaderEditor
 {
 	[Serializable]
-	[NodeAttributes( "Component Mask", "Vector Operators", "Mask certain channels from vectors/color components" )]
+	[NodeAttributes( "Component Mask", "Vector Operators", "Mask certain channels from vectors/color components", null, KeyCode.K )]
 	public sealed class ComponentMaskNode : ParentNode
 	{
 		private const string OutputLocalVarName = "componentMask";
@@ -275,10 +275,11 @@ namespace AmplifyShaderEditor
 
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalVar )
 		{
-			if ( m_outputPorts[ 0 ].IsLocalValue )
-				return m_outputPorts[ 0 ].LocalValue;
 
-			string value = m_inputPorts[ 0 ].GenerateShaderForOutput( ref dataCollector, m_inputPorts[ 0 ].DataType, ignoreLocalVar );
+			if( m_outputPorts[ 0 ].IsLocalValue( dataCollector.PortCategory ) )
+				return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
+
+			string value = m_inputPorts[ 0 ].GeneratePortInstructions( ref dataCollector );
 
 			int count = 0;
 			switch ( m_inputPorts[ 0 ].DataType )
@@ -314,7 +315,7 @@ namespace AmplifyShaderEditor
 
 			if ( count > 0 )
 			{
-				value += ".";
+				value = string.Format("({0}).",value);
 				for ( int i = 0; i < count; i++ )
 				{
 					if ( m_selection[ i ] )
@@ -324,9 +325,7 @@ namespace AmplifyShaderEditor
 				}
 			}
 
-			RegisterLocalVariable( outputId, value, ref dataCollector, OutputLocalVarName+OutputId );
-
-			return m_outputPorts[0].LocalValue;
+			return CreateOutputLocalVariable( 0, value, ref dataCollector );
 		}
 
 		public string GetComponentForPosition( int i )

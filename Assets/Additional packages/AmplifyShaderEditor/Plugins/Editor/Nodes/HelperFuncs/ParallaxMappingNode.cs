@@ -31,10 +31,12 @@ namespace AmplifyShaderEditor
 			AddInputPort( WirePortDataType.FLOAT3, false, "ViewDir (tan)" );
 			AddOutputPort( WirePortDataType.FLOAT2, "Out" );
 			m_useInternalPortData = true;
+			m_autoDrawInternalPortData = true;
 			m_autoWrapProperties = true;
-			m_textLabelWidth = 100;
+			m_textLabelWidth = 105;
 			UpdateTitle();
 			m_forceDrawPreviewAsPlane = true;
+			m_hasLeftDropdown = true;
 			m_previewShaderGUID = "589f12f68e00ac74286815aa56053fcc";
 		}
 
@@ -42,26 +44,6 @@ namespace AmplifyShaderEditor
 		{
 			base.Destroy();
 			m_upperLeftWidget = null;
-		}
-
-		public override void OnNodeLayout( DrawInfo drawInfo )
-		{
-			base.OnNodeLayout( drawInfo );
-			m_upperLeftWidget.OnNodeLayout( m_globalPosition, drawInfo );
-		}
-
-		public override void DrawGUIControls( DrawInfo drawInfo )
-		{
-			base.DrawGUIControls( drawInfo );
-			m_upperLeftWidget.DrawGUIControls( drawInfo );
-		}
-
-		public override void OnNodeRepaint( DrawInfo drawInfo )
-		{
-			base.OnNodeRepaint( drawInfo );
-			if( !m_isVisible )
-				return;
-			m_upperLeftWidget.OnNodeRepaint( ContainerGraph.LodLevel );
 		}
 
 		public override void SetPreviewInputs()
@@ -78,21 +60,21 @@ namespace AmplifyShaderEditor
 		{
 			base.GenerateShaderForOutput( outputId, ref dataCollector, ignoreLocalvar );
 
-			string textcoords = m_inputPorts[ 0 ].GenerateShaderForOutput( ref dataCollector, WirePortDataType.FLOAT2, false, true );
-			string height = m_inputPorts[ 1 ].GenerateShaderForOutput( ref dataCollector, WirePortDataType.FLOAT, false, true );
-			string scale = m_inputPorts[ 2 ].GenerateShaderForOutput( ref dataCollector, WirePortDataType.FLOAT, false, true );
-			string viewDirTan = m_inputPorts[ 3 ].GenerateShaderForOutput( ref dataCollector, WirePortDataType.FLOAT3, false, true );
-			string localVarName = "Offset" + UniqueId;
+			string textcoords = m_inputPorts[ 0 ].GeneratePortInstructions( ref dataCollector );
+			string height = m_inputPorts[ 1 ].GeneratePortInstructions( ref dataCollector );
+			string scale = m_inputPorts[ 2 ].GeneratePortInstructions( ref dataCollector );
+			string viewDirTan = m_inputPorts[ 3 ].GeneratePortInstructions( ref dataCollector );
+			string localVarName = "Offset" + OutputId;
 			string calculation = "";
 
 			switch( m_selectedParallaxType )
 			{
 				default:
 				case ParallaxType.Normal:
-				calculation = "( ( " + height + " - 1.0 ) * " + viewDirTan + ".xy * " + scale + " ) + " + textcoords;
+				calculation = "( ( " + height + " - 1 ) * " + viewDirTan + ".xy * " + scale + " ) + " + textcoords;
 				break;
 				case ParallaxType.Planar:
-				calculation = "( ( " + height + " - 1.0 ) * ( " + viewDirTan + ".xy / " + viewDirTan + ".z ) * " + scale + " ) + " + textcoords;
+				calculation = "( ( " + height + " - 1 ) * ( " + viewDirTan + ".xy / " + viewDirTan + ".z ) * " + scale + " ) + " + textcoords;
 				break;
 			}
 
@@ -133,7 +115,7 @@ namespace AmplifyShaderEditor
 				}
 				UpdateTitle();
 			}
-			
+
 			EditorGUILayout.HelpBox( "Normal type does a cheaper approximation thats view dependent while Planar is more accurate but generates higher aliasing artifacts at steep angles.", MessageType.None );
 		}
 

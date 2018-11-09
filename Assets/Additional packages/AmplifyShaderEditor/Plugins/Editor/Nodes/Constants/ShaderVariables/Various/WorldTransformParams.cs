@@ -18,5 +18,15 @@ namespace AmplifyShaderEditor
 			m_value = "unity_WorldTransformParams";
 			m_previewShaderGUID = "5a2642605f085da458d6e03ade47b87a";
 		}
+
+		public override void RefreshExternalReferences()
+		{
+			base.RefreshExternalReferences();
+			if( !m_outputPorts[ 0 ].IsConnected )
+			{
+				m_outputPorts[ 0 ].Visible = false;
+				m_sizeIsDirty = true;
+			}
+		}
 	}
 }

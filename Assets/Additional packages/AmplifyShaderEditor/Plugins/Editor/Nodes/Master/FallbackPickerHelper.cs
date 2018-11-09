@@ -27,7 +27,7 @@ namespace AmplifyShaderEditor
 		{
 			EditorGUILayout.BeginHorizontal();
 			m_fallbackShader = owner.EditorGUILayoutTextField( FallbackShaderStr, m_fallbackShader );
-			if ( GUILayout.Button( string.Empty, UIUtils.InspectorPopdropdownStyle, GUILayout.Width( 10 ), GUILayout.Height( 19 ) ) )
+			if ( GUILayout.Button( string.Empty, UIUtils.InspectorPopdropdownFallback, GUILayout.Width( 17 ), GUILayout.Height( 19 ) ) )
 			{
 				DisplayShaderContext( owner, GUILayoutUtility.GetRect( GUIContent.none, EditorStyles.popup ) );
 			}
@@ -42,8 +42,11 @@ namespace AmplifyShaderEditor
 			if ( m_dummyMaterial == null )
 				m_dummyMaterial = new Material( Shader.Find( "Hidden/ASESShaderSelectorUnlit" ) );
 
+#pragma warning disable 0618
 			UnityEditorInternal.InternalEditorUtility.SetupShaderMenu( m_dummyMaterial );
+#pragma warning restore 0618
 			EditorUtility.DisplayPopupMenu( r, ShaderPoputContext, m_dummyCommand );
+
 		}
 
 		private void OnSelectedShaderPopup( string command, Shader shader )

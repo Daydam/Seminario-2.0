@@ -11,21 +11,37 @@ namespace AmplifyShaderEditor
 	[NodeAttributes( "Color", "Constants And Properties", "Color property", null, KeyCode.Alpha5 )]
 	public sealed class ColorNode : PropertyNode
 	{
+		private const string ColorSpaceStr = "Color Space";
+
 		[SerializeField]
+#if UNITY_2018_1_OR_NEWER
+		[ColorUsage( true, true )]
+#else
 		[ColorUsage( true, true, float.MinValue, float.MinValue, float.MinValue, float.MaxValue )]
+#endif
 		private Color m_defaultValue = new Color( 0, 0, 0, 0 );
 
 		[SerializeField]
+#if UNITY_2018_1_OR_NEWER
+		[ColorUsage( true, true )]
+#else
 		[ColorUsage( true, true, float.MinValue, float.MinValue, float.MinValue, float.MaxValue )]
+#endif
 		private Color m_materialValue = new Color( 0, 0, 0, 0 );
 
 		[SerializeField]
 		private bool m_isHDR = false;
 
+		//[SerializeField]
+		//private ASEColorSpace m_colorSpace = ASEColorSpace.Auto;
+#if !UNITY_2018_1_OR_NEWER
 		private ColorPickerHDRConfig m_hdrConfig = new ColorPickerHDRConfig( 0, float.MaxValue, 0, float.MaxValue );
+#endif
 		private GUIContent m_dummyContent;
 
 		private int m_cachedPropertyId = -1;
+
+		private bool m_isEditingFields;
 
 		public ColorNode() : base() { }
 		public ColorNode( int uniqueId, float x, float y, float width, float height ) : base( uniqueId, x, y, width, height ) { }
@@ -33,8 +49,8 @@ namespace AmplifyShaderEditor
 		protected override void CommonInit( int uniqueId )
 		{
 			base.CommonInit( uniqueId );
+			GlobalTypeWarningText = string.Format( GlobalTypeWarningText, "Color" );
 			m_insideSize.Set( 100, 50 );
-
 			m_dummyContent = new GUIContent();
 			AddOutputColorPorts( "RGBA" );
 			m_drawPreview = false;
@@ -49,10 +65,10 @@ namespace AmplifyShaderEditor
 		{
 			base.SetPreviewInputs();
 
-			if ( m_cachedPropertyId == -1 )
+			if( m_cachedPropertyId == -1 )
 				m_cachedPropertyId = Shader.PropertyToID( "_InputColor" );
 
-			if ( m_materialMode && m_currentParameterType != PropertyType.Constant )
+			if( m_materialMode && m_currentParameterType != PropertyType.Constant )
 				PreviewMaterial.SetColor( m_cachedPropertyId, m_materialValue );
 			else
 				PreviewMaterial.SetColor( m_cachedPropertyId, m_defaultValue );
@@ -65,17 +81,69 @@ namespace AmplifyShaderEditor
 
 		public override void DrawSubProperties()
 		{
+#if UNITY_2018_1_OR_NEWER
+			m_defaultValue = EditorGUILayoutColorField( Constants.DefaultValueLabelContent, m_defaultValue, false, true, m_isHDR );
+#else
 			m_defaultValue = EditorGUILayoutColorField( Constants.DefaultValueLabelContent, m_defaultValue, false, true, m_isHDR, m_hdrConfig );
+#endif
 		}
+
+		//public override void DrawMainPropertyBlock()
+		//{
+		//	EditorGUILayout.BeginVertical();
+		//	{
+
+		//		PropertyType parameterType = (PropertyType)EditorGUILayoutEnumPopup( ParameterTypeStr, m_currentParameterType );
+		//		if( parameterType != m_currentParameterType )
+		//		{
+		//			ChangeParameterType( parameterType );
+		//			BeginPropertyFromInspectorCheck();
+		//		}
+
+		//		switch( m_currentParameterType )
+		//		{
+		//			case PropertyType.Property:
+		//			case PropertyType.InstancedProperty:
+		//			{
+		//				ShowPropertyInspectorNameGUI();
+		//				ShowPropertyNameGUI( true );
+		//				ShowVariableMode();
+		//				ShowPrecision();
+		//				ShowToolbar();
+		//			}
+		//			break;
+		//			case PropertyType.Global:
+		//			{
+		//				ShowPropertyInspectorNameGUI();
+		//				ShowPropertyNameGUI( false );
+		//				ShowVariableMode();
+		//				ShowPrecision();
+		//				ShowDefaults();
+		//			}
+		//			break;
+		//			case PropertyType.Constant:
+		//			{
+		//				ShowPropertyInspectorNameGUI();
+		//				ShowPrecision();
+		//				m_colorSpace = (ASEColorSpace)EditorGUILayoutEnumPopup( ColorSpaceStr, m_colorSpace );
+		//				ShowDefaults();
+		//			}
+		//			break;
+		//		}
+		//	}
+		//	EditorGUILayout.EndVertical();
+		//}
 
 		public override void DrawMaterialProperties()
 		{
-			if ( m_materialMode )
+			if( m_materialMode )
 				EditorGUI.BeginChangeCheck();
-
+#if UNITY_2018_1_OR_NEWER
+			m_materialValue = EditorGUILayoutColorField( Constants.MaterialValueLabelContent, m_materialValue, false, true, m_isHDR );
+#else
 			m_materialValue = EditorGUILayoutColorField( Constants.MaterialValueLabelContent, m_materialValue, false, true, m_isHDR, m_hdrConfig );
-
-			if ( m_materialMode && EditorGUI.EndChangeCheck() )
+#endif
+			if( m_materialMode && EditorGUI.EndChangeCheck() )
 				m_requireMaterialUpdate = true;
 		}
 
@@ -94,43 +162,45 @@ namespace AmplifyShaderEditor
 		{
 			base.DrawGUIControls( drawInfo );
 
-			if ( drawInfo.CurrentEventType != EventType.MouseDown )
+			if( drawInfo.CurrentEventType != EventType.MouseDown )
 				return;
 
 			Rect hitBox = m_remainingBox;
 			//hitBox.xMin -= LabelWidth * drawInfo.InvertedZoom;
 			bool insideBox = hitBox.Contains( drawInfo.MousePosition );
 
-			if ( insideBox )
+			if( insideBox )
 			{
 				m_isEditingFields = true;
 			}
-			else if ( m_isEditingFields && !insideBox )
+			else if( m_isEditingFields && !insideBox )
 			{
 				GUI.FocusControl( null );
 				m_isEditingFields = false;
 			}
 		}
 
-		private bool m_isEditingFields;
-
 		public override void Draw( DrawInfo drawInfo )
 		{
 			base.Draw( drawInfo );
 
-			if ( !m_isVisible )
+			if( !m_isVisible )
 				return;
 
-			if ( m_isEditingFields )
+			if( m_isEditingFields && m_currentParameterType != PropertyType.Global )
 			{
-				if ( m_materialMode && m_currentParameterType != PropertyType.Constant )
+				if( m_materialMode && m_currentParameterType != PropertyType.Constant )
 				{
 					EditorGUI.BeginChangeCheck();
+#if UNITY_2018_1_OR_NEWER
+					m_materialValue = EditorGUIColorField( m_propertyDrawPos, m_dummyContent, m_materialValue, false, true, m_isHDR );
+#else
 					m_materialValue = EditorGUIColorField( m_propertyDrawPos, m_dummyContent, m_materialValue, false, true, m_isHDR, m_hdrConfig );
-					if ( EditorGUI.EndChangeCheck() )
+#endif
+					if( EditorGUI.EndChangeCheck() )
 					{
 						m_requireMaterialUpdate = true;
-						if ( m_currentParameterType != PropertyType.Constant )
+						if( m_currentParameterType != PropertyType.Constant )
 						{
 							BeginDelayedDirtyProperty();
 						}
@@ -139,17 +209,20 @@ namespace AmplifyShaderEditor
 				else
 				{
 					EditorGUI.BeginChangeCheck();
-
+#if UNITY_2018_1_OR_NEWER
+					m_defaultValue = EditorGUIColorField( m_propertyDrawPos, m_dummyContent, m_defaultValue, false, true, m_isHDR );
+#else
 					m_defaultValue = EditorGUIColorField( m_propertyDrawPos, m_dummyContent, m_defaultValue, false, true, m_isHDR, m_hdrConfig );
-					if ( EditorGUI.EndChangeCheck() )
+#endif
+					if( EditorGUI.EndChangeCheck() )
 					{
 						BeginDelayedDirtyProperty();
 					}
 				}
 			}
-			else if ( drawInfo.CurrentEventType == EventType.Repaint )
+			else if( drawInfo.CurrentEventType == EventType.Repaint )
 			{
-				if ( m_materialMode && m_currentParameterType != PropertyType.Constant )
+				if( m_materialMode && m_currentParameterType != PropertyType.Constant )
 					EditorGUIUtility.DrawColorSwatch( m_propertyDrawPos, m_materialValue );
 				else
 					EditorGUIUtility.DrawColorSwatch( m_propertyDrawPos, m_defaultValue );
@@ -161,13 +234,21 @@ namespace AmplifyShaderEditor
 		public override void ConfigureLocalVariable( ref MasterNodeDataCollector dataCollector )
 		{
 			Color color = m_defaultValue;
+			//switch( m_colorSpace )
+			//{
+			//	default:
+			//	case ASEColorSpace.Auto: color = m_defaultValue; break;
+			//	case ASEColorSpace.Gamma: color = m_defaultValue.gamma; break;
+			//	case ASEColorSpace.Linear: color = m_defaultValue.linear; break;
+			//}
+
 			dataCollector.AddLocalVariable( UniqueId, CreateLocalVarDec( color.r + "," + color.g + "," + color.b + "," + color.a ) );
 
-			m_outputPorts[ 0 ].SetLocalValue( m_propertyName );
-			m_outputPorts[ 1 ].SetLocalValue( m_propertyName + ".r" );
-			m_outputPorts[ 2 ].SetLocalValue( m_propertyName + ".g" );
-			m_outputPorts[ 3 ].SetLocalValue( m_propertyName + ".b" );
-			m_outputPorts[ 4 ].SetLocalValue( m_propertyName + ".a" );
+			m_outputPorts[ 0 ].SetLocalValue( m_propertyName , dataCollector.PortCategory);
+			m_outputPorts[ 1 ].SetLocalValue( m_propertyName + ".r", dataCollector.PortCategory );
+			m_outputPorts[ 2 ].SetLocalValue( m_propertyName + ".g", dataCollector.PortCategory );
+			m_outputPorts[ 3 ].SetLocalValue( m_propertyName + ".b", dataCollector.PortCategory );
+			m_outputPorts[ 4 ].SetLocalValue( m_propertyName + ".a", dataCollector.PortCategory );
 		}
 
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
@@ -175,23 +256,30 @@ namespace AmplifyShaderEditor
 			base.GenerateShaderForOutput( outputId, ref dataCollector, ignoreLocalvar );
 			m_precisionString = UIUtils.FinalPrecisionWirePortToCgType( m_currentPrecisionType, m_outputPorts[ 0 ].DataType );
 
-			if ( m_currentParameterType != PropertyType.Constant )
-				return GetOutputVectorItem( 0, outputId, PropertyData );
+			if( m_currentParameterType != PropertyType.Constant )
+				return GetOutputVectorItem( 0, outputId, PropertyData( dataCollector.PortCategory ) );
 
-			if ( m_outputPorts[ outputId ].IsLocalValue )
+			if( m_outputPorts[ outputId ].IsLocalValue(dataCollector.PortCategory) )
 			{
-				return m_outputPorts[ outputId ].LocalValue;
+				return m_outputPorts[ outputId ].LocalValue( dataCollector.PortCategory );
 			}
 
-			if ( CheckLocalVariable( ref dataCollector ) )
+			if( CheckLocalVariable( ref dataCollector ) )
 			{
-				return m_outputPorts[ outputId ].LocalValue;
+				return m_outputPorts[ outputId ].LocalValue( dataCollector.PortCategory );
 			}
 
 			Color color = m_defaultValue;
+			//switch( m_colorSpace )
+			//{
+			//	default:
+			//	case ASEColorSpace.Auto: color = m_defaultValue; break;
+			//	case ASEColorSpace.Gamma: color = m_defaultValue.gamma; break;
+			//	case ASEColorSpace.Linear: color = m_defaultValue.linear; break;
+			//}
 			string result = string.Empty;
 
-			switch ( outputId )
+			switch( outputId )
 			{
 				case 0:
 				{
@@ -239,20 +327,20 @@ namespace AmplifyShaderEditor
 			int count = m_selectedAttribs.Count;
 			bool hdrBuffer = m_isHDR;
 			m_isHDR = false;
-			for ( int i = 0; i < count; i++ )
+			for( int i = 0; i < count; i++ )
 			{
-				if ( m_selectedAttribs[ i ] == 1 /*HDR Property ID*/)
+				if( m_selectedAttribs[ i ] == 1 /*HDR Property ID*/)
 				{
 					m_isHDR = true;
 					break;
 				}
 			}
 
-			if ( hdrBuffer && !m_isHDR )
+			if( hdrBuffer && !m_isHDR )
 			{
 				bool fireDirtyProperty = false;
 
-				if ( m_defaultValue.r > 1 || m_defaultValue.g > 1 || m_defaultValue.b > 1 )
+				if( m_defaultValue.r > 1 || m_defaultValue.g > 1 || m_defaultValue.b > 1 )
 				{
 					float defaultColorLength = Mathf.Sqrt( m_defaultValue.r * m_defaultValue.r + m_defaultValue.g * m_defaultValue.g + m_defaultValue.b * m_defaultValue.b );
 					m_defaultValue.r /= defaultColorLength;
@@ -261,7 +349,7 @@ namespace AmplifyShaderEditor
 					fireDirtyProperty = true;
 				}
 
-				if ( m_materialValue.r > 1 || m_materialValue.g > 1 || m_materialValue.b > 1 )
+				if( m_materialValue.r > 1 || m_materialValue.g > 1 || m_materialValue.b > 1 )
 				{
 					float materialColorLength = Mathf.Sqrt( m_materialValue.r * m_materialValue.r + m_materialValue.g * m_materialValue.g + m_materialValue.b * m_materialValue.b );
 					m_materialValue.r /= materialColorLength;
@@ -270,7 +358,7 @@ namespace AmplifyShaderEditor
 					fireDirtyProperty = true;
 				}
 
-				if ( fireDirtyProperty )
+				if( fireDirtyProperty )
 					BeginDelayedDirtyProperty();
 			}
 		}
@@ -284,7 +372,7 @@ namespace AmplifyShaderEditor
 		{
 			base.UpdateMaterial( mat );
 
-			if ( UIUtils.IsProperty( m_currentParameterType ) )
+			if( UIUtils.IsProperty( m_currentParameterType ) && !InsideShaderFunction )
 			{
 				mat.SetColor( m_propertyName, m_materialValue );
 			}
@@ -293,17 +381,16 @@ namespace AmplifyShaderEditor
 		public override void SetMaterialMode( Material mat, bool fetchMaterialValues )
 		{
 			base.SetMaterialMode( mat, fetchMaterialValues );
-			if ( m_materialMode && fetchMaterialValues )
+			if( m_materialMode && fetchMaterialValues )
 			{
-				MaterialValue = ( UIUtils.IsProperty( m_currentParameterType ) && mat.HasProperty( m_propertyName ) ) ?
-																					mat.GetColor( m_propertyName ) :
-																					m_defaultValue;
+				if( UIUtils.IsProperty( m_currentParameterType ) && mat.HasProperty( m_propertyName ) )
+					MaterialValue = mat.GetColor( m_propertyName );
 			}
 		}
 
 		public override void ForceUpdateFromMaterial( Material material )
 		{
-			if ( UIUtils.IsProperty( m_currentParameterType ) && material.HasProperty( m_propertyName ) )
+			if( UIUtils.IsProperty( m_currentParameterType ) && material.HasProperty( m_propertyName ) )
 			{
 				MaterialValue = material.GetColor( m_propertyName );
 			}
@@ -312,37 +399,28 @@ namespace AmplifyShaderEditor
 		public override void ReadFromString( ref string[] nodeParams )
 		{
 			base.ReadFromString( ref nodeParams );
-			string[] colorChannels = GetCurrentParam( ref nodeParams ).Split( IOUtils.VECTOR_SEPARATOR );
-			if ( colorChannels.Length == 4 )
+			m_defaultValue = IOUtils.StringToColor( GetCurrentParam( ref nodeParams ) );
+			if( UIUtils.CurrentShaderVersion() > 14101 )
 			{
-				m_defaultValue.r = Convert.ToSingle( colorChannels[ 0 ] );
-				m_defaultValue.g = Convert.ToSingle( colorChannels[ 1 ] );
-				m_defaultValue.b = Convert.ToSingle( colorChannels[ 2 ] );
-				m_defaultValue.a = Convert.ToSingle( colorChannels[ 3 ] );
+				m_materialValue = IOUtils.StringToColor( GetCurrentParam( ref nodeParams ) );
 			}
-			else
-			{
-				UIUtils.ShowMessage( "Incorrect number of color values", MessageSeverity.Error );
-			}
+
+			//if( UIUtils.CurrentShaderVersion() > 14202 )
+			//{
+			//	m_colorSpace = (ASEColorSpace)Enum.Parse( typeof( ASEColorSpace ), GetCurrentParam( ref nodeParams ) );
+			//}
 		}
 
 		public override void WriteToString( ref string nodeInfo, ref string connectionsInfo )
 		{
 			base.WriteToString( ref nodeInfo, ref connectionsInfo );
-			IOUtils.AddFieldValueToString( ref nodeInfo, m_defaultValue.r.ToString() + IOUtils.VECTOR_SEPARATOR + m_defaultValue.g.ToString() + IOUtils.VECTOR_SEPARATOR + m_defaultValue.b.ToString() + IOUtils.VECTOR_SEPARATOR + m_defaultValue.a.ToString() );
-		}
-
-		public override void ReadAdditionalClipboardData( ref string[] nodeParams )
-		{
-			base.ReadAdditionalClipboardData( ref nodeParams );
-			m_materialValue = IOUtils.StringToColor( GetCurrentParam( ref nodeParams ) );
-		}
-
-		public override void WriteAdditionalClipboardData( ref string nodeInfo )
-		{
-			base.WriteAdditionalClipboardData( ref nodeInfo );
+			IOUtils.AddFieldValueToString( ref nodeInfo, IOUtils.ColorToString( m_defaultValue ) );
 			IOUtils.AddFieldValueToString( ref nodeInfo, IOUtils.ColorToString( m_materialValue ) );
+			//IOUtils.AddFieldValueToString( ref nodeInfo, m_colorSpace );
 		}
+
+		public override void SetGlobalValue() { Shader.SetGlobalColor( m_propertyName, m_defaultValue ); }
+		public override void FetchGlobalValue() { m_materialValue = Shader.GetGlobalColor( m_propertyName ); }
 
 		public override string GetPropertyValStr()
 		{
@@ -360,7 +438,7 @@ namespace AmplifyShaderEditor
 		{
 			set
 			{
-				if ( !m_isHDR && ( value.r > 1 || value.g > 1 || value.r > 1 ) )
+				if( !m_isHDR && ( value.r > 1 || value.g > 1 || value.r > 1 ) )
 				{
 					float materialColorLength = Mathf.Sqrt( value.r * value.r + value.g * value.g + value.b * value.b );
 					m_materialValue.r = value.r / materialColorLength;

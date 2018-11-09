@@ -13,6 +13,9 @@ namespace AmplifyShaderEditor
 		[SerializeField]
 		protected string m_funcType = string.Empty;
 
+		[SerializeField]
+		protected string m_funcLWFormatOverride = string.Empty;
+
 		protected string m_localVarName = null;
 		protected override void CommonInit( int uniqueId )
 		{
@@ -28,15 +31,17 @@ namespace AmplifyShaderEditor
 		}
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
 		{
-			if( m_outputPorts[0].IsLocalValue )
-				return m_outputPorts[0].LocalValue;
+			if( m_outputPorts[ 0 ].IsLocalValue( dataCollector.PortCategory ) )
+				return GetOutputVectorItem( 0, outputId, m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory ) );
 
-			dataCollector.AddToIncludes( UniqueId, Constants.UnityCgLibFuncs );
+			if( !( dataCollector.IsTemplate && dataCollector.TemplateDataCollectorInstance.CurrentSRPType == TemplateSRPType.Lightweight ) )
+				dataCollector.AddToIncludes( UniqueId, Constants.UnityCgLibFuncs );
+
 			string concatResults = string.Empty;
-			for ( int i = 0; i < m_inputPorts.Count; i++ )
+			for( int i = 0; i < m_inputPorts.Count; i++ )
 			{
 				string result = string.Empty;
-				if ( m_inputPorts[ i ].IsConnected )
+				if( m_inputPorts[ i ].IsConnected )
 				{
 					result = m_inputPorts[ i ].GeneratePortInstructions( ref dataCollector );
 				}
@@ -46,14 +51,15 @@ namespace AmplifyShaderEditor
 				}
 
 				concatResults += result;
-				if ( i != ( m_inputPorts.Count - 1 ) )
+				if( i != ( m_inputPorts.Count - 1 ) )
 					concatResults += " , ";
 			}
 			string finalResult = m_funcType + "( " + concatResults + " )";
+			if( dataCollector.IsTemplate && dataCollector.TemplateDataCollectorInstance.CurrentSRPType == TemplateSRPType.Lightweight && !string.IsNullOrEmpty( m_funcLWFormatOverride ) )
+				finalResult = string.Format( m_funcLWFormatOverride, concatResults );
+			RegisterLocalVariable( 0, finalResult, ref dataCollector, m_localVarName );
 
-			RegisterLocalVariable( 0, finalResult, ref dataCollector , m_localVarName );
-
-			return m_outputPorts[ 0 ].LocalValue;
+			return GetOutputVectorItem( 0, outputId, m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory ) );
 		}
 	}
 }

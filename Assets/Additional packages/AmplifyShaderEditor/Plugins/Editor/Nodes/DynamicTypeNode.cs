@@ -27,7 +27,10 @@ namespace AmplifyShaderEditor
 		private bool m_previouslyDragging = false;
 		private int m_beforePreviewCount = 0;
 
-		protected WirePortDataType[] m_dynamicRestrictions =
+        [UnityEngine.SerializeField]
+        protected WirePortDataType m_mainDataType = WirePortDataType.FLOAT;
+
+        protected WirePortDataType[] m_dynamicRestrictions =
 		{
 			WirePortDataType.OBJECT,
 			WirePortDataType.FLOAT,
@@ -37,10 +40,7 @@ namespace AmplifyShaderEditor
 			WirePortDataType.COLOR,
 			WirePortDataType.INT
 		};
-
-		[UnityEngine.SerializeField]
-		protected WirePortDataType m_mainDataType = WirePortDataType.FLOAT;
-
+        
 		protected override void CommonInit( int uniqueId )
 		{
 			base.CommonInit( uniqueId );
@@ -73,6 +73,7 @@ namespace AmplifyShaderEditor
 		{
 			base.OnInputPortDisconnected( portId );
 			UpdateDisconnectedConnection( portId );
+			UpdateConnection( portId );
 			UpdateEmptyInputPorts( true );
 		}
 
@@ -317,7 +318,7 @@ namespace AmplifyShaderEditor
 						if( m_inputCount > m_lastInputCount )
 						{
 							Undo.RegisterCompleteObjectUndo( m_containerGraph.ParentWindow, Constants.UndoCreateDynamicPortId );
-							Undo.RecordObject( this, Constants.UndoCreateDynamicPortId );
+							RecordObject( Constants.UndoCreateDynamicPortId );
 
 							AddInputPort( m_mainDataType, false, ( ( char ) ( 'A' + m_inputCount - 1 ) ).ToString() );
 							m_inputPorts[ m_inputCount - 1 ].CreatePortRestrictions( m_dynamicRestrictions );
@@ -402,7 +403,7 @@ namespace AmplifyShaderEditor
 				if( recordUndo )
 				{
 					Undo.RegisterCompleteObjectUndo( m_containerGraph.ParentWindow, Constants.UndoDeleteDynamicPortId );
-					Undo.RecordObject( this, Constants.UndoDeleteDynamicPortId );
+					RecordObject( Constants.UndoDeleteDynamicPortId );
 				}
 
 				bool hasDeleted = false;

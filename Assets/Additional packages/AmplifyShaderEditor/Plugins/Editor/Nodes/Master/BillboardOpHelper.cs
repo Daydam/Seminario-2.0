@@ -32,13 +32,13 @@ namespace AmplifyShaderEditor
 		public static readonly string[] BillboardCommonInstructions = { "float3 forwardCamVec = -normalize ( UNITY_MATRIX_V._m20_m21_m22 )",
 																		"float3 rightCamVec = normalize( UNITY_MATRIX_V._m00_m01_m02 )",
 																		"float4x4 rotationCamMatrix = float4x4( rightCamVec, 0, upCamVec, 0, forwardCamVec, 0, 0, 0, 0, 1 )",
-																		"{0} = normalize( mul( {0}, rotationCamMatrix ))"};
+																		"{0} = normalize( mul( float4( {0} , 0 ), rotationCamMatrix ))"};
 
 		public static readonly string[] BillboardRotDependent = {   "//This unfortunately must be made to take non-uniform scaling into account",
 																	"//Transform to world coords, apply rotation and transform back to local",
-																	"{0} = mul( {0} , unity_ObjectToWorld )",
-																	"{0} = mul( {0} , rotationCamMatrix )",
-																	"{0} = mul( {0} , unity_WorldToObject )"};
+																	"{0} = mul( {0} , unity_ObjectToWorld ){1}",
+																	"{0} = mul( {0} , rotationCamMatrix ){1}",
+																	"{0} = mul( {0} , unity_WorldToObject ){1}"};
 
 
 		public static readonly string[] BillboardRotIndependent = { "{0}.x *= length( unity_ObjectToWorld._m00_m10_m20 )",
@@ -64,31 +64,31 @@ namespace AmplifyShaderEditor
 			bool enabled = m_isBillboard;
 			NodeUtils.DrawPropertyGroup( owner, ref visible, ref m_isBillboard, BillboardTitleStr, () =>
 			{
-				m_billboardType = ( BillboardType ) owner.EditorGUILayoutEnumPopup( BillboardTypeStr, m_billboardType );
+				m_billboardType = (BillboardType)owner.EditorGUILayoutEnumPopup( BillboardTypeStr, m_billboardType );
 				m_rotationIndependent = owner.EditorGUILayoutToggle( BillboardRotIndStr, m_rotationIndependent );
 			} );
 
 			EditorVariablesManager.ExpandedVertexOptions.Value = visible;
-			if ( m_isBillboard != enabled )
+			if( m_isBillboard != enabled )
 			{
 				UIUtils.RequestSave();
 			}
 		}
 		public void FillDataCollectorWithInternalData( ref MasterNodeDataCollector dataCollector )
 		{
-			if ( m_isBillboard )
+			if( m_isBillboard )
 			{
-				FillDataCollector( ref dataCollector, m_billboardType, m_rotationIndependent, "v.vertex", "v.normal" );
+				FillDataCollector( ref dataCollector, m_billboardType, m_rotationIndependent, "v.vertex", "v.normal" , false );
 			}
 		}
 		// This should be called after the Vertex Offset and Vertex Normal ports are analised
-		public static void FillDataCollector( ref MasterNodeDataCollector dataCollector, BillboardType billboardType, bool rotationIndependent, string vertexPosValue, string vertexNormalValue )
+		public static void FillDataCollector( ref MasterNodeDataCollector dataCollector, BillboardType billboardType, bool rotationIndependent, string vertexPosValue, string vertexNormalValue, bool vertexIsFloat3 )
 		{
-			switch ( billboardType )
+			switch( billboardType )
 			{
 				case BillboardType.Cylindrical:
 				{
-					for ( int i = 0; i < BillboardCylindricalInstructions.Length; i++ )
+					for( int i = 0; i < BillboardCylindricalInstructions.Length; i++ )
 					{
 						dataCollector.AddVertexInstruction( BillboardCylindricalInstructions[ i ] + ( dataCollector.IsTemplate ? ";" : string.Empty ), -1, true );
 					}
@@ -97,7 +97,7 @@ namespace AmplifyShaderEditor
 
 				case BillboardType.Spherical:
 				{
-					for ( int i = 0; i < BillboardCylindricalInstructions.Length; i++ )
+					for( int i = 0; i < BillboardCylindricalInstructions.Length; i++ )
 					{
 						dataCollector.AddVertexInstruction( BillboardSphericalInstructions[ i ] + ( dataCollector.IsTemplate ? ";" : string.Empty ), -1, true );
 					}
@@ -105,15 +105,15 @@ namespace AmplifyShaderEditor
 				break;
 			}
 
-			for ( int i = 0; i < BillboardCommonInstructions.Length; i++ )
+			for( int i = 0; i < BillboardCommonInstructions.Length; i++ )
 			{
 				string value = ( i == 3 ) ? string.Format( BillboardCommonInstructions[ i ], vertexNormalValue ) : BillboardCommonInstructions[ i ];
 				dataCollector.AddVertexInstruction( value + ( dataCollector.IsTemplate ? ";" : string.Empty ), -1, true );
 			}
 
-			if ( rotationIndependent )
+			if( rotationIndependent )
 			{
-				for ( int i = 0; i < BillboardRotIndependent.Length; i++ )
+				for( int i = 0; i < BillboardRotIndependent.Length; i++ )
 				{
 					string value = ( i != 5 ) ? string.Format( BillboardRotIndependent[ i ], vertexPosValue ) : BillboardRotIndependent[ i ];
 					dataCollector.AddVertexInstruction( value + ( dataCollector.IsTemplate ? ";" : string.Empty ), -1, true );
@@ -121,9 +121,9 @@ namespace AmplifyShaderEditor
 			}
 			else
 			{
-				for ( int i = 0; i < BillboardRotDependent.Length; i++ )
+				for( int i = 0; i < BillboardRotDependent.Length; i++ )
 				{
-					string value = ( i > 1 ) ? string.Format( BillboardRotDependent[ i ], vertexPosValue ) : BillboardRotDependent[ i ];
+					string value = ( i > 1 ) ? string.Format( BillboardRotDependent[ i ], vertexPosValue, ( vertexIsFloat3 ? ".xyz" : string.Empty ) ) : BillboardRotDependent[ i ];
 					dataCollector.AddVertexInstruction( value + ( dataCollector.IsTemplate ? ";" : string.Empty ), -1, true );
 				}
 			}
@@ -137,11 +137,11 @@ namespace AmplifyShaderEditor
 		public static string[] GetMultilineInstructions( BillboardType billboardType, bool rotationIndependent, string vertexPosValue, string vertexNormalValue )
 		{
 			List<string> body = new List<string>();
-			switch ( billboardType )
+			switch( billboardType )
 			{
 				case BillboardType.Cylindrical:
 				{
-					for ( int i = 0; i < BillboardCylindricalInstructions.Length; i++ )
+					for( int i = 0; i < BillboardCylindricalInstructions.Length; i++ )
 					{
 						body.Add( BillboardCylindricalInstructions[ i ] );
 					}
@@ -150,7 +150,7 @@ namespace AmplifyShaderEditor
 
 				case BillboardType.Spherical:
 				{
-					for ( int i = 0; i < BillboardCylindricalInstructions.Length; i++ )
+					for( int i = 0; i < BillboardCylindricalInstructions.Length; i++ )
 					{
 						body.Add( BillboardSphericalInstructions[ i ] );
 					}
@@ -158,15 +158,15 @@ namespace AmplifyShaderEditor
 				break;
 			}
 
-			for ( int i = 0; i < BillboardCommonInstructions.Length; i++ )
+			for( int i = 0; i < BillboardCommonInstructions.Length; i++ )
 			{
 				string value = ( i == 3 ) ? string.Format( BillboardCommonInstructions[ i ], vertexNormalValue ) : BillboardCommonInstructions[ i ];
 				body.Add( value );
 			}
 
-			if ( rotationIndependent )
+			if( rotationIndependent )
 			{
-				for ( int i = 0; i < BillboardRotIndependent.Length; i++ )
+				for( int i = 0; i < BillboardRotIndependent.Length; i++ )
 				{
 					string value = ( i != 5 ) ? string.Format( BillboardRotIndependent[ i ], vertexPosValue ) : BillboardRotIndependent[ i ];
 					body.Add( value );
@@ -174,7 +174,7 @@ namespace AmplifyShaderEditor
 			}
 			else
 			{
-				for ( int i = 0; i < BillboardRotDependent.Length; i++ )
+				for( int i = 0; i < BillboardRotDependent.Length; i++ )
 				{
 					string value = ( i > 1 ) ? string.Format( BillboardRotDependent[ i ], vertexPosValue ) : BillboardRotDependent[ i ];
 					body.Add( value );
@@ -186,8 +186,8 @@ namespace AmplifyShaderEditor
 		public void ReadFromString( ref uint index, ref string[] nodeParams )
 		{
 			m_isBillboard = Convert.ToBoolean( nodeParams[ index++ ] );
-			m_billboardType = ( BillboardType ) Enum.Parse( typeof( BillboardType ), nodeParams[ index++ ] );
-			if ( UIUtils.CurrentShaderVersion() > 11007 )
+			m_billboardType = (BillboardType)Enum.Parse( typeof( BillboardType ), nodeParams[ index++ ] );
+			if( UIUtils.CurrentShaderVersion() > 11007 )
 			{
 				m_rotationIndependent = Convert.ToBoolean( nodeParams[ index++ ] );
 			}

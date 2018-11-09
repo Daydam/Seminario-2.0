@@ -2,7 +2,7 @@ Shader /*ase_name*/"ASETemplateShaders/UIDefault"/*end*/
 {
 	Properties
 	{
-		_MainTex ("Sprite Texture", 2D) = "white" {}
+		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
 		_Color ("Tint", Color) = (1,1,1,1)
 		
 		_StencilComp ("Stencil Comparison", Float) = 8
@@ -26,7 +26,6 @@ Shader /*ase_name*/"ASETemplateShaders/UIDefault"/*end*/
 			"RenderType"="Transparent"
 			"PreviewType"="Plane"
 			"CanUseSpriteAtlas"="True"
-			/*ase_tags*/
 		}
 		
 		Stencil
@@ -52,7 +51,7 @@ Shader /*ase_name*/"ASETemplateShaders/UIDefault"/*end*/
 		CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
-			#pragma target 2.0
+			#pragma target 3.0
 
 			#include "UnityCG.cginc"
 			#include "UnityUI.cginc"
@@ -66,7 +65,8 @@ Shader /*ase_name*/"ASETemplateShaders/UIDefault"/*end*/
 				float4 vertex   : POSITION;
 				float4 color    : COLOR;
 				float2 texcoord : TEXCOORD0;
-				/*ase_vdata:p=p.xyz;uv0=tc0.xy;c=c*/
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+				/*ase_vdata:p=p;uv0=tc0.xy;c=c*/
 			};
 
 			struct v2f
@@ -75,7 +75,8 @@ Shader /*ase_name*/"ASETemplateShaders/UIDefault"/*end*/
 				fixed4 color    : COLOR;
 				half2 texcoord  : TEXCOORD0;
 				float4 worldPosition : TEXCOORD1;
-				/*ase_interp(2,7):sp=sp.xyzw;uv0=tc0.xy;c=c*/
+				UNITY_VERTEX_OUTPUT_STEREO
+				/*ase_interp(2,):sp=sp.xyzw;uv0=tc0.xy;c=c;uv1=tc1.xyzw*/
 			};
 			
 			uniform fixed4 _Color;
@@ -87,6 +88,8 @@ Shader /*ase_name*/"ASETemplateShaders/UIDefault"/*end*/
 			v2f vert( appdata_t IN /*ase_vert_input*/ )
 			{
 				v2f OUT;
+				UNITY_SETUP_INSTANCE_ID( IN );
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(OUT);
 				OUT.worldPosition = IN.vertex;
 				/*ase_vert_code:IN=appdata_t;OUT=v2f*/
 				
@@ -94,10 +97,6 @@ Shader /*ase_name*/"ASETemplateShaders/UIDefault"/*end*/
 				OUT.vertex = UnityObjectToClipPos(OUT.worldPosition);
 
 				OUT.texcoord = IN.texcoord;
-				
-				#ifdef UNITY_HALF_TEXEL_OFFSET
-				OUT.vertex.xy += (_ScreenParams.zw-1.0) * float2(-1,1) * OUT.vertex.w;
-				#endif
 				
 				OUT.color = IN.color * _Color;
 				return OUT;
@@ -119,4 +118,5 @@ Shader /*ase_name*/"ASETemplateShaders/UIDefault"/*end*/
 		ENDCG
 		}
 	}
+	CustomEditor "ASEMaterialInspector"
 }

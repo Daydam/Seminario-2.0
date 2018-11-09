@@ -21,9 +21,9 @@ namespace AmplifyShaderEditor
 		private const string TypeLabelStr = "Type";
 
 		// Simplex 2D
-		private const string Simplex2DFloat3Mod289Func = "float3 mod289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }";
-		private const string Simplex2DFloat2Mod289Func = "float2 mod289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }";
-		private const string Simplex2DPermuteFunc = "float3 permute( float3 x ) { return mod289( ( ( x * 34.0 ) + 1.0 ) * x ); }";
+		private const string Simplex2DFloat3Mod289Func = "float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }";
+		private const string Simplex2DFloat2Mod289Func = "float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }";
+		private const string Simplex2DPermuteFunc = "float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }";
 
 		private const string SimplexNoise2DHeader = "float snoise( float2 v )";
 		private const string SimplexNoise2DFunc = "snoise( {0} )";
@@ -36,7 +36,7 @@ namespace AmplifyShaderEditor
 														"\ti1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );\n",
 														"\tfloat4 x12 = x0.xyxy + C.xxzz;\n",
 														"\tx12.xy -= i1;\n",
-														"\ti = mod289( i );\n",
+														"\ti = mod2D289( i );\n",
 														"\tfloat3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );\n",
 														"\tfloat3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );\n",
 														"\tm = m * m;\n",
@@ -55,9 +55,9 @@ namespace AmplifyShaderEditor
 
 
 
-		private const string Simplex3DFloat3Mod289 = "float3 mod289( float3 x ) { return x - floor( x / 289.0 ) * 289.0; }";
-		private const string Simplex3DFloat4Mod289 = "float4 mod289( float4 x ) { return x - floor( x / 289.0 ) * 289.0; }";
-		private const string Simplex3DFloat4Permute = "float4 permute( float4 x ) { return mod289( ( x * 34.0 + 1.0 ) * x ); }";
+		private const string Simplex3DFloat3Mod289 = "float3 mod3D289( float3 x ) { return x - floor( x / 289.0 ) * 289.0; }";
+		private const string Simplex3DFloat4Mod289 = "float4 mod3D289( float4 x ) { return x - floor( x / 289.0 ) * 289.0; }";
+		private const string Simplex3DFloat4Permute = "float4 permute( float4 x ) { return mod3D289( ( x * 34.0 + 1.0 ) * x ); }";
 		private const string TaylorInvSqrtFunc = "float4 taylorInvSqrt( float4 r ) { return 1.79284291400159 - r * 0.85373472095314; }";
 
 		private const string SimplexNoise3DHeader = "float snoise( float3 v )";
@@ -74,7 +74,7 @@ namespace AmplifyShaderEditor
 														"\tfloat3 x1 = x0 - i1 + C.xxx;\n",
 														"\tfloat3 x2 = x0 - i2 + C.yyy;\n",
 														"\tfloat3 x3 = x0 - 0.5;\n",
-														"\ti = mod289( i);\n",
+														"\ti = mod3D289( i);\n",
 														"\tfloat4 p = permute( permute( permute( i.z + float4( 0.0, i1.z, i2.z, 1.0 ) ) + i.y + float4( 0.0, i1.y, i2.y, 1.0 ) ) + i.x + float4( 0.0, i1.x, i2.x, 1.0 ) );\n",
 														"\tfloat4 j = p - 49.0 * floor( p / 49.0 );  // mod(p,7*7)\n",
 														"\tfloat4 x_ = floor( j / 7.0 );\n",
@@ -118,7 +118,9 @@ namespace AmplifyShaderEditor
 			AddOutputPort( WirePortDataType.FLOAT, Constants.EmptyPortValue );
 			m_useInternalPortData = true;
 			m_autoWrapProperties = true;
+			m_hasLeftDropdown = true;
 			SetAdditonalTitleText( string.Format( Constants.SubTitleTypeFormatStr, m_type ) );
+			m_previewShaderGUID = "cd2d37ef5da190b42a91a5a690ba2a7d";
 		}
 
 		public override void AfterCommonInit()
@@ -138,36 +140,16 @@ namespace AmplifyShaderEditor
 			m_upperLeftWidget = null;
 		}
 
-		public override void OnNodeLayout( DrawInfo drawInfo )
-		{
-			base.OnNodeLayout( drawInfo );
-			m_upperLeftWidget.OnNodeLayout( m_globalPosition, drawInfo );
-		}
-
-		public override void DrawGUIControls( DrawInfo drawInfo )
-		{
-			base.DrawGUIControls( drawInfo );
-			m_upperLeftWidget.DrawGUIControls( drawInfo );
-		}
-
-		public override void OnNodeRepaint( DrawInfo drawInfo )
-		{
-			base.OnNodeRepaint( drawInfo );
-			if( !m_isVisible )
-				return;
-			m_upperLeftWidget.OnNodeRepaint( ContainerGraph.LodLevel );
-		}
-
 		public override void Draw( DrawInfo drawInfo )
 		{
 			base.Draw( drawInfo );
-			EditorGUI.BeginChangeCheck();
-			m_type = (NoiseGeneratorType)m_upperLeftWidget.DrawWidget( this, m_type );
-			if( EditorGUI.EndChangeCheck() )
-			{
-				ConfigurePorts();
-			}
+			m_upperLeftWidget.DrawWidget<NoiseGeneratorType>( ref m_type, this, OnWidgetUpdate );
 		}
+
+		private readonly Action<ParentNode> OnWidgetUpdate = ( x ) =>
+		{
+			( x as NoiseGeneratorNode ).ConfigurePorts();
+		};
 
 		public override void DrawProperties()
 		{
@@ -178,10 +160,10 @@ namespace AmplifyShaderEditor
 			{
 				ConfigurePorts();
 			}
-			EditorGUILayout.HelpBox( "Node still under construction. Use with caution", MessageType.Info );
+			//EditorGUILayout.HelpBox( "Node still under construction. Use with caution", MessageType.Info );
 		}
 
-		void ConfigurePorts()
+		private void ConfigurePorts()
 		{
 			SetAdditonalTitleText( string.Format( Constants.SubTitleTypeFormatStr, m_type ) );
 
@@ -190,12 +172,14 @@ namespace AmplifyShaderEditor
 				case NoiseGeneratorType.Simplex2D:
 				{
 					m_inputPorts[ 0 ].ChangeType( WirePortDataType.FLOAT2, false );
+					m_previewMaterialPassId = 0;
 				}
 				break;
 
 				case NoiseGeneratorType.Simplex3D:
 				{
 					m_inputPorts[ 0 ].ChangeType( WirePortDataType.FLOAT3, false );
+					m_previewMaterialPassId = 1;
 				}
 				break;
 			}
@@ -203,9 +187,9 @@ namespace AmplifyShaderEditor
 
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
 		{
-			if( m_outputPorts[ 0 ].IsLocalValue )
+			if( m_outputPorts[ 0 ].IsLocalValue( dataCollector.PortCategory ) )
 			{
-				return m_outputPorts[ 0 ].LocalValue;
+				return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 			}
 			switch( m_type )
 			{
@@ -251,7 +235,7 @@ namespace AmplifyShaderEditor
 				}
 				break;
 			}
-			return m_outputPorts[ 0 ].LocalValue;
+			return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 		}
 
 		public override void ReadFromString( ref string[] nodeParams )

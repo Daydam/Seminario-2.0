@@ -1,4 +1,4 @@
-﻿Shader "Hidden/TFHCRemap"
+Shader "Hidden/TFHCRemap"
 {
 	Properties
 	{

@@ -93,6 +93,13 @@ namespace AmplifyShaderEditor
 
 			EditorGUILayout.Separator();
 
+			if( GUILayout.Button( "Nodes Undo Test" ) )
+			{
+				window.CurrentNodeExporterUtils.ActivateAutoUndo();
+			}
+
+			EditorGUILayout.Separator();
+
 			if ( GUILayout.Button( "Nodes Info" ) )
 			{
 				window.CurrentPaletteWindow.DumpAvailableNodes( false, Application.dataPath + "/../NodesInfo/" );

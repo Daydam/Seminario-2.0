@@ -12,7 +12,7 @@ namespace AmplifyShaderEditor
 {
 
 	[Serializable]
-	[NodeAttributes( "Flipbook UV Animation", "UV Coordinates", "Animate a Flipbook Texture Modifying UV Coordinates.", null, KeyCode.None, true, false, null, null, true )]
+	[NodeAttributes( "Flipbook UV Animation", "UV Coordinates", "Animate a Flipbook Texture Modifying UV Coordinates.", null, KeyCode.None, true, false, null, null, "The Four Headed Cat - @fourheadedcat" )]
 	public sealed class TFHCFlipBookUVAnimation : ParentNode
 
 	{
@@ -21,16 +21,16 @@ namespace AmplifyShaderEditor
 		private const string NegativeSpeedBehaviorStr = "If Negative Speed";
 
 		[SerializeField]
-		private int _selectedTextureVerticalDirection = 0;
+		private int m_selectedTextureVerticalDirection = 0;
 
 		[SerializeField]
-		private int _negativeSpeedBehavior = 0;
+		private int m_negativeSpeedBehavior = 0;
 
 		[SerializeField]
-		private readonly string[] _TextureVerticalDirectionValues = { "Top To Bottom", "Bottom To Top" };
+		private readonly string[] m_textureVerticalDirectionValues = { "Top To Bottom", "Bottom To Top" };
 
 		[SerializeField]
-		private readonly string[] _NegativeSpeedBehaviorValues = { "Switch to Positive", "Reverse Animation" };
+		private readonly string[] m_negativeSpeedBehaviorValues = { "Switch to Positive", "Reverse Animation" };
 
 
 		protected override void CommonInit( int uniqueId )
@@ -41,7 +41,9 @@ namespace AmplifyShaderEditor
 			AddInputPort( WirePortDataType.FLOAT, false, "Rows" );
 			AddInputPort( WirePortDataType.FLOAT, false, "Speed" );
 			AddInputPort( WirePortDataType.FLOAT, false, "Start Frame" );
-			AddOutputVectorPorts( WirePortDataType.FLOAT2, "UV" );
+            AddInputPort( WirePortDataType.FLOAT, false, "Time" );
+
+            AddOutputVectorPorts( WirePortDataType.FLOAT2, "UV" );
 			m_outputPorts[ 1 ].Name = "U";
 			m_outputPorts[ 2 ].Name = "V";
 			m_textLabelWidth = 125;
@@ -50,13 +52,30 @@ namespace AmplifyShaderEditor
 			m_previewShaderGUID = "04fe24be792bfd5428b92132d7cf0f7d";
 		}
 
+        public override void OnInputPortConnected( int portId, int otherNodeId, int otherPortId, bool activateNode = true )
+        {
+            base.OnInputPortConnected( portId, otherNodeId, otherPortId, activateNode );
+            if( portId == 5 )
+            {
+                m_previewMaterialPassId = 1;
+            }
+        }
 
-		public override void DrawProperties()
+        public override void OnInputPortDisconnected( int portId )
+        {
+            base.OnInputPortDisconnected( portId );
+            if( portId == 5 )
+            {
+                m_previewMaterialPassId = 0;
+            }
+        }
+
+        public override void DrawProperties()
 		{
 			base.DrawProperties();
 			EditorGUILayout.BeginVertical();
-			_selectedTextureVerticalDirection = EditorGUILayoutPopup( TextureVerticalDirectionStr, _selectedTextureVerticalDirection, _TextureVerticalDirectionValues );
-			_negativeSpeedBehavior = EditorGUILayoutPopup( NegativeSpeedBehaviorStr, _negativeSpeedBehavior, _NegativeSpeedBehaviorValues );
+			m_selectedTextureVerticalDirection = EditorGUILayoutPopup( TextureVerticalDirectionStr, m_selectedTextureVerticalDirection, m_textureVerticalDirectionValues );
+			m_negativeSpeedBehavior = EditorGUILayoutPopup( NegativeSpeedBehaviorStr, m_negativeSpeedBehavior, m_negativeSpeedBehaviorValues );
 			EditorGUILayout.EndVertical();
 			EditorGUILayout.HelpBox( "Flipbook UV Animation:\n\n  - UV: Texture Coordinates to Flipbook.\n - Columns: number of Columns (X) of the Flipbook Texture.\n  - Rows: number of Rows (Y) of the Flipbook Textures.\n  - Speed: speed of the animation.\n - Texture Direction: set the vertical order of the texture tiles.\n - If Negative Speed: set the behavior when speed is negative.\n\n - Out: UV Coordinates.", MessageType.None );
 		}
@@ -64,15 +83,15 @@ namespace AmplifyShaderEditor
 		public override void ReadFromString( ref string[] nodeParams )
 		{
 			base.ReadFromString( ref nodeParams );
-			_selectedTextureVerticalDirection = ( int ) int.Parse( GetCurrentParam( ref nodeParams ) );
-			_negativeSpeedBehavior = ( int ) int.Parse( GetCurrentParam( ref nodeParams ) );
+			m_selectedTextureVerticalDirection = ( int ) int.Parse( GetCurrentParam( ref nodeParams ) );
+			m_negativeSpeedBehavior = ( int ) int.Parse( GetCurrentParam( ref nodeParams ) );
 		}
 
 		public override void WriteToString( ref string nodeInfo, ref string connectionsInfo )
 		{
 			base.WriteToString( ref nodeInfo, ref connectionsInfo );
-			IOUtils.AddFieldValueToString( ref nodeInfo, _selectedTextureVerticalDirection );
-			IOUtils.AddFieldValueToString( ref nodeInfo, _negativeSpeedBehavior );
+			IOUtils.AddFieldValueToString( ref nodeInfo, m_selectedTextureVerticalDirection );
+			IOUtils.AddFieldValueToString( ref nodeInfo, m_negativeSpeedBehavior );
 		}
 
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
@@ -83,16 +102,17 @@ namespace AmplifyShaderEditor
 			//  floor( frac( x / y ) * y + 0.5 ) => div can be muls with 1/y, almost always static/constant
 			//
 
-			string uv = m_inputPorts[ 0 ].GenerateShaderForOutput( ref dataCollector, WirePortDataType.FLOAT4, false, true );
-			string columns = m_inputPorts[ 1 ].GenerateShaderForOutput( ref dataCollector, WirePortDataType.FLOAT, false, true );
+			string uv = m_inputPorts[ 0 ].GeneratePortInstructions( ref dataCollector );
+			string columns = m_inputPorts[ 1 ].GeneratePortInstructions( ref dataCollector );
 			if ( !m_inputPorts[ 1 ].IsConnected )
 				columns = ( float.Parse( columns ) == 0f ? "1" : columns );
-			string rows = m_inputPorts[ 2 ].GenerateShaderForOutput( ref dataCollector, WirePortDataType.FLOAT, false, true );
+
+			string rows = m_inputPorts[ 2 ].GeneratePortInstructions( ref dataCollector );
 			if ( !m_inputPorts[ 2 ].IsConnected )
 				rows = ( float.Parse( rows ) == 0f ? "1" : rows );
 
 
-			string speed = m_inputPorts[ 3 ].GenerateShaderForOutput( ref dataCollector, WirePortDataType.FLOAT, false, true );
+			string speed = m_inputPorts[ 3 ].GeneratePortInstructions( ref dataCollector );
 			string startframe = m_inputPorts[ 4 ].GeneratePortInstructions( ref dataCollector );
 
 			string vcomment1 = "// *** BEGIN Flipbook UV Animation vars ***";
@@ -102,7 +122,9 @@ namespace AmplifyShaderEditor
 			string vcolsoffset = "float fbcolsoffset" + OutputId + " = 1.0f / " + columns + ";";
 			string vrowssoffset = "float fbrowsoffset" + OutputId + " = 1.0f / " + rows + ";";
 			string vcomment4 = "// Speed of animation";
-			string vspeed = "float fbspeed" + OutputId + " = _Time[1] * " + speed + ";";
+            string timer = m_inputPorts[ 5 ].IsConnected ? m_inputPorts[ 5 ].GeneratePortInstructions( ref dataCollector ) : "_Time[ 1 ]";
+
+            string vspeed = string.Format(  "float fbspeed{0} = {1} * {2};", OutputId,timer,speed);
 			string vcomment5 = "// UV Tiling (col and row offset)";
 			string vtiling = "float2 fbtiling" + OutputId + " = float2(fbcolsoffset" + OutputId + ", fbrowsoffset" + OutputId + ");";
 			string vcomment6 = "// UV Offset - calculate current tile linear index, and convert it to (X * coloffset, Y * rowoffset)";
@@ -119,7 +141,7 @@ namespace AmplifyShaderEditor
 			string voffsetx1 = "float fblinearindextox" + OutputId + " = round ( fmod ( fbcurrenttileindex" + OutputId + ", " + columns + " ) );";
 			string vcomment9 = String.Empty;
 			string voffsetx2 = String.Empty;
-			if ( _negativeSpeedBehavior != 0 )
+			if ( m_negativeSpeedBehavior != 0 )
 			{
 				vcomment9 = "// Reverse X animation if speed is negative";
 				voffsetx2 = "fblinearindextox" + OutputId + " = (" + speed + " > 0 ? fblinearindextox" + OutputId + " : (int)" + columns + " - fblinearindextox" + OutputId + ");";
@@ -134,9 +156,9 @@ namespace AmplifyShaderEditor
 			//string voffsety2 = "fblinearindextoy" + m_uniqueId + " = (int)" + rows + " - fblinearindextoy" + m_uniqueId + ";";
 			string vcomment12 = String.Empty;
 			string voffsety2 = String.Empty;
-			if ( _negativeSpeedBehavior == 0 )
+			if ( m_negativeSpeedBehavior == 0 )
 			{
-				if ( _selectedTextureVerticalDirection == 0 )
+				if ( m_selectedTextureVerticalDirection == 0 )
 				{
 					vcomment12 = "// Reverse Y to get tiles from Top to Bottom";
 					voffsety2 = "fblinearindextoy" + OutputId + " = (int)(" + rows + "-1) - fblinearindextoy" + OutputId + ";";
@@ -145,7 +167,7 @@ namespace AmplifyShaderEditor
 			else
 			{
 				string reverseanimationoperator = String.Empty;
-				if ( _selectedTextureVerticalDirection == 0 )
+				if ( m_selectedTextureVerticalDirection == 0 )
 				{
 					vcomment12 = "// Reverse Y to get tiles from Top to Bottom and Reverse Y animation if speed is negative";
 					reverseanimationoperator = " < ";
@@ -183,7 +205,7 @@ namespace AmplifyShaderEditor
 			dataCollector.AddToLocalVariables( UniqueId, vcurrenttileindex1 );
 			dataCollector.AddToLocalVariables( UniqueId, vcomment8 );
 			dataCollector.AddToLocalVariables( UniqueId, voffsetx1 );
-			if ( _negativeSpeedBehavior != 0 )
+			if ( m_negativeSpeedBehavior != 0 )
 			{
 				dataCollector.AddToLocalVariables( UniqueId, vcomment9 );
 				dataCollector.AddToLocalVariables( UniqueId, voffsetx2 );
@@ -192,7 +214,7 @@ namespace AmplifyShaderEditor
 			dataCollector.AddToLocalVariables( UniqueId, voffsetx3 );
 			dataCollector.AddToLocalVariables( UniqueId, vcomment11 );
 			dataCollector.AddToLocalVariables( UniqueId, voffsety1 );
-			if ( _selectedTextureVerticalDirection == 0 || _negativeSpeedBehavior != 0 )
+			if ( m_selectedTextureVerticalDirection == 0 || m_negativeSpeedBehavior != 0 )
 			{
 				dataCollector.AddToLocalVariables( UniqueId, vcomment12 );
 				dataCollector.AddToLocalVariables( UniqueId, voffsety2 );

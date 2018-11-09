@@ -10,9 +10,11 @@ Shader /*ase_name*/ "ASETemplateShaders/PostProcess" /*end*/
 
 	SubShader
 	{
-		Tags{ /*ase_tags*/ }
+		Tags{ }
 		
-		ZTest Always Cull Off ZWrite Off
+		ZTest Always
+		Cull Off
+		ZWrite Off
 		/*ase_pass*/
 
 		Pass
@@ -41,7 +43,7 @@ Shader /*ase_name*/ "ASETemplateShaders/PostProcess" /*end*/
 				half4 uv2 : TEXCOORD1;
 				half4 stereoUV2 : TEXCOORD3;
 		#endif
-				/*ase_interp(4,7):sp=sp.xyzw;uv0=tc0.xy;uv1=tc1;uv2=tc2;uv3=tc3*/
+				/*ase_interp(4,):sp=sp.xyzw;uv0=tc0.xy;uv1=tc1;uv2=tc2;uv3=tc3*/
 			};
 
 			uniform sampler2D _MainTex;
@@ -53,13 +55,9 @@ Shader /*ase_name*/ "ASETemplateShaders/PostProcess" /*end*/
 			v2f_img_custom vert_img_custom ( appdata_img_custom v /*ase_vert_input*/ )
 			{
 				v2f_img_custom o;
-
+				/*ase_vert_code:v=appdata_img_custom;o=v2f_img_custom*/
 				o.pos = UnityObjectToClipPos ( v.vertex );
 				o.uv = float4( v.texcoord.xy, 1, 1 );
-
-				#ifdef UNITY_HALF_TEXEL_OFFSET
-						o.uv.y += _MainTex_TexelSize.y;
-				#endif
 
 				#if UNITY_UV_STARTS_AT_TOP
 					o.uv2 = float4( v.texcoord.xy, 1, 1 );
@@ -78,7 +76,7 @@ Shader /*ase_name*/ "ASETemplateShaders/PostProcess" /*end*/
 					half2 uv = i.uv2;
 					half2 stereoUV = i.stereoUV2;
 				#else
-					half2 uv = input.uv;
+					half2 uv = i.uv;
 					half2 stereoUV = i.stereoUV;
 				#endif	
 				
@@ -94,4 +92,5 @@ Shader /*ase_name*/ "ASETemplateShaders/PostProcess" /*end*/
 			ENDCG 
 		}
 	}
+	CustomEditor "ASEMaterialInspector"
 }

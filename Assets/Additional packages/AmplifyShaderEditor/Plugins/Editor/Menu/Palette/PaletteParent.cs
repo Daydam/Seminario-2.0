@@ -37,7 +37,7 @@ namespace AmplifyShaderEditor
 		private bool m_forceUpdate = true;
 
 
-		protected string m_searchFilter;
+		protected string m_searchFilter = string.Empty;
 
 		private float m_searchLabelSize = -1;
 		private GUIStyle m_buttonStyle;
@@ -65,7 +65,7 @@ namespace AmplifyShaderEditor
 		{
 			OnPaletteNodeCreateEvt( type, name, function );
 		}
-
+		
 		public override void Draw( Rect parentPosition, Vector2 mousePosition, int mouseButtonId, bool hasKeyboadFocus )
 		{
 			base.Draw( parentPosition, mousePosition, mouseButtonId, hasKeyboadFocus );
@@ -94,6 +94,8 @@ namespace AmplifyShaderEditor
 				m_buttonStyle = UIUtils.Label;
 			}
 
+			Event currenEvent = Event.current;
+
 			GUILayout.BeginArea( m_transformedArea, m_content, m_style );
 			{
 				for( int i = 0; i < m_initialSeparatorAmount; i++ )
@@ -101,13 +103,13 @@ namespace AmplifyShaderEditor
 					EditorGUILayout.Separator();
 				}
 
-				if( Event.current.type == EventType.KeyDown )
+				if( currenEvent.type == EventType.KeyDown )
 				{
-					KeyCode key = Event.current.keyCode;
+					KeyCode key = currenEvent.keyCode;
 					//if ( key == KeyCode.Return || key == KeyCode.KeypadEnter )
 					//	OnEnterPressed();
 
-					if( ( Event.current.keyCode == KeyCode.KeypadEnter || Event.current.keyCode == KeyCode.Return ) && Event.current.type == EventType.KeyDown )
+					if( ( currenEvent.keyCode == KeyCode.KeypadEnter || currenEvent.keyCode == KeyCode.Return ) && currenEvent.type == EventType.KeyDown )
 					{
 						int index = m_currentItems.FindIndex( x => GUI.GetNameOfFocusedControl().Equals( x.ItemUIContent.text + m_resizable ) );
 						if( index > -1 )
@@ -128,13 +130,13 @@ namespace AmplifyShaderEditor
 							{
 								m_currentScrollPos.y = 0;
 							}
-							Event.current.Use();
+							currenEvent.Use();
 						}
 
 						if( key == ShortcutsManager.ScrollDownKey )
 						{
 							m_currentScrollPos.y += 10;
-							Event.current.Use();
+							currenEvent.Use();
 						}
 					}
 
@@ -165,18 +167,18 @@ namespace AmplifyShaderEditor
 					{
 						m_forceUpdate = false;
 
-						m_currentItems.Clear();
+						//m_currentItems.Clear();
 						m_currentCategories.Clear();
 
 						if( usingSearchFilter )
 						{
 							for( int i = 0; i < allItems.Count; i++ )
 							{
-								m_currentItems.Add( allItems[ i ] );
+								//m_currentItems.Add( allItems[ i ] );
 								if( !m_currentCategories.ContainsKey( allItems[ i ].Category ) )
 								{
 									m_currentCategories.Add( allItems[ i ].Category, new PaletteFilterData( m_defaultCategoryVisible ) );
-									m_currentCategories[ allItems[ i ].Category ].HasCommunityData = allItems[ i ].NodeAttributes.FromCommunity || m_currentCategories[ allItems[ i ].Category ].HasCommunityData;
+									//m_currentCategories[ allItems[ i ].Category ].HasCommunityData = allItems[ i ].NodeAttributes.FromCommunity || m_currentCategories[ allItems[ i ].Category ].HasCommunityData;
 								}
 								m_currentCategories[ allItems[ i ].Category ].Contents.Add( allItems[ i ] );
 							}
@@ -189,11 +191,11 @@ namespace AmplifyShaderEditor
 										allItems[ i ].Category.IndexOf( m_searchFilter, StringComparison.InvariantCultureIgnoreCase ) >= 0
 									)
 								{
-									m_currentItems.Add( allItems[ i ] );
+									//m_currentItems.Add( allItems[ i ] );
 									if( !m_currentCategories.ContainsKey( allItems[ i ].Category ) )
 									{
 										m_currentCategories.Add( allItems[ i ].Category, new PaletteFilterData( m_defaultCategoryVisible ) );
-										m_currentCategories[ allItems[ i ].Category ].HasCommunityData = allItems[ i ].NodeAttributes.FromCommunity || m_currentCategories[ allItems[ i ].Category ].HasCommunityData;
+										//m_currentCategories[ allItems[ i ].Category ].HasCommunityData = allItems[ i ].NodeAttributes.FromCommunity || m_currentCategories[ allItems[ i ].Category ].HasCommunityData;
 									}
 									m_currentCategories[ allItems[ i ].Category ].Contents.Add( allItems[ i ] );
 								}
@@ -204,30 +206,62 @@ namespace AmplifyShaderEditor
 						{
 							categoryEnumerator.Current.Value.Contents.Sort( ( x, y ) => x.CompareTo( y, usingSearchFilter ) );
 						}
+
+						//sort current list respecting categories
+						m_currentItems.Clear();
+						foreach( var item in m_currentCategories )
+						{
+							for( int i = 0; i < item.Value.Contents.Count; i++ )
+							{
+								m_currentItems.Add( item.Value.Contents[ i ] );
+							}
+						}
 					}
 
 					string watching = string.Empty;
-					//bool downDirection = true;
-					if( Event.current.keyCode == KeyCode.Tab )
+
+					// unselect the main search field so it can focus list elements next
+					if( ( currenEvent.keyCode == KeyCode.DownArrow || currenEvent.keyCode == KeyCode.UpArrow ) && m_searchFilter.Length > 0 )
+					{
+						if( GUI.GetNameOfFocusedControl().Equals( m_searchFilterControl + m_resizable ) )
+						{
+							EditorGUI.FocusTextInControl( null );
+						}
+					}
+
+					if( currenEvent.keyCode == KeyCode.DownArrow && currenEvent.type == EventType.KeyDown )
+					{
+						currenEvent.Use();
+
+						int nextIndex = m_currentItems.FindIndex( x => GUI.GetNameOfFocusedControl().Equals( x.ItemUIContent.text + m_resizable ) ) + 1;
+						if( nextIndex == m_currentItems.Count )
+							nextIndex = 0;
+
+						watching = m_currentItems[ nextIndex ].ItemUIContent.text + m_resizable;
+						GUI.FocusControl( watching );
+
+					}
+
+					if( currenEvent.keyCode == KeyCode.UpArrow && currenEvent.type == EventType.KeyDown )
+					{
+						currenEvent.Use();
+
+						int nextIndex = m_currentItems.FindIndex( x => GUI.GetNameOfFocusedControl().Equals( x.ItemUIContent.text + m_resizable ) ) - 1;
+						if( nextIndex < 0 )
+							nextIndex = m_currentItems.Count - 1;
+
+						watching = m_currentItems[ nextIndex ].ItemUIContent.text + m_resizable;
+						GUI.FocusControl( watching );
+					}
+
+					if( currenEvent.keyCode == KeyCode.Tab )
 					{
 						ContextMenuItem item = m_currentItems.Find( x => GUI.GetNameOfFocusedControl().Equals( x.ItemUIContent.text + m_resizable ) );
 						if( item != null )
 						{
 							watching = item.ItemUIContent.text + m_resizable;
-							//if ( Event.current.modifiers == EventModifiers.Shift )
-							//downDirection = false;
 						}
 					}
-
-					//if ( ( Event.current.keyCode == KeyCode.KeypadEnter || Event.current.keyCode == KeyCode.Return ) && Event.current.type == EventType.KeyDown )
-					//{
-					//	Debug.Log("mau");
-					//	int index = m_currentItems.FindIndex( x => GUI.GetNameOfFocusedControl().Equals( x.ItemUIContent.text + m_resizable ) );
-					//	if ( index > -1 )
-					//		OnEnterPressed( index );
-					//	else
-					//		OnEnterPressed();
-					//}
 
 					float currPos = 0;
 					var enumerator = m_currentCategories.GetEnumerator();
@@ -278,6 +312,8 @@ namespace AmplifyShaderEditor
 												int controlID = GUIUtility.GetControlID( FocusType.Passive );
 												GUIUtility.hotControl = controlID;
 												OnPaletteNodeCreateEvt( current.Value.Contents[ i ].NodeType, current.Value.Contents[ i ].Name, current.Value.Contents[ i ].Function );
+												//unfocus to make it focus the next text field correctly
+												GUI.FocusControl( null );
 											}
 										}
 										GUI.SetNextControlName( current.Value.Contents[ i ].ItemUIContent.text + m_resizable );
@@ -314,6 +350,24 @@ namespace AmplifyShaderEditor
 			GUILayout.EndArea();
 
 		}
+		public void CheckCommunityNodes()
+		{
+			var enumerator = m_currentCategories.GetEnumerator();
+			while( enumerator.MoveNext() )
+			{
+				var current = enumerator.Current;
+				current.Value.HasCommunityData = false;
+				int count = current.Value.Contents.Count;
+				for( int i = 0; i < count; i++ )
+				{
+					if( current.Value.Contents[ i ].NodeAttributes.FromCommunity )
+					{
+						current.Value.HasCommunityData = true;
+						break;
+					}
+				}
+			}
+		}
 
 		public void DumpAvailableNodes( bool fromCommunity, string pathname )
 		{
@@ -323,24 +377,28 @@ namespace AmplifyShaderEditor
 			string InitialCategories = string.Empty;
 			string CurrentCategoryFormat = "\n== {0} ==\n\n";
 			//string NodesFootFormat = "[[Unity Products:Amplify Shader Editor/{0} | Learn More]] -\n[[#Top|Back to Categories]]\n";
-			string NodesFootFormatSep = "----\n";
+			string NodesFootFormatSep = "[[#Top|Back to Top]]\n----\n";
 			string OverallFoot = "[[Category:Nodes]]";
 
-			string NodeInfoBeginFormat = "<div style=\"display: inline-block; max-width:370px;\">\n";
-			string nodeInfoBodyFormat = "{{| id=\"{2}\" class=\"wikitable\" style=\"width: 100%; margin: 0px;\" |\n" +
-				"|- style=\"height: 100%;\" | \n" +
-				"| style=\"height: 100%; padding: 4px;\" | <div>[[Unity Products:Amplify Shader Editor/{1}|<img class=\"responsive-img\" style=\"float:left;\" src=\"http://amplify.pt/Nodes/{0}.jpg\">]]</div>\n" +
+			string NodeInfoBeginFormat = "<div class=\"nodecard\">\n";
+			string nodeInfoBodyFormat = "{{| id=\"{2}\" class=\"wikitable\" |\n" +
+				"|- \n" +
+				"| <div>[[Unity Products:Amplify Shader Editor/{1}|<img class=\"responsive-img\" src=\"http://amplify.pt/Nodes/{0}.jpg\">]]</div>\n" +
 				"<div>\n" +
 				"{{| style=\"width: 100%; height: 150px;\"\n" +
 				"|-\n" +
 				"| [[Unity Products:Amplify Shader Editor/{1}|'''{2}''']]\n" +
 				"|- style=\"vertical-align:top; height: 100%;\" |\n" +
-				"| {3}\n" +
+				"|<p class=\"cardtext\">{3}</p>\n" +
 				"|- style=\"text-align:right;\" |\n" +
-				"| [[Unity Products:Amplify Shader Editor/{1} | Learn More]]\n" +
+				"|{4}[[Unity Products:Amplify Shader Editor/{1} | Learn More]]\n" +
 				"|}}</div>\n" +
 				"|}}\n";
 			string NodeInfoEndFormat = "</div>\n";
+
+			//string NodeInfoBeginFormat = "<span style=\"color:#c00;display:block;\">This page is under construction!</span>\n\n";
+			//string nodeInfoBodyFormat = "<img style=\"float:left; margin-right:10px;\" src=\"http://amplify.pt/Nodes/{0}.jpg\">\n[[Unity Products:Amplify Shader Editor/{1}|'''{2}''']]\n\n{3}";
+			//string NodeInfoEndFormat = "\n\n[[Unity_Products:Amplify_Shader_Editor/Nodes | Back to Node List ]]\n[[Category:Nodes]][[Category:{0}]]\n\n\n";
 
 			//string NodeInfoBeginFormat = "{| cellpadding=\"10\"\n";
 			//string nodeInfoBodyFormat = "|- style=\"vertical-align:top;\"\n| http://amplify.pt/Nodes/{0}.jpg\n| [[Unity Products:Amplify Shader Editor/{1} | <span style=\"font-size: 120%;\"><span id=\"{2}\"></span>'''{2}'''<span> ]] <br> {3}\n";
@@ -348,6 +406,7 @@ namespace AmplifyShaderEditor
 
 			string nodesInfo = string.Empty;
 			BuildFullList( true );
+			CheckCommunityNodes();
 			var enumerator = m_currentCategories.GetEnumerator();
 			while( enumerator.MoveNext() )
 			{
@@ -359,8 +418,10 @@ namespace AmplifyShaderEditor
 					int count = current.Value.Contents.Count;
 					for( int i = 0; i < count; i++ )
 					{
-						if( ( fromCommunity && current.Value.Contents[ i ].NodeAttributes.FromCommunity ) ||
-							( !fromCommunity && !current.Value.Contents[ i ].NodeAttributes.FromCommunity ) )
+						if( ( fromCommunity && current.Value.Contents[ i ].NodeAttributes.FromCommunity ) 
+							|| !fromCommunity
+							//|| ( !fromCommunity && !current.Value.Contents[ i ].NodeAttributes.FromCommunity ) 
+							)
 						{
 							string nodeFullName = current.Value.Contents[ i ].Name;
 							string pictureFilename = UIUtils.ReplaceInvalidStrings( nodeFullName );
@@ -370,11 +431,15 @@ namespace AmplifyShaderEditor
 							pictureFilename = UIUtils.RemoveInvalidCharacters( pictureFilename );
 
 							string nodeDescription = current.Value.Contents[ i ].ItemUIContent.tooltip;
+							string communityText = string.Empty;
+							if( current.Value.Contents[ i ].NodeAttributes.FromCommunity )
+								communityText = "<small class=\"cardauthor\">( originally by "+ current.Value.Contents[ i ].NodeAttributes.Community + " )</small> ";
 
-							string nodeInfoBody = string.Format( nodeInfoBodyFormat, pictureFilename, pageFilename, nodeFullName, nodeDescription );
+							string nodeInfoBody = string.Format( nodeInfoBodyFormat, pictureFilename, pageFilename, nodeFullName, nodeDescription, communityText );
 							//string nodeInfoFoot = string.Format( NodesFootFormat, pageFilename );
 
 							nodesInfo += ( NodeInfoBeginFormat + nodeInfoBody + NodeInfoEndFormat );
+							//nodesInfo += ( NodeInfoBeginFormat + nodeInfoBody + string.Format( NodeInfoEndFormat, current.Key ) );
 							//if ( i != ( count - 1 ) )
 							//{
 							//	nodesInfo += NodesFootFormatSep;
@@ -441,7 +506,7 @@ namespace AmplifyShaderEditor
 						if( !m_currentCategories.ContainsKey( allItems[ i ].Category ) )
 						{
 							m_currentCategories.Add( allItems[ i ].Category, new PaletteFilterData( m_defaultCategoryVisible ) );
-							m_currentCategories[ allItems[ i ].Category ].HasCommunityData = allItems[ i ].NodeAttributes.FromCommunity || m_currentCategories[ allItems[ i ].Category ].HasCommunityData;
+							//m_currentCategories[ allItems[ i ].Category ].HasCommunityData = allItems[ i ].NodeAttributes.FromCommunity || m_currentCategories[ allItems[ i ].Category ].HasCommunityData;
 						}
 						m_currentCategories[ allItems[ i ].Category ].Contents.Add( allItems[ i ] );
 					}

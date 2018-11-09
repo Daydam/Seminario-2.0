@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace AmplifyShaderEditor
 {
+	[System.Serializable]
 	public class WireBezierReference
 	{
 		private Rect m_boundingBox;

@@ -1,8 +1,5 @@
 // Amplify Shader Editor - Visual Shader Editing Tool
 // Copyright (c) Amplify Creations, Lda <info@amplify.pt>
-
-using UnityEngine;
-using UnityEditor;
 using System;
 
 namespace AmplifyShaderEditor
@@ -15,7 +12,7 @@ namespace AmplifyShaderEditor
 		protected override void CommonInit( int uniqueId )
 		{
 			base.CommonInit( uniqueId );
-			AddInputPort( WirePortDataType.FLOAT, false, "Value" );
+			AddInputPort( WirePortDataType.FLOAT, false, Constants.EmptyPortValue );
 			AddInputPort( WirePortDataType.FLOAT, false, "Scale" );
 			m_inputPorts[ 1 ].FloatInternalData = 1;
 			AddInputPort( WirePortDataType.FLOAT, false, "Offset" );
@@ -36,27 +33,43 @@ namespace AmplifyShaderEditor
 			UpdateConnection( inputPortId );
 		}
 
+		public override void OnInputPortDisconnected( int portId )
+		{
+			base.OnInputPortDisconnected( portId );
+			m_inputPorts[ portId ].ChangeType( WirePortDataType.FLOAT, false );
+			if( portId == 0 )
+			{
+				m_outputPorts[ 0 ].ChangeType( WirePortDataType.FLOAT, false );
+			}
+		}
+
 		void UpdateConnection( int portId )
 		{
-			m_inputPorts[ portId ].MatchPortToConnection();
-			if ( portId == 0 )
+			if( portId == 0 )
 			{
+				m_inputPorts[ 0 ].MatchPortToConnection();
 				m_outputPorts[ 0 ].ChangeType( m_inputPorts[ 0 ].DataType, false );
+			}
+			else
+			{
+				WirePortDataType newDataType = m_inputPorts[ portId ].ConnectionType() == WirePortDataType.FLOAT ? WirePortDataType.FLOAT : m_outputPorts[ 0 ].DataType;
+				m_inputPorts[ portId ].ChangeType( newDataType, false );
 			}
 		}
 		
 		public override string GenerateShaderForOutput( int outputId,  ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
 		{
-			if ( m_outputPorts[ 0 ].IsLocalValue )
-				return m_outputPorts[ 0 ].LocalValue;
+			if ( m_outputPorts[ 0 ].IsLocalValue( dataCollector.PortCategory ) )
+				return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 
-			string value = m_inputPorts[ 0 ].GenerateShaderForOutput( ref dataCollector, m_inputPorts[ 0 ].DataType, ignoreLocalvar );
+            string value = m_inputPorts[ 0 ].GeneratePortInstructions( ref dataCollector );
 
-			// If scale port is a float then there's no need to cast it to any other type since it can be multiplied with everything
-			WirePortDataType scaleType = ( m_inputPorts[ 1 ].DataType == WirePortDataType.FLOAT ) ? WirePortDataType.FLOAT : m_inputPorts[ 0 ].DataType;
+			// If scale or offset ports are floats then there's no need to cast them to any other type since they can be multiplied with everything
+			WirePortDataType scaleType = ( m_inputPorts[ 1 ].ConnectionType() == WirePortDataType.FLOAT ) ? WirePortDataType.FLOAT : m_outputPorts[ 0 ].DataType;
 			string scale =  m_inputPorts[ 1 ].GenerateShaderForOutput( ref dataCollector, scaleType, ignoreLocalvar , true );
-			
-			string offset = m_inputPorts[ 2 ].GenerateShaderForOutput( ref dataCollector, m_inputPorts[ 0 ].DataType, ignoreLocalvar, true );
+
+			WirePortDataType offsetType = ( m_inputPorts[ 2 ].ConnectionType() == WirePortDataType.FLOAT ) ? WirePortDataType.FLOAT : m_outputPorts[ 0 ].DataType;
+			string offset = m_inputPorts[ 2 ].GenerateShaderForOutput( ref dataCollector, offsetType, ignoreLocalvar, true );
 			
 			string result = string.Format( ScaleOffsetOpStr, value, scale, offset );
 			return CreateOutputLocalVariable( 0, result, ref dataCollector );

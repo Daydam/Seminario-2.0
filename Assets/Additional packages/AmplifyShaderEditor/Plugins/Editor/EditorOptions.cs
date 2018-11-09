@@ -7,9 +7,16 @@ namespace AmplifyShaderEditor
 	{
 		private AmplifyShaderEditorWindow m_parentWindow = null;
 
-		private bool m_coloredPorts = false;
-		private bool m_multiLinePorts = false;
-
+		private bool m_coloredPorts = true;
+		private bool m_multiLinePorts = true;
+		private const string MultiLineId = "MultiLinePortsDefault";
+		private const string ColorPortId = "ColoredPortsDefault";
+		private const string ExpandedStencilId = "ExpandedStencil";
+		private const string ExpandedTesselationId = "ExpandedTesselation";
+		private const string ExpandedDepthId = "ExpandedDepth";
+		private const string ExpandedRenderingOptionsId = "ExpandedRenderingOptions";
+		private const string ExpandedRenderingPlatformsId = "ExpandedRenderingPlatforms";
+		private const string ExpandedPropertiesId = "ExpandedProperties";
 		public OptionsWindow( AmplifyShaderEditorWindow parentWindow )
 		{
 			m_parentWindow = parentWindow;
@@ -28,27 +35,26 @@ namespace AmplifyShaderEditor
 
 		public void Save()
 		{
-			EditorPrefs.SetBool( "ColoredPorts", ColoredPorts );
-			EditorPrefs.SetBool( "MultiLinePorts", ParentWindow.ToggleMultiLine );
-			EditorPrefs.SetBool( "ExpandedStencil", ParentWindow.ExpandedStencil );
-			EditorPrefs.SetBool( "ExpandedTesselation", ParentWindow.ExpandedTesselation );
-			EditorPrefs.SetBool( "ExpandedDepth", ParentWindow.ExpandedDepth );
-			EditorPrefs.SetBool( "ExpandedRenderingOptions", ParentWindow.ExpandedRenderingOptions );
-			EditorPrefs.SetBool( "ExpandedRenderingPlatforms", ParentWindow.ExpandedRenderingPlatforms );
-			EditorPrefs.SetBool( "ExpandedProperties", ParentWindow.ExpandedProperties );
+			EditorPrefs.SetBool( ColorPortId, ColoredPorts );
+			EditorPrefs.SetBool( MultiLineId, m_multiLinePorts );
+			EditorPrefs.SetBool( ExpandedStencilId, ParentWindow.ExpandedStencil );
+			EditorPrefs.SetBool( ExpandedTesselationId, ParentWindow.ExpandedTesselation );
+			EditorPrefs.SetBool( ExpandedDepthId, ParentWindow.ExpandedDepth );
+			EditorPrefs.SetBool( ExpandedRenderingOptionsId, ParentWindow.ExpandedRenderingOptions );
+			EditorPrefs.SetBool( ExpandedRenderingPlatformsId, ParentWindow.ExpandedRenderingPlatforms );
+			EditorPrefs.SetBool( ExpandedPropertiesId, ParentWindow.ExpandedProperties );
 		}
 
 		public void Load()
 		{
-			ColoredPorts = EditorPrefs.GetBool( "ColoredPorts" );
-			ParentWindow.ToggleMultiLine = EditorPrefs.GetBool( "MultiLinePorts" );
-			MultiLinePorts = ParentWindow.ToggleMultiLine;
-			ParentWindow.ExpandedStencil = EditorPrefs.GetBool( "ExpandedStencil" );
-			ParentWindow.ExpandedTesselation = EditorPrefs.GetBool( "ExpandedTesselation" );
-			ParentWindow.ExpandedDepth = EditorPrefs.GetBool( "ExpandedDepth" );
-			ParentWindow.ExpandedRenderingOptions = EditorPrefs.GetBool( "ExpandedRenderingOptions" );
-			ParentWindow.ExpandedRenderingPlatforms = EditorPrefs.GetBool( "ExpandedRenderingPlatforms" );
-			ParentWindow.ExpandedProperties = EditorPrefs.GetBool( "ExpandedProperties" );
+			ColoredPorts = EditorPrefs.GetBool( ColorPortId, true );
+			m_multiLinePorts = EditorPrefs.GetBool( MultiLineId, true );
+			ParentWindow.ExpandedStencil = EditorPrefs.GetBool( ExpandedStencilId );
+			ParentWindow.ExpandedTesselation = EditorPrefs.GetBool( ExpandedTesselationId );
+			ParentWindow.ExpandedDepth = EditorPrefs.GetBool( ExpandedDepthId );
+			ParentWindow.ExpandedRenderingOptions = EditorPrefs.GetBool( ExpandedRenderingOptionsId );
+			ParentWindow.ExpandedRenderingPlatforms = EditorPrefs.GetBool( ExpandedRenderingPlatformsId );
+			ParentWindow.ExpandedProperties = EditorPrefs.GetBool( ExpandedPropertiesId );
 		}
 
 		public bool ColoredPorts
@@ -57,7 +63,7 @@ namespace AmplifyShaderEditor
 			set
 			{
 				if ( m_coloredPorts != value )
-					EditorPrefs.SetBool( "ColoredPorts", value );
+					EditorPrefs.SetBool( ColorPortId, value );
 
 				m_coloredPorts = value;
 			}
@@ -69,7 +75,7 @@ namespace AmplifyShaderEditor
 			set
 			{
 				if ( m_multiLinePorts != value )
-					EditorPrefs.SetBool( "MultiLinePorts", value );
+					EditorPrefs.SetBool( MultiLineId, value );
 
 				m_multiLinePorts = value;
 			}

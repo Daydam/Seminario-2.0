@@ -104,9 +104,9 @@ namespace AmplifyShaderEditor
 					if ( m_isResizing )
 					{
 						if ( m_anchor == MenuAnchor.TOP_LEFT )
-							m_resizeDelta = ( Event.current.mousePosition.x - m_maximizedArea.width );
+							m_resizeDelta = ( ParentWindow.CurrentEvent.mousePosition.x - m_maximizedArea.width );
 						else if ( m_anchor == MenuAnchor.TOP_RIGHT )
-							m_resizeDelta = Event.current.mousePosition.x - ( parentPosition.width - m_maximizedArea.width);
+							m_resizeDelta = ParentWindow.CurrentEvent.mousePosition.x - ( parentPosition.width - m_maximizedArea.width);
 					}
 				}
 
@@ -261,15 +261,15 @@ namespace AmplifyShaderEditor
 		public virtual void Draw( Rect parentPosition, Vector2 mousePosition, int mouseButtonId, bool hasKeyboadFocus )
 		{
 			InitDraw( parentPosition, mousePosition, mouseButtonId );
-			if ( Event.current.type == EventType.MouseDrag && Event.current.button > 0 /*catches both middle and right mouse button*/ )
+			if ( ParentWindow.CurrentEvent.type == EventType.MouseDrag && ParentWindow.CurrentEvent.button > 0 /*catches both middle and right mouse button*/ )
 			{
 				m_isMouseInside = IsInside( mousePosition );
 				if ( m_isMouseInside )
 				{
-					m_currentScrollPos.x += Constants.MenuDragSpeed*Event.current.delta.x;
+					m_currentScrollPos.x += Constants.MenuDragSpeed * ParentWindow.CurrentEvent.delta.x;
 					if ( m_currentScrollPos.x < 0 )
 						m_currentScrollPos.x = 0;
-					m_currentScrollPos.y += Constants.MenuDragSpeed * Event.current.delta.y;
+					m_currentScrollPos.y += Constants.MenuDragSpeed * ParentWindow.CurrentEvent.delta.y;
 					if ( m_currentScrollPos.y < 0 )
 						m_currentScrollPos.y = 0;
 
@@ -318,7 +318,7 @@ namespace AmplifyShaderEditor
 				{
 					if ( m_isResizing )
 					{
-						if ( Event.current.isMouse && Event.current.type != EventType.MouseDrag )
+						if ( ParentWindow.CurrentEvent.isMouse && ParentWindow.CurrentEvent.type != EventType.MouseDrag )
 						{
 							m_isResizing = false;
 						}
@@ -436,7 +436,10 @@ namespace AmplifyShaderEditor
 				}
 			}
 		}
-
+		public bool IsActive
+		{
+			get { return m_isActive; }
+		}
 		public AmplifyShaderEditorWindow ParentWindow { get { return m_parentWindow; } set { m_parentWindow = value; } }
 	}
 }

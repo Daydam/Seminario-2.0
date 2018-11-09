@@ -20,5 +20,13 @@ namespace AmplifyShaderEditor
 														WirePortDataType.COLOR,
 														WirePortDataType.INT );
 		}
+
+		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
+		{
+			if( dataCollector.IsFragmentCategory )
+				return base.GenerateShaderForOutput( outputId, ref dataCollector, ignoreLocalvar );
+			else
+				return m_inputPorts[ 0 ].GeneratePortInstructions( ref dataCollector );
+		}
 	}
 }

@@ -20,21 +20,16 @@ namespace AmplifyShaderEditor
 		public virtual void SetupNodeCategories()
 		{
 			ContainerGraph.ResetNodesData();
-		}
-
-		public virtual void SetupNodeCategories( ref MasterNodeDataCollector collector)
-		{
-			ContainerGraph.ResetNodesData();
-			int count = m_inputPorts.Count;
-			for ( int i = 0; i < count; i++ )
-			{
-				if ( m_inputPorts[ i ].IsConnected )
-				{
-					NodeData nodeData = new NodeData( m_inputPorts[ i ].Category );
-					ParentNode node = m_inputPorts[ i ].GetOutputNode();
-					node.PropagateNodeData( nodeData, ref collector );
-				}
-			}
+			//int count = m_inputPorts.Count;
+			//for( int i = 0; i < count; i++ )
+			//{
+			//	if( m_inputPorts[ i ].IsConnected )
+			//	{
+			//		NodeData nodeData = new NodeData( m_inputPorts[ i ].Category );
+			//		ParentNode node = m_inputPorts[ i ].GetOutputNode();
+			//		node.PropagateNodeData( nodeData, ref collector );
+			//	}
+			//}
 		}
 
 		public override void WriteToString( ref string nodeInfo, ref string connectionsInfo )
@@ -47,7 +42,22 @@ namespace AmplifyShaderEditor
 		{
 			base.ReadFromString( ref nodeParams );
 			m_isMainOutputNode = Convert.ToBoolean( GetCurrentParam( ref nodeParams ) );
-			if ( m_isMainOutputNode )
+			//if( m_isMainOutputNode )
+			//{
+			//	ContainerGraph.AssignMasterNode( this, true );
+			//}
+		}
+
+		public override void AfterDuplication( ParentNode original )
+		{
+			base.AfterDuplication( original );
+			m_isMainOutputNode = false;
+		}
+
+		public override void RefreshExternalReferences()
+		{
+			base.RefreshExternalReferences();
+			if( m_isMainOutputNode )
 			{
 				ContainerGraph.AssignMasterNode( this, true );
 			}
@@ -58,10 +68,10 @@ namespace AmplifyShaderEditor
 			get { return m_isMainOutputNode; }
 			set
 			{
-				if ( value != m_isMainOutputNode )
+				if( value != m_isMainOutputNode )
 				{
 					m_isMainOutputNode = value;
-					if ( m_isMainOutputNode )
+					if( m_isMainOutputNode )
 					{
 						GenerateSignalPropagation();
 					}

@@ -19,7 +19,7 @@ namespace AmplifyShaderEditor
 														WirePortDataType.FLOAT4,
 														WirePortDataType.COLOR ,
 														WirePortDataType.INT);
-			m_inputPorts[ 0 ].ChangeType( WirePortDataType.FLOAT4, false );
+			//m_inputPorts[ 0 ].ChangeType( WirePortDataType.FLOAT4, false );
 		}
 	}
 }

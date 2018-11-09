@@ -26,6 +26,7 @@ namespace AmplifyShaderEditor
 		protected override void CommonInit( int uniqueId )
 		{
 			base.CommonInit( uniqueId );
+			GlobalTypeWarningText = string.Format( GlobalTypeWarningText, "Vector" );
 			m_insideSize.Set( 50, 30 );
 			m_selectedLocation = PreviewLocation.BottomCenter;
 			AddOutputVectorPorts( WirePortDataType.FLOAT3, "XYZ" );
@@ -49,10 +50,10 @@ namespace AmplifyShaderEditor
 
 			m_materialValue = EditorGUILayoutVector3Field( Constants.MaterialValueLabel, m_materialValue );
 
-			if ( EditorGUI.EndChangeCheck() )
+			if( EditorGUI.EndChangeCheck() )
 			{
 				//MarkForPreviewUpdate();
-				if ( m_materialMode )
+				if( m_materialMode )
 					m_requireMaterialUpdate = true;
 			}
 		}
@@ -60,11 +61,11 @@ namespace AmplifyShaderEditor
 		public override void SetPreviewInputs()
 		{
 			base.SetPreviewInputs();
-			
-			if ( m_cachedPropertyId == -1 )
+
+			if( m_cachedPropertyId == -1 )
 				m_cachedPropertyId = Shader.PropertyToID( "_InputVector" );
 
-			if ( m_materialMode && m_currentParameterType != PropertyType.Constant )
+			if( m_materialMode && m_currentParameterType != PropertyType.Constant )
 				PreviewMaterial.SetVector( m_cachedPropertyId, new Vector4( m_materialValue[ 0 ], m_materialValue[ 1 ], m_materialValue[ 2 ], 0 ) );
 			else
 				PreviewMaterial.SetVector( m_cachedPropertyId, new Vector4( m_defaultValue[ 0 ], m_defaultValue[ 1 ], m_defaultValue[ 2 ], 0 ) );
@@ -78,16 +79,16 @@ namespace AmplifyShaderEditor
 		{
 			base.Draw( drawInfo );
 
-			if ( !m_isVisible )
+			if( !m_isVisible )
 				return;
 
-			if ( m_isEditingFields )
+			if( m_isEditingFields && m_currentParameterType != PropertyType.Global)
 			{
 				EditorGUI.BeginChangeCheck();
-				for ( int i = 0; i < 3; i++ )
+				for( int i = 0; i < 3; i++ )
 				{
 					m_propertyDrawPos.y = m_outputPorts[ i + 1 ].Position.y - 2 * drawInfo.InvertedZoom;
-					if ( m_materialMode && m_currentParameterType != PropertyType.Constant )
+					if( m_materialMode && m_currentParameterType != PropertyType.Constant )
 					{
 						float val = m_materialValue[ i ];
 						UIUtils.DrawFloat( this, ref m_propertyDrawPos, ref val, LabelWidth * drawInfo.InvertedZoom );
@@ -100,7 +101,7 @@ namespace AmplifyShaderEditor
 						m_defaultValue[ i ] = val;
 					}
 				}
-				if ( EditorGUI.EndChangeCheck() )
+				if( EditorGUI.EndChangeCheck() )
 				{
 					m_requireMaterialUpdate = m_materialMode;
 					BeginDelayedDirtyProperty();
@@ -108,20 +109,26 @@ namespace AmplifyShaderEditor
 			}
 			else if( drawInfo.CurrentEventType == EventType.Repaint && ContainerGraph.LodLevel <= ParentGraph.NodeLOD.LOD4 )
 			{
-				for ( int i = 0; i < 3; i++ )
+				bool guiEnabled = GUI.enabled;
+				GUI.enabled = m_currentParameterType != PropertyType.Global;
+
+				for( int i = 0; i < 3; i++ )
 				{
 					m_propertyDrawPos.y = m_outputPorts[ i + 1 ].Position.y - 2 * drawInfo.InvertedZoom;
 
 					Rect fakeField = m_propertyDrawPos;
 					fakeField.xMin += LabelWidth * drawInfo.InvertedZoom;
-					Rect fakeLabel = m_propertyDrawPos;
-					fakeLabel.xMax = fakeField.xMin;
-					EditorGUIUtility.AddCursorRect( fakeLabel, MouseCursor.SlideArrow );
-					EditorGUIUtility.AddCursorRect( fakeField, MouseCursor.Text );
-
-					if ( m_materialMode && m_currentParameterType != PropertyType.Constant )
+					if( GUI.enabled )
 					{
-						if ( m_previousValue[ i ] != m_materialValue[ i ] )
+						Rect fakeLabel = m_propertyDrawPos;
+						fakeLabel.xMax = fakeField.xMin;
+						EditorGUIUtility.AddCursorRect( fakeLabel, MouseCursor.SlideArrow );
+						EditorGUIUtility.AddCursorRect( fakeField, MouseCursor.Text );
+					}
+
+					if( m_materialMode && m_currentParameterType != PropertyType.Constant )
+					{
+						if( m_previousValue[ i ] != m_materialValue[ i ] )
 						{
 							m_previousValue[ i ] = m_materialValue[ i ];
 							m_fieldText[ i ] = m_materialValue[ i ].ToString();
@@ -129,7 +136,7 @@ namespace AmplifyShaderEditor
 					}
 					else
 					{
-						if ( m_previousValue[ i ] != m_defaultValue[ i ] )
+						if( m_previousValue[ i ] != m_defaultValue[ i ] )
 						{
 							m_previousValue[ i ] = m_defaultValue[ i ];
 							m_fieldText[ i ] = m_defaultValue[ i ].ToString();
@@ -138,6 +145,7 @@ namespace AmplifyShaderEditor
 
 					GUI.Label( fakeField, m_fieldText[ i ], UIUtils.MainSkin.textField );
 				}
+				GUI.enabled = guiEnabled;
 			}
 		}
 
@@ -155,18 +163,19 @@ namespace AmplifyShaderEditor
 		{
 			base.DrawGUIControls( drawInfo );
 
-			if ( drawInfo.CurrentEventType != EventType.MouseDown )
+			if( drawInfo.CurrentEventType != EventType.MouseDown )
 				return;
 
 			Rect hitBox = m_remainingBox;
 			hitBox.xMin -= LabelWidth * drawInfo.InvertedZoom;
 			bool insideBox = hitBox.Contains( drawInfo.MousePosition );
 
-			if ( insideBox )
+			if( insideBox )
 			{
+				GUI.FocusControl( null );
 				m_isEditingFields = true;
 			}
-			else if ( m_isEditingFields && !insideBox )
+			else if( m_isEditingFields && !insideBox )
 			{
 				GUI.FocusControl( null );
 				m_isEditingFields = false;
@@ -177,10 +186,10 @@ namespace AmplifyShaderEditor
 		{
 			Vector3 value = m_defaultValue;
 			dataCollector.AddLocalVariable( UniqueId, CreateLocalVarDec( value.x + "," + value.y + "," + value.z ) );
-			m_outputPorts[ 0 ].SetLocalValue( m_propertyName );
-			m_outputPorts[ 1 ].SetLocalValue( m_propertyName + ".x" );
-			m_outputPorts[ 2 ].SetLocalValue( m_propertyName + ".y" );
-			m_outputPorts[ 3 ].SetLocalValue( m_propertyName + ".z" );
+			m_outputPorts[ 0 ].SetLocalValue( m_propertyName , dataCollector.PortCategory );
+			m_outputPorts[ 1 ].SetLocalValue( m_propertyName + ".x" , dataCollector.PortCategory );
+			m_outputPorts[ 2 ].SetLocalValue( m_propertyName + ".y" , dataCollector.PortCategory );
+			m_outputPorts[ 3 ].SetLocalValue( m_propertyName + ".z", dataCollector.PortCategory );
 		}
 
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
@@ -188,26 +197,26 @@ namespace AmplifyShaderEditor
 			base.GenerateShaderForOutput( outputId, ref dataCollector, ignoreLocalvar );
 			m_precisionString = UIUtils.FinalPrecisionWirePortToCgType( m_currentPrecisionType, m_outputPorts[ 0 ].DataType );
 
-			if ( m_currentParameterType != PropertyType.Constant )
-				return GetOutputVectorItem( 0, outputId, PropertyData );
+			if( m_currentParameterType != PropertyType.Constant )
+				return GetOutputVectorItem( 0, outputId, PropertyData( dataCollector.PortCategory ) );
 
-			if ( m_outputPorts[ outputId ].IsLocalValue )
+			if( m_outputPorts[ outputId ].IsLocalValue( dataCollector.PortCategory ) )
 			{
-				return m_outputPorts[ outputId ].LocalValue;
+				return m_outputPorts[ outputId ].LocalValue( dataCollector.PortCategory );
 			}
 
-			if ( CheckLocalVariable( ref dataCollector ) )
+			if( CheckLocalVariable( ref dataCollector ) )
 			{
-				return m_outputPorts[ outputId ].LocalValue;
+				return m_outputPorts[ outputId ].LocalValue( dataCollector.PortCategory );
 			}
 
 			Vector3 value = m_defaultValue;
 			string result = string.Empty;
-			switch ( outputId )
+			switch( outputId )
 			{
 				case 0:
 				{
-					result = m_precisionString+"(" + value.x + "," + value.y + "," + value.z + ")";
+					result = m_precisionString + "(" + value.x + "," + value.y + "," + value.z + ")";
 				}
 				break;
 
@@ -228,7 +237,7 @@ namespace AmplifyShaderEditor
 				break;
 			}
 
-			if ( result.Equals( string.Empty ) )
+			if( result.Equals( string.Empty ) )
 			{
 				UIUtils.ShowMessage( "Vector3Node generating empty code", MessageSeverity.Warning );
 			}
@@ -243,7 +252,7 @@ namespace AmplifyShaderEditor
 		public override void UpdateMaterial( Material mat )
 		{
 			base.UpdateMaterial( mat );
-			if ( UIUtils.IsProperty( m_currentParameterType ) )
+			if( UIUtils.IsProperty( m_currentParameterType ) && !InsideShaderFunction )
 			{
 				mat.SetVector( m_propertyName, m_materialValue );
 			}
@@ -251,8 +260,8 @@ namespace AmplifyShaderEditor
 
 		public override void SetMaterialMode( Material mat, bool fetchMaterialValues )
 		{
-			base.SetMaterialMode( mat , fetchMaterialValues );
-			if ( fetchMaterialValues && m_materialMode && UIUtils.IsProperty( m_currentParameterType ) && mat.HasProperty( m_propertyName ) )
+			base.SetMaterialMode( mat, fetchMaterialValues );
+			if( fetchMaterialValues && m_materialMode && UIUtils.IsProperty( m_currentParameterType ) && mat.HasProperty( m_propertyName ) )
 			{
 				m_materialValue = mat.GetVector( m_propertyName );
 			}
@@ -260,45 +269,27 @@ namespace AmplifyShaderEditor
 
 		public override void ForceUpdateFromMaterial( Material material )
 		{
-			if ( UIUtils.IsProperty( m_currentParameterType ) && material.HasProperty( m_propertyName ) )
+			if( UIUtils.IsProperty( m_currentParameterType ) && material.HasProperty( m_propertyName ) )
 				m_materialValue = material.GetVector( m_propertyName );
 		}
 
 		public override void ReadFromString( ref string[] nodeParams )
 		{
 			base.ReadFromString( ref nodeParams );
-			string[] components = GetCurrentParam( ref nodeParams ).Split( IOUtils.VECTOR_SEPARATOR );
-			if ( components.Length == 3 )
-			{
-				m_defaultValue.x = Convert.ToSingle( components[ 0 ] );
-				m_defaultValue.y = Convert.ToSingle( components[ 1 ] );
-				m_defaultValue.z = Convert.ToSingle( components[ 2 ] );
-			}
-			else
-			{
-				UIUtils.ShowMessage( "Incorrect number of float3 values", MessageSeverity.Error );
-			}
-		}
-
-		public override void ReadAdditionalClipboardData( ref string[] nodeParams )
-		{
-			base.ReadAdditionalClipboardData( ref nodeParams );
-			m_materialValue = IOUtils.StringToVector3( GetCurrentParam( ref nodeParams ) );
-		}
-
-		public override void WriteAdditionalClipboardData( ref string nodeInfo )
-		{
-			base.WriteAdditionalClipboardData( ref nodeInfo );
-			IOUtils.AddFieldValueToString( ref nodeInfo, IOUtils.Vector3ToString( m_materialValue ) );
+			m_defaultValue = IOUtils.StringToVector3( GetCurrentParam( ref nodeParams ) );
+			if( UIUtils.CurrentShaderVersion() > 14101 )
+				m_materialValue = IOUtils.StringToVector3( GetCurrentParam( ref nodeParams ) );
 		}
 
 		public override void WriteToString( ref string nodeInfo, ref string connectionsInfo )
 		{
-			base.WriteToString( ref nodeInfo, ref connectionsInfo );
-			IOUtils.AddFieldValueToString( ref nodeInfo, m_defaultValue.x.ToString() + IOUtils.VECTOR_SEPARATOR +
-														m_defaultValue.y.ToString() + IOUtils.VECTOR_SEPARATOR +
-														m_defaultValue.z.ToString() );
+			base.WriteToString( ref nodeInfo, ref connectionsInfo );			
+			IOUtils.AddFieldValueToString( ref nodeInfo, IOUtils.Vector3ToString( m_defaultValue ) );
+			IOUtils.AddFieldValueToString( ref nodeInfo, IOUtils.Vector3ToString( m_materialValue ) );
 		}
+
+		public override void SetGlobalValue() { Shader.SetGlobalVector( m_propertyName, m_defaultValue ); }
+		public override void FetchGlobalValue() { m_materialValue = Shader.GetGlobalVector( m_propertyName ); }
 
 		public override string GetPropertyValStr()
 		{

@@ -7,7 +7,7 @@ namespace AmplifyShaderEditor
 {
 	[Serializable]
 	[NodeAttributes( "Min", "Math Operators", "Minimum of two scalars or each respective component of two vectors" )]
-	public sealed class SimpleMinNode : DynamicTypeNode
+	public sealed class SimpleMinOpNode : DynamicTypeNode
 	{
 		protected override void CommonInit( int uniqueId )
 		{

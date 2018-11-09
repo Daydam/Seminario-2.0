@@ -1,4 +1,4 @@
-﻿Shader "Hidden/SimpleAddOpNode"
+Shader "Hidden/SimpleAddOpNode"
 {
 	Properties
 	{

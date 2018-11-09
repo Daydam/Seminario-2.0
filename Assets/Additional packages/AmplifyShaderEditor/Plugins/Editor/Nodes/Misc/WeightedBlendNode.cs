@@ -15,12 +15,13 @@ namespace AmplifyShaderEditor
 		{
 			base.CommonInit( uniqueId );
 			m_inputData = new string[ 6 ];
+			m_previewShaderGUID = "6076cbeaa41ebb14c85ff81b58df7d88";
 		}
 		
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
 		{
-			if ( m_outputPorts[ 0 ].IsLocalValue )
-				return m_outputPorts[ 0 ].LocalValue;
+			if ( m_outputPorts[ 0 ].IsLocalValue( dataCollector.PortCategory ) )
+				return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 
 			GetInputData( ref dataCollector, ignoreLocalvar );
 
@@ -32,7 +33,7 @@ namespace AmplifyShaderEditor
 			
 			if ( m_activeCount  < 2 )
 			{
-				return CreateOutputLocalVariable( 0, m_inputData[ 0 ], ref dataCollector );
+				return CreateOutputLocalVariable( 0, m_inputData[ 1 ], ref dataCollector );
 			}
 			else
 			{
@@ -51,7 +52,7 @@ namespace AmplifyShaderEditor
 			result = UIUtils.AddBrackets( result ) + "/" + UIUtils.AddBrackets( avgSum );
 			result = UIUtils.AddBrackets( result );
 			RegisterLocalVariable( 0, result, ref dataCollector, "weightedAvg" + OutputId );
-			return m_outputPorts[ 0 ].LocalValue;
+			return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 		}
 	}
 }

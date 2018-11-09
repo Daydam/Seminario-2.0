@@ -10,16 +10,16 @@ using System;
 namespace AmplifyShaderEditor
 {
 	[Serializable]
-	[NodeAttributes( "HeightMap Texture Blend", "Textures", "Advanced Texture Blending by using heightMap and splatMask, usefull for texture layering ", null, KeyCode.None, true, false, null, null, true )]
+	[NodeAttributes( "HeightMap Texture Blend", "Textures", "Advanced Texture Blending by using heightMap and splatMask, usefull for texture layering ", null, KeyCode.None, true, false, null, null, "Rea" )]
 	public sealed class HeightMapBlendNode : ParentNode
 	{
 
 		protected override void CommonInit( int uniqueId )
 		{
 			base.CommonInit( uniqueId );
-			AddInputPort( WirePortDataType.OBJECT, false, "HeightMap" );
-			AddInputPort( WirePortDataType.OBJECT, false, "SplatMask" );
-			AddInputPort( WirePortDataType.OBJECT, false, "BlendStrength" );
+			AddInputPort( WirePortDataType.FLOAT, false, "HeightMap" );
+			AddInputPort( WirePortDataType.FLOAT, false, "SplatMask" );
+			AddInputPort( WirePortDataType.FLOAT, false, "BlendStrength" );
 			AddOutputVectorPorts( WirePortDataType.FLOAT, Constants.EmptyPortValue );
 			m_textLabelWidth = 120;
 			m_useInternalPortData = true;
@@ -28,18 +28,18 @@ namespace AmplifyShaderEditor
 
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
 		{
-			if ( m_outputPorts[ 0 ].IsLocalValue )
-				return m_outputPorts[ 0 ].LocalValue;
+			if ( m_outputPorts[ 0 ].IsLocalValue( dataCollector.PortCategory ) )
+				return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 
-			string HeightMap = m_inputPorts[ 0 ].GenerateShaderForOutput( ref dataCollector, WirePortDataType.FLOAT, false, true );
-			string SplatMask = m_inputPorts[ 1 ].GenerateShaderForOutput( ref dataCollector, WirePortDataType.FLOAT, false, true );
-			string Blend = m_inputPorts[ 2 ].GenerateShaderForOutput( ref dataCollector, WirePortDataType.FLOAT, false, true );
+			string HeightMap = m_inputPorts[ 0 ].GeneratePortInstructions( ref dataCollector );
+			string SplatMask = m_inputPorts[ 1 ].GeneratePortInstructions( ref dataCollector);
+			string Blend = m_inputPorts[ 2 ].GeneratePortInstructions( ref dataCollector );
 
-			string HeightMask =  "saturate(pow(((" + HeightMap + "*" + SplatMask + ")*4)+(" + SplatMask + "*2)," + Blend + "));";
+			string HeightMask =  "saturate(pow(((" + HeightMap + "*" + SplatMask + ")*4)+(" + SplatMask + "*2)," + Blend + "))";
 			string varName = "HeightMask" + OutputId;
 
 			RegisterLocalVariable( 0, HeightMask, ref dataCollector , varName );
-			return m_outputPorts[ 0 ].LocalValue;
+			return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 		}
 		/*
          A = (heightMap * SplatMask)*4

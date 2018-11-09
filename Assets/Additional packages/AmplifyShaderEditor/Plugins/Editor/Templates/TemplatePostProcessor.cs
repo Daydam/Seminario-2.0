@@ -1,8 +1,11 @@
+// Amplify Shader Editor - Visual Shader Editing Tool
+// Copyright (c) Amplify Creations, Lda <info@amplify.pt>
+
 using UnityEditor;
 
 namespace AmplifyShaderEditor
 {
-	public class TemplatePostProcessor : AssetPostprocessor
+	public sealed class TemplatePostProcessor : AssetPostprocessor
 	{
 		static void OnPostprocessAllAssets( string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths )
 		{
@@ -10,13 +13,24 @@ namespace AmplifyShaderEditor
             {
                 TemplatesManager.Init();
             }
-			bool markForRefresh = false;
+
+			bool refreshMenuItems = false;
 			for ( int i = 0; i < importedAssets.Length; i++ )
 			{
 				if ( TemplateHelperFunctions.CheckIfTemplate( importedAssets[ i ] ) )
 				{
-					markForRefresh = true;
-					break;
+					refreshMenuItems = true;
+					string guid = AssetDatabase.AssetPathToGUID( importedAssets[ i ] );
+					TemplateDataParent templateData = TemplatesManager.GetTemplate( guid );
+					if( templateData != null )
+					{
+						templateData.Reload();
+					}
+					else
+					{
+						string name = TemplatesManager.OfficialTemplates.ContainsKey( guid ) ? TemplatesManager.OfficialTemplates[ guid ] : string.Empty;
+						TemplatesManager.AddTemplate( new TemplateMultiPass( name, guid ));
+					}
 				}
 			}
 
@@ -27,7 +41,7 @@ namespace AmplifyShaderEditor
 					for ( int i = 0; i < deletedAssets.Length; i++ )
 					{
 						string guid = AssetDatabase.AssetPathToGUID( deletedAssets[ i ] );
-						TemplateData templateData = TemplatesManager.GetTemplate( guid );
+						TemplateDataParent templateData = TemplatesManager.GetTemplate( guid );
 						if ( templateData != null )
 						{
 							// Close any window using that template
@@ -42,7 +56,7 @@ namespace AmplifyShaderEditor
 							}
 
 							TemplatesManager.RemoveTemplate( templateData );
-							markForRefresh = true;
+							refreshMenuItems = true;
 						}
 					}
 				}
@@ -52,7 +66,7 @@ namespace AmplifyShaderEditor
 			{
 				if ( TemplateHelperFunctions.CheckIfTemplate( movedAssets[ i ] ) )
 				{
-					markForRefresh = true;
+					refreshMenuItems = true;
 					break;
 				}
 			}
@@ -61,17 +75,17 @@ namespace AmplifyShaderEditor
 			{
 				if ( TemplateHelperFunctions.CheckIfTemplate( movedFromAssetPaths[ i ] ) )
 				{
-					markForRefresh = true;
+					refreshMenuItems = true;
 					break;
 				}
 			}
-
-			if ( markForRefresh )
+			if( refreshMenuItems )
 			{
+				refreshMenuItems = false;
 				TemplatesManager.CreateTemplateMenuItems();
 
 				int windowCount = IOUtils.AllOpenedWindows.Count;
-				for ( int windowIdx = 0; windowIdx < windowCount; windowIdx++ )
+				for( int windowIdx = 0; windowIdx < windowCount; windowIdx++ )
 				{
 					IOUtils.AllOpenedWindows[ windowIdx ].CurrentGraph.ForceCategoryRefresh();
 				}
@@ -79,5 +93,3 @@ namespace AmplifyShaderEditor
 		}
 	}
 }
-
-

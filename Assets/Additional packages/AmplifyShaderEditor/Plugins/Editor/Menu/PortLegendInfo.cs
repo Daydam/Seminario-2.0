@@ -34,7 +34,7 @@ namespace AmplifyShaderEditor
 		private const float WindowPosX = 5;
 		private const float WindowPosY = 5;
 
-		private const int TitleLabelWidth = 150;
+		private int TitleLabelWidth = 150;
 		private Rect m_availableArea;
 
 		private bool m_portAreaFoldout = true;
@@ -67,7 +67,7 @@ namespace AmplifyShaderEditor
 		{
 			PortLegendInfo currentWindow = ( PortLegendInfo ) PortLegendInfo.GetWindow( typeof( PortLegendInfo ), false );
 			currentWindow.minSize = new Vector2( WindowSizeX, WindowSizeY );
-			currentWindow.maxSize = new Vector2( WindowSizeX, 2 * WindowSizeY ); ;
+			currentWindow.maxSize = new Vector2( WindowSizeX * 2, 2 * WindowSizeY ); ;
 			currentWindow.wantsMouseMove = true;
 			return currentWindow;
 		}
@@ -82,22 +82,22 @@ namespace AmplifyShaderEditor
 			m_portStyle.imagePosition = ImagePosition.ImageOnly;
 			m_portStyle.margin = new RectOffset( 5, 0, 5, 0 );
 
-			m_labelStyleBold = new GUIStyle( UIUtils.GetCustomStyle( CustomStyle.InputPortlabel ) );
+			m_labelStyleBold = new GUIStyle( UIUtils.InputPortLabel );
 			m_labelStyleBold.fontStyle = FontStyle.Bold;
 			m_labelStyleBold.fontSize = ( int ) ( Constants.TextFieldFontSize );
 
 
-			m_labelStyle = new GUIStyle( UIUtils.GetCustomStyle( CustomStyle.InputPortlabel ) );
+			m_labelStyle = new GUIStyle( UIUtils.InputPortLabel );
 			m_labelStyle.clipping = TextClipping.Overflow;
 			m_labelStyle.imagePosition = ImagePosition.TextOnly;
 			m_labelStyle.contentOffset = new Vector2( -10, 0 );
 			m_labelStyle.fontSize = ( int ) ( Constants.TextFieldFontSize );
 
-			m_nodeInfoLabelStyleBold = new GUIStyle( UIUtils.GetCustomStyle( CustomStyle.InputPortlabel ) );
+			m_nodeInfoLabelStyleBold = new GUIStyle( UIUtils.InputPortLabel );
 			m_nodeInfoLabelStyleBold.fontStyle = FontStyle.Bold;
 			m_nodeInfoLabelStyleBold.fontSize = ( int ) ( Constants.TextFieldFontSize );
 
-			m_nodeInfoLabelStyle = new GUIStyle( UIUtils.GetCustomStyle( CustomStyle.InputPortlabel ) );
+			m_nodeInfoLabelStyle = new GUIStyle( UIUtils.InputPortLabel );
 			m_nodeInfoLabelStyle.clipping = TextClipping.Clip;
 			m_nodeInfoLabelStyle.imagePosition = ImagePosition.TextOnly;
 			m_nodeInfoLabelStyle.fontSize = ( int ) ( Constants.TextFieldFontSize );
@@ -139,6 +139,8 @@ namespace AmplifyShaderEditor
 			{
 				Init();
 			}
+
+			TitleLabelWidth = (int)(this.position.width * 0.42f);
 
 			KeyCode key = Event.current.keyCode;
 			if ( key == ShortcutsManager.ScrollUpKey )
@@ -246,9 +248,14 @@ namespace AmplifyShaderEditor
 					DrawItem( m_editorShortcuts[ i ].Name, m_editorShortcuts[ i ].Description );
 				}
 				DrawItem( "LMB Drag", "Box selection" );
-				DrawItem( "RMB Drag", "Camera Pan" );
-				DrawItem( "Alt + RMB Drag", "Scroll Menu" );
-				DrawItem( "Ctrl + Shift + Drag", "Node move with snap" );
+				DrawItem( "MMB/RMB Drag", "Camera pan" );
+				DrawItem( "Alt + MMB/RMB Drag", "Zoom graph" );
+				DrawItem( "Shift/Ctrl + Node Select", "Add/Remove from selection" );
+				DrawItem( "Shift + Node Drag", "Node move with offset" );
+				DrawItem( "Ctrl + Node Drag", "Node move with snap" );
+				DrawItem( "MMB/RMB + Drag Panel", "Scroll panel" );
+				DrawItem( "Alt + LMB Drag", "Additive box selection" );
+				DrawItem( "Alt + Shift + Drag", "Subtractive box selection" );
 				DrawItem( "Alt + Node Drag", "Auto-(Dis)Connect node on existing wire connection" );
 				EditorGUI.indentLevel++;
 
@@ -290,7 +297,7 @@ namespace AmplifyShaderEditor
 			AmplifyShaderEditorWindow window = UIUtils.CurrentWindow;
 			if ( window != null )
 			{
-				if ( m_nodesShortcuts == null )
+				if ( m_nodesShortcuts == null || m_nodesShortcuts.Count == 0 )
 				{
 					m_nodesShortcuts = window.ShortcutManagerInstance.AvailableNodesShortcutsList;
 				}
@@ -448,8 +455,11 @@ namespace AmplifyShaderEditor
 				m_nodeDescriptionsInfo = null;
 			}
 
-			m_compatibleAssetsInfo.Clear();
-			m_compatibleAssetsInfo = null;
+			if( m_compatibleAssetsInfo != null )
+			{
+				m_compatibleAssetsInfo.Clear();
+				m_compatibleAssetsInfo = null;
+			}
 		}
 	}
 }

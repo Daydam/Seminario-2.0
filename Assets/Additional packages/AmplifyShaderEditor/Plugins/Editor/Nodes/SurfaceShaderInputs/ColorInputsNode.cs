@@ -10,7 +10,7 @@ namespace AmplifyShaderEditor
 		protected override void CommonInit( int uniqueId )
 		{
 			base.CommonInit( uniqueId );
-			m_currentInput = AvailableSurfaceInputs.COLOR;
+			m_currentInput = SurfaceInputs.COLOR;
 			InitialSetup();
 		}
 	}

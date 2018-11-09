@@ -19,15 +19,17 @@ namespace AmplifyShaderEditor
 		{
 			//base.OnInspectorGUI();
 			//base.serializedObject.Update();
-			if ( GUILayout.Button( "Open in Shader Editor" ) )
+			if( GUILayout.Button( "Open in Shader Editor" ) )
 			{
 				AmplifyShaderEditorWindow.LoadShaderFunctionToASE( m_target, false );
 			}
 			//EditorGUILayout.Separator();
 			//m_target.FunctionInfo = EditorGUILayout.TextArea( m_target.FunctionInfo );
 
-			//if ( m_target.Description.Length > 0 )
-			//	EditorGUILayout.HelpBox( "Name: "+ m_target.FunctionName+"\n\nDescription:\n"+ m_target.Description, MessageType.None );
+			if( m_target.Description.Length > 0 )
+			{
+				EditorGUILayout.HelpBox( m_target.Description, MessageType.Info );
+			}
 		}
 	}
 }

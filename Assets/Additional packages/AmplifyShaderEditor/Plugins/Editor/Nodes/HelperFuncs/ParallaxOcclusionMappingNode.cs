@@ -1,3 +1,6 @@
+// Amplify Shader Editor - Visual Shader Editing Tool
+// Copyright (c) Amplify Creations, Lda <info@amplify.pt>
+
 using UnityEngine;
 using UnityEditor;
 
@@ -35,6 +38,9 @@ namespace AmplifyShaderEditor
 		[SerializeField]
 		private bool m_useCurvature = false;
 
+		[SerializeField]
+		private bool m_useTextureArray = false;
+
 		//[SerializeField]
 		//private bool m_useCurvature = false;
 
@@ -44,7 +50,7 @@ namespace AmplifyShaderEditor
 		private readonly string[] m_channelTypeStr = { "Red Channel", "Green Channel", "Blue Channel", "Alpha Channel" };
 		private readonly string[] m_channelTypeVal = { "r", "g", "b", "a" };
 
-		private string m_functionHeader = "POM( {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12} )";
+		private string m_functionHeader = "POM( {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13} )";
 		private string m_functionBody = string.Empty;
 
 		private const string WorldDirVarStr = "worldViewDir";
@@ -58,6 +64,7 @@ namespace AmplifyShaderEditor
 		private InputPort m_viewdirTanPort;
 		private InputPort m_refPlanePort;
 		private InputPort m_curvaturePort;
+		private InputPort m_arrayIndexPort;
 
 		private OutputPort m_pomUVPort;
 
@@ -70,6 +77,7 @@ namespace AmplifyShaderEditor
 			AddInputPort( WirePortDataType.FLOAT3, false, "ViewDir (tan)" );
 			AddInputPort( WirePortDataType.FLOAT, false, "Ref Plane" );
 			AddInputPort( WirePortDataType.FLOAT2, false, "Curvature" );
+			AddInputPort( WirePortDataType.FLOAT, false, "Array Index" );
 			AddOutputPort( WirePortDataType.FLOAT2, "Out" );
 
 			m_uvPort = m_inputPorts[ 0 ];
@@ -79,11 +87,13 @@ namespace AmplifyShaderEditor
 			m_refPlanePort = m_inputPorts[ 4 ];
 			m_pomUVPort = m_outputPorts[ 0 ];
 			m_curvaturePort = m_inputPorts[ 5 ];
+			m_arrayIndexPort = m_inputPorts[ 6 ];
 			m_scalePort.FloatInternalData = 0.02f;
 			m_useInternalPortData = false;
-			m_textLabelWidth = 120;
+			m_textLabelWidth = 130;
 			m_autoWrapProperties = true;
 			m_curvaturePort.Visible = false;
+			m_arrayIndexPort.Visible = false;
 			UpdateSampler();
 		}
 
@@ -98,6 +108,7 @@ namespace AmplifyShaderEditor
 				UpdateSampler();
 				GeneratePOMfunction();
 			}
+			EditorGUIUtility.labelWidth = 105;
 
 			m_minSamples = EditorGUILayoutIntSlider( "Min Samples", m_minSamples, 1, 128 );
 			m_maxSamples = EditorGUILayoutIntSlider( "Max Samples", m_maxSamples, 1, 128 );
@@ -117,6 +128,21 @@ namespace AmplifyShaderEditor
 			EditorGUI.BeginDisabledGroup( m_refPlanePort.IsConnected );
 			m_defaultRefPlane = EditorGUILayoutSlider( "Default Ref Plane", m_defaultRefPlane, 0, 1 );
 			EditorGUI.EndDisabledGroup();
+			EditorGUIUtility.labelWidth = m_textLabelWidth;
+			EditorGUI.BeginChangeCheck();
+			m_useTextureArray = EditorGUILayoutToggle( "Use Texture Array", m_useTextureArray );
+			if( EditorGUI.EndChangeCheck() )
+			{
+				m_arrayIndexPort.Visible = m_useTextureArray;
+				m_sizeIsDirty = true;
+				GeneratePOMfunction();
+				//UpdateCurvaturePort();
+			}
+
+			if( m_useTextureArray && !m_arrayIndexPort.IsConnected )
+			{
+				m_arrayIndexPort.FloatInternalData = EditorGUILayoutFloatField( "Array Index", m_arrayIndexPort.FloatInternalData );
+			}
 
 			//float cached = EditorGUIUtility.labelWidth;
 			//EditorGUIUtility.labelWidth = 70;
@@ -169,11 +195,11 @@ namespace AmplifyShaderEditor
 
 			GeneratePOMfunction();
 
-			string textcoords = m_uvPort.GenerateShaderForOutput( ref dataCollector, WirePortDataType.FLOAT2, false, true );
-			string texture = m_texPort.GenerateShaderForOutput( ref dataCollector, WirePortDataType.SAMPLER2D, false, true );
+			string textcoords = m_uvPort.GeneratePortInstructions( ref dataCollector );
+			string texture = m_texPort.GeneratePortInstructions( ref dataCollector );
 			string scale = m_defaultScale.ToString();
 			if( m_scalePort.IsConnected )
-				scale = m_scalePort.GenerateShaderForOutput( ref dataCollector, WirePortDataType.FLOAT, false,true );
+				scale = m_scalePort.GeneratePortInstructions( ref dataCollector );
 
 			string viewDirTan = "";
 			if ( !m_viewdirTanPort.IsConnected )
@@ -184,30 +210,29 @@ namespace AmplifyShaderEditor
 				
 				if ( dataCollector.IsTemplate )
 				{
-					viewDirTan = dataCollector.TemplateDataCollectorInstance.GetTangenViewDir();
+					viewDirTan = dataCollector.TemplateDataCollectorInstance.GetTangentViewDir( m_currentPrecisionType );
 				}
 				else
 				{
-					string inputViewDirTan = UIUtils.GetInputDeclarationFromType( m_currentPrecisionType, AvailableSurfaceInputs.VIEW_DIR );
-					dataCollector.AddToInput( UniqueId, inputViewDirTan, true );
-					viewDirTan = Constants.InputVarStr + "." + UIUtils.GetInputValueFromType( AvailableSurfaceInputs.VIEW_DIR );
+					dataCollector.AddToInput( UniqueId, SurfaceInputs.VIEW_DIR, m_currentPrecisionType );
+					viewDirTan = Constants.InputVarStr + "." + UIUtils.GetInputValueFromType( SurfaceInputs.VIEW_DIR );
 				}
 			}
 			else
 			{
-				viewDirTan = m_viewdirTanPort.GenerateShaderForOutput( ref dataCollector, WirePortDataType.FLOAT3, false, true );
+				viewDirTan = m_viewdirTanPort.GeneratePortInstructions( ref dataCollector );
 			}
 
 			//generate world normal
 			string normalWorld = string.Empty;
 			if ( dataCollector.IsTemplate )
 			{
-				normalWorld = dataCollector.TemplateDataCollectorInstance.GetWorldNormal();
+				normalWorld = dataCollector.TemplateDataCollectorInstance.GetWorldNormal( m_currentPrecisionType );
 			}
 			else
 			{
-				dataCollector.AddToInput( UniqueId, UIUtils.GetInputDeclarationFromType( m_currentPrecisionType, AvailableSurfaceInputs.WORLD_NORMAL ), true );
-				dataCollector.AddToInput( UniqueId, Constants.InternalData, false );
+				dataCollector.AddToInput( UniqueId, SurfaceInputs.WORLD_NORMAL, m_currentPrecisionType );
+				dataCollector.AddToInput( UniqueId, SurfaceInputs.INTERNALDATA, addSemiColon: false );
 				normalWorld = GeneratorUtils.GenerateWorldNormal( ref dataCollector, UniqueId );
 			}
 
@@ -222,7 +247,7 @@ namespace AmplifyShaderEditor
 			}
 			else
 			{
-				dataCollector.AddToInput( UniqueId, UIUtils.GetInputDeclarationFromType( m_currentPrecisionType, AvailableSurfaceInputs.WORLD_POS ), true );
+				dataCollector.AddToInput( UniqueId, SurfaceInputs.WORLD_POS );
 				worldPos = Constants.InputVarStr + ".worldPos";
 			}
 			dataCollector.AddToLocalVariables( UniqueId, m_currentPrecisionType, WirePortDataType.FLOAT3, WorldDirVarStr, string.Format( "normalize( UnityWorldSpaceViewDir( {0} ) )", worldPos ) );
@@ -253,7 +278,12 @@ namespace AmplifyShaderEditor
 			string localVarName = "OffsetPOM" + UniqueId;
 			dataCollector.AddToUniforms(UniqueId, "uniform float4 "+ texture +"_ST;");
 
-			string functionResult = dataCollector.AddFunctions( m_functionHeader, m_functionBody, texture, textcoords, dx, dy, normalWorld, WorldDirVarStr, viewDirTan, m_minSamples, m_maxSamples, scale, refPlane, texture+"_ST.xy", curvature );
+			string arrayIndex = m_arrayIndexPort.GeneratePortInstructions( ref dataCollector );
+
+			if( m_useTextureArray )
+				dataCollector.UsingArrayDerivatives = true;
+
+			string functionResult = dataCollector.AddFunctions( m_functionHeader, m_functionBody, (m_useTextureArray ? "UNITY_PASS_TEX2DARRAY(" + texture + ")": texture), textcoords, dx, dy, normalWorld, WorldDirVarStr, viewDirTan, m_minSamples, m_maxSamples, scale, refPlane, texture+"_ST.xy", curvature, arrayIndex );
 
 			dataCollector.AddToLocalVariables( UniqueId, m_currentPrecisionType, m_pomUVPort.DataType, localVarName, functionResult );
 
@@ -263,12 +293,15 @@ namespace AmplifyShaderEditor
 		private void GeneratePOMfunction()
 		{
 			m_functionBody = string.Empty;
-			IOUtils.AddFunctionHeader( ref m_functionBody, "inline float2 POM( sampler2D heightMap, float2 uvs, float2 dx, float2 dy, float3 normalWorld, float3 viewWorld, float3 viewDirTan, int minSamples, int maxSamples, float parallax, float refPlane, float2 tilling, float2 curv )" );
+			if(	m_useTextureArray )
+				IOUtils.AddFunctionHeader( ref m_functionBody, "inline float2 POM( UNITY_ARGS_TEX2DARRAY(heightMap), float2 uvs, float2 dx, float2 dy, float3 normalWorld, float3 viewWorld, float3 viewDirTan, int minSamples, int maxSamples, float parallax, float refPlane, float2 tilling, float2 curv, int index )" );
+			else
+				IOUtils.AddFunctionHeader( ref m_functionBody, "inline float2 POM( sampler2D heightMap, float2 uvs, float2 dx, float2 dy, float3 normalWorld, float3 viewWorld, float3 viewDirTan, int minSamples, int maxSamples, float parallax, float refPlane, float2 tilling, float2 curv, int index )" );
 			IOUtils.AddFunctionLine( ref m_functionBody, "float3 result = 0;" );
 			IOUtils.AddFunctionLine( ref m_functionBody, "int stepIndex = 0;" );
 			//IOUtils.AddFunctionLine( ref m_functionBody, "int numSteps = ( int )( minSamples + dot( viewWorld, normalWorld ) * ( maxSamples - minSamples ) );" );
 			//IOUtils.AddFunctionLine( ref m_functionBody, "int numSteps = ( int )lerp( maxSamples, minSamples, length( fwidth( uvs ) ) * 10 );" );
-			IOUtils.AddFunctionLine( ref m_functionBody, "int numSteps = ( int )lerp( maxSamples, minSamples, dot( normalWorld, viewWorld ) );" );
+			IOUtils.AddFunctionLine( ref m_functionBody, "int numSteps = ( int )lerp( (float)maxSamples, (float)minSamples, (float)dot( normalWorld, viewWorld ) );" );
 			IOUtils.AddFunctionLine( ref m_functionBody, "float layerHeight = 1.0 / numSteps;" );
 			IOUtils.AddFunctionLine( ref m_functionBody, "float2 plane = parallax * ( viewDirTan.xy / viewDirTan.z );" );
 			IOUtils.AddFunctionLine( ref m_functionBody, "uvs += refPlane * plane;" );
@@ -286,10 +319,17 @@ namespace AmplifyShaderEditor
 			if( m_useCurvature )
 			{
 				IOUtils.AddFunctionLine( ref m_functionBody, "	result.z = dot( curv, currTexOffset * currTexOffset );" );
-				IOUtils.AddFunctionLine( ref m_functionBody, "	currHeight = tex2Dgrad( heightMap, uvs + currTexOffset, dx, dy )." + m_channelTypeVal[ m_selectedChannelInt ] + " * ( 1 - result.z );" );
-			}else
+				if( m_useTextureArray )
+					IOUtils.AddFunctionLine( ref m_functionBody, "	currHeight = ASE_SAMPLE_TEX2DARRAY_GRAD( heightMap, float3(uvs + currTexOffset,index), dx, dy )." + m_channelTypeVal[ m_selectedChannelInt ] + " * ( 1 - result.z );" );
+				else
+					IOUtils.AddFunctionLine( ref m_functionBody, "	currHeight = tex2Dgrad( heightMap, uvs + currTexOffset, dx, dy )." + m_channelTypeVal[ m_selectedChannelInt ] + " * ( 1 - result.z );" );
+			}
+			else
 			{
-				IOUtils.AddFunctionLine( ref m_functionBody, "	currHeight = tex2Dgrad( heightMap, uvs + currTexOffset, dx, dy )." + m_channelTypeVal[ m_selectedChannelInt ] + ";" );
+				if( m_useTextureArray )
+					IOUtils.AddFunctionLine( ref m_functionBody, "	currHeight = ASE_SAMPLE_TEX2DARRAY_GRAD( heightMap,  float3(uvs + currTexOffset,index), dx, dy )." + m_channelTypeVal[ m_selectedChannelInt ] + ";" );
+				else
+					IOUtils.AddFunctionLine( ref m_functionBody, "	currHeight = tex2Dgrad( heightMap, uvs + currTexOffset, dx, dy )." + m_channelTypeVal[ m_selectedChannelInt ] + ";" );
 			}
 			IOUtils.AddFunctionLine( ref m_functionBody, "	if ( currHeight > currRayZ )" );
 			IOUtils.AddFunctionLine( ref m_functionBody, "	{" );
@@ -320,7 +360,10 @@ namespace AmplifyShaderEditor
 				IOUtils.AddFunctionLine( ref m_functionBody, "	intersection = ( prevHeight - prevRayZ ) / ( prevHeight - currHeight + currRayZ - prevRayZ );" );
 				IOUtils.AddFunctionLine( ref m_functionBody, "	finalTexOffset = prevTexOffset + intersection * deltaTex;" );
 				IOUtils.AddFunctionLine( ref m_functionBody, "	newZ = prevRayZ - intersection * layerHeight;" );
-				IOUtils.AddFunctionLine( ref m_functionBody, "	newHeight = tex2Dgrad( heightMap, uvs + finalTexOffset, dx, dy )." + m_channelTypeVal[ m_selectedChannelInt ] + ";" );
+				if( m_useTextureArray )
+					IOUtils.AddFunctionLine( ref m_functionBody, "	newHeight = ASE_SAMPLE_TEX2DARRAY_GRAD( heightMap, float3(uvs + finalTexOffset,index), dx, dy )." + m_channelTypeVal[ m_selectedChannelInt ] + ";" );
+				else
+					IOUtils.AddFunctionLine( ref m_functionBody, "	newHeight = tex2Dgrad( heightMap, uvs + finalTexOffset, dx, dy )." + m_channelTypeVal[ m_selectedChannelInt ] + ";" );
 				IOUtils.AddFunctionLine( ref m_functionBody, "	if ( newHeight > newZ )" );
 				IOUtils.AddFunctionLine( ref m_functionBody, "	{" );
 				IOUtils.AddFunctionLine( ref m_functionBody, "		currTexOffset = finalTexOffset;" );
@@ -410,6 +453,13 @@ namespace AmplifyShaderEditor
 				m_useCurvature = Convert.ToBoolean( GetCurrentParam( ref nodeParams ) );
 				m_CurvatureVector = IOUtils.StringToVector2( GetCurrentParam( ref nodeParams ) );
 			}
+
+			if( UIUtils.CurrentShaderVersion() > 13103 )
+			{
+				m_useTextureArray = Convert.ToBoolean( GetCurrentParam( ref nodeParams ) );
+				m_arrayIndexPort.Visible = m_useTextureArray;
+			}
+
 			UpdateSampler();
 			GeneratePOMfunction();
 			UpdateCurvaturePort();
@@ -428,6 +478,7 @@ namespace AmplifyShaderEditor
 			IOUtils.AddFieldValueToString( ref nodeInfo, m_tilling.x.ToString() + IOUtils.VECTOR_SEPARATOR + m_tilling.y.ToString() );
 			IOUtils.AddFieldValueToString( ref nodeInfo, m_useCurvature );
 			IOUtils.AddFieldValueToString( ref nodeInfo, IOUtils.Vector2ToString( m_CurvatureVector ) );
+			IOUtils.AddFieldValueToString( ref nodeInfo, m_useTextureArray );
 		}
 
 		public override void Destroy()

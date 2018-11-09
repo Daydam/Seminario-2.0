@@ -31,7 +31,7 @@ namespace AmplifyShaderEditor
 		protected override void CommonInit( int uniqueId )
 		{
 			base.CommonInit( uniqueId );
-			m_currentInput = AvailableSurfaceInputs.WORLD_NORMAL;
+			m_currentInput = SurfaceInputs.WORLD_NORMAL;
 			InitialSetup();
 			//UIUtils.AddNormalDependentCount();
 			m_precisionString = UIUtils.PrecisionWirePortToCgType( m_currentPrecisionType, WirePortDataType.FLOAT3 );
@@ -64,8 +64,8 @@ namespace AmplifyShaderEditor
 			}
 			else
 			{
-				dataCollector.AddToInput( UniqueId, UIUtils.GetInputDeclarationFromType( m_currentPrecisionType, AvailableSurfaceInputs.WORLD_NORMAL ), true );
-				dataCollector.AddToInput( UniqueId, Constants.InternalData, false );
+				dataCollector.AddToInput( UniqueId, SurfaceInputs.WORLD_NORMAL, m_currentPrecisionType );
+				dataCollector.AddToInput( UniqueId, SurfaceInputs.INTERNALDATA, addSemiColon: false );
 				if ( dataCollector.PortCategory != MasterNodePortCategory.Debug && m_perPixel && dataCollector.DirtyNormal )
 				{
 					//string result = "WorldNormalVector( " + Constants.InputVarStr + " , float3( 0,0,1 ))";

@@ -35,6 +35,7 @@ namespace AmplifyShaderEditor
 			ChangeOutputProperties( 0, "ABCD", WirePortDataType.FLOAT4 );
 			m_textLabelWidth = 55;
 			m_autoWrapProperties = true;
+			m_hasLeftDropdown = true;
 			SetAdditonalTitleText( string.Format( Constants.SubTitleTypeFormatStr, m_selectedType ) );
 		}
 
@@ -55,38 +56,17 @@ namespace AmplifyShaderEditor
 			m_upperLeftWidget = null;
 		}
 
-		public override void OnNodeLayout( DrawInfo drawInfo )
-		{
-			base.OnNodeLayout( drawInfo );
-			m_upperLeftWidget.OnNodeLayout( m_globalPosition, drawInfo );
-		}
-
-		public override void DrawGUIControls( DrawInfo drawInfo )
-		{
-			base.DrawGUIControls( drawInfo );
-			m_upperLeftWidget.DrawGUIControls( drawInfo );
-		}
-
-		public override void OnNodeRepaint( DrawInfo drawInfo )
-		{
-			base.OnNodeRepaint( drawInfo );
-			if( !m_isVisible )
-				return;
-
-			m_upperLeftWidget.OnNodeRepaint( ContainerGraph.LodLevel );
-		}
-
 		public override void Draw( DrawInfo drawInfo )
 		{
 			base.Draw( drawInfo );
-			EditorGUI.BeginChangeCheck();
-			m_selectedType = (BuiltInShaderClipPlanesTypes)m_upperLeftWidget.DrawWidget( this, m_selectedType );
-			if( EditorGUI.EndChangeCheck() )
-			{
-				SetAdditonalTitleText( string.Format( Constants.SubTitleTypeFormatStr, m_selectedType ) );
-				SetSaveIsDirty();
-			}
+			m_upperLeftWidget.DrawWidget<BuiltInShaderClipPlanesTypes>(ref m_selectedType, this, OnWidgetUpdate );
 		}
+
+		private readonly Action<ParentNode> OnWidgetUpdate = ( x ) => {
+			x.SetAdditonalTitleText( string.Format( Constants.SubTitleTypeFormatStr, ( x as CameraWorldClipPlanes ).Type ) );
+		};
+
+		public BuiltInShaderClipPlanesTypes Type { get { return m_selectedType; } }
 
 		public override void DrawProperties()
 		{

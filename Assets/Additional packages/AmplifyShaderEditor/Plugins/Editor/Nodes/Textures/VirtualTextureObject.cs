@@ -31,8 +31,8 @@ namespace AmplifyShaderEditor
 	}
 
 	[Serializable]
-	[NodeAttributes( "Virtual Texture Object", "Textures", "Represents a Virtual Texture Asset", null, KeyCode.None, true, false, null, null, false, null, 1 )]
-	public class VirtualTexturePropertyNode : TexturePropertyNode
+	[NodeAttributes( "Virtual Texture Object", "Textures", "Represents a Virtual Texture Asset", SortOrderPriority = 1 )]
+	public class VirtualTextureObject : TexturePropertyNode
 	{
 		protected const string VirtualPresetStr = "Layout Preset";
 		protected const string VirtualChannelStr = "Virtual Layer";
@@ -205,8 +205,18 @@ namespace AmplifyShaderEditor
 		public override void ReadFromString( ref string[] nodeParams )
 		{
 			base.ReadFromString( ref nodeParams );
-			string textureName = GetCurrentParam( ref nodeParams );
-			m_defaultValue = AssetDatabase.LoadAssetAtPath<Texture>( textureName );
+			string defaultTextureGUID = GetCurrentParam( ref nodeParams );
+			//m_defaultValue = AssetDatabase.LoadAssetAtPath<Texture>( textureName );
+			if( UIUtils.CurrentShaderVersion() > 14101 )
+			{
+				m_defaultValue = AssetDatabase.LoadAssetAtPath<Texture>( AssetDatabase.GUIDToAssetPath( defaultTextureGUID ) );
+				string materialTextureGUID = GetCurrentParam( ref nodeParams );
+				m_materialValue = AssetDatabase.LoadAssetAtPath<Texture>( AssetDatabase.GUIDToAssetPath( materialTextureGUID ) );
+			}
+			else
+			{
+				m_defaultValue = AssetDatabase.LoadAssetAtPath<Texture>( defaultTextureGUID );
+			}
 			m_isNormalMap = Convert.ToBoolean( GetCurrentParam( ref nodeParams ) );
 			m_defaultTextureValue = ( TexturePropertyValues ) Enum.Parse( typeof( TexturePropertyValues ), GetCurrentParam( ref nodeParams ) );
 			m_autocastMode = ( AutoCastType ) Enum.Parse( typeof( AutoCastType ), GetCurrentParam( ref nodeParams ) );
@@ -217,7 +227,15 @@ namespace AmplifyShaderEditor
 
 			//m_forceNodeUpdate = true;
 
-			ConfigFromObject( m_defaultValue );
+			//ConfigFromObject( m_defaultValue );
+			if( m_materialValue == null )
+			{
+				ConfigFromObject( m_defaultValue );
+			}
+			else
+			{
+				CheckTextureImporter( true, true );
+			}
 			ConfigureInputPorts();
 			ConfigureOutputPorts();
 		}
@@ -227,7 +245,10 @@ namespace AmplifyShaderEditor
 		public override void WriteToString( ref string nodeInfo, ref string connectionsInfo )
 		{
 			base.WriteToString( ref nodeInfo, ref connectionsInfo );
-			IOUtils.AddFieldValueToString( ref nodeInfo, ( m_defaultValue != null ) ? AssetDatabase.GetAssetPath( m_defaultValue ) : Constants.NoStringValue );
+			//IOUtils.AddFieldValueToString( ref nodeInfo, ( m_defaultValue != null ) ? AssetDatabase.GetAssetPath( m_defaultValue ) : Constants.NoStringValue );
+			IOUtils.AddFieldValueToString( ref nodeInfo, ( m_defaultValue != null ) ? AssetDatabase.AssetPathToGUID( AssetDatabase.GetAssetPath( m_defaultValue ) ) : Constants.NoStringValue );
+			IOUtils.AddFieldValueToString( ref nodeInfo, ( m_materialValue != null ) ? AssetDatabase.AssetPathToGUID( AssetDatabase.GetAssetPath( m_materialValue ) ) : Constants.NoStringValue );
+
 			IOUtils.AddFieldValueToString( ref nodeInfo, m_isNormalMap.ToString() );
 			IOUtils.AddFieldValueToString( ref nodeInfo, m_defaultTextureValue );
 			IOUtils.AddFieldValueToString( ref nodeInfo, m_autocastMode );

@@ -9,7 +9,7 @@ Shader /*ase_name*/ "ASETemplateShaders/DefaultUnlit" /*end*/
 	
 	SubShader
 	{
-		Tags { "RenderType"="Opaque" "LightMode" = "ForwardBase" /*ase_tags*/}
+		Tags { "RenderType"="Opaque" }
 		LOD 100
 		Cull Off
 		/*ase_pass*/
@@ -28,6 +28,7 @@ Shader /*ase_name*/ "ASETemplateShaders/DefaultUnlit" /*end*/
 				float4 vertex : POSITION;
 				float4 texcoord : TEXCOORD0;
 				float4 texcoord1 : TEXCOORD1;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
 				/*ase_vdata:p=p;uv0=tc0.xy;uv1=tc1.xy*/
 			};
 			
@@ -35,7 +36,8 @@ Shader /*ase_name*/ "ASETemplateShaders/DefaultUnlit" /*end*/
 			{
 				float4 vertex : SV_POSITION;
 				float4 texcoord : TEXCOORD0;
-				/*ase_interp(1,7):sp=sp.xyzw;uv0=tc0.xy;uv1=tc0.zw*/
+				UNITY_VERTEX_OUTPUT_STEREO
+				/*ase_interp(1,):sp=sp.xyzw;uv0=tc0.xy;uv1=tc0.zw*/
 			};
 
 			uniform sampler2D _MainTex;
@@ -45,13 +47,15 @@ Shader /*ase_name*/ "ASETemplateShaders/DefaultUnlit" /*end*/
 			v2f vert ( appdata v /*ase_vert_input*/)
 			{
 				v2f o;
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 				o.texcoord.xy = v.texcoord.xy;
 				o.texcoord.zw = v.texcoord1.xy;
 				
 				// ase common template code
 				/*ase_vert_code:v=appdata;o=v2f*/
 				
-				o.vertex.xyz += /*ase_vert_out:Local Vertex;Float3*/ float3(0,0,0) /*end*/;
+				v.vertex.xyz += /*ase_vert_out:Local Vertex;Float3*/ float3(0,0,0) /*end*/;
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				return o;
 			}
@@ -68,4 +72,5 @@ Shader /*ase_name*/ "ASETemplateShaders/DefaultUnlit" /*end*/
 			ENDCG
 		}
 	}
+	CustomEditor "ASEMaterialInspector"
 }

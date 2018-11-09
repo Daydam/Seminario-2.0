@@ -2,6 +2,14 @@ namespace AmplifyShaderEditor
 {
 	public class TessellationParentNode : ParentNode
 	{
+
+		protected override void CommonInit( int uniqueId )
+		{
+			base.CommonInit( uniqueId );
+			m_useInternalPortData = true;
+		}
+
+
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
 		{
 			if ( dataCollector.PortCategory != MasterNodePortCategory.Tessellation )

@@ -31,7 +31,7 @@ namespace AmplifyShaderEditor
 
         public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
         {
-            string result = m_inputPorts[ 0 ].GenerateShaderForOutput( ref dataCollector, m_inputPorts[ 0 ].DataType, ignoreLocalvar );
+            string result = m_inputPorts[ 0 ].GeneratePortInstructions( ref dataCollector );
 
             if ( result.StartsWith( "-" ) )
             {

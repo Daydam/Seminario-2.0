@@ -16,13 +16,13 @@ namespace AmplifyShaderEditor
 		UNITY_MATRIX_VP,
 		UNITY_MATRIX_T_MV,
 		UNITY_MATRIX_IT_MV,
-		UNITY_MATRIX_TEXTURE0,
-		UNITY_MATRIX_TEXTURE1,
-		UNITY_MATRIX_TEXTURE2,
-		UNITY_MATRIX_TEXTURE3,
+		//UNITY_MATRIX_TEXTURE0,
+		//UNITY_MATRIX_TEXTURE1,
+		//UNITY_MATRIX_TEXTURE2,
+		//UNITY_MATRIX_TEXTURE3,
 		_Object2World,
-		_World2Object,
-		unity_Scale
+		_World2Object//,
+		//unity_Scale
 	}
 
 	[Serializable]
@@ -33,22 +33,23 @@ namespace AmplifyShaderEditor
 		private BuiltInShaderTransformTypes m_selectedType = BuiltInShaderTransformTypes.UNITY_MATRIX_MVP;
 		
 		private const string MatrixLabelStr = "Matrix";
-		private readonly string[] ValuesStr =  {
-													"Model View Projection",
-													"Model View",
-													"View",
-													"Projection",
-													"View Projection",
-													"Transpose Model View",
-													"Inverse Transpose Model View",
-													"Texture 0",
-													"Texture 1",
-													"Texture 2",
-													"Texture 3",
-													"Object to World",
-													"Word to Object",
-													"Scale"
-												};
+		private readonly string[] ValuesStr =  
+		{
+			"Model View Projection",
+			"Model View",
+			"View",
+			"Projection",
+			"View Projection",
+			"Transpose Model View",
+			"Inverse Transpose Model View",
+			//"Texture 0",
+			//"Texture 1",
+			//"Texture 2",
+			//"Texture 3",
+			"Object to World",
+			"Word to Object"//,
+			//"Scale"
+		};
 
 		private UpperLeftWidgetHelper m_upperLeftWidget = new UpperLeftWidgetHelper();
 		protected override void CommonInit( int uniqueId )
@@ -56,6 +57,7 @@ namespace AmplifyShaderEditor
 			base.CommonInit( uniqueId );
 			ChangeOutputProperties( 0, ValuesStr[ ( int ) m_selectedType ], WirePortDataType.FLOAT4x4 );
 			m_textLabelWidth = 60;
+			m_hasLeftDropdown = true;
 			m_autoWrapProperties = true;
 			m_drawPreview = false;
 		}
@@ -69,26 +71,6 @@ namespace AmplifyShaderEditor
 				if( PaddingTitleRight == 0 )
 					PaddingTitleRight = Constants.PropertyPickerWidth + Constants.IconsLeftRightMargin;
 			}
-		}
-
-		public override void OnNodeLayout( DrawInfo drawInfo )
-		{
-			base.OnNodeLayout( drawInfo );
-			m_upperLeftWidget.OnNodeLayout( m_globalPosition, drawInfo );
-		}
-
-		public override void DrawGUIControls( DrawInfo drawInfo )
-		{
-			base.DrawGUIControls( drawInfo );
-			m_upperLeftWidget.DrawGUIControls( drawInfo );
-		}
-
-		public override void OnNodeRepaint( DrawInfo drawInfo )
-		{
-			base.OnNodeRepaint( drawInfo );
-			if( !m_isVisible )
-				return;
-			m_upperLeftWidget.OnNodeRepaint( ContainerGraph.LodLevel );
 		}
 
 		public override void Draw( DrawInfo drawInfo )
@@ -124,7 +106,25 @@ namespace AmplifyShaderEditor
 		public override void ReadFromString( ref string[] nodeParams )
 		{
 			base.ReadFromString( ref nodeParams );
-			m_selectedType = ( BuiltInShaderTransformTypes ) Enum.Parse( typeof( BuiltInShaderTransformTypes ), GetCurrentParam( ref nodeParams ) );
+			string selectedTypeStr = GetCurrentParam( ref nodeParams );
+			try
+			{
+				BuiltInShaderTransformTypes selectedType = (BuiltInShaderTransformTypes)Enum.Parse( typeof( BuiltInShaderTransformTypes ), selectedTypeStr );
+				m_selectedType = selectedType;
+			}
+			catch( Exception e )
+			{
+				switch( selectedTypeStr )
+				{
+					default: Debug.LogException( e );break;
+					case "UNITY_MATRIX_TEXTURE0":UIUtils.ShowMessage("Texture 0 matrix is no longer supported",MessageSeverity.Warning);break;
+					case "UNITY_MATRIX_TEXTURE1":UIUtils.ShowMessage("Texture 1 matrix is no longer supported",MessageSeverity.Warning);break;
+					case "UNITY_MATRIX_TEXTURE2":UIUtils.ShowMessage("Texture 2 matrix is no longer supported",MessageSeverity.Warning);break;
+					case "UNITY_MATRIX_TEXTURE3":UIUtils.ShowMessage("Texture 3 matrix is no longer supported",MessageSeverity.Warning); break;
+					case "unity_Scale": UIUtils.ShowMessage( "Scale matrix is no longer supported", MessageSeverity.Warning ); break;
+				}
+			}
+
 			ChangeOutputName( 0, ValuesStr[ ( int ) m_selectedType ] );
 		}
 

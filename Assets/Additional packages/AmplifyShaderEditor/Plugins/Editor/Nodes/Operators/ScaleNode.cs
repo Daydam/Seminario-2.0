@@ -83,6 +83,7 @@ namespace AmplifyShaderEditor
 
 			if ( insideBox )
 			{
+				GUI.FocusControl( null );
 				m_isEditingFields = true;
 			}
 			else if ( m_isEditingFields && !insideBox )
@@ -128,10 +129,10 @@ namespace AmplifyShaderEditor
 
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
 		{
-			if ( m_outputPorts[ 0 ].IsLocalValue )
-				return m_outputPorts[ 0 ].LocalValue;
+			if ( m_outputPorts[ 0 ].IsLocalValue( dataCollector.PortCategory ) )
+				return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 
-			string portResult = m_inputPorts[ 0 ].GenerateShaderForOutput( ref dataCollector, m_inputPorts[ 0 ].DataType, ignoreLocalvar );
+			string portResult = m_inputPorts[ 0 ].GeneratePortInstructions( ref dataCollector );
 			string result = "( " + portResult + " * " + m_scaleFactor + " )";
 			return CreateOutputLocalVariable( 0, result, ref dataCollector );
 		}

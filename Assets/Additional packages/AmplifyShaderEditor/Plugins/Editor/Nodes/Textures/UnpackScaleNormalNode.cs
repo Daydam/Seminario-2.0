@@ -12,7 +12,7 @@ namespace AmplifyShaderEditor
 		{
 			base.CommonInit( uniqueId );
 			AddInputPort( WirePortDataType.FLOAT4, false, "Value" );
-			AddInputPort( WirePortDataType.FLOAT, false, "Normal Scale" );
+			AddInputPort( WirePortDataType.FLOAT, false, "Scale" );
 			m_inputPorts[ 1 ].FloatInternalData = 1;
 			AddOutputVectorPorts( WirePortDataType.FLOAT3, "XYZ" );
 			m_useInternalPortData = true;

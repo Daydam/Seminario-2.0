@@ -1,10 +1,11 @@
-Shader /*ase_name*/"Sprites Default"/*end*/
+Shader /*ase_name*/"ASETemplateShaders/Sprites Default"/*end*/
 {
 	Properties
 	{
 		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
-		[MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
 		_Color ("Tint", Color) = (1,1,1,1)
+		[MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
+		[PerRendererData] _AlphaTex ("External Alpha", 2D) = "white" {}
 		/*ase_props*/
 	}
 
@@ -17,7 +18,6 @@ Shader /*ase_name*/"Sprites Default"/*end*/
 			"RenderType"="Transparent" 
 			"PreviewType"="Plane"
 			"CanUseSpriteAtlas"="True"
-			/*ase_tags*/
 		}
 
 		Cull Off
@@ -31,17 +31,19 @@ Shader /*ase_name*/"Sprites Default"/*end*/
 		CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
-			#pragma target 2.0
+			#pragma target 3.0
 			#pragma multi_compile _ PIXELSNAP_ON
 			#pragma multi_compile _ ETC1_EXTERNAL_ALPHA
 			#include "UnityCG.cginc"
-			
+			/*ase_pragma*/
+
 			struct appdata_t
 			{
 				float4 vertex   : POSITION;
 				float4 color    : COLOR;
 				float2 texcoord : TEXCOORD0;
-				/*ase_vdata:p=p.xyz;uv0=tc0.xy;c=c*/
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+				/*ase_vdata:p=p;uv0=tc0.xy;c=c*/
 			};
 
 			struct v2f
@@ -49,10 +51,12 @@ Shader /*ase_name*/"Sprites Default"/*end*/
 				float4 vertex   : SV_POSITION;
 				fixed4 color    : COLOR;
 				float2 texcoord  : TEXCOORD0;
-				/*ase_interp(1,7):sp=sp.xyzw;uv0=tc0.xy;c=c*/
+				UNITY_VERTEX_OUTPUT_STEREO
+				/*ase_interp(1,):sp=sp.xyzw;uv0=tc0.xy;c=c*/
 			};
 			
 			uniform fixed4 _Color;
+			uniform float _EnableExternalAlpha;
 			uniform sampler2D _MainTex;
 			uniform sampler2D _AlphaTex;
 			/*ase_globals*/
@@ -60,9 +64,11 @@ Shader /*ase_name*/"Sprites Default"/*end*/
 			v2f vert( appdata_t IN /*ase_vert_input*/ )
 			{
 				v2f OUT;
+				UNITY_SETUP_INSTANCE_ID(IN);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(OUT);
 				/*ase_vert_code:IN=appdata_t;OUT=v2f*/
 				
-				OUT.vertex.xyz += /*ase_vert_out:Offset;Float3*/ float3(0,0,0) /*end*/; 
+				IN.vertex.xyz += /*ase_vert_out:Offset;Float3*/ float3(0,0,0) /*end*/; 
 				OUT.vertex = UnityObjectToClipPos(IN.vertex);
 				OUT.texcoord = IN.texcoord;
 				OUT.color = IN.color * _Color;
@@ -79,7 +85,8 @@ Shader /*ase_name*/"Sprites Default"/*end*/
 
 #if ETC1_EXTERNAL_ALPHA
 				// get the color from an external texture (usecase: Alpha support for ETC1 on android)
-				color.a = tex2D (_AlphaTex, uv).r;
+				fixed4 alpha = tex2D (_AlphaTex, uv);
+				color.a = lerp (color.a, alpha.r, _EnableExternalAlpha);
 #endif //ETC1_EXTERNAL_ALPHA
 
 				return color;
@@ -95,4 +102,5 @@ Shader /*ase_name*/"Sprites Default"/*end*/
 		ENDCG
 		}
 	}
+	CustomEditor "ASEMaterialInspector"
 }

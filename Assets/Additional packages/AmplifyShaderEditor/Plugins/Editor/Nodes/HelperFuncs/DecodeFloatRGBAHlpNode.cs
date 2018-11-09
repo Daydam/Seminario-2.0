@@ -15,7 +15,9 @@ namespace AmplifyShaderEditor
 			m_inputPorts[ 0 ].ChangeType( WirePortDataType.FLOAT4, false );
 			m_inputPorts[ 0 ].Name = "RGBA";
 			m_outputPorts[ 0 ].ChangeType( WirePortDataType.FLOAT, false );
+			m_previewShaderGUID = "f71b31b15ff3f2042bafbed40acd29f4";
 		}
+
 		protected override void OnUniqueIDAssigned()
 		{
 			base.OnUniqueIDAssigned();

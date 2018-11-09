@@ -33,7 +33,8 @@ namespace AmplifyShaderEditor
 		public int SortOrderPriority; // to be used when name comparing on sorting 
 		public int NodeAvailabilityFlags;// used to define where this node can be used 
 		public string NodeUrl;
-		public NodeAttributes( string name, string category, string description, System.Type castType = null, KeyCode shortcutKey = KeyCode.None, bool available = true, bool deprecated = false, string deprecatedAlternative = null, System.Type deprecatedAlternativeType = null, bool fromCommunity = false, string customCategoryColor = null, int sortOrderPriority = -1, int nodeAvailabilityFlags = int.MaxValue )
+		public string Community;
+		public NodeAttributes( string name, string category, string description, System.Type castType = null, KeyCode shortcutKey = KeyCode.None, bool available = true, bool deprecated = false, string deprecatedAlternative = null, System.Type deprecatedAlternativeType = null, string community = null, string customCategoryColor = null, int sortOrderPriority = -1, int nodeAvailabilityFlags = int.MaxValue )
 		{
 			Name = name;
 			Description = description;
@@ -45,8 +46,15 @@ namespace AmplifyShaderEditor
 			Available = available;
 			Deprecated = deprecated;
 			DeprecatedAlternative = deprecatedAlternative;
-			FromCommunity = fromCommunity;
-			CustomCategoryColor = customCategoryColor;
+			Community = community;
+			if( string.IsNullOrEmpty( Community ) )
+				Community = string.Empty;
+			else
+				FromCommunity = true;
+
+            if( !string.IsNullOrEmpty( customCategoryColor ) )
+			    CustomCategoryColor = customCategoryColor;
+            
 			DeprecatedAlternativeType = deprecatedAlternativeType;
 			SortOrderPriority = sortOrderPriority;
 			NodeAvailabilityFlags = nodeAvailabilityFlags;

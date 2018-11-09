@@ -1,7 +1,10 @@
+// Amplify Shader Editor - Visual Shader Editing Tool
+// Copyright (c) Amplify Creations, Lda <info@amplify.pt>
+
 using UnityEngine;
 using UnityEditor;
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using AmplifyShaderEditor;
 
 [Serializable]
@@ -19,17 +22,70 @@ public class AmplifyShaderFunction : ScriptableObject
 	private string m_functionName = string.Empty;
 	public string FunctionName
 	{
-		get { if ( m_functionName.Length == 0 ) return name; else return m_functionName; }
+		get { if( m_functionName.Length == 0 ) return name; else return m_functionName; }
 		set { m_functionName = value; }
 	}
 
 	[SerializeField]
-	[TextArea( 3, 8 )]
+	[TextArea( 5, 15 )]
 	private string m_description = string.Empty;
 	public string Description
 	{
 		get { return m_description; }
 		set { m_description = value; }
+	}
+
+	[SerializeField]
+	private AdditionalIncludesHelper m_additionalIncludes = new AdditionalIncludesHelper();
+	public AdditionalIncludesHelper AdditionalIncludes
+	{
+		get { return m_additionalIncludes; }
+		set { m_additionalIncludes = value; }
+	}
+
+	[SerializeField]
+	private AdditionalPragmasHelper m_additionalPragmas = new AdditionalPragmasHelper();
+	public AdditionalPragmasHelper AdditionalPragmas
+	{
+		get { return m_additionalPragmas; }
+		set { m_additionalPragmas = value; }
+	}
+
+	[SerializeField]
+	private FunctionNodeCategories m_nodeCategory = FunctionNodeCategories.Functions;
+	public FunctionNodeCategories NodeCategory
+	{
+		get { return m_nodeCategory; }
+		set { m_nodeCategory = value; }
+	}
+
+	[SerializeField]
+	private string m_customNodeCategory = string.Empty;
+	public string CustomNodeCategory
+	{
+		get
+		{
+			if( m_nodeCategory == FunctionNodeCategories.Custom )
+			{
+				if( string.IsNullOrEmpty( m_customNodeCategory ) )
+					return "Functions";
+				else
+					return m_customNodeCategory;
+			}
+			else
+			{
+				return UIUtils.CategoryPresets[ (int)m_nodeCategory ];
+				//return new SerializedObject( this ).FindProperty( "m_nodeCategory" ).enumDisplayNames[ (int)m_nodeCategory ];
+			}
+		}
+	}
+
+	[SerializeField]
+	private PreviewLocation m_previewPosition = PreviewLocation.Auto;
+	public PreviewLocation PreviewPosition
+	{
+		get { return m_previewPosition; }
+		set { m_previewPosition = value; }
 	}
 }
 
@@ -37,47 +93,52 @@ public class ShaderFunctionDetector : AssetPostprocessor
 {
 	static void OnPostprocessAllAssets( string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths )
 	{
-		if ( UIUtils.CurrentWindow == null )
+		if( UIUtils.CurrentWindow == null )
 			return;
 
 		bool markForRefresh = false;
-		for ( int i = 0; i < importedAssets.Length; i++ )
+		AmplifyShaderFunction function = null;
+		for( int i = 0; i < importedAssets.Length; i++ )
 		{
-			AmplifyShaderFunction function = AssetDatabase.LoadAssetAtPath<AmplifyShaderFunction>( importedAssets[ i ] );
-			if ( function != null )
+			function = AssetDatabase.LoadAssetAtPath<AmplifyShaderFunction>( importedAssets[ i ] );
+			if( function != null )
 			{
 				markForRefresh = true;
 				break;
 			}
 		}
 
-		if ( deletedAssets.Length > 0 )
+		if( deletedAssets.Length > 0 )
 			markForRefresh = true;
 
-		for ( int i = 0; i < movedAssets.Length; i++ )
+		for( int i = 0; i < movedAssets.Length; i++ )
 		{
-			AmplifyShaderFunction function = AssetDatabase.LoadAssetAtPath<AmplifyShaderFunction>( movedAssets[ i ] );
-			if ( function != null )
+			function = AssetDatabase.LoadAssetAtPath<AmplifyShaderFunction>( movedAssets[ i ] );
+			if( function != null )
 			{
 				markForRefresh = true;
 				break;
 			}
 		}
 
-		for ( int i = 0; i < movedFromAssetPaths.Length; i++ )
+		for( int i = 0; i < movedFromAssetPaths.Length; i++ )
 		{
-			AmplifyShaderFunction function = AssetDatabase.LoadAssetAtPath<AmplifyShaderFunction>( movedFromAssetPaths[ i ] );
-			if ( function != null )
+			function = AssetDatabase.LoadAssetAtPath<AmplifyShaderFunction>( movedFromAssetPaths[ i ] );
+			if( function != null )
 			{
 				markForRefresh = true;
 				break;
 			}
 		}
 
-		if ( markForRefresh )
+		if( markForRefresh )
 		{
 			markForRefresh = false;
-			UIUtils.CurrentWindow.RefreshAvaibleNodes();
+			if( function != null )
+			{
+				IOUtils.UpdateSFandRefreshWindows( function );
+			}
+			UIUtils.CurrentWindow.LateRefreshAvailableNodes();
 		}
 	}
 }

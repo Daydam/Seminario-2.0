@@ -8,7 +8,7 @@ using System;
 namespace AmplifyShaderEditor
 {
 	[Serializable]
-	[NodeAttributes( "Keyword Switch", "Logical Operators", "Attributes a value according to the existance of a selected keyword" )]
+	[NodeAttributes( "Keyword Switch", "Logical Operators", "Attributes a value according to the existance of a selected keyword", Deprecated = true, DeprecatedAlternativeType = typeof(StaticSwitch), DeprecatedAlternative = "Static Switch" )]
 	public sealed class KeywordSwitchNode : ParentNode
 	{
 		private const string KeywordStr = "Keyword";
@@ -88,8 +88,8 @@ namespace AmplifyShaderEditor
 
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
 		{
-			if ( m_outputPorts[ 0 ].IsLocalValue )
-				return m_outputPorts[ 0 ].LocalValue;
+			if ( m_outputPorts[ 0 ].IsLocalValue( dataCollector.PortCategory ) )
+				return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 
 			string trueCode = m_inputPorts[ 0 ].GeneratePortInstructions( ref dataCollector );
 			string falseCode = m_inputPorts[ 1 ].GeneratePortInstructions( ref dataCollector );
@@ -101,9 +101,9 @@ namespace AmplifyShaderEditor
 			dataCollector.AddLocalVariable( UniqueId, "#else", true );
 			dataCollector.AddLocalVariable( UniqueId, outType + " " + localVarName + " = " + falseCode + ";", true );
 			dataCollector.AddLocalVariable( UniqueId, "#endif", true );
-			m_outputPorts[ 0 ].SetLocalValue( localVarName );
+			m_outputPorts[ 0 ].SetLocalValue( localVarName, dataCollector.PortCategory );
 
-			return m_outputPorts[ 0 ].LocalValue;
+			return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 		}
 
 		void UpdateDisconnected( int portId )

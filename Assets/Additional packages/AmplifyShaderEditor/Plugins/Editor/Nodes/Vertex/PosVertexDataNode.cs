@@ -26,6 +26,8 @@ namespace AmplifyShaderEditor
 			ChangeOutputProperties( 0, "XYZ", WirePortDataType.FLOAT3 );
 			m_drawPreviewAsSphere = true;
 			m_outputPorts[ 4 ].Visible = false;
+			m_hasLeftDropdown = true;
+			m_autoWrapProperties = true;
 			m_previewShaderGUID = "a5c14f759dd021b4b8d4b6eeb85ac227";
 		}
 
@@ -33,26 +35,6 @@ namespace AmplifyShaderEditor
 		{
 			base.Destroy();
 			m_upperLeftWidget = null;
-		}
-
-		public override void OnNodeLayout( DrawInfo drawInfo )
-		{
-			base.OnNodeLayout( drawInfo );
-			m_upperLeftWidget.OnNodeLayout( m_globalPosition, drawInfo );
-		}
-
-		public override void DrawGUIControls( DrawInfo drawInfo )
-		{
-			base.DrawGUIControls( drawInfo );
-			m_upperLeftWidget.DrawGUIControls( drawInfo );
-		}
-
-		public override void OnNodeRepaint( DrawInfo drawInfo )
-		{
-			base.OnNodeRepaint( drawInfo );
-			if( !m_isVisible )
-				return;
-			m_upperLeftWidget.OnNodeRepaint( ContainerGraph.LodLevel );
 		}
 
 		public override void Draw( DrawInfo drawInfo )
@@ -94,7 +76,7 @@ namespace AmplifyShaderEditor
 
 			if ( dataCollector.MasterNodeCategory == AvailableShaderTypes.Template )
 			{
-				string vertexPos = dataCollector.TemplateDataCollectorInstance.GetVertexPosition( ( m_sizeOption == 0 ) ? WirePortDataType.FLOAT3 : WirePortDataType.FLOAT4 );
+				string vertexPos = dataCollector.TemplateDataCollectorInstance.GetVertexPosition( ( m_sizeOption == 0 ) ? WirePortDataType.FLOAT3 : WirePortDataType.FLOAT4, m_currentPrecisionType );
 				return GetOutputVectorItem( 0, outputId, vertexPos );
 			}
 
@@ -104,7 +86,7 @@ namespace AmplifyShaderEditor
 
 			WirePortDataType sizeType = m_sizeOption == 0 ? WirePortDataType.FLOAT3 : WirePortDataType.FLOAT4;
 
-			string vertexPosition = GeneratorUtils.GenerateVertexPosition( ref dataCollector, UniqueId, m_currentPrecisionType, sizeType );
+			string vertexPosition = GeneratorUtils.GenerateVertexPosition( ref dataCollector, UniqueId, sizeType );
 			return GetOutputVectorItem( 0, outputId, vertexPosition );
 
 			//if ( dataCollector.PortCategory == MasterNodePortCategory.Vertex || dataCollector.PortCategory == MasterNodePortCategory.Tessellation )

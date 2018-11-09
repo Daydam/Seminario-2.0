@@ -19,14 +19,14 @@ namespace AmplifyShaderEditor
 
 		public override string BuildResults( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
 		{
-			if ( m_outputPorts[ 0 ].IsLocalValue )
+			if ( m_outputPorts[ 0 ].IsLocalValue( dataCollector.PortCategory ) )
 			{
-				return m_outputPorts[ 0 ].LocalValue;
+				return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 			}
 
 			base.BuildResults( outputId, ref dataCollector, ignoreLocalvar );
 			RegisterLocalVariable( 0, string.Format( FmodCustomOp, m_inputA, m_inputB ), ref dataCollector, ( "fmodResult" + OutputId ) );
-			return m_outputPorts[ 0 ].LocalValue;
+			return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 		}
 	}
 }

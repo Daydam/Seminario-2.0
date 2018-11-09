@@ -83,11 +83,6 @@ namespace AmplifyShaderEditor
 			m_isActive = false;
 		}
 
-		public bool IsActive
-		{
-			get { return m_isActive; }
-		}
-
 		public Vector2 StartDropPosition
 		{
 			get { return m_startDropPosition; }

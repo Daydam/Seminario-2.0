@@ -19,6 +19,15 @@ namespace AmplifyShaderEditor
 			m_previewShaderGUID = "73abc10c8d1399444827a7eeb9c24c2a";
 		}
 
+		public override void RefreshExternalReferences()
+		{
+			base.RefreshExternalReferences();
+			if( !m_outputPorts[ 0 ].IsConnected )
+			{
+				m_outputPorts[ 0 ].Visible = false;
+				m_sizeIsDirty = true;
+			}
+		}
 		//public override void AfterPreviewRefresh()
 		//{
 		//	base.AfterPreviewRefresh();

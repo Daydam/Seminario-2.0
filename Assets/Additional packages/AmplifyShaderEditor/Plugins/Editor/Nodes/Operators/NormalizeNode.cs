@@ -20,8 +20,8 @@ namespace AmplifyShaderEditor
 		}
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
 		{
-			if ( m_outputPorts[ 0 ].IsLocalValue )
-				return m_outputPorts[ 0 ].LocalValue;
+			if ( m_outputPorts[ 0 ].IsLocalValue( dataCollector.PortCategory ) )
+				return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 
 			string result = string.Empty;
 			switch ( m_inputPorts[ 0 ].DataType )
@@ -33,12 +33,12 @@ namespace AmplifyShaderEditor
 				case WirePortDataType.OBJECT:
 				case WirePortDataType.COLOR:
 				{
-					result = "normalize( " + m_inputPorts[ 0 ].GenerateShaderForOutput( ref dataCollector, m_inputPorts[ 0 ].DataType, ignoreLocalvar ) + " )";
+					result = "normalize( " + m_inputPorts[ 0 ].GeneratePortInstructions( ref dataCollector ) + " )";
 				}
 				break;
 				case WirePortDataType.INT:
 				{
-					return m_inputPorts[ 0 ].GenerateShaderForOutput( ref dataCollector, m_inputPorts[ 0 ].DataType, ignoreLocalvar );
+					return m_inputPorts[ 0 ].GeneratePortInstructions( ref dataCollector  );
 				}
 				case WirePortDataType.FLOAT3x3:
 				case WirePortDataType.FLOAT4x4:
@@ -49,7 +49,7 @@ namespace AmplifyShaderEditor
 			}
 			RegisterLocalVariable( 0, result, ref dataCollector, "normalizeResult" + OutputId );
 
-			return m_outputPorts[ 0 ].LocalValue;
+			return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 		}
 	}
 }

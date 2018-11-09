@@ -38,7 +38,7 @@ namespace AmplifyShaderEditor
 			{
 				if ( m_addInstruction )
 				{
-					dataCollector.AddToInput( UniqueId, "float3 " + VertexVarName, true );
+					dataCollector.AddToInput( UniqueId, VertexVarName, WirePortDataType.FLOAT3 );
 					dataCollector.AddVertexInstruction( Constants.VertexShaderOutputStr + "." + VertexVarName + " = " + Constants.VertexShaderInputStr + ".vertex.xyz ", UniqueId );
 					m_addInstruction = false;
 				}

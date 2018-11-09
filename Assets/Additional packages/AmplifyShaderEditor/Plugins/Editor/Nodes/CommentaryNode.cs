@@ -72,6 +72,15 @@ namespace AmplifyShaderEditor
 		public Color m_frameColor = Color.white;
 
 		private List<int> m_nodesIds = new List<int>();
+		private bool m_checkContents = false;
+
+		private bool m_isEditing;
+		private bool m_stopEditing;
+		private bool m_startEditing;
+		private double m_clickTime;
+		private double m_doubleClickTime = 0.3;
+
+
 		protected override void CommonInit( int uniqueId )
 		{
 			base.CommonInit( uniqueId );
@@ -141,7 +150,7 @@ namespace AmplifyShaderEditor
 			{
 				if ( !m_nodesOnCommentary[ i ].Selected )
 				{
-					Undo.RecordObject( m_nodesOnCommentary[ i ], Constants.UndoMoveNodesId );
+					m_nodesOnCommentary[ i ].RecordObject( Constants.UndoMoveNodesId );
 					m_nodesOnCommentary[ i ].Move( delta, snap );
 				}
 			}
@@ -165,8 +174,8 @@ namespace AmplifyShaderEditor
 			if ( m_nodesOnCommentaryDict.ContainsKey( node.UniqueId ) )
 			{
 				UIUtils.MarkUndoAction();
-				Undo.RecordObject( this, Constants.UndoRemoveNodeFromCommentaryId );
-				Undo.RecordObject( node, Constants.UndoRemoveNodeFromCommentaryId );
+				RecordObject( Constants.UndoRemoveNodeFromCommentaryId );
+				node.RecordObject( Constants.UndoRemoveNodeFromCommentaryId );
 				m_nodesOnCommentary.Remove( node );
 				m_nodesOnCommentaryDict.Remove( node.UniqueId );
 				node.OnNodeStoppedMovingEvent -= NodeStoppedMoving;
@@ -180,8 +189,8 @@ namespace AmplifyShaderEditor
 			UIUtils.MarkUndoAction();
 			for ( int i = 0; i < m_nodesOnCommentary.Count; i++ )
 			{
-				Undo.RecordObject( this, Constants.UndoRemoveNodeFromCommentaryId );
-				Undo.RecordObject( m_nodesOnCommentary[ i ], Constants.UndoRemoveNodeFromCommentaryId );
+				RecordObject( Constants.UndoRemoveNodeFromCommentaryId );
+				m_nodesOnCommentary[ i ].RecordObject( Constants.UndoRemoveNodeFromCommentaryId );
 				m_nodesOnCommentary[ i ].OnNodeStoppedMovingEvent -= NodeStoppedMoving;
 				m_nodesOnCommentary[ i ].OnNodeDestroyedEvent -= NodeDestroyed;
 				m_nodesOnCommentary[ i ].CommentaryParent = -1;
@@ -198,6 +207,9 @@ namespace AmplifyShaderEditor
 
 		public void AddNodeToCommentary( ParentNode node )
 		{
+			if( node.UniqueId == UniqueId )
+				return;
+
 			if ( !m_nodesOnCommentaryDict.ContainsKey( node.UniqueId ) )
 			{
 				bool addToNode = false;
@@ -227,8 +239,8 @@ namespace AmplifyShaderEditor
 				if ( addToNode )
 				{
 					UIUtils.MarkUndoAction();
-					Undo.RecordObject( this, Constants.UndoAddNodeToCommentaryId );
-					Undo.RecordObject( node, Constants.UndoAddNodeToCommentaryId );
+					RecordObject(  Constants.UndoAddNodeToCommentaryId );
+					node.RecordObject( Constants.UndoAddNodeToCommentaryId );
 
 					m_nodesOnCommentary.Add( node );
 					m_nodesOnCommentaryDict.Add( node.UniqueId, node );
@@ -238,8 +250,7 @@ namespace AmplifyShaderEditor
 				}
 			}
 		}
-
-
+		
 		public override void DrawProperties()
 		{
 			base.DrawProperties();
@@ -324,9 +335,7 @@ namespace AmplifyShaderEditor
 			m_resizeRightIconCoords.x = m_globalPosition.x + m_globalPosition.width - 1 - ( m_resizeIconTex.width + ResizeButtonPos.x ) * drawInfo.InvertedZoom;
 			m_resizeRightIconCoords.y = m_globalPosition.y + m_globalPosition.height - 2 - ( m_resizeIconTex.height + ResizeButtonPos.y ) * drawInfo.InvertedZoom;
 			m_resizeRightIconCoords.width = m_resizeIconTex.width * drawInfo.InvertedZoom;
-			m_resizeRightIconCoords.height = m_resizeIconTex.height * drawInfo.InvertedZoom;
-
-			
+			m_resizeRightIconCoords.height = m_resizeIconTex.height * drawInfo.InvertedZoom;			
 		}
 
 		public override void OnNodeRepaint( DrawInfo drawInfo )
@@ -347,7 +356,7 @@ namespace AmplifyShaderEditor
 			// Fixed Title ( only renders when not editing )
 			if ( !m_isEditing && !m_startEditing && ContainerGraph.LodLevel <= ParentGraph.NodeLOD.LOD3 )
 			{
-				GUI.Label( m_commentArea, m_commentText, UIUtils.GetCustomStyle( CustomStyle.CommentaryTitle ) );
+				GUI.Label( m_commentArea, m_commentText, UIUtils.CommentaryTitle );
 			}
 
 			// Buttons
@@ -357,7 +366,12 @@ namespace AmplifyShaderEditor
 			// Selection Box
 			if ( m_selected )
 			{
+				GUI.color = Constants.NodeSelectedColor;
+				RectOffset cache = UIUtils.GetCustomStyle( CustomStyle.NodeWindowOn ).border;
+				UIUtils.GetCustomStyle( CustomStyle.NodeWindowOn ).border = UIUtils.RectOffsetSix;
 				GUI.Label( m_globalPosition, string.Empty, UIUtils.GetCustomStyle( CustomStyle.NodeWindowOn ) );
+				UIUtils.GetCustomStyle( CustomStyle.NodeWindowOn ).border = cache;
+				GUI.color = m_colorBuffer;
 			}
 
 			if ( !string.IsNullOrEmpty( m_titleText ) )
@@ -368,13 +382,7 @@ namespace AmplifyShaderEditor
 				GUI.Label( titleRect, m_titleText, UIUtils.GetCustomStyle( CustomStyle.CommentarySuperTitle ) );
 			}
 		}
-
-		private bool m_isEditing;
-		private bool m_stopEditing;
-		private bool m_startEditing;
-		private double m_clickTime;
-		private double m_doubleClickTime = 0.3;
-
+		
 		public override void Draw( DrawInfo drawInfo )
 		{
 			base.Draw( drawInfo );
@@ -399,7 +407,7 @@ namespace AmplifyShaderEditor
 				{
 					EditorGUI.BeginChangeCheck();
 					GUI.SetNextControlName( m_focusName );
-					m_commentText = EditorGUITextField( m_commentArea, string.Empty, m_commentText, UIUtils.GetCustomStyle( CustomStyle.CommentaryTitle ) );
+					m_commentText = EditorGUITextField( m_commentArea, string.Empty, m_commentText, UIUtils.CommentaryTitle );
 					if ( EditorGUI.EndChangeCheck() )
 					{
 						m_checkCommentText = true;
@@ -426,7 +434,7 @@ namespace AmplifyShaderEditor
 				}
 			}
 
-			if ( drawInfo.CurrentEventType == EventType.MouseDown )
+			if ( drawInfo.CurrentEventType == EventType.MouseDown && drawInfo.LeftMouseButtonPressed )
 			{
 				// Left Button
 				if( m_resizeLeftIconCoords.Contains( drawInfo.MousePosition ) && ContainerGraph.ParentWindow.CurrentEvent.modifiers != EventModifiers.Shift )
@@ -561,15 +569,15 @@ namespace AmplifyShaderEditor
 			if ( node == null || UniqueId == node.UniqueId )
 				return false;
 
-			for ( int i = 0; i < m_nodesOnCommentary.Count; i++ )
+			for( int i = 0; i < m_nodesOnCommentary.Count; i++ )
 			{
-				if ( m_nodesOnCommentary[ i ] && m_nodesOnCommentary[ i ].OnNodeInteraction( node ) )
+				if( m_nodesOnCommentary[ i ] && m_nodesOnCommentary[ i ] != this && m_nodesOnCommentary[ i ].OnNodeInteraction( node ) )
 				{
 					return false;
 				}
 			}
 
-			if ( m_position.Contains( node.Vec2Position ) && m_position.Contains( node.Corner ) )
+			if( m_position.Contains( node.Vec2Position ) && m_position.Contains( node.Corner ) )
 			{
 				AddNodeToCommentary( node );
 				return true;
@@ -634,6 +642,23 @@ namespace AmplifyShaderEditor
 		{
 			base.ResetNodeData();
 			m_graphDepthAnalized = false;
+		}
+
+		public override void ReadAdditionalClipboardData( ref string[] nodeParams )
+		{
+			base.ReadAdditionalClipboardData( ref nodeParams );
+			m_nodesIds.Clear();
+			m_checkContents = true;
+		}
+
+		public override void RefreshExternalReferences()
+		{
+			base.RefreshExternalReferences();
+			if( m_checkContents )
+			{
+				m_checkContents = false;
+				OnSelfStoppedMovingEvent();
+			}
 		}
 
 		public override void CalculateCustomGraphDepth()

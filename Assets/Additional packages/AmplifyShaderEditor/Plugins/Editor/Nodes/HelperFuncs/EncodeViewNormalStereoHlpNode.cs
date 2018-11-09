@@ -15,6 +15,7 @@ namespace AmplifyShaderEditor
 			m_inputPorts[ 0 ].ChangeType( WirePortDataType.FLOAT3, false );
 			m_inputPorts[ 0 ].Name = "XYZ";
 			m_outputPorts[ 0 ].ChangeType( WirePortDataType.FLOAT2, false );
+			m_previewShaderGUID = "3d0b3d482b7246c4cb60fa73e6ceac6c";
 		}
 
 		protected override void OnUniqueIDAssigned()

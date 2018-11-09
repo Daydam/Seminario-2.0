@@ -10,7 +10,7 @@ using System;
 namespace AmplifyShaderEditor
 {
 	[Serializable]
-	[NodeAttributes( "World Tangent", "Surface Data", "Per pixel world tangent vector", null, KeyCode.None, true, false, null, null, true )]
+	[NodeAttributes( "World Tangent", "Surface Data", "Per pixel world tangent vector", null, KeyCode.None, true, false, null, null, "kebrus" )]
 	public sealed class VertexTangentNode : ParentNode
 	{
 		protected override void CommonInit( int uniqueId )
@@ -31,13 +31,16 @@ namespace AmplifyShaderEditor
 		{
 			if ( dataCollector.IsTemplate )
 			{
-				return GetOutputVectorItem( 0, outputId, dataCollector.TemplateDataCollectorInstance.GetWorldTangent() );
+				return GetOutputVectorItem( 0, outputId, dataCollector.TemplateDataCollectorInstance.GetWorldTangent( m_currentPrecisionType ) );
 			}
 
-			dataCollector.ForceNormal = true;
+			if( dataCollector.PortCategory == MasterNodePortCategory.Fragment || dataCollector.PortCategory == MasterNodePortCategory.Debug )
+			{
+				dataCollector.ForceNormal = true;
 
-			dataCollector.AddToInput( UniqueId, UIUtils.GetInputDeclarationFromType( m_currentPrecisionType, AvailableSurfaceInputs.WORLD_NORMAL ), true );
-			dataCollector.AddToInput( UniqueId, Constants.InternalData, false );
+				dataCollector.AddToInput( UniqueId, SurfaceInputs.WORLD_NORMAL, m_currentPrecisionType );
+				dataCollector.AddToInput( UniqueId, SurfaceInputs.INTERNALDATA, addSemiColon: false );
+			}
 
 			string worldTangent = GeneratorUtils.GenerateWorldTangent( ref dataCollector, UniqueId );
 

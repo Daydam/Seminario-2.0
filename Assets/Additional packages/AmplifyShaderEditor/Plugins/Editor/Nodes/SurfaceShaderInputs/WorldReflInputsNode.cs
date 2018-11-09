@@ -11,7 +11,7 @@ namespace AmplifyShaderEditor
 		protected override void CommonInit( int uniqueId )
 		{
 			base.CommonInit( uniqueId );
-			m_currentInput = AvailableSurfaceInputs.WORLD_REFL;
+			m_currentInput = SurfaceInputs.WORLD_REFL;
 			InitialSetup();
 		}
 	}

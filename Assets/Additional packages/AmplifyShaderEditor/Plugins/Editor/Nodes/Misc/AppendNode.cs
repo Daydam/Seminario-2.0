@@ -8,7 +8,7 @@ using System;
 namespace AmplifyShaderEditor
 {
 	[Serializable]
-	[NodeAttributes( "[Old]Append", "Vector Operators", "Append channels to create a new component",null,KeyCode.None,true,true,"Append")]
+	[NodeAttributes( "[Old]Append", "Vector Operators", "Append channels to create a new component",null,KeyCode.V,true,true,"Append",typeof(DynamicAppendNode))]
 	public sealed class AppendNode : ParentNode
 	{
 		private const string OutputTypeStr = "Output type";
@@ -22,9 +22,6 @@ namespace AmplifyShaderEditor
 		[SerializeField]
 		private float[] m_defaultValues = { 0, 0, 0, 0 };
 		private string[] m_defaultValuesStr = { "[0]", "[1]", "[2]", "[3]" };
-
-		private Rect m_varRect;
-		private bool m_editing;
 
 		private readonly string[] m_outputValueTypes ={  "Vector2",
 														"Vector3",
@@ -44,59 +41,20 @@ namespace AmplifyShaderEditor
 			m_previewShaderGUID = "d80ac81aabf643848a4eaa76f2f88d65";
 		}
 
-		public override void OnNodeLayout( DrawInfo drawInfo )
-		{
-			base.OnNodeLayout( drawInfo );
-
-			m_varRect = m_globalPosition;
-			m_varRect.x = m_varRect.x + ( Constants.NodeButtonDeltaX - 1 ) * drawInfo.InvertedZoom + 1;
-			m_varRect.y = m_varRect.y + Constants.NodeButtonDeltaY * drawInfo.InvertedZoom;
-			m_varRect.width = Constants.NodeButtonSizeX * drawInfo.InvertedZoom;
-			m_varRect.height = Constants.NodeButtonSizeY * drawInfo.InvertedZoom;
-		}
-
-		public override void DrawGUIControls( DrawInfo drawInfo )
-		{
-			base.DrawGUIControls( drawInfo );
-
-			if ( drawInfo.CurrentEventType != EventType.MouseDown )
-				return;
-
-			if ( m_varRect.Contains( drawInfo.MousePosition ) )
-			{
-				m_editing = true;
-			}
-			else if ( m_editing )
-			{
-				m_editing = false;
-			}
-		}
-
 		public override void Draw( DrawInfo drawInfo )
 		{
 			base.Draw( drawInfo );
 
-			if ( m_editing )
+			if ( m_dropdownEditing )
 			{
 				EditorGUI.BeginChangeCheck();
-				m_selectedOutputTypeInt = EditorGUIPopup( m_varRect, m_selectedOutputTypeInt, m_outputValueTypes, UIUtils.PropertyPopUp );
+				m_selectedOutputTypeInt = EditorGUIPopup( m_dropdownRect, m_selectedOutputTypeInt, m_outputValueTypes, UIUtils.PropertyPopUp );
 				if ( EditorGUI.EndChangeCheck() )
 				{
 					SetupPorts();
-					m_editing = false;
+					m_dropdownEditing = false;
 				}
 			}
-		}
-
-		public override void OnNodeRepaint( DrawInfo drawInfo )
-		{
-			base.OnNodeRepaint( drawInfo );
-
-			if ( !m_isVisible )
-				return;
-
-			if( !m_editing && ContainerGraph.LodLevel <= ParentGraph.NodeLOD.LOD4 )
-				GUI.Label( m_varRect, string.Empty, UIUtils.PropertyPopUp );
 		}
 
 		void SetupPorts()
@@ -209,8 +167,8 @@ namespace AmplifyShaderEditor
 		}
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalVar )
 		{
-			if ( m_outputPorts[ 0 ].IsLocalValue )
-				return m_outputPorts[ 0 ].LocalValue;
+			if ( m_outputPorts[ 0 ].IsLocalValue( dataCollector.PortCategory ) )
+				return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 
 			string value = string.Empty;
 			switch ( m_selectedOutputType )
@@ -262,7 +220,7 @@ namespace AmplifyShaderEditor
 			}
 
 			RegisterLocalVariable( 0, value, ref dataCollector, "appendResult" + OutputId );
-			return m_outputPorts[ 0 ].LocalValue;
+			return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 		}
 
 		public override void ReadFromString( ref string[] nodeParams )

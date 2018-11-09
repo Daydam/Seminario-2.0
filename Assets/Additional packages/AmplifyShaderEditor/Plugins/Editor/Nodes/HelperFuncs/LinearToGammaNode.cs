@@ -2,6 +2,7 @@
 // Copyright (c) Amplify Creations, Lda <info@amplify.pt>
 
 using UnityEngine;
+using UnityEditor;
 using System;
 namespace AmplifyShaderEditor
 {
@@ -9,10 +10,19 @@ namespace AmplifyShaderEditor
 	[NodeAttributes( "Linear To Gamma", "Image Effects", "Converts color from linear space to gamma space" )]
 	public sealed class LinearToGammaNode : HelperParentNode
 	{
-		[SerializeField]
-		private bool m_exact = false;
+		//[SerializeField]
+		//private bool m_exact = false;
 
-		private readonly static GUIContent LGExactContent = new GUIContent( "Exact Conversion", "Uses a precise version of the conversion, it's more expensive and often not needed." );
+		//private readonly static GUIContent LGExactContent = new GUIContent( "Exact Conversion", "Uses a precise version of the conversion, it's more expensive and often not needed." );
+
+		public readonly static string[] ModeListStr = { "Fast Linear to sRGB", "Exact Linear to sRGB" };
+		public readonly static int[] ModeListInt = { 0, 1 };
+
+		public readonly static string[] ModeListStrLW = { "Fast Linear to sRGB", "Exact Linear to sRGB", "Linear to Gamma 2.0", "Linear to Gamma 2.2" };
+		public readonly static int[] ModeListIntLW = { 0, 1, 2, 3 };
+
+		[SerializeField]
+		public int m_selectedMode = 0;
 
 		protected override void CommonInit( int uniqueId )
 		{
@@ -35,21 +45,53 @@ namespace AmplifyShaderEditor
 		public override void DrawProperties()
 		{
 			base.DrawProperties();
-			m_exact = EditorGUILayoutToggle( LGExactContent, m_exact );
+			if( ContainerGraph.CurrentSRPType == TemplateSRPType.Lightweight )
+			{
+				m_selectedMode = EditorGUILayoutIntPopup( "Mode", m_selectedMode, ModeListStrLW, ModeListIntLW );
+				EditorGUILayout.HelpBox( "Fast Linear: fast approximation from Linear to sRGB\n\nExact Linear: a more expensive but exact calculation from Linear to sRGB.\n\nLinear 2.0: crude approximation from Linear to Gamma using a power of 1/2.0 gamma value\n\nLinear 2.2: an approximation from Linear to Gamma using a power of 1/2.2 gamma value", MessageType.None );
+			}
+			else
+			{
+				m_selectedMode = EditorGUILayoutIntPopup( "Mode", m_selectedMode, ModeListStr, ModeListInt );
+				EditorGUILayout.HelpBox( "Fast Linear: fast approximation from Linear to sRGB\n\nExact Linear: a more expensive but exact calculation from Linear to sRGB.", MessageType.None );
+			}
 		}
 
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
 		{
-			if ( m_exact )
-			{
-				string result = m_inputPorts[ 0 ].GeneratePortInstructions( ref dataCollector );
-				dataCollector.AddLocalVariable( UniqueId, "half3 " + m_localVarName + " = " + result + ";" );
-				dataCollector.AddLocalVariable( UniqueId, m_localVarName + " = half3( LinearToGammaSpaceExact(" + m_localVarName + ".r), LinearToGammaSpaceExact(" + m_localVarName + ".g), LinearToGammaSpaceExact(" + m_localVarName + ".b) );" );
+			string result = m_inputPorts[ 0 ].GeneratePortInstructions( ref dataCollector );
 
-				return m_localVarName;
+			if( ContainerGraph.CurrentSRPType != TemplateSRPType.Lightweight )
+			{
+				m_selectedMode = Mathf.Min( m_selectedMode, 1 );
+
+				if( m_selectedMode == 1 )
+				{
+					dataCollector.AddLocalVariable( UniqueId, "half3 " + m_localVarName + " = " + result + ";" );
+					dataCollector.AddLocalVariable( UniqueId, m_localVarName + " = half3( LinearToGammaSpaceExact(" + m_localVarName + ".r), LinearToGammaSpaceExact(" + m_localVarName + ".g), LinearToGammaSpaceExact(" + m_localVarName + ".b) );" );
+					return m_localVarName;
+				}
+				return base.GenerateShaderForOutput( outputId, ref dataCollector, ignoreLocalvar );
 			}
 			else
 			{
+				switch( m_selectedMode )
+				{
+					default:
+					case 0:
+					m_funcLWFormatOverride = "FastLinearToSRGB( {0} )";
+					break;
+					case 1:
+					m_funcLWFormatOverride = "LinearToSRGB( {0} )";
+					break;
+					case 2:
+					m_funcLWFormatOverride = "LinearToGamma20( {0} )";
+					break;
+					case 3:
+					m_funcLWFormatOverride = "LinearToGamma22( {0} )";
+					break;
+				}
+
 				return base.GenerateShaderForOutput( outputId, ref dataCollector, ignoreLocalvar );
 			}
 		}
@@ -57,14 +99,23 @@ namespace AmplifyShaderEditor
 		public override void WriteToString( ref string nodeInfo, ref string connectionsInfo )
 		{
 			base.WriteToString( ref nodeInfo, ref connectionsInfo );
-			IOUtils.AddFieldValueToString( ref nodeInfo, m_exact );
+			IOUtils.AddFieldValueToString( ref nodeInfo, m_selectedMode );
 		}
 
 		public override void ReadFromString( ref string[] nodeParams )
 		{
 			base.ReadFromString( ref nodeParams );
-			if ( UIUtils.CurrentShaderVersion() > 11003 )
-				m_exact = Convert.ToBoolean( GetCurrentParam( ref nodeParams ) );
+			if( UIUtils.CurrentShaderVersion() > 11003 && UIUtils.CurrentShaderVersion() <= 14503 )
+			{
+				bool fast = Convert.ToBoolean( GetCurrentParam( ref nodeParams ) );
+				if( fast )
+					m_selectedMode = 1;
+			}
+
+			if( UIUtils.CurrentShaderVersion() > 14503 )
+			{
+				m_selectedMode = Convert.ToInt32( GetCurrentParam( ref nodeParams ) );
+			}
 		}
 	}
 }

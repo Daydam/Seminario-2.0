@@ -33,6 +33,7 @@ namespace AmplifyShaderEditor
 			ChangeOutputName( 4, "Height" );
 			m_textLabelWidth = 80;
 			m_autoWrapProperties = true;
+			m_hasLeftDropdown = true;
 		}
 
 		public override void AfterCommonInit()
@@ -76,26 +77,6 @@ namespace AmplifyShaderEditor
 				m_additionalContent.text = string.Empty;
 			}
 			m_sizeIsDirty = true;
-		}
-
-		public override void OnNodeLayout( DrawInfo drawInfo )
-		{
-			base.OnNodeLayout( drawInfo );
-			m_upperLeftWidget.OnNodeLayout( m_globalPosition, drawInfo );
-		}
-
-		public override void DrawGUIControls( DrawInfo drawInfo )
-		{
-			base.DrawGUIControls( drawInfo );
-			m_upperLeftWidget.DrawGUIControls( drawInfo );
-		}
-
-		public override void OnNodeRepaint( DrawInfo drawInfo )
-		{
-			base.OnNodeRepaint( drawInfo );
-			if( !m_isVisible )
-				return;
-			m_upperLeftWidget.OnNodeRepaint( ContainerGraph.LodLevel );
 		}
 
 		public override void DrawProperties()

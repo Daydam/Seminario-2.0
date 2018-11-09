@@ -33,6 +33,7 @@ namespace AmplifyShaderEditor
 			ChangeOutputProperties( 0, _projMatrixValuesStr[ (int)m_selectedType ], WirePortDataType.FLOAT4x4 );
 			m_textLabelWidth = 115;
 			m_autoWrapProperties = true;
+			m_hasLeftDropdown = true;
 		}
 
 		public override void AfterCommonInit()
@@ -50,26 +51,6 @@ namespace AmplifyShaderEditor
 		{
 			base.Destroy();
 			m_upperLeftWidget = null;
-		}
-
-		public override void OnNodeLayout( DrawInfo drawInfo )
-		{
-			base.OnNodeLayout( drawInfo );
-			m_upperLeftWidget.OnNodeLayout( m_globalPosition, drawInfo );
-		}
-
-		public override void DrawGUIControls( DrawInfo drawInfo )
-		{
-			base.DrawGUIControls( drawInfo );
-			m_upperLeftWidget.DrawGUIControls( drawInfo );
-		}
-
-		public override void OnNodeRepaint( DrawInfo drawInfo )
-		{
-			base.OnNodeRepaint( drawInfo );
-			if( !m_isVisible )
-				return;
-			m_upperLeftWidget.OnNodeRepaint( ContainerGraph.LodLevel );
 		}
 
 		public override void Draw( DrawInfo drawInfo )

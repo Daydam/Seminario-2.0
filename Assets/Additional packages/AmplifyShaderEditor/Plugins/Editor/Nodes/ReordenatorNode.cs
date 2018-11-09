@@ -9,7 +9,7 @@ namespace AmplifyShaderEditor
 	public class ReordenatorNode : PropertyNode
 	{
 		[SerializeField]
-		private List<ParentNode> m_propertyList;
+		private List<PropertyNode> m_propertyList;
 
 		[SerializeField]
 		private string m_headerTitle = string.Empty;
@@ -17,21 +17,20 @@ namespace AmplifyShaderEditor
 		[SerializeField]
 		private bool m_isInside;
 
-
-
 		public ReordenatorNode() : base()
 		{
 
 		}
 
-		public void Init( string entryName, string entryInspectorName, List<ParentNode> list )
+		public void Init( string entryName, string entryInspectorName, List<PropertyNode> list, bool register = true )
 		{
 			m_propertyName = entryName;
 			m_propertyInspectorName = entryInspectorName;
 
 			m_propertyList = list;
 
-			UIUtils.RegisterPropertyNode( this );
+			if( register )
+				UIUtils.RegisterPropertyNode( this );
 		}
 
 		public override void Destroy()
@@ -60,12 +59,15 @@ namespace AmplifyShaderEditor
 
 		public bool IsInside { get { return m_isInside; } set { m_isInside = value; } }
 
-		public int RecursiveSetOrderOffset( int offset, bool lockit )
+		public int RecursiveSetOrderOffset( int offset, bool lockit, int order = -1 )
 		{
-			//Debug.Log(Locked +" "+PropertyName);
+			//Debug.Log( Locked + " " + PropertyName );
 
 			if ( Locked )
 				return offset;
+
+			if( order > -1 )
+				OrderIndex = order;
 
 			int currentOffset = offset;
 			
@@ -112,6 +114,18 @@ namespace AmplifyShaderEditor
 					amount +=1;
 			}
 			return amount;
+		}
+
+		public void RecursiveLog()
+		{
+			Debug.LogWarning( OrderIndex+" HEADER "+ PropertyName );
+			for( int i = 0; i < m_propertyList.Count; i++ )
+			{
+				if( ( m_propertyList[ i ] is ReordenatorNode ) )
+					( m_propertyList[ i ] as ReordenatorNode ).RecursiveLog();
+				else
+					Debug.Log( ( m_propertyList[ i ] as PropertyNode ).OrderIndex+" "+( m_propertyList[ i ] as PropertyNode).PropertyName );
+			}
 		}
 
 		public bool Locked = false;

@@ -75,7 +75,11 @@ namespace UnityEditor
 			if ( m_previewRenderUtility == null )
 			{
 				m_previewRenderUtility = new PreviewRenderUtility();
+#if UNITY_2017_1_OR_NEWER
 				m_cameraTransform = m_previewRenderUtility.camera.transform;
+#else
+				m_cameraTransform = m_previewRenderUtility.m_Camera.transform;
+#endif
 				m_cameraTransform.position = new Vector3( 0, 0, -4 );
 				m_cameraTransform.rotation = Quaternion.identity;
 			}
@@ -154,8 +158,11 @@ namespace UnityEditor
 				m_previewRenderUtility.DrawMesh( m_previewMesh, Matrix4x4.identity, m_material, 0 );
 				m_cameraTransform.rotation = Quaternion.Euler( new Vector3( -m_mouseDelta.y, -m_mouseDelta.x, 0 ) );
 				m_cameraTransform.position = m_cameraTransform.forward * -8f;
+#if UNITY_2017_1_OR_NEWER
 				m_previewRenderUtility.camera.Render();
-
+#else
+				m_previewRenderUtility.m_Camera.Render();
+#endif
 				GUI.DrawTexture( r, resultRender, ScaleMode.StretchToFill, false );
 			}
 		}
@@ -226,8 +233,8 @@ namespace UnityEditor
 			if ( shader.isSupported )
 			{
 				EditorGUILayout.LabelField( "Cast shadows", ( !ShaderUtilEx.HasShadowCasterPass( shader ) ) ? "no" : "yes", new GUILayoutOption[ 0 ] );
-				EditorGUILayout.LabelField( "Render queue", ShaderUtilEx.GetRenderQueue( shader ).ToString( CultureInfo.InvariantCulture ), new GUILayoutOption[ 0 ] );
-				EditorGUILayout.LabelField( "LOD", ShaderUtilEx.GetLOD( shader ).ToString( CultureInfo.InvariantCulture ), new GUILayoutOption[ 0 ] );
+				EditorGUILayout.LabelField( "Render queue", ShaderUtilEx.GetRenderQueue( shader ).ToString( System.Globalization.CultureInfo.InvariantCulture ), new GUILayoutOption[ 0 ] );
+				EditorGUILayout.LabelField( "LOD", ShaderUtilEx.GetLOD( shader ).ToString( System.Globalization.CultureInfo.InvariantCulture ), new GUILayoutOption[ 0 ] );
 				EditorGUILayout.LabelField( "Ignore projector", ( !ShaderUtilEx.DoesIgnoreProjector( shader ) ) ? "no" : "yes", new GUILayoutOption[ 0 ] );
 				string label;
 				switch ( ShaderEx.GetDisableBatching( shader ) )
@@ -276,11 +283,7 @@ namespace UnityEditor
 			int num = errors.Length;
 			GUILayout.Space( 5f );
 			GUILayout.Label( string.Format( "Errors ({0}):", num ), EditorStyles.boldLabel, new GUILayoutOption[ 0 ] );
-#if UNITY_5_5_OR_NEWER
 			int controlID = GUIUtility.GetControlID( CustomShaderInspector.kErrorViewHash, FocusType.Passive );
-#else
-			int controlID = GUIUtility.GetControlID( CustomShaderInspector.kErrorViewHash, FocusType.Native );
-#endif
 			float minHeight = Mathf.Min( ( float ) num * 20f + 40f, 150f );
 			scrollPosition = GUILayout.BeginScrollView( scrollPosition, GUISkinEx.GetCurrentSkin().box, new GUILayoutOption[]
 			{
@@ -338,11 +341,11 @@ namespace UnityEditor
 					GUIContent content;
 					if ( string.IsNullOrEmpty( lastPathNameComponent ) )
 					{
-						content = EditorGUIUtilityEx.TempContent( line.ToString( CultureInfo.InvariantCulture ) );
+						content = EditorGUIUtilityEx.TempContent( line.ToString( System.Globalization.CultureInfo.InvariantCulture ) );
 					}
 					else
 					{
-						content = EditorGUIUtilityEx.TempContent( lastPathNameComponent + ":" + line.ToString( CultureInfo.InvariantCulture ) );
+						content = EditorGUIUtilityEx.TempContent( lastPathNameComponent + ":" + line.ToString( System.Globalization.CultureInfo.InvariantCulture ) );
 					}
 					Vector2 vector = EditorStyles.miniLabel.CalcSize( content );
 					rect.xMin -= vector.x;
@@ -581,6 +584,11 @@ namespace UnityEditor
 		public static int GetShaderErrorCount( Shader s )
 		{
 			return ( int ) ShaderUtilEx.Type.InvokeMember( "GetShaderErrorCount", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, null, new object[] { s } );
+		}
+
+		public static int GetAvailableShaderCompilerPlatforms()
+		{
+			return (int)ShaderUtilEx.Type.InvokeMember( "GetAvailableShaderCompilerPlatforms", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, null, new object[] { } );
 		}
 
 		public static ShaderError[] GetShaderErrors( Shader s )

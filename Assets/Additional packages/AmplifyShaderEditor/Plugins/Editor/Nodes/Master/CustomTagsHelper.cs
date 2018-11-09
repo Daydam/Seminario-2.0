@@ -8,9 +8,10 @@ namespace AmplifyShaderEditor
 	[Serializable]
 	public class CustomTagData
 	{
-		private string TagFormat = "\"{0}\"=\"{1}\"";
+		private const string TagFormat = "\"{0}\"=\"{1}\"";
 		public string TagName;
 		public string TagValue;
+		public int TagId = -1;
 		public bool TagFoldout = true;
 
 		public CustomTagData()
@@ -19,10 +20,25 @@ namespace AmplifyShaderEditor
 			TagValue = string.Empty;
 		}
 
+		public CustomTagData( CustomTagData other )
+		{
+			TagName = other.TagName;
+			TagValue = other.TagValue;
+			TagId = other.TagId;
+			TagFoldout = other.TagFoldout;
+		}
+		
+		public CustomTagData( string name, string value , int id )
+		{
+			TagName = name;
+			TagValue = value;
+			TagId = id;
+		}
+
 		public CustomTagData( string data )
 		{
 			string[] arr = data.Split( IOUtils.VALUE_SEPARATOR );
-			if ( arr.Length > 1 )
+			if( arr.Length > 1 )
 			{
 				TagName = arr[ 0 ];
 				TagValue = arr[ 1 ];
@@ -68,16 +84,20 @@ namespace AmplifyShaderEditor
 			EditorGUILayout.Separator();
 
 			// Add tag
-			if ( GUILayout.Button( string.Empty, UIUtils.PlusStyle, GUILayout.Width( ShaderKeywordButtonLayoutWidth ) ) )
+			if( GUILayout.Button( string.Empty, UIUtils.PlusStyle, GUILayout.Width( ShaderKeywordButtonLayoutWidth ) ) )
 			{
-				m_availableTags.Insert( 0, new CustomTagData() );
+				m_availableTags.Add( new CustomTagData() );
+				EditorGUI.FocusTextInControl( null );
 			}
 
 			//Remove tag
-			if ( GUILayout.Button( string.Empty, UIUtils.MinusStyle, GUILayout.Width( ShaderKeywordButtonLayoutWidth ) ) )
+			if( GUILayout.Button( string.Empty, UIUtils.MinusStyle, GUILayout.Width( ShaderKeywordButtonLayoutWidth ) ) )
 			{
-				if ( m_availableTags.Count > 0 )
+				if( m_availableTags.Count > 0 )
+				{
 					m_availableTags.RemoveAt( m_availableTags.Count - 1 );
+					EditorGUI.FocusTextInControl( null );
+				}
 			}
 		}
 
@@ -85,19 +105,25 @@ namespace AmplifyShaderEditor
 		{
 			EditorGUILayout.Separator();
 			int itemCount = m_availableTags.Count;
+
+			if( itemCount == 0 )
+			{
+				EditorGUILayout.HelpBox( "Your list is Empty!\nUse the plus button to add one.", MessageType.Info );
+			}
+
 			int markedToDelete = -1;
 			float originalLabelWidth = EditorGUIUtility.labelWidth;
-			for ( int i = 0; i < itemCount; i++ )
+			for( int i = 0; i < itemCount; i++ )
 			{
 				m_availableTags[ i ].TagFoldout = m_currentOwner.EditorGUILayoutFoldout( m_availableTags[ i ].TagFoldout, string.Format( "[{0}] - {1}", i, m_availableTags[ i ].TagName ) );
-				if ( m_availableTags[ i ].TagFoldout )
+				if( m_availableTags[ i ].TagFoldout )
 				{
 					EditorGUI.indentLevel += 1;
 					EditorGUIUtility.labelWidth = 70;
 					//Tag Name
 					EditorGUI.BeginChangeCheck();
 					m_availableTags[ i ].TagName = EditorGUILayout.TextField( TagNameStr, m_availableTags[ i ].TagName );
-					if ( EditorGUI.EndChangeCheck() )
+					if( EditorGUI.EndChangeCheck() )
 					{
 						m_availableTags[ i ].TagName = UIUtils.RemoveShaderInvalidCharacters( m_availableTags[ i ].TagName );
 					}
@@ -105,24 +131,25 @@ namespace AmplifyShaderEditor
 					//Tag Value
 					EditorGUI.BeginChangeCheck();
 					m_availableTags[ i ].TagValue = EditorGUILayout.TextField( TagValueStr, m_availableTags[ i ].TagValue );
-					if ( EditorGUI.EndChangeCheck() )
+					if( EditorGUI.EndChangeCheck() )
 					{
 						m_availableTags[ i ].TagValue = UIUtils.RemoveShaderInvalidCharacters( m_availableTags[ i ].TagValue );
 					}
-					
+
 					EditorGUIUtility.labelWidth = originalLabelWidth;
 
 					EditorGUILayout.BeginHorizontal();
 					{
 						GUILayout.Label( " " );
 						// Add new port
-						if ( m_currentOwner.GUILayoutButton( string.Empty, UIUtils.PlusStyle, GUILayout.Width( ShaderKeywordButtonLayoutWidth ) ) )
+						if( m_currentOwner.GUILayoutButton( string.Empty, UIUtils.PlusStyle, GUILayout.Width( ShaderKeywordButtonLayoutWidth ) ) )
 						{
-							m_availableTags.Insert( i, new CustomTagData() );
+							m_availableTags.Insert( i + 1, new CustomTagData() );
+							EditorGUI.FocusTextInControl( null );
 						}
 
 						//Remove port
-						if ( m_currentOwner.GUILayoutButton( string.Empty, UIUtils.MinusStyle, GUILayout.Width( ShaderKeywordButtonLayoutWidth ) ) )
+						if( m_currentOwner.GUILayoutButton( string.Empty, UIUtils.MinusStyle, GUILayout.Width( ShaderKeywordButtonLayoutWidth ) ) )
 						{
 							markedToDelete = i;
 						}
@@ -133,10 +160,13 @@ namespace AmplifyShaderEditor
 				}
 
 			}
-			if ( markedToDelete > -1 )
+			if( markedToDelete > -1 )
 			{
-				if ( m_availableTags.Count > markedToDelete )
+				if( m_availableTags.Count > markedToDelete )
+				{
 					m_availableTags.RemoveAt( markedToDelete );
+					EditorGUI.FocusTextInControl( null );
+				}
 			}
 			EditorGUILayout.Separator();
 		}
@@ -145,7 +175,7 @@ namespace AmplifyShaderEditor
 		public void ReadFromString( ref uint index, ref string[] nodeParams )
 		{
 			int count = Convert.ToInt32( nodeParams[ index++ ] );
-			for ( int i = 0; i < count; i++ )
+			for( int i = 0; i < count; i++ )
 			{
 				m_availableTags.Add( new CustomTagData( nodeParams[ index++ ] ) );
 			}
@@ -155,7 +185,7 @@ namespace AmplifyShaderEditor
 		{
 			int tagsCount = m_availableTags.Count;
 			IOUtils.AddFieldValueToString( ref nodeInfo, tagsCount );
-			for ( int i = 0; i < tagsCount; i++ )
+			for( int i = 0; i < tagsCount; i++ )
 			{
 				IOUtils.AddFieldValueToString( ref nodeInfo, m_availableTags[ i ].ToString() );
 			}
@@ -163,14 +193,15 @@ namespace AmplifyShaderEditor
 
 		public string GenerateCustomTags()
 		{
-			string result = string.Empty;
 			int tagsCount = m_availableTags.Count;
-			for ( int i = 0; i < tagsCount; i++ )
+			string result = tagsCount == 0 ? string.Empty : " ";
+
+			for( int i = 0; i < tagsCount; i++ )
 			{
-				if ( m_availableTags[ i ].IsValid )
+				if( m_availableTags[ i ].IsValid )
 				{
 					result += m_availableTags[ i ].GenerateTag();
-					if ( i < tagsCount - 1 )
+					if( i < tagsCount - 1 )
 					{
 						result += " ";
 					}

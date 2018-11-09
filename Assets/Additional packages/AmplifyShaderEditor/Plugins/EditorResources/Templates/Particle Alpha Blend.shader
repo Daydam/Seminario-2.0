@@ -1,4 +1,4 @@
-Shader /*ase_name*/ "Particles Alpha Blended" /*end*/
+Shader /*ase_name*/ "ASETemplateShaders/Particles Alpha Blended" /*end*/
 {
 	Properties
 	{
@@ -10,13 +10,14 @@ Shader /*ase_name*/ "Particles Alpha Blended" /*end*/
 
 	Category 
 	{
-		Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" "PreviewType"="Plane" /*ase_tags*/ }
-		Blend SrcAlpha OneMinusSrcAlpha
-		ColorMask RGB
-		Cull Off Lighting Off ZWrite Off
-		
 		SubShader
 		{
+			Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" "PreviewType" = "Plane" }
+			Blend SrcAlpha OneMinusSrcAlpha
+			ColorMask RGB
+			Cull Off 
+			Lighting Off 
+			ZWrite Off
 			/*ase_pass*/
 			Pass {
 			
@@ -34,20 +35,22 @@ Shader /*ase_name*/ "Particles Alpha Blended" /*end*/
 				{
 					float4 vertex : POSITION;
 					fixed4 color : COLOR;
-					float2 texcoord : TEXCOORD0;
-					/*ase_vdata:p=p.xyz;uv0=tc0.xy;c=c*/
+					float4 texcoord : TEXCOORD0;
+					UNITY_VERTEX_INPUT_INSTANCE_ID
+					/*ase_vdata:p=p;uv0=tc0;c=c*/
 				};
 
 				struct v2f 
 				{
 					float4 vertex : SV_POSITION;
 					fixed4 color : COLOR;
-					float2 texcoord : TEXCOORD0;
+					float4 texcoord : TEXCOORD0;
 					UNITY_FOG_COORDS(1)
 					#ifdef SOFTPARTICLES_ON
 					float4 projPos : TEXCOORD2;
 					#endif
-					/*ase_interp(3,7):sp=sp.xyzw;uv0=tc0.xy;c=c*/
+					UNITY_VERTEX_OUTPUT_STEREO
+					/*ase_interp(3,):sp=sp.xyzw;uv0=tc0;c=c*/
 				};
 				
 				uniform sampler2D _MainTex;
@@ -60,16 +63,18 @@ Shader /*ase_name*/ "Particles Alpha Blended" /*end*/
 				v2f vert ( appdata_t v /*ase_vert_input*/ )
 				{
 					v2f o;
+					UNITY_SETUP_INSTANCE_ID(v);
+					UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 					/*ase_vert_code:v=appdata_t;o=v2f*/
 
-					o.vertex.xyz += /*ase_vert_out:Offset;Float3*/ float3( 0, 0, 0 ) /*end*/;
+					v.vertex.xyz += /*ase_vert_out:Offset;Float3*/ float3( 0, 0, 0 ) /*end*/;
 					o.vertex = UnityObjectToClipPos(v.vertex);
 					#ifdef SOFTPARTICLES_ON
 						o.projPos = ComputeScreenPos (o.vertex);
 						COMPUTE_EYEDEPTH(o.projPos.z);
 					#endif
 					o.color = v.color;
-					o.texcoord = TRANSFORM_TEX(v.texcoord,_MainTex);
+					o.texcoord = v.texcoord;
 					UNITY_TRANSFER_FOG(o,o.vertex);
 					return o;
 				}
@@ -85,7 +90,7 @@ Shader /*ase_name*/ "Particles Alpha Blended" /*end*/
 
 					/*ase_frag_code:i=v2f*/
 
-					fixed4 col = /*ase_frag_out:Color;Float4*/2.0f * i.color * _TintColor * tex2D(_MainTex, i.texcoord)/*end*/;
+					fixed4 col = /*ase_frag_out:Color;Float4*/2.0f * i.color * _TintColor * tex2D(_MainTex, i.texcoord.xy*_MainTex_ST.xy + _MainTex_ST.zw )/*end*/;
 					UNITY_APPLY_FOG(i.fogCoord, col);
 					return col;
 				}
@@ -93,4 +98,5 @@ Shader /*ase_name*/ "Particles Alpha Blended" /*end*/
 			}
 		}	
 	}
+	CustomEditor "ASEMaterialInspector"
 }

@@ -17,8 +17,8 @@ namespace AmplifyShaderEditor
 
 		public override string BuildResults( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
 		{
-			if ( m_outputPorts[ 0 ].IsLocalValue )
-				return m_outputPorts[ 0 ].LocalValue;
+			if ( m_outputPorts[ 0 ].IsLocalValue( dataCollector.PortCategory ) )
+				return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 
 			base.BuildResults( outputId, ref dataCollector, ignoreLocalvar );
 			string result = "atan2( " + m_inputA + " , " + m_inputB + " )";

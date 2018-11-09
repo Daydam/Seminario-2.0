@@ -16,6 +16,7 @@ namespace AmplifyShaderEditor
 			m_inputPorts[ 0 ].Name = "Front";
 			m_inputPorts[ 1 ].Name = "Back";
 			m_textLabelWidth = 50;
+			m_previewShaderGUID = "f4edf6febb54dc743b25bd5b56facea8";
 		}
 
 		public string GenerateErrorValue()
@@ -60,13 +61,13 @@ namespace AmplifyShaderEditor
 				}
 			}
 
-			if ( m_outputPorts[ 0 ].IsLocalValue )
-				return m_outputPorts[ 0 ].LocalValue;
+			if ( m_outputPorts[ 0 ].IsLocalValue( dataCollector.PortCategory ) )
+				return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 
 			string front = m_inputPorts[ 0 ].GeneratePortInstructions( ref dataCollector );
 			string back = m_inputPorts[ 1 ].GeneratePortInstructions( ref dataCollector );
 
-			dataCollector.AddToInput( UniqueId, Constants.VFaceInput, true );
+			dataCollector.AddToInput( UniqueId, SurfaceInputs.VFACE );
 			string variable = string.Empty;
 			if ( dataCollector.IsTemplate )
 			{
@@ -79,7 +80,7 @@ namespace AmplifyShaderEditor
 
 			string value = string.Format( SwitchOp, variable, front, back );
 			RegisterLocalVariable( 0, value, ref dataCollector, "switchResult" + OutputId );
-			return m_outputPorts[ 0 ].LocalValue;
+			return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 		}
 	}
 }

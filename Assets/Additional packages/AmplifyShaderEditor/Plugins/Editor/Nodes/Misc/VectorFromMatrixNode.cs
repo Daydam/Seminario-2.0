@@ -109,8 +109,8 @@ namespace AmplifyShaderEditor
 
 		public override void DrawProperties()
 		{
+			m_mode = (eVectorFromMatrixMode)EditorGUILayoutEnumPopup( ModeStr, m_mode );
 			m_index = EditorGUILayoutIntSlider( IndexStr, m_index, 0, m_maxIndex );
-			m_mode = ( eVectorFromMatrixMode ) EditorGUILayoutEnumPopup( ModeStr, m_mode );
 			base.DrawProperties();
 		}
 

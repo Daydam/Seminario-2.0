@@ -35,12 +35,17 @@ namespace AmplifyShaderEditor
 
 		private int m_cachedPropertyId = -1;
 
+		private bool m_isEditingFields;
+		private Vector3 m_previousValue = Vector3.zero;
+		private string[] m_fieldText = new string[] { "0", "0", "0" };
+
 		public RangedFloatNode() : base() { }
 		public RangedFloatNode( int uniqueId, float x, float y, float width, float height ) : base( uniqueId, x, y, width, height ) { }
 
 		protected override void CommonInit( int uniqueId )
 		{
 			base.CommonInit( uniqueId );
+			GlobalTypeWarningText = string.Format( GlobalTypeWarningText, "Float" );
 			AddOutputPort( WirePortDataType.FLOAT, Constants.EmptyPortValue );
 			m_insideSize.Set( 50, 0 );
 			m_showPreview = false;
@@ -48,7 +53,32 @@ namespace AmplifyShaderEditor
 			m_precisionString = UIUtils.FinalPrecisionWirePortToCgType( m_currentPrecisionType, m_outputPorts[ 0 ].DataType );
 			m_availableAttribs.Add( new PropertyAttributes( "Toggle", "[Toggle]" ) );
 			m_availableAttribs.Add( new PropertyAttributes( "Int Range", "[IntRange]" ) );
+			m_availableAttribs.Add( new PropertyAttributes( "Enum", "[Enum]" ) );
 			m_previewShaderGUID = "d9ca47581ac157145bff6f72ac5dd73e";
+		}
+
+		protected override void OnUniqueIDAssigned()
+		{
+			base.OnUniqueIDAssigned();
+			UIUtils.RegisterFloatIntNode( this );
+		}
+
+		public override void Destroy()
+		{
+			base.Destroy();
+			UIUtils.UnregisterFloatIntNode( this );
+		}
+
+		public override void OnPropertyNameChanged()
+		{
+			base.OnPropertyNameChanged();
+			UIUtils.UpdateFloatIntDataNode( UniqueId, PropertyInspectorName );
+		}
+
+		public override void RefreshExternalReferences()
+		{
+			base.RefreshExternalReferences();
+			OnPropertyNameChanged();
 		}
 
 		public void SetFloatMode( bool value )
@@ -172,6 +202,7 @@ namespace AmplifyShaderEditor
 
 			if ( insideBox )
 			{
+				GUI.FocusControl( null );
 				m_isEditingFields = true;
 			}
 			else if ( m_isEditingFields && !insideBox )
@@ -180,10 +211,33 @@ namespace AmplifyShaderEditor
 				m_isEditingFields = false;
 			}
 		}
+		void DrawFakeFloatMaterial( DrawInfo drawInfo )
+		{
+			if( m_floatMode )
+			{
+				//UIUtils.DrawFloat( this, ref m_propertyDrawPos, ref m_materialValue, LabelWidth * drawInfo.InvertedZoom );
+				Rect fakeField = m_propertyDrawPos;
+				fakeField.xMin += LabelWidth * drawInfo.InvertedZoom;
+				if( GUI.enabled )
+				{
+					Rect fakeLabel = m_propertyDrawPos;
+					fakeLabel.xMax = fakeField.xMin;
+					EditorGUIUtility.AddCursorRect( fakeLabel, MouseCursor.SlideArrow );
+					EditorGUIUtility.AddCursorRect( fakeField, MouseCursor.Text );
+				}
+				if( m_previousValue[ 0 ] != m_materialValue )
+				{
+					m_previousValue[ 0 ] = m_materialValue;
+					m_fieldText[ 0 ] = m_materialValue.ToString();
+				}
 
-		private bool m_isEditingFields;
-		private Vector3 m_previousValue = Vector3.zero;
-		private string[] m_fieldText = new string[] { "0", "0", "0" };
+				GUI.Label( fakeField, m_fieldText[ 0 ], UIUtils.MainSkin.textField );
+			}
+			else
+			{
+				DrawFakeSlider( ref m_materialValue, drawInfo );
+			}
+		}
 
 		public override void Draw( DrawInfo drawInfo )
 		{
@@ -192,7 +246,7 @@ namespace AmplifyShaderEditor
 			if ( !m_isVisible )
 				return;
 
-			if ( m_isEditingFields )
+			if ( m_isEditingFields && m_currentParameterType != PropertyType.Global )
 			{
 				if ( m_materialMode && m_currentParameterType != PropertyType.Constant )
 				{
@@ -235,30 +289,16 @@ namespace AmplifyShaderEditor
 			}
 			else if ( drawInfo.CurrentEventType == EventType.Repaint && ContainerGraph.LodLevel <= ParentGraph.NodeLOD.LOD4 )
 			{
-				if ( m_materialMode && m_currentParameterType != PropertyType.Constant )
+				if( m_currentParameterType == PropertyType.Global )
 				{
-					if ( m_floatMode )
-					{
-						//UIUtils.DrawFloat( this, ref m_propertyDrawPos, ref m_materialValue, LabelWidth * drawInfo.InvertedZoom );
-						Rect fakeField = m_propertyDrawPos;
-						fakeField.xMin += LabelWidth * drawInfo.InvertedZoom;
-						Rect fakeLabel = m_propertyDrawPos;
-						fakeLabel.xMax = fakeField.xMin;
-						EditorGUIUtility.AddCursorRect( fakeLabel, MouseCursor.SlideArrow );
-						EditorGUIUtility.AddCursorRect( fakeField, MouseCursor.Text );
-
-						if ( m_previousValue[ 0 ] != m_materialValue )
-						{
-							m_previousValue[ 0 ] = m_materialValue;
-							m_fieldText[ 0 ] = m_materialValue.ToString();
-						}
-
-						GUI.Label( fakeField, m_fieldText[ 0 ], UIUtils.MainSkin.textField );
-					}
-					else
-					{
-						DrawFakeSlider( ref m_materialValue, drawInfo );
-					}
+					bool guiEnabled = GUI.enabled;
+					GUI.enabled = false;
+					DrawFakeFloatMaterial( drawInfo );
+					GUI.enabled = guiEnabled;
+				}
+				else if ( m_materialMode && m_currentParameterType != PropertyType.Constant )
+				{
+					DrawFakeFloatMaterial( drawInfo );
 				}
 				else
 				{
@@ -374,7 +414,7 @@ namespace AmplifyShaderEditor
 			sliderBackRect.height = 5 * drawInfo.InvertedZoom;
 			sliderBackRect.center = new Vector2( sliderValRect.center.x, Mathf.Round( sliderValRect.center.y ));
 			GUI.Label( sliderBackRect, string.Empty, UIUtils.GetCustomStyle( CustomStyle.SliderStyle ) );
-			value = GUI.HorizontalSlider( sliderValRect, value, m_min, m_max, GUIStyle.none, UIUtils.RangedFloatSliderThumbStyle );
+			value = GUIHorizontalSlider( sliderValRect, value, m_min, m_max, GUIStyle.none, UIUtils.RangedFloatSliderThumbStyle );
 		}
 
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
@@ -383,7 +423,7 @@ namespace AmplifyShaderEditor
 			m_precisionString = UIUtils.FinalPrecisionWirePortToCgType( m_currentPrecisionType, m_outputPorts[ 0 ].DataType );
 
 			if ( m_currentParameterType != PropertyType.Constant )
-				return PropertyData;
+				return PropertyData( dataCollector.PortCategory );
 
 			return IOUtils.Floatify( m_defaultValue );
 		}
@@ -403,7 +443,7 @@ namespace AmplifyShaderEditor
 		public override void UpdateMaterial( Material mat )
 		{
 			base.UpdateMaterial( mat );
-			if ( UIUtils.IsProperty( m_currentParameterType ) )
+			if ( UIUtils.IsProperty( m_currentParameterType ) && !InsideShaderFunction )
 			{
 				mat.SetFloat( m_propertyName, m_materialValue );
 			}
@@ -428,6 +468,11 @@ namespace AmplifyShaderEditor
 		{
 			base.ReadFromString( ref nodeParams );
 			m_defaultValue = Convert.ToSingle( GetCurrentParam( ref nodeParams ) );
+			if( UIUtils.CurrentShaderVersion() > 14101 )
+			{
+				m_materialValue = Convert.ToSingle( GetCurrentParam( ref nodeParams ) );
+			}
+
 			m_min = Convert.ToSingle( GetCurrentParam( ref nodeParams ) );
 			m_max = Convert.ToSingle( GetCurrentParam( ref nodeParams ) );
 			SetFloatMode( m_min == m_max );
@@ -437,20 +482,9 @@ namespace AmplifyShaderEditor
 		{
 			base.WriteToString( ref nodeInfo, ref connectionsInfo );
 			IOUtils.AddFieldValueToString( ref nodeInfo, m_defaultValue );
+			IOUtils.AddFieldValueToString( ref nodeInfo, m_materialValue );
 			IOUtils.AddFieldValueToString( ref nodeInfo, m_min );
 			IOUtils.AddFieldValueToString( ref nodeInfo, m_max );
-		}
-
-		public override void ReadAdditionalClipboardData( ref string[] nodeParams )
-		{
-			base.ReadAdditionalClipboardData( ref nodeParams );
-			m_materialValue = Convert.ToSingle( GetCurrentParam( ref nodeParams ) );
-		}
-
-		public override void WriteAdditionalClipboardData( ref string nodeInfo )
-		{
-			base.WriteAdditionalClipboardData( ref nodeInfo );
-			IOUtils.AddFieldValueToString( ref nodeInfo, m_materialValue );
 		}
 
 		public override string GetPropertyValStr()
@@ -460,10 +494,18 @@ namespace AmplifyShaderEditor
 				m_defaultValue.ToString( Mathf.Abs( m_defaultValue ) > 1000 ? Constants.PropertyBigFloatFormatLabel : Constants.PropertyFloatFormatLabel );
 		}
 
+		public override void SetGlobalValue() { Shader.SetGlobalFloat( m_propertyName, m_defaultValue ); }
+		public override void FetchGlobalValue() { m_materialValue = Shader.GetGlobalFloat( m_propertyName ); }
 		public float Value
 		{
 			get { return m_defaultValue; }
 			set { m_defaultValue = value; }
+		}
+
+		public void SetMaterialValueFromInline( float val )
+		{
+			m_materialValue = val;
+			m_requireMaterialUpdate = true;
 		}
 	}
 }

@@ -13,7 +13,7 @@ namespace AmplifyShaderEditor
 		protected override void CommonInit( int uniqueId )
 		{
 			base.CommonInit( uniqueId );
-			AddInputPort( WirePortDataType.FLOAT, false, "Value" );
+			AddInputPort( WirePortDataType.FLOAT, false, Constants.EmptyPortValue );
 			AddInputPort( WirePortDataType.FLOAT, false, "Min" );
 			AddInputPort( WirePortDataType.FLOAT, false, "Max" );
 			AddOutputPort( WirePortDataType.FLOAT, Constants.EmptyPortValue );
@@ -53,8 +53,8 @@ namespace AmplifyShaderEditor
 
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalVar )
 		{
-			if ( m_outputPorts[ 0 ].IsLocalValue )
-				return m_outputPorts[ 0 ].LocalValue;
+			if ( m_outputPorts[ 0 ].IsLocalValue( dataCollector.PortCategory ) )
+				return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 
 			WirePortDataType valueType = m_inputPorts[ 0 ].ConnectionType();
 			WirePortDataType minType = m_inputPorts[ 1 ].ConnectionType();
@@ -95,7 +95,7 @@ namespace AmplifyShaderEditor
 			}
 
 			RegisterLocalVariable( 0, result, ref dataCollector, "clampResult" + OutputId );
-			return m_outputPorts[ 0 ].LocalValue;
+			return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 		}
 
 	}

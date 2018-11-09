@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace AmplifyShaderEditor
 {
@@ -54,7 +55,7 @@ namespace AmplifyShaderEditor
 			}
 		}
 
-		public TemplateVertexData RequestChannels( WirePortDataType type, bool isColor )
+		public TemplateVertexData RequestChannels( WirePortDataType type, bool isColor, string customName = null )
 		{
 			if ( IsFull )
 				return null;
@@ -81,6 +82,11 @@ namespace AmplifyShaderEditor
 			//did not found enough channels to fill request
 			if ( channelsRequired > 0 )
 				return null;
+
+			if( Usage == 0 && customName != null )
+			{
+				Name = customName;
+			}
 
 			Usage += 1;
 			TemplateVertexData data = null;
@@ -119,12 +125,26 @@ namespace AmplifyShaderEditor
 	[Serializable]
 	public class TemplateInterpData
 	{
+		[SerializeField]
+		private string m_interpDataId = string.Empty;
+
+		[SerializeField]
+		private int m_interpDataStartIdx = -1;
+
+		[SerializeField]
+		private bool m_dynamicMax = false;
+
 		public List<TemplateInterpElement> AvailableInterpolators = new List<TemplateInterpElement>();
 		public List<TemplateVertexData> Interpolators = new List<TemplateVertexData>();
+		public List<TemplateVertexData> RawInterpolators = new List<TemplateVertexData>();
 
 		public TemplateInterpData() { }
+
+
 		public TemplateInterpData( TemplateInterpData other )
 		{
+			m_dynamicMax = other.DynamicMax;
+
 			foreach ( TemplateInterpElement data in other.AvailableInterpolators )
 			{
 				AvailableInterpolators.Add( new TemplateInterpElement( data ) );
@@ -133,6 +153,49 @@ namespace AmplifyShaderEditor
 			for ( int i = 0; i < other.Interpolators.Count; i++ )
 			{
 				Interpolators.Add( new TemplateVertexData( other.Interpolators[ i ] ) );
+			}
+
+			for( int i = 0; i < other.RawInterpolators.Count; i++ )
+			{
+				RawInterpolators.Add( new TemplateVertexData( other.RawInterpolators[ i ] ) );
+			}
+		}
+
+
+		public void RecalculateAvailableInterpolators( int newMax )
+		{
+			if( m_dynamicMax )
+			{
+				if( !TemplateHelperFunctions.IntToSemantic.ContainsKey( ( newMax - 1 ) ) )
+				{
+					Debug.LogWarning( "Attempting to add inexisting available interpolators" );
+					return;
+				}
+
+				if( AvailableInterpolators.Count > 0 )
+				{
+					int currMax = 1 + TemplateHelperFunctions.SemanticToInt[ AvailableInterpolators[ AvailableInterpolators.Count - 1 ].Semantic ];
+					if( newMax > currMax )
+					{
+						int count = newMax - currMax;
+						for( int i = 0; i < count; i++ )
+						{
+							AvailableInterpolators.Add( new TemplateInterpElement( TemplateHelperFunctions.IntToSemantic[ currMax + i ] ));
+						}
+					}
+					else if( newMax < currMax )
+					{
+						int min = TemplateHelperFunctions.SemanticToInt[ AvailableInterpolators[ 0 ].Semantic ];
+						if( newMax > min )
+						{
+							int count = currMax - newMax;
+							for( int i = 0; i < count; i++ )
+							{
+								AvailableInterpolators.RemoveAt( AvailableInterpolators.Count - 1 );
+							}
+						}
+					}
+				}
 			}
 		}
 
@@ -155,6 +218,13 @@ namespace AmplifyShaderEditor
 
 			Interpolators.Clear();
 			Interpolators = null;
+
+			RawInterpolators.Clear();
+			RawInterpolators = null;
 		}
+		
+		public string InterpDataId { get { return m_interpDataId; } set { m_interpDataId = value; } }
+		public int InterpDataStartIdx { get { return m_interpDataStartIdx; } set { m_interpDataStartIdx = value; } }
+		public bool DynamicMax { get { return m_dynamicMax; } set { m_dynamicMax = value; } }
 	}
 }

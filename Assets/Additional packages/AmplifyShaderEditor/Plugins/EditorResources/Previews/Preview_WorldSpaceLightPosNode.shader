@@ -2,16 +2,30 @@ Shader "Hidden/WorldSpaceLightPosNode"
 {
 	SubShader
 	{
+		CGINCLUDE
+			#include "UnityCG.cginc"
+			#pragma vertex vert_img
+			#pragma fragment frag
+		ENDCG
+
 		Pass
 		{
 			CGPROGRAM
-			#pragma vertex vert_img
-			#pragma fragment frag
-			#include "UnityCG.cginc"
-
+			float4 _EditorWorldLightPos;
 			float4 frag( v2f_img i ) : SV_Target
 			{
-				return _WorldSpaceLightPos0;
+				float3 lightDir = normalize( _EditorWorldLightPos.xyz );
+				return float4 ( lightDir, 0);
+			}
+			ENDCG
+		}
+
+		Pass
+		{
+			CGPROGRAM
+			float4 frag( v2f_img i ) : SV_Target
+			{
+				return (0).xxxx; 
 			}
 			ENDCG
 		}
