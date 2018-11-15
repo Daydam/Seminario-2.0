@@ -144,7 +144,14 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
     void HuntTarget()
     {
         if (!_target) _target = GetTarget();
-        if (_target) _nav.SetDestination(_target.transform.position);
+        if (_target)
+        {
+            if (!_target.gameObject.activeInHierarchy)
+            {
+                _target = GetTarget();
+            }
+            _nav.SetDestination(_target.transform.position);
+        }
     }
 
     void Update()
@@ -171,7 +178,9 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
             item.enabled = false;
         }
 
-        ReturnToPool();
+        gameObject.SetActive(false);
+
+        //ReturnToPool();
     }
 
     void ReturnToPool()

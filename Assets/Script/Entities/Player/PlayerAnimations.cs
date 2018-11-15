@@ -10,7 +10,8 @@ public class PlayerAnimations : MonoBehaviour
 	void Start ()
 	{
         _an = GetComponent<Animator>();
-	}
+        GameManager.Instance.OnResetRound += () => SetMovementDir(Vector2.zero);
+    }
 
     public void SetMovementDir(Vector2 dir)
     {

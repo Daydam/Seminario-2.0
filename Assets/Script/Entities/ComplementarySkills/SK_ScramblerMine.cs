@@ -12,6 +12,14 @@ public class SK_ScramblerMine : ComplementarySkillBase
     bool _canTap = true;
     bool _inUse;
 
+    protected override void Start()
+    {
+        base.Start();
+        var obj = Resources.Load<DMM_ScramblerMine>("Prefabs/Projectiles/ScramblerMine");
+        _mine = Instantiate(obj, transform.position, Quaternion.identity);
+        _mine.gameObject.SetActive(false);
+    }
+
     protected override void InitializeUseCondition()
     {
         _canUseSkill = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting && !_owner.lockedByGame && _currentCooldown <= 0;
@@ -31,7 +39,10 @@ public class SK_ScramblerMine : ComplementarySkillBase
                     _canTap = false;
                     if (MineActive()) _mine.Explode(true);
 
-                    _mine = ScramblerMineSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(_owner.transform.position, _owner.gameObject.transform.forward, duration, radius, _owner.gameObject.tag);
+                    _mine.gameObject.SetActive(true);
+                    _mine.Spawn(_owner.transform.position, _owner.gameObject.transform.forward, duration, radius, _owner.gameObject.tag);
+
+                    //_mine = ScramblerMineSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(_owner.transform.position, _owner.gameObject.transform.forward, duration, radius, _owner.gameObject.tag);
                     _currentCooldown = maxCooldown;
                 }
             }
