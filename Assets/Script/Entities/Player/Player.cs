@@ -26,6 +26,7 @@ public class Player : MonoBehaviour, IDamageable
     public Rigidbody GetRigidbody { get { return _rb; } }
 
     PlayerAnimations _animationController;
+    PlayerLifeForcefield _lifeForcefield;
     PlayerScoreController _scoreController;
     public PlayerScoreController ScoreController
     {
@@ -124,6 +125,7 @@ public class Player : MonoBehaviour, IDamageable
         ScoreController = GetComponent<PlayerScoreController>();
         _soundModule = GetComponent<DroneSoundController>();
         _animationController = GetComponent<PlayerAnimations>();
+        _lifeForcefield = GetComponentInChildren<PlayerLifeForcefield>();
 
     }
 
@@ -280,9 +282,21 @@ public class Player : MonoBehaviour, IDamageable
         if (Hp <= 0) DestroyPlayer(DeathType.Player);
     }
 
+    public void TakeDamage(float damage, Vector3 hitPosition)
+    {
+        SubstractLife(damage, hitPosition);
+        if (Hp <= 0) DestroyPlayer(DeathType.Player);
+    }
+
     public void TakeDamage(float damage, string killerTag)
     {
         SubstractLife(damage);
+        if (Hp <= 0) DestroyPlayer(DeathType.Player, killerTag);
+    }
+
+    public void TakeDamage(float damage, string killerTag, Vector3 hitPosition)
+    {
+        SubstractLife(damage, hitPosition);
         if (Hp <= 0) DestroyPlayer(DeathType.Player, killerTag);
     }
 
@@ -298,6 +312,22 @@ public class Player : MonoBehaviour, IDamageable
 
         Hp -= damage;
         _rend.material.SetFloat("_Life", Hp / maxHP);
+        _lifeForcefield.TakeDamage();
+    }
+
+    void SubstractLife(float damage, Vector3 hitPosition)
+    {
+        if (_invulnerable) return;
+        if (_vibrationAvailable)
+        {
+            ApplyVibration(0, 2, 0.2f);
+            _vibrationAvailable = false;
+            StartCoroutine(VibrationCooldown());
+        }
+
+        Hp -= damage;
+        _rend.material.SetFloat("_Life", Hp / maxHP);
+        _lifeForcefield.TakeDamage(hitPosition);
     }
 
     public void ApplyKnockback(float amount, Vector3 dir)

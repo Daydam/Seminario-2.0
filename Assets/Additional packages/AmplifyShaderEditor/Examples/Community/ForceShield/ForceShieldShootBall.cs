@@ -16,7 +16,7 @@ namespace TFHC_ForceShield_Shader_Sample
 
         void Update()
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetMouseButtonDown(0))
             {
                 Vector3 targetpoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance);
                 targetpoint = Camera.main.ScreenToWorldPoint(targetpoint);

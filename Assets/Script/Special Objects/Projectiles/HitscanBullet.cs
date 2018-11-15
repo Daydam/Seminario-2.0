@@ -41,8 +41,6 @@ public class HitscanBullet
                 {
                     var target = col.GetComponent(typeof(IDamageable)) as IDamageable;
 
-                    target.TakeDamage(appliableDamage, player.tag);
-
                     var playerComponent = col.GetComponent<Player>();
                     if (playerComponent)
                     {
@@ -53,7 +51,11 @@ public class HitscanBullet
                         var damageParticle = SimpleParticleSpawner.Instance.particles[damageParticleID].GetComponentInChildren<ParticleSystem>();
 
                         SimpleParticleSpawner.Instance.SpawnParticle(damageParticle.gameObject, rch.point, rch.normal);
-
+                        playerComponent.TakeDamage(appliableDamage, player.tag, rch.point);
+                    }
+                    else
+                    {
+                        target.TakeDamage(appliableDamage, player.tag);
                     }
                 }
                 else

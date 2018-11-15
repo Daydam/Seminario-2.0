@@ -156,7 +156,7 @@ public class EndgameManager : MonoBehaviour
         print("Dealer Award goes to: Player " + (mostDamageDealt + 1) + " with " + damageDealtAmount + " damage dealt");
         print("Bulletproof Award goes to: Player " + (leastDamageTaken + 1) + " with " + damageTakenAmount + " damage taken");
 
-        for (int i = 1; i <= currentGamePads.Length; i++)
+        for (int i = 1; i <= playerScoresOrdered.Length; i++)
         {
             var playList = awards.Skip(1).Where(x => x.Item3 == i).ToList();
             if (playList.Any())
