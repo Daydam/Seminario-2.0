@@ -9,6 +9,7 @@ public class DMM_PlasmaWall : MonoBehaviour, IDamageable
     public float lifeTime = 5f;
 
     Coroutine _lifeTimerRoutine;
+    Renderer _rend;
 
     float _hp;
     public float Hp
@@ -62,6 +63,8 @@ public class DMM_PlasmaWall : MonoBehaviour, IDamageable
     public void ResetHP()
     {
         Hp = maxHP;
+        if (_rend == null) _rend = GetComponent<Renderer>();
+        _rend.material.SetFloat("_Life", 1);
     }
 
     public void TakeDamage(float damage)
@@ -79,6 +82,7 @@ public class DMM_PlasmaWall : MonoBehaviour, IDamageable
     void SubstractLife(float damage)
     {
         Hp -= damage;
+        _rend.material.SetFloat("_Life", Mathf.Lerp(0, 1, Hp / maxHP));
     }
 
     void Destruction()
