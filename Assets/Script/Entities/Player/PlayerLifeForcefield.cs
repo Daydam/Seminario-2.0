@@ -67,8 +67,6 @@ public class PlayerLifeForcefield : MonoBehaviour
 
         var inst = new WaitForFixedUpdate();
 
-        print("LARUKA");
-
         _rend.material.SetVector("_HitPosition", transform.InverseTransformPoint(hitPos));
         var hitTime = end;
 
