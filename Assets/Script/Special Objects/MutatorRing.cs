@@ -5,7 +5,7 @@ using System.Linq;
 
 public class MutatorRing : MonoBehaviour
 {
-    public Transform[] antennas;
+    public RingAntenna[] antennas;
     RingPiece[] _pieces;
     RingStructure[] _structures;
     RingWall[] _walls;
@@ -15,7 +15,7 @@ public class MutatorRing : MonoBehaviour
     void Start()
     {
         startPos = transform.position;
-        antennas = transform.GetComponentsInChildren<Transform>().Where(x => x.gameObject.name == "Antenna").ToArray();
+        antennas = GetComponentsInChildren<RingAntenna>();
         _pieces = GetComponentsInChildren<RingPiece>().ToArray();
         _structures = GetComponentsInChildren<RingStructure>().ToArray();
         _walls = GetComponentsInChildren<RingWall>().ToArray();
