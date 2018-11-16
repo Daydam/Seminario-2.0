@@ -108,6 +108,7 @@ public class EndgameManager : MonoBehaviour
                 t.gameObject.tag = "Player " + (playerControllersOrdered[i] + 1);
             }
 
+            tx.gameObject.layer = LayerMask.NameToLayer("P1ONLY");
             player.transform.forward = spawnPos[i].forward;
             _players[i] = player;
         }
