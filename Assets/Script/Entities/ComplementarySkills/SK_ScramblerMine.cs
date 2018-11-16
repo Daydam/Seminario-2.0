@@ -53,6 +53,8 @@ public class SK_ScramblerMine : ComplementarySkillBase
 
     public override void ResetRound()
     {
+    	 if (MineActive()) _mine.Explode(true);
+
         _currentCooldown = 0;
     }
 

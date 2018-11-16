@@ -108,6 +108,7 @@ public class EndgameManager : MonoBehaviour
                 t.gameObject.tag = "Player " + (playerControllersOrdered[i] + 1);
             }
 
+            tx.gameObject.layer = LayerMask.NameToLayer("P1ONLY");
             player.transform.forward = spawnPos[i].forward;
             _players[i] = player;
         }
@@ -137,19 +138,19 @@ public class EndgameManager : MonoBehaviour
 
         mostKills = playerInfo.playerControllers.OrderByDescending(x => playerInfo.playerStats[Array.IndexOf(playerInfo.playerControllers, x)].Kills).First();
         var killAmount = playerInfo.playerStats.OrderByDescending(y => y.Kills).First().Kills;
-        awards += Tuple.Create("Most Kills", (float)killAmount, mostKills + 1, " kills");
+        awards += Tuple.Create("Most Kills", (float)killAmount, Array.IndexOf(playerControllersOrdered, mostKills), " kills");
 
         mostSurvived = playerInfo.playerControllers.OrderByDescending(x => playerInfo.playerStats[Array.IndexOf(playerInfo.playerControllers, x)].Survived).First();
         var survivedAmount = playerInfo.playerStats.OrderByDescending(y => y.Survived).First().Survived;
-        awards += Tuple.Create("Most Survived", (float)survivedAmount, mostSurvived + 1, "survived");
+        awards += Tuple.Create("Most Survived", (float)survivedAmount, Array.IndexOf(playerControllersOrdered, mostSurvived), "survived");
 
         mostDamageDealt = playerInfo.playerControllers.OrderByDescending(x => playerInfo.playerStats[Array.IndexOf(playerInfo.playerControllers, x)].DamageDealt).First();
         var damageDealtAmount = playerInfo.playerStats.OrderByDescending(y => y.DamageDealt).First().DamageDealt;
-        awards += Tuple.Create("Most Damage Dealt", damageDealtAmount, mostDamageDealt + 1, " dmg dealt");
+        awards += Tuple.Create("Most Damage Dealt", damageDealtAmount, Array.IndexOf(playerControllersOrdered, mostDamageDealt), " dmg dealt");
 
         leastDamageTaken = playerInfo.playerControllers.OrderBy(x => playerInfo.playerStats[Array.IndexOf(playerInfo.playerControllers, x)].DamageTaken).First();
         var damageTakenAmount = playerInfo.playerStats.OrderBy(y => y.DamageTaken).First().DamageTaken;
-        awards += Tuple.Create("Bulletproof", damageTakenAmount, leastDamageTaken + 1, " dmg taken");
+        awards += Tuple.Create("Bulletproof", damageTakenAmount, Array.IndexOf(playerControllersOrdered, leastDamageTaken), " dmg taken");
 
         print("Psycho Killer Award goes to: Player " + (mostKills + 1) + " with " + killAmount + " kills");
         print("Survivor Award goes to: Player " + (mostSurvived + 1) + " with " + survivedAmount + " rounds survived");
@@ -175,7 +176,7 @@ public class EndgameManager : MonoBehaviour
     /// <param name="data"></param>
     void SetAwardsOnPedestal(Tuple<string, float, int, string> data)
     {
-        var pedCanvas = pedestals[data.Item3 - 1].GetComponentInChildren<Canvas>();
+        var pedCanvas = pedestals[data.Item3].GetComponentInChildren<Canvas>();
         pedCanvas.transform.Find("AwardName").GetComponent<Text>().text = data.Item1;
         pedCanvas.transform.Find("AwardAmount").GetComponent<Text>().text = (int)data.Item2 + " " + data.Item4;
     }
