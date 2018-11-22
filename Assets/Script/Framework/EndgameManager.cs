@@ -26,7 +26,6 @@ public class EndgameManager : MonoBehaviour
 
     public Transform[] spawnPos;
     public Renderer[] pedestals;
-    public string pedestalName = "Pedestal";
 
     bool _inputsAllowed = false;
 
@@ -95,7 +94,7 @@ public class EndgameManager : MonoBehaviour
             var comp2 = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary 2/" + URLs.complementaryURL[1]), player.transform.position, Quaternion.identity, player.transform);
             var def = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs.defensiveURL), player.transform.position, Quaternion.identity, player.transform);
             var tx = Instantiate(playerText, player.transform.position, Quaternion.identity, player.transform);
-            tx.transform.localPosition = Vector3.zero;
+
             tx.transform.Rotate(transform.up, 180);
 
             CharacterAssembler.Assemble(player.gameObject, def, comp1, comp2, weapon);
@@ -129,7 +128,7 @@ public class EndgameManager : MonoBehaviour
         for (int i = 0; i < _players.Length; i++)
         {
             var score = playerScoresOrdered[i].Score;
-            EndgamePlayerText(_players[i], _players[i].gameObject.tag, score.ToString());
+            EndgamePlayerText(_players[i], _players[i].gameObject.tag, score.ToString(), System.Array.IndexOf(playerControllersOrdered, playerInfo.playerControllers[i]));
             _resetInputs[i] = false;
         }
 
@@ -157,13 +156,16 @@ public class EndgameManager : MonoBehaviour
         print("Dealer Award goes to: Player " + (mostDamageDealt + 1) + " with " + damageDealtAmount + " damage dealt");
         print("Bulletproof Award goes to: Player " + (leastDamageTaken + 1) + " with " + damageTakenAmount + " damage taken");
 
-        for (int i = 1; i <= playerScoresOrdered.Length; i++)
+        for (int i = 0; i < playerScoresOrdered.Length; i++)
         {
             var playList = awards.Skip(1).Where(x => x.Item3 == i).ToList();
             if (playList.Any())
             {
-                var rnd = UnityEngine.Random.Range(0, playList.Count);
-                SetAwardsOnPedestal(playList.Skip(UnityEngine.Random.Range(0, playList.Count - 1)).First());
+                foreach (var item in playList)
+                {
+                    SetAwardsOnPedestal(item);
+                }
+                
             }
         }
 
@@ -203,10 +205,28 @@ public class EndgameManager : MonoBehaviour
         }
     }
 
-    void EndgamePlayerText(GameObject playerText, string name, string score)
+    void EndgamePlayerText(GameObject playerText, string name, string score, int index)
     {
-        var tx = playerText.GetComponentInChildren<Text>();
-        tx.text = name + "\n" + score;
+        var tx = playerText.GetComponentsInChildren<Text>();
+        foreach (var item in tx)
+        {
+            if (item.text == replaceStringName)
+            {
+                item.text = name;
+                var oldPant = item.transform.parent;
+                item.transform.parent = pedestals[index].transform.Find("PlayerNamePosition");
+                item.transform.localPosition = Vector3.zero;
+                item.transform.parent = oldPant;
+            }
+            else if (item.text == replaceStringScore)
+            {
+                item.text = score;
+                var oldPant = item.transform.parent;
+                item.transform.parent = pedestals[index].transform.Find("PodiumPole").Find("ScorePos");
+                item.transform.localPosition = Vector3.zero;
+                item.transform.parent = oldPant;
+            }
+        }
     }
 
     void ApplyTexts()
