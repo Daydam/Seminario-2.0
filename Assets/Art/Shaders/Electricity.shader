@@ -91,5 +91,5 @@ Shader "Shader Forge/Electricity" {
             ENDCG
         }
     }
-    CustomEditor "ShaderForgeMaterialInspector"
+	CustomEditor "ASEMaterialInspector"
 }

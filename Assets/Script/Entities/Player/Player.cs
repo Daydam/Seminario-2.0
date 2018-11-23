@@ -217,6 +217,7 @@ public class Player : MonoBehaviour, IDamageable
         isPushed = false;
         myPusher = null;
         CancelForces();
+        StopAllCoroutines();
     }
 
     public void ActivatePlayerEndgame(bool activate, string replaceName, string replaceScore)
