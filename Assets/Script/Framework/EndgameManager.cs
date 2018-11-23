@@ -149,12 +149,12 @@ public class EndgameManager : MonoBehaviour
 
         leastDamageTaken = playerInfo.playerControllers.OrderBy(x => playerInfo.playerStats[Array.IndexOf(playerInfo.playerControllers, x)].DamageTaken).First();
         var damageTakenAmount = playerInfo.playerStats.OrderBy(y => y.DamageTaken).First().DamageTaken;
-        awards += Tuple.Create("Bulletproof", damageTakenAmount, Array.IndexOf(playerControllersOrdered, leastDamageTaken), " dmg taken");
+        awards += Tuple.Create("Meatshield", damageTakenAmount, Array.IndexOf(playerControllersOrdered, leastDamageTaken), " dmg taken");
 
         print("Psycho Killer Award goes to: Player " + (mostKills + 1) + " with " + killAmount + " kills");
         print("Survivor Award goes to: Player " + (mostSurvived + 1) + " with " + survivedAmount + " rounds survived");
         print("Dealer Award goes to: Player " + (mostDamageDealt + 1) + " with " + damageDealtAmount + " damage dealt");
-        print("Bulletproof Award goes to: Player " + (leastDamageTaken + 1) + " with " + damageTakenAmount + " damage taken");
+        print("Meatshield Award goes to: Player " + (leastDamageTaken + 1) + " with " + damageTakenAmount + " damage taken");
 
         for (int i = 0; i < playerScoresOrdered.Length; i++)
         {
