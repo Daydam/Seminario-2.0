@@ -128,7 +128,7 @@ public class EndgameManager : MonoBehaviour
         for (int i = 0; i < _players.Length; i++)
         {
             var score = playerScoresOrdered[i].Score;
-            EndgamePlayerText(_players[i], _players[i].gameObject.tag, score.ToString(), System.Array.IndexOf(playerControllersOrdered, playerInfo.playerControllers[i]));
+            EndgamePlayerText(_players[i], _players[i].gameObject.tag, score.ToString(), i);
             _resetInputs[i] = false;
         }
 
