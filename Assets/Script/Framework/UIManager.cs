@@ -34,9 +34,12 @@ public class UIManager : MonoBehaviour
     public readonly float fadeInDuration = 4f;
     public readonly float fadeOutDuration = 1f;
     public Text targetPointsText;
+    Action _startRoundCallback;
 
     public void Initialize(IEnumerable<Player> players, Action callback, int pointsToWin)
     {
+        _startRoundCallback = callback;
+        EventManager.Instance.AddEventListener(Events.UIEvents.StartRound, OnFinishedCountdown);
         _canvas = GameObject.Find(canvasName);
         fader = _canvas.transform.Find(blackFadeName).GetComponent<Image>();
         countdown = _canvas.transform.Find(coundownName).GetComponent<Animator>();
@@ -45,6 +48,11 @@ public class UIManager : MonoBehaviour
         ApplyTextes(players.ToArray());
 
         StartCoroutine(FadeIn(callback));
+    }
+
+    void OnFinishedCountdown(object[] paramsContainer)
+    {
+        _startRoundCallback();
     }
 
     void ApplyTextes(Player[] players)
@@ -87,7 +95,7 @@ public class UIManager : MonoBehaviour
             fader.color = col;
         }
 
-        callback();
+        //callback();
     }
 
     IEnumerator FadeOut(Action callback)
