@@ -31,6 +31,8 @@ public class SO_GameRulesEditor : Editor
         EditorGUILayout.PropertyField(gameRules.FindProperty("pointsForLast"));
         if (showHelp) EditorGUILayout.HelpBox("Points for suiciding", MessageType.Info);
         EditorGUILayout.PropertyField(gameRules.FindProperty("pointsPerSuicide"));
+        if (showHelp) EditorGUILayout.HelpBox("Points for dying", MessageType.Info);
+        EditorGUILayout.PropertyField(gameRules.FindProperty("pointsPerDeath"));
         EditorGUILayout.Space();
 
         EditorGUILayout.LabelField("Points required to win:", titleStyle);

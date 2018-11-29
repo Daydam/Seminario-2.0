@@ -191,7 +191,16 @@ public class Player : MonoBehaviour, IDamageable
 
         var prefix = points < 0 ? "- " : "+ ";
 
-        stats.Score = Mathf.Max(0, stats.Score + points);
+
+        if ((stats.Score + points) >= GameManager.Instance.GetScoreToWin())
+        {
+            stats.Score = GameManager.Instance.GetScoreToWin();
+        }
+        else
+        {
+            stats.Score += points;
+            stats.Score = Mathf.Clamp(stats.Score, 0, GameManager.Instance.GetScoreToWin());
+        }
 
         ScoreController.SetScore(stats.Score, points);
     }

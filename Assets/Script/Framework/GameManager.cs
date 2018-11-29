@@ -121,12 +121,19 @@ public class GameManager : MonoBehaviour
             cam.AssignTarget(player);
         }
 
+        AddEvents();
         UIManager.Instance.Initialize(Players, StartFirstRound, gameRules.pointsToWin[playerInfo.playerControllers.Length - 2]);
     }
 
     void Update()
     {
-
+        if (Input.GetKeyUp(KeyCode.Y))
+        {
+            for (int i = 0; i < Players.Count; i++)
+            {
+                players[i].UpdateScore(9);
+            }
+        }
     }
 
     void AddEvents()
@@ -140,7 +147,7 @@ public class GameManager : MonoBehaviour
 
     void StartFirstRound()
     {
-        AddEvents();
+        //AddEvents();
         StartRound();
     }
 
@@ -215,12 +222,12 @@ public class GameManager : MonoBehaviour
 
     public bool CheckIfReachedPoints()
     {
-        return Players.Select(x => x.Stats.Score).OrderByDescending(x => x).First() >= gameRules.pointsToWin[playerInfo.playerControllers.Length - 2];
+        return Players.Select(x => x.Stats.Score).OrderByDescending(x => x).First() >= GetScoreToWin();
     }
 
     bool CheckIfOnlyWinner()
     {
-        var list = Players.Where(x => x.Stats.Score >= gameRules.pointsToWin[playerInfo.playerControllers.Length - 2]);
+        var list = Players.Where(x => x.Stats.Score >= GetScoreToWin());
 
         if (list.Count() == 1) return true;
 
@@ -274,6 +281,11 @@ public class GameManager : MonoBehaviour
         return list.First() == score;
     }
 
+    public int GetScoreToWin()
+    {
+        return gameRules.pointsToWin[playerInfo.playerControllers.Length - 2];
+    }
+
     public void ScoreUpdate()
     {
         var list = Players.OrderByDescending(x => x.Stats.Score);
@@ -321,6 +333,10 @@ public class GameManager : MonoBehaviour
         {
             var score = wasPushed ? gameRules.pointsPerDrop : gameRules.pointsPerSuicide;
             dyingPlayer.UpdateScore(score);
+        }
+        else if(deathType == DeathType.Player)
+        {
+            dyingPlayer.UpdateScore(gameRules.pointsPerDeath);
         }
 
         if (dyingPlayer != playerKiller)

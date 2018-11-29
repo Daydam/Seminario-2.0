@@ -11,6 +11,7 @@ public class PlayerScoreController : MonoBehaviour
     readonly string _idleState = "Idle";
     readonly string _addState = "Add";
     readonly string _removeState = "Remove";
+    readonly string _maxScoreReachedState = "MaxScoreReached";
 
     readonly string _bestPlayerShaderTag = "BestPlayerMaterial";
 
@@ -39,6 +40,8 @@ public class PlayerScoreController : MonoBehaviour
         mainScore.text = main.ToString();
 
         var toPlay = toAdd < 0 ? _removeState : toAdd > 0 ? _addState : _idleState;
+
+        if (main == GameManager.Instance.GetScoreToWin()) toPlay = _maxScoreReachedState;
         _an.Play(toPlay);
 
         GameManager.Instance.ScoreUpdate();

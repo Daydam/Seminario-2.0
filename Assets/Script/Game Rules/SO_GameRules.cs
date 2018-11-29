@@ -11,6 +11,8 @@ public class SO_GameRules : ScriptableObject
     public int pointsPerDrop;
     //Suicide
     public int pointsPerSuicide;
+    //Death
+    public int pointsPerDeath;
     //Be the last drone flying (Get it? Instead of Last Man Standing? Yeah, I'm fun like that)
     public int pointsForLast;
 
