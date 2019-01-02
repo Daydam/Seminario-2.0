@@ -8,7 +8,6 @@ public class DMM_RepulsiveBattery : MonoBehaviour
     Player _owner;
     public float repulsiveForce;
     public float radius;
-    public float damage;
     int _layerMask;
 
     bool _showGizmos = true;

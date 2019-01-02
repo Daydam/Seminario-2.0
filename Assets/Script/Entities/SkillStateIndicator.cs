@@ -22,11 +22,13 @@ public class SkillStateIndicator : MonoBehaviour
 
     public void InitModuleColors()
     {
-        moduleFeedback = new Dictionary<SkillState, Color>();
-        moduleFeedback.Add(SkillState.Unavailable, Color.red);
-        moduleFeedback.Add(SkillState.Available, Color.cyan);
-        moduleFeedback.Add(SkillState.Active, Color.yellow);
-        moduleFeedback.Add(SkillState.UserDisabled, Color.black);
+        moduleFeedback = new Dictionary<SkillState, Color>
+        {
+            { SkillState.Unavailable, Color.red },
+            { SkillState.Available, Color.cyan },
+            { SkillState.Active, Color.yellow },
+            { SkillState.UserDisabled, Color.black }
+        };
     }
 
     void Update()

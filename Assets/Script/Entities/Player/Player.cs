@@ -415,6 +415,14 @@ public class Player : MonoBehaviour, IDamageable
 
     }
 
+    public void ApplySlowMovement(float duration, float amount)
+    {
+        if (_invulnerable) return;
+
+        _soundModule.PlayDisarmSound();
+        StartCoroutine(ExecuteSlowMovement(duration, amount));
+    }
+
     public void ApplyStun(float duration)
     {
         if (_invulnerable) return;
@@ -453,6 +461,17 @@ public class Player : MonoBehaviour, IDamageable
         yield return new WaitForSeconds(duration);
 
         _isStunned = false;
+    }
+
+    IEnumerator ExecuteSlowMovement(float duration, float amount)
+    {
+        var oldMulti = MovementMultiplier;
+
+        MovementMultiplier = amount;
+
+        yield return new WaitForSeconds(duration);
+
+        MovementMultiplier = oldMulti;
     }
 
     IEnumerator ExecuteDisarm(float duration)
