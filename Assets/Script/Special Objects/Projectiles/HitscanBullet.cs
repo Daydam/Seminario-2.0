@@ -39,7 +39,13 @@ public class HitscanBullet
             {
                 if (col.gameObject.LayerMatchesWith(otherPlayerLayers))
                 {
-                    var target = col.GetComponent(typeof(IDamageable)) as IDamageable;
+                    if (col.GetComponent(typeof(IDamageBlocker)) as IDamageBlocker != null)
+                    {
+                        //do shit with the shield
+                        return;
+                    } 
+
+                    var damageable = col.GetComponent(typeof(IDamageable)) as IDamageable;
 
                     var playerComponent = col.GetComponent<Player>();
                     if (playerComponent)
@@ -55,7 +61,7 @@ public class HitscanBullet
                     }
                     else
                     {
-                        target.TakeDamage(appliableDamage, player.tag);
+                        damageable.TakeDamage(appliableDamage, player.tag);
                     }
                 }
                 else

@@ -72,7 +72,7 @@ public class SK_EMPCaltrop : ComplementarySkillBase
     public override void ResetRound()
     {
         _currentCooldown = 0;
-        foreach (var item in _charges)
+        foreach (var item in _charges.Where(x => x.gameObject.activeInHierarchy))
         {
             item.ForceActivation();
         }

@@ -42,7 +42,6 @@ public class SK_ScramblerMine : ComplementarySkillBase
                     _mine.gameObject.SetActive(true);
                     _mine.Spawn(_owner.transform.position, _owner.gameObject.transform.forward, duration, radius, _owner.gameObject.tag);
 
-                    //_mine = ScramblerMineSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(_owner.transform.position, _owner.gameObject.transform.forward, duration, radius, _owner.gameObject.tag);
                     _currentCooldown = maxCooldown;
                 }
             }

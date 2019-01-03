@@ -99,7 +99,13 @@ public class DMM_FragmentMissile : MonoBehaviour
         }
         else if (col.gameObject.TagDifferentFrom(this.gameObject.tag, "EMPCloud"))
         {
-            ActivateAOE();
+            if (col.GetComponent(typeof(IDamageBlocker)) as IDamageBlocker != null)
+            {
+                //do shit with the shield
+                ReturnToPool();
+                return;
+            }
+            else ActivateAOE();
         }
     }
 

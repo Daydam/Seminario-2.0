@@ -8,11 +8,22 @@ public class SK_RepulsiveBattery : DefensiveSkillBase
 {
     public AudioClip skillUse;
 
+    public DMM_RepulsiveBatteryShield shield;
+
     public float maxCooldown;
     public float castTime;
+    float _shieldDuration = 1f;
 
     bool _canTap = true;
     float _currentCooldown = 0;
+
+    protected override void Start()
+    {
+        base.Start();
+        shield = GetComponentInChildren<DMM_RepulsiveBatteryShield>(true);
+        shield.gameObject.layer = _owner.gameObject.layer;
+        shield.gameObject.SetActive(false);
+    }
 
     protected override void InitializeUseCondition()
     {
@@ -42,6 +53,9 @@ public class SK_RepulsiveBattery : DefensiveSkillBase
     {
         if (activationAnim != null) activationAnim.Play();
         _owner.ApplyCastState(castTime);
+
+        StartCoroutine(ShieldActivation());
+
         StartCoroutine(WaitForCastEnd(_owner.FinishedCasting));
     }
 
@@ -54,8 +68,19 @@ public class SK_RepulsiveBattery : DefensiveSkillBase
         _canTap = false;
     }
 
+    public IEnumerator ShieldActivation()
+    {
+        shield.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(_shieldDuration);
+
+        shield.gameObject.SetActive(false);
+    }
+
     public override void ResetRound()
     {
+        StopAllCoroutines();
+        shield.gameObject.SetActive(false);
         _currentCooldown = 0;
     }
 
