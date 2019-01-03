@@ -14,7 +14,7 @@ public class DMM_EMPCaltrop : MonoBehaviour
 
     float _lifeTime;
 
-    public float ElapsedLIfeTime
+    public float ElapsedLifeTime
     {
         get
         {

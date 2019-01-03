@@ -112,6 +112,9 @@ public class SK_Vortex : DefensiveSkillBase
             }
         }
 
+        //test
+        _owner.GetRigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
+        //endtest
         _owner.GetRigidbody.isKinematic = true;
 
         var distanceTraveled = 0f;

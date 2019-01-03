@@ -17,10 +17,16 @@ public class SK_EMPCaltrop : ComplementarySkillBase
     {
         base.Start();
 
+        LoadPrefabs();
+    }
+
+    void LoadPrefabs()
+    {
+        var loadedPrefab = Resources.Load<DMM_EMPCaltrop>("Prefabs/Projectiles/EMPCaltrop");
+
         for (byte i = 0; i < maxChargesActive; i++)
         {
-            var load = Resources.Load<DMM_EMPCaltrop>("Prefabs/Projectiles/EMPCaltrop");
-            var charge = Instantiate(load);
+            var charge = Instantiate(loadedPrefab);
             _charges.Add(charge);
             charge.gameObject.SetActive(false);
         }
@@ -56,7 +62,7 @@ public class SK_EMPCaltrop : ComplementarySkillBase
         {
             _charges = _charges.OrderBy(x => x.gameObject.activeInHierarchy).ToList();
         }
-        else _charges = _charges.OrderByDescending(x => x.ElapsedLIfeTime).ToList();
+        else _charges = _charges.OrderByDescending(x => x.ElapsedLifeTime).ToList();
 
         var caltrop = _charges.First();
         if (caltrop.gameObject.activeInHierarchy) caltrop.ForceActivation();
