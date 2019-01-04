@@ -91,4 +91,9 @@ public class DMM_PlasmaWall : MonoBehaviour, IDamageable
         _lifeTimerRoutine = null;
         ReturnToPool();
     }
+
+    public IDamageable GetThisEntity()
+    {
+        return this;
+    }
 }

@@ -94,4 +94,10 @@ public class RingWall : MonoBehaviour, IDamageable
             yield return new WaitForEndOfFrame();
         }
     }
+
+    public IDamageable GetThisEntity()
+    {
+        return this;
+    }
+
 }

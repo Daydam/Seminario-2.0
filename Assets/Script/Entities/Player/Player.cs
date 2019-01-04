@@ -286,6 +286,11 @@ public class Player : MonoBehaviour, IDamageable
         //_soundModule.SetEnginePitch((control.LeftAnalog().y + control.LeftAnalog().x)/2 * movementSpeed * MovementMultiplier);
     }
 
+    public IDamageable GetEntityType()
+    {
+        return this;
+    }
+
     public void TakeDamage(float damage)
     {
         SubstractLife(damage);
@@ -557,6 +562,11 @@ public class Player : MonoBehaviour, IDamageable
     public void ApplyShake(float duration, float intensity)
     {
         _camShake.Shake(duration, intensity);
+    }
+
+    public IDamageable GetThisEntity()
+    {
+        return this;
     }
 
 }

@@ -240,4 +240,10 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
     {
         ReturnToPool();
     }
+
+    public IDamageable GetThisEntity()
+    {
+        return this;
+    }
+
 }
