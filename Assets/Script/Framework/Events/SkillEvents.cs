@@ -15,7 +15,5 @@ namespace Events
         /// 0 - Player
         /// </summary>
         public const string VortexEnd = "VortexEnd";
-
-
     }
 }

@@ -3,15 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class RingStructure : MonoBehaviour
+public class RingStructure : MonoBehaviour,IDamageable
 {
-	void Start ()
-	{
-		
-	}
-	
-	void Update ()
-	{
-		
-	}
+    public IDamageable GetThisEntity()
+    {
+        return this;
+    }
+
+    public void ResetHP()
+    {
+        
+    }
+
+    public void TakeDamage(float damage)
+    {
+       
+    }
+
+    public void TakeDamage(float damage, string killerTag)
+    {
+        
+    }
 }

@@ -21,6 +21,10 @@ public class SK_Hook : ComplementarySkillBase
 
     DMM_Hook _hook;
 
+    public enum HookBehaviours { SAME, LIGHT, HEAVY };
+
+    public HookBehaviours actual;
+
     protected override void Start()
     {
         base.Start();
@@ -76,27 +80,30 @@ public class SK_Hook : ComplementarySkillBase
         _hook.gameObject.SetActive(true);
         _hook.Spawn(_owner.transform.position, _owner.transform.forward, _owner.tag, _owner);
 
-        Func<bool> hookCallback = () => _hook.movementFinished;
-        yield return new WaitUntil(hookCallback);
+        yield return new WaitUntil(() => _hook.movementFinished);
 
         if (_hook.Target is Player)
         {
-            //weight test
+            var targetPlayer = (Player)_hook.Target;
+
+            if (_owner.weight > targetPlayer.weight) HeavierWeightBehaviour(targetPlayer);
+            else if (_owner.weight < targetPlayer.weight) LighterWeightBehaviour(targetPlayer.gameObject);
+            else SameWeightBehaviour(targetPlayer);
         }
         else if (_hook.Target is RingWall)
         {
             var tgt = (RingWall)_hook.Target;
-            LighterWeightMovement(tgt.gameObject, /*_owner.Weight*/ GetDistanceToLandingPoint(0, float.MaxValue), () => { });
+            LighterWeightBehaviour(tgt.gameObject);
         }
         else if (_hook.Target is RingStructure)
         {
             var tgt = (RingStructure)_hook.Target;
-            LighterWeightMovement(tgt.gameObject, /*_owner.Weight*/ GetDistanceToLandingPoint(0, float.MaxValue), () => { });
+            LighterWeightBehaviour(tgt.gameObject);
         }
         else if (_hook.Target is DMM_PlasmaWall)
         {
             var tgt = (DMM_PlasmaWall)_hook.Target;
-            LighterWeightMovement(tgt.gameObject, /*_owner.Weight*/ GetDistanceToLandingPoint(0, float.MaxValue), () => { });
+            LighterWeightBehaviour(tgt.gameObject);
         }
         else
         {
@@ -106,69 +113,134 @@ public class SK_Hook : ComplementarySkillBase
         _hook.gameObject.SetActive(false);
     }
 
-    void SameWeightMovement(Player target, float displacementDistance, Action<Vector3> enemyLandingPointCallback)
+    void SameWeightBehaviour(Player target)
     {
-        var centerPoint = Vector3.Lerp(transform.position, target.transform.position, .5f);
+        var targetPosition = target.transform.position;
+        var myPosition = _owner.transform.position;
 
-        var myDisplacementDir = (centerPoint - transform.position).normalized * displacementDistance;
-        var myLandingPoint = centerPoint - myDisplacementDir;
+        var centerPoint = Vector3.Lerp(myPosition, targetPosition, .75f);
 
-        var otherDisplacementDir = (centerPoint - target.transform.position).normalized * displacementDistance;
-        var otherLandingPoint = centerPoint - otherDisplacementDir;
+        var myLandingPoint = Vector3.Lerp(myPosition, centerPoint, .75f);
+        var otherLandingPoint = Vector3.Lerp(targetPosition, centerPoint, .75f);
 
-        enemyLandingPointCallback(otherLandingPoint);
-
-        StartCoroutine(MoveToLandingPosition(myLandingPoint, Vector3.Distance(transform.position, myLandingPoint)));
+        StartCoroutine(SameWeightMovement(_owner, myLandingPoint));
+        StartCoroutine(SameWeightMovement(target, otherLandingPoint));
     }
 
-    void LighterWeightMovement(GameObject target, float displacementDistance, Action enemyCallback)
+    void LighterWeightBehaviour(GameObject target)
     {
-        //var myDisplacementDir = (transform.position - target.transform.position).normalized * displacementDistance;
-        var myDisplacementDir = (target.transform.position - transform.position).normalized * displacementDistance;
-        var myLandingPoint = target.transform.position - myDisplacementDir;
+        Vector3 targetPosition;
 
-        enemyCallback();
+        if (target.GetComponent<Player>() != null) targetPosition = target.transform.position;
+        else targetPosition = target.GetComponent<Collider>().ClosestPoint(_hook.transform.position);
 
-        StartCoroutine(MoveToLandingPosition(myLandingPoint, Vector3.Distance(transform.position, myLandingPoint)));
+        var myPosition = _owner.transform.position;
+
+        var myLandingPoint = Vector3.Lerp(myPosition, targetPosition, .75f);
+
+        StartCoroutine(LighterWeightMovement(target.GetComponent<Player>(), myLandingPoint));
     }
 
-    void HeavierWeightMovement(Player target, float displacementDistance, Action<Vector3> enemyLandingPointCallback)
+    void HeavierWeightBehaviour(Player target)
     {
-        //var enemyDisplacementDir = (target.transform.position - transform.position).normalized * displacementDistance;
-        var enemyDisplacementDir = (transform.position - target.transform.position).normalized * displacementDistance;
-        var enemyLandingPoint = transform.position - enemyDisplacementDir;
+        var targetPosition = target.transform.position;
+        var myPosition = _owner.transform.position;
 
-        enemyLandingPointCallback(enemyLandingPoint);
+        var otherLandingPoint = Vector3.Lerp(targetPosition, myPosition, .55f);
 
-        //StartCoroutine(WaitForEnemyToArrive(target.ArrivedOnHookCallback));
+        StartCoroutine(HeavierWeightMovement(target, otherLandingPoint));
     }
 
-    IEnumerator MoveToLandingPosition(Vector3 landingPoint, float distanceToLandingPoint)
+    IEnumerator SameWeightMovement(Player player, Vector3 landingPoint)
+    {
+        player.CancelForces();
+        var endCast = false;
+
+        if (player.Equals(_owner)) player.ApplyCastState(() => endCast);
+        else player.ApplyStun(() => endCast);
+
+        var startPoint = player.transform.position;
+
+        var tTick = Time.fixedDeltaTime / playerTravelTime;
+        var elapsed = 0f;
+
+        while (Vector3.Distance(player.transform.position, landingPoint) > .3f)
+        {
+            elapsed += tTick;
+
+            var nextPos = Vector3.Lerp(startPoint, landingPoint, elapsed);
+
+            player.GetRigidbody.MovePosition(nextPos);
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        endCast = true;
+        _skillActive = false;
+        _canTap = false;
+    }
+
+    IEnumerator LighterWeightMovement(Player target, Vector3 landingPoint)
     {
         _owner.CancelForces();
+        var endCast = false;
 
-        var distanceTraveled = 0f;
-
-        var amountByDelta = Time.fixedDeltaTime * distanceToLandingPoint / playerTravelTime;
-        var dir = landingPoint - transform.position;
-
-        while (distanceTraveled < distanceToLandingPoint)
+        if (target != null)
         {
-            distanceTraveled += amountByDelta;
-            var nextPos = _owner.GetRigidbody.position + amountByDelta * dir.normalized;
+            target.CancelForces();
+            target.ApplyStun(() => endCast);
+        }
+
+        _owner.ApplyCastState(() => endCast);
+
+        var startPoint = _owner.transform.position;
+
+        var tTick = Time.fixedDeltaTime / playerTravelTime;
+        var elapsed = 0f;
+
+        while (Vector3.Distance(_owner.transform.position, landingPoint) > .3f)
+        {
+            elapsed += tTick;
+
+            var nextPos = Vector3.Lerp(startPoint, landingPoint, elapsed);
+
             _owner.GetRigidbody.MovePosition(nextPos);
 
             yield return new WaitForFixedUpdate();
         }
 
+        endCast = true;
         _skillActive = false;
         _canTap = false;
     }
 
-    IEnumerator WaitForEnemyToArrive(Func<bool> enemyArriveCallback)
+    IEnumerator HeavierWeightMovement(Player target, Vector3 landingPoint)
     {
-        yield return new WaitUntil(enemyArriveCallback);
+        _owner.CancelForces();
+        target.CancelForces();
 
+        var endCast = false;
+
+        _owner.ApplyCastState(() => endCast);
+        target.ApplyStun(() => endCast);
+
+        var startPoint = target.transform.position;
+
+        var tTick = Time.fixedDeltaTime / playerTravelTime;
+        var elapsed = 0f;
+
+        while (Vector3.Distance(target.transform.position, landingPoint) > .3f)
+        {
+            elapsed += tTick;
+
+            var nextPos = Vector3.Lerp(startPoint, landingPoint, elapsed);
+
+            target.GetRigidbody.MovePosition(nextPos);
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        endCast = true;
         _skillActive = false;
         _canTap = false;
     }

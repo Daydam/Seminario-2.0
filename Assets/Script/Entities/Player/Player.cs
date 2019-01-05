@@ -1,4 +1,5 @@
 using Events;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,9 +7,10 @@ using UnityEngine;
 public class Player : MonoBehaviour, IDamageable
 {
     public float turningSpeed;
+    public int weight;
 
-    Controller control;
-    public Controller Control { get { return control; } }
+    Controller _control;
+    public Controller Control { get { return _control; } }
 
     public float movementSpeed;
     public Vector3 movDir;
@@ -70,29 +72,29 @@ public class Player : MonoBehaviour, IDamageable
     float _movementMultiplier = 1;
 
     public float maxHP = 100;
-    float hp;
+    float _hp;
     public float Hp
     {
         get
         {
-            return hp;
+            return _hp;
         }
 
         private set
         {
-            hp = value >= maxHP ? maxHP : value <= 0 ? 0 : value;
+            _hp = value >= maxHP ? maxHP : value <= 0 ? 0 : value;
         }
     }
 
     public bool isPushed;
     public Player myPusher;
-    PlayerStats stats;
+    PlayerStats _stats;
     public float pushTimeCheck = 2;
 
     public PlayerStats Stats
     {
-        get { return stats; }
-        set { stats = value; }
+        get { return _stats; }
+        set { _stats = value; }
     }
 
     CamFollow _cam;
@@ -113,14 +115,14 @@ public class Player : MonoBehaviour, IDamageable
     {
         int playerID = GameManager.Instance.Register(this);
         myID = playerID;
-        control = new Controller(playerID);
+        _control = new Controller(playerID);
         _rb = GetComponent<Rigidbody>();
         _rend = GetComponentInChildren<Renderer>();
         MovementMultiplier = 1;
         Hp = maxHP;
         gameObject.name = "Player " + (playerID + 1);
 
-        stats = new PlayerStats();
+        _stats = new PlayerStats();
 
         ScoreController = GetComponent<PlayerScoreController>();
         _soundModule = GetComponent<DroneSoundController>();
@@ -141,11 +143,11 @@ public class Player : MonoBehaviour, IDamageable
     {
         if (lockedByGame) return;
 
-        control.UpdateState();
+        _control.UpdateState();
 
-        if (!IsStunned && control.RightAnalog() != Vector2.zero)
+        if (!IsStunned && _control.RightAnalog() != Vector2.zero)
         {
-            transform.Rotate(transform.up, control.RightAnalog().x * turningSpeed);
+            transform.Rotate(transform.up, _control.RightAnalog().x * turningSpeed);
         }
     }
 
@@ -192,17 +194,17 @@ public class Player : MonoBehaviour, IDamageable
         var prefix = points < 0 ? "- " : "+ ";
 
 
-        if ((stats.Score + points) >= GameManager.Instance.GetScoreToWin())
+        if ((_stats.Score + points) >= GameManager.Instance.GetScoreToWin())
         {
-            stats.Score = GameManager.Instance.GetScoreToWin();
+            _stats.Score = GameManager.Instance.GetScoreToWin();
         }
         else
         {
-            stats.Score += points;
-            stats.Score = Mathf.Clamp(stats.Score, 0, GameManager.Instance.GetScoreToWin());
+            _stats.Score += points;
+            _stats.Score = Mathf.Clamp(_stats.Score, 0, GameManager.Instance.GetScoreToWin());
         }
 
-        ScoreController.SetScore(stats.Score, points);
+        ScoreController.SetScore(_stats.Score, points);
     }
 
     public void ResetHP()
@@ -233,7 +235,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         playerEndgameTexts.SetActive(activate);
         var tx = playerEndgameTexts.GetComponentInChildren<UnityEngine.UI.Text>();
-        tx.text = gameObject.name + "\n" + stats.Score.ToString();
+        tx.text = gameObject.name + "\n" + _stats.Score.ToString();
     }
 
     public void ActivatePlayerEndgame(bool activate = false)
@@ -278,11 +280,11 @@ public class Player : MonoBehaviour, IDamageable
 
     void Movement()
     {
-        var dir = transform.forward * control.LeftAnalog().y + transform.right * control.LeftAnalog().x;
+        var dir = transform.forward * _control.LeftAnalog().y + transform.right * _control.LeftAnalog().x;
         var movVector = _rb.position + dir.normalized * Time.fixedDeltaTime * movementSpeed * MovementMultiplier;
         movDir = dir;
         _rb.MovePosition(movVector);
-        _animationController.SetMovementDir(control.LeftAnalog());
+        _animationController.SetMovementDir(_control.LeftAnalog());
         //_soundModule.SetEnginePitch((control.LeftAnalog().y + control.LeftAnalog().x)/2 * movementSpeed * MovementMultiplier);
     }
 
@@ -420,6 +422,8 @@ public class Player : MonoBehaviour, IDamageable
 
     }
 
+    #region Timed States
+
     public void ApplySlowMovement(float duration, float amount)
     {
         if (_invulnerable) return;
@@ -530,6 +534,92 @@ public class Player : MonoBehaviour, IDamageable
         isPushed = false;
 
     }
+
+    #endregion
+
+    #region States with callback
+    public void ApplySlowMovement(Func<bool> callback, float amount)
+    {
+        if (_invulnerable) return;
+
+        _soundModule.PlayDisarmSound();
+        StartCoroutine(ExecuteSlowMovement(callback, amount));
+    }
+
+    public void ApplyStun(Func<bool> callback)
+    {
+        if (_invulnerable) return;
+
+        _soundModule.PlayStunSound();
+        StartCoroutine(ExecuteStun(callback));
+    }
+
+    public void ApplyDisarm(Func<bool> callback)
+    {
+        if (_invulnerable) return;
+
+        _soundModule.PlayDisarmSound();
+        StartCoroutine(ExecuteDisarm(callback));
+    }
+
+    public void ApplyCastState(Func<bool> callback)
+    {
+        StartCoroutine(ExecuteCastTime(callback));
+    }
+
+    public void ApplyInvulnerability(Func<bool> callback)
+    {
+        StartCoroutine(ExecuteInvulnerabilityTime(callback));
+    }
+
+    IEnumerator ExecuteStun(Func<bool> callback)
+    {
+        _isStunned = true;
+
+        yield return new WaitUntil(callback);
+
+        _isStunned = false;
+    }
+
+    IEnumerator ExecuteSlowMovement(Func<bool> callback, float amount)
+    {
+        var oldMulti = MovementMultiplier;
+
+        MovementMultiplier = amount;
+
+        yield return new WaitUntil(callback);
+
+        MovementMultiplier = oldMulti;
+    }
+
+    IEnumerator ExecuteDisarm(Func<bool> callback)
+    {
+        _isDisarmed = true;
+
+        yield return new WaitUntil(callback);
+
+        _isDisarmed = false;
+    }
+
+    IEnumerator ExecuteCastTime(Func<bool> callback)
+    {
+        _isCasting = true;
+
+        yield return new WaitUntil(callback);
+
+        _isCasting = false;
+        FinishedCasting();
+    }
+
+    IEnumerator ExecuteInvulnerabilityTime(Func<bool> callback)
+    {
+        _invulnerable = true;
+
+        yield return new WaitUntil(callback);
+
+        _invulnerable = false;
+    }
+    #endregion
 
     public void ApplyVibration(float lowFrequencyIntensity, float highFrequencyIntensity, float duration)
     {

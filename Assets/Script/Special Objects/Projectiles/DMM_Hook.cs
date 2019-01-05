@@ -5,7 +5,7 @@ using System.Linq;
 
 public class DMM_Hook : MonoBehaviour
 {
-    public float maxRange = 7, travelTime = 1;
+    public float maxRange = 7, travelTime = .5f;
     float _travelledDistance, _speed;
 
     Player _owner;
