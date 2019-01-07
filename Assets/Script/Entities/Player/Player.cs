@@ -19,6 +19,7 @@ public class Player : MonoBehaviour, IDamageable
 
     CameraShake _camShake;
     DroneSoundController _soundModule;
+    Collider _col;
 
     Coroutine _actualPushCouroutine;
 
@@ -128,6 +129,7 @@ public class Player : MonoBehaviour, IDamageable
         _soundModule = GetComponent<DroneSoundController>();
         _animationController = GetComponent<PlayerAnimations>();
         _lifeForcefield = GetComponentInChildren<PlayerLifeForcefield>();
+        _col = GetComponent<Collider>();
 
     }
 

@@ -23,6 +23,29 @@ public class SK_RocketSalvo : ComplementarySkillBase
         LoadPrefabs();
     }
 
+    void OnEnable()
+    {
+        if (_effectArea == null)
+        {
+            _effectArea = GetComponentsInChildren<SphereCollider>(true).Where(x => x.gameObject.name == "EffectArea").First();
+            _effectArea.transform.localScale = new Vector3(effectRadius, 0, effectRadius);
+            //concha en el medio del código como pidió santi
+        }
+
+        SetCollisionsIgnored();
+    }
+
+    void SetCollisionsIgnored()
+    {
+        var list = GameObject.FindGameObjectsWithTag("DeathZone").Select(x => x.GetComponent<Collider>()).Where(x => x != null).ToFList();
+        list += StageManager.instance.empCloud.col;
+
+        foreach (var item in list)
+        {
+            Physics.IgnoreCollision(_effectArea, item);
+        }
+    }
+
     void LoadPrefabs()
     {
         var loadedPrefab = Resources.Load<DMM_RocketMini>("Prefabs/Projectiles/RocketMini");
@@ -36,6 +59,7 @@ public class SK_RocketSalvo : ComplementarySkillBase
 
         _effectArea = GetComponentsInChildren<SphereCollider>(true).Where(x => x.gameObject.name == "EffectArea").First();
         _effectArea.transform.localScale = new Vector3(effectRadius, 0, effectRadius);
+        SetCollisionsIgnored();
     }
 
     protected override void InitializeUseCondition()
