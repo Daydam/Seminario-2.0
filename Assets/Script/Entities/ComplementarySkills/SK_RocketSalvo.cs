@@ -122,6 +122,7 @@ public class SK_RocketSalvo : ComplementarySkillBase
             item.gameObject.SetActive(false);
         }
 
+        _skillActive = false;
         _currentCooldown = 0;
     }
 

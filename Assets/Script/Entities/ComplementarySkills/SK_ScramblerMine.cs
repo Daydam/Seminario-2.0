@@ -52,8 +52,7 @@ public class SK_ScramblerMine : ComplementarySkillBase
 
     public override void ResetRound()
     {
-    	 if (MineActive()) _mine.Explode(true);
-
+        if (MineActive()) _mine.Explode(true);
         _currentCooldown = 0;
     }
 
@@ -66,11 +65,10 @@ public class SK_ScramblerMine : ComplementarySkillBase
     {
         var unavailable = _currentCooldown > 0;
         var userDisabled = _owner.IsStunned || _owner.IsDisarmed;
-        var active = MineActive();
 
         if (userDisabled) return SkillState.UserDisabled;
         else if (unavailable) return SkillState.Unavailable;
-        else if (active) return SkillState.Active;
+        else if (MineActive()) return SkillState.Active;
         else return SkillState.Available;
     }
 }

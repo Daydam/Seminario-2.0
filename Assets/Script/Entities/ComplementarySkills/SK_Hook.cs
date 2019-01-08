@@ -21,10 +21,6 @@ public class SK_Hook : ComplementarySkillBase
 
     DMM_Hook _hook;
 
-    public enum HookBehaviours { SAME, LIGHT, HEAVY };
-
-    public HookBehaviours actual;
-
     protected override void Start()
     {
         base.Start();
@@ -118,7 +114,7 @@ public class SK_Hook : ComplementarySkillBase
         var targetPosition = target.transform.position;
         var myPosition = _owner.transform.position;
 
-        var centerPoint = Vector3.Lerp(myPosition, targetPosition, .75f);
+        var centerPoint = Vector3.Lerp(myPosition, targetPosition, .5f);
 
         var myLandingPoint = Vector3.Lerp(myPosition, centerPoint, .75f);
         var otherLandingPoint = Vector3.Lerp(targetPosition, centerPoint, .75f);
@@ -146,7 +142,7 @@ public class SK_Hook : ComplementarySkillBase
         var targetPosition = target.transform.position;
         var myPosition = _owner.transform.position;
 
-        var otherLandingPoint = Vector3.Lerp(targetPosition, myPosition, .55f);
+        var otherLandingPoint = Vector3.Lerp(targetPosition, myPosition, .75f);
 
         StartCoroutine(HeavierWeightMovement(target, otherLandingPoint));
     }
@@ -249,6 +245,7 @@ public class SK_Hook : ComplementarySkillBase
     {
         StopAllCoroutines();
         _currentCooldown = 0;
+        _skillActive = false;
     }
 
     public override SkillState GetActualState()

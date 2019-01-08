@@ -61,16 +61,20 @@ public class Player : MonoBehaviour, IDamageable
 
     Renderer _rend;
     public Renderer Rend { get { return _rend; } }
-    /// <summary>
-    /// TODO: Hacer que pueda ser mayor a 1 (si llegamos a usar cosas de aumentar la velocidad de movimiento)
-    /// </summary>
+
+    float _movementMultiplier = 1;
     public float MovementMultiplier
     {
         get { return Mathf.Clamp01(_movementMultiplier); }
         set { _movementMultiplier = Mathf.Clamp01(value); }
     }
 
-    float _movementMultiplier = 1;
+    float _knockbackMultiplier = 1;
+    public float KnockbackMultiplier
+    {
+        get { return Mathf.Abs(_knockbackMultiplier); }
+        set { _knockbackMultiplier = Mathf.Abs(value); }
+    }
 
     public float maxHP = 100;
     float _hp;
@@ -295,6 +299,19 @@ public class Player : MonoBehaviour, IDamageable
         return this;
     }
 
+    public void RepairDrone(float heal)
+    {
+        AddLife(heal);
+    }
+
+    void AddLife(float heal)
+    {
+        if (_invulnerable) return;
+
+        Hp += heal;
+        _rend.material.SetFloat("_Life", Hp / maxHP);
+    }
+
     public void TakeDamage(float damage)
     {
         SubstractLife(damage);
@@ -353,7 +370,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         if (_invulnerable) return;
         CancelForces();
-        _rb.AddForce(dir * amount, ForceMode.Impulse);
+        _rb.AddForce(dir * (amount * KnockbackMultiplier), ForceMode.Impulse);
     }
 
     public void ApplyKnockback(float amount, Vector3 dir, Player pusher)
@@ -361,7 +378,7 @@ public class Player : MonoBehaviour, IDamageable
         if (_invulnerable) return;
 
         CancelForces();
-        _rb.AddForce(dir * amount, ForceMode.Impulse);
+        _rb.AddForce(dir * (amount * KnockbackMultiplier), ForceMode.Impulse);
 
         if (_actualPushCouroutine != null) StopCoroutine(_actualPushCouroutine);
 
@@ -374,7 +391,7 @@ public class Player : MonoBehaviour, IDamageable
 
         CancelForces();
 
-        _rb.AddForce(dir * amount, ForceMode.Impulse);
+        _rb.AddForce(dir * (amount * KnockbackMultiplier), ForceMode.Impulse);
 
         if (_actualPushCouroutine != null) StopCoroutine(_actualPushCouroutine);
 
@@ -387,7 +404,7 @@ public class Player : MonoBehaviour, IDamageable
 
         CancelForces();
 
-        _rb.AddExplosionForce(amount, position, radius, upwardsModifier, ForceMode.VelocityChange);
+        _rb.AddExplosionForce(amount * KnockbackMultiplier, position, radius, upwardsModifier, ForceMode.VelocityChange);
 
     }
 
@@ -397,7 +414,7 @@ public class Player : MonoBehaviour, IDamageable
 
         CancelForces();
 
-        _rb.AddExplosionForce(amount, position, radius, upwardsModifier, ForceMode.VelocityChange);
+        _rb.AddExplosionForce(amount * KnockbackMultiplier, position, radius, upwardsModifier, ForceMode.VelocityChange);
 
 
         if (_actualPushCouroutine != null) StopCoroutine(_actualPushCouroutine);
@@ -411,7 +428,7 @@ public class Player : MonoBehaviour, IDamageable
 
         CancelForces();
 
-        _rb.AddExplosionForce(amount, position, radius, upwardsModifier, ForceMode.VelocityChange);
+        _rb.AddExplosionForce(amount * KnockbackMultiplier, position, radius, upwardsModifier, ForceMode.VelocityChange);
 
         if (_actualPushCouroutine != null) StopCoroutine(_actualPushCouroutine);
 
@@ -432,6 +449,13 @@ public class Player : MonoBehaviour, IDamageable
 
         _soundModule.PlayDisarmSound();
         StartCoroutine(ExecuteSlowMovement(duration, amount));
+    }
+
+    public void ApplyKnockbackMultiplierChange(float duration, float amount)
+    {
+        if (_invulnerable) return;
+
+        StartCoroutine(ExecuteKnockbackMultiplierChange(duration, amount));
     }
 
     public void ApplyStun(float duration)
@@ -483,6 +507,17 @@ public class Player : MonoBehaviour, IDamageable
         yield return new WaitForSeconds(duration);
 
         MovementMultiplier = oldMulti;
+    }
+
+    IEnumerator ExecuteKnockbackMultiplierChange(float duration, float amount)
+    {
+        var oldMulti = KnockbackMultiplier;
+
+        KnockbackMultiplier = amount;
+
+        yield return new WaitForSeconds(duration);
+
+        KnockbackMultiplier = oldMulti;
     }
 
     IEnumerator ExecuteDisarm(float duration)
@@ -548,6 +583,13 @@ public class Player : MonoBehaviour, IDamageable
         StartCoroutine(ExecuteSlowMovement(callback, amount));
     }
 
+    public void ApplyKnockbackMultiplierChange(Func<bool> callback, float amount)
+    {
+        if (_invulnerable) return;
+
+        StartCoroutine(ExecuteKnockbackMultiplierChange(callback, amount));
+    }
+
     public void ApplyStun(Func<bool> callback)
     {
         if (_invulnerable) return;
@@ -581,6 +623,17 @@ public class Player : MonoBehaviour, IDamageable
         yield return new WaitUntil(callback);
 
         _isStunned = false;
+    }
+
+    IEnumerator ExecuteKnockbackMultiplierChange(Func<bool> callback, float amount)
+    {
+        var oldMulti = KnockbackMultiplier;
+
+        KnockbackMultiplier = amount;
+
+        yield return new WaitUntil(callback);
+
+        KnockbackMultiplier = oldMulti;
     }
 
     IEnumerator ExecuteSlowMovement(Func<bool> callback, float amount)

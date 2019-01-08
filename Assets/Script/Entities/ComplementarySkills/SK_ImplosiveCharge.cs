@@ -108,6 +108,8 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
     public override void ResetRound()
     {
         StopAllCoroutines();
+        _charge.gameObject.SetActive(false);
+        _skillActive = false;
         _currentCooldown = 0;
     }
 

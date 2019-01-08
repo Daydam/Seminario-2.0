@@ -63,7 +63,7 @@ public class DMM_RocketMini : MonoBehaviour
 
         foreach (var item in damageable)
         {
-            item.TakeDamage(damage);
+            item.TakeDamage(damage, gameObject.tag);
         }
 
         _activationCallback(this);
