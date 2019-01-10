@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class SK_Dash : DefensiveSkillBase
 {
-    public float maxCooldown;
-    public float dashDistance;
-    public float dashTime;
+    public SO_Dash skillData;
+
     SkillTrail _trail;
 
     bool _canTap = true;
@@ -16,6 +15,10 @@ public class SK_Dash : DefensiveSkillBase
     protected override void Start()
     {
         base.Start();
+
+        skillData = Resources.Load<SO_Dash>("Scriptable Objects/Skills/Defensive/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_Dash;
+
+
         _trail = GetTrail();
     }
 
@@ -50,7 +53,7 @@ public class SK_Dash : DefensiveSkillBase
 
                     _canTap = false;
                     StartCoroutine(DashHandler(dirV.normalized));
-                    _currentCooldown = maxCooldown;
+                    _currentCooldown = skillData.maxCooldown;
                 }
             }
             else
@@ -72,9 +75,9 @@ public class SK_Dash : DefensiveSkillBase
 
         var distanceTraveled = 0f;
 
-        var amountByDelta = Time.fixedDeltaTime * dashDistance / dashTime;
+        var amountByDelta = Time.fixedDeltaTime * skillData.dashDistance / skillData.dashTime;
 
-        while (distanceTraveled < dashDistance)
+        while (distanceTraveled < skillData.dashDistance)
         {
             distanceTraveled += amountByDelta;
             var nextPos = _owner.GetRigidbody.position + amountByDelta * dir;

@@ -5,7 +5,7 @@ using System.Linq;
 
 public class SK_ScramblerMine : ComplementarySkillBase
 {
-    public float maxCooldown, duration, radius;
+    public SO_ScramblerMine skillData;
 
     float _currentCooldown = 0;
     DMM_ScramblerMine _mine;
@@ -15,6 +15,9 @@ public class SK_ScramblerMine : ComplementarySkillBase
     protected override void Start()
     {
         base.Start();
+
+        skillData = Resources.Load<SO_ScramblerMine>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_ScramblerMine;
+
         var obj = Resources.Load<DMM_ScramblerMine>("Prefabs/Projectiles/ScramblerMine");
         _mine = Instantiate(obj, transform.position, Quaternion.identity);
         _mine.gameObject.SetActive(false);
@@ -40,9 +43,9 @@ public class SK_ScramblerMine : ComplementarySkillBase
                     if (MineActive()) _mine.Explode(true);
 
                     _mine.gameObject.SetActive(true);
-                    _mine.Spawn(_owner.transform.position, _owner.gameObject.transform.forward, duration, radius, _owner.gameObject.tag);
+                    _mine.Spawn(_owner.transform.position, _owner.gameObject.transform.forward, skillData.duration, skillData.radius, _owner.gameObject.tag, skillData);
 
-                    _currentCooldown = maxCooldown;
+                    _currentCooldown = skillData.maxCooldown;
                 }
             }
             //else _stateSource.PlayOneShot(unavailableSound);

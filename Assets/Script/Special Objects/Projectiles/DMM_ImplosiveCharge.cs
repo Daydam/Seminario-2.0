@@ -5,7 +5,8 @@ using System.Linq;
 
 public class DMM_ImplosiveCharge : MonoBehaviour
 {
-    public float radius, speed, maxDistance;
+    public SO_ImplosiveCharge skillData;
+
     public bool movementFinished;
 
     Rigidbody _rb;
@@ -21,8 +22,10 @@ public class DMM_ImplosiveCharge : MonoBehaviour
         targets = new List<Player>();
     }
 
-    public DMM_ImplosiveCharge Spawn(Vector3 spawnPos, Vector3 fwd, string emmitter, Player owner)
+    public DMM_ImplosiveCharge Spawn(Vector3 spawnPos, Vector3 fwd, string emmitter, Player owner, SO_ImplosiveCharge data)
     {
+        skillData = data;
+
         transform.position = spawnPos;
         transform.forward = fwd;
         transform.parent = null;
@@ -37,14 +40,14 @@ public class DMM_ImplosiveCharge : MonoBehaviour
 
     void Update()
     {
-        if (_travelledDistance >= maxDistance) ForceActivation();
+        if (_travelledDistance >= skillData.maxDistance) ForceActivation();
     }
 
     void FixedUpdate()
     {
         if (!_stopMoving)
         {
-            var distance = speed * Time.fixedDeltaTime;
+            var distance = skillData.speed * Time.fixedDeltaTime;
             _travelledDistance += distance;
             _rb.MovePosition(_rb.position + transform.forward * distance);
         }
@@ -60,7 +63,7 @@ public class DMM_ImplosiveCharge : MonoBehaviour
     {
         _stopMoving = true;
 
-        targets = Physics.OverlapSphere(transform.position, radius).Select(x => x.GetComponent<Player>()).Where(x => x != null && x != _owner).ToList();
+        targets = Physics.OverlapSphere(transform.position, skillData.radius).Select(x => x.GetComponent<Player>()).Where(x => x != null && x != _owner).ToList();
 
         FinishTrajectory();
     }

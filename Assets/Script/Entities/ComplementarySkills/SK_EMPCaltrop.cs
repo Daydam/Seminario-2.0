@@ -5,8 +5,7 @@ using System.Linq;
 
 public class SK_EMPCaltrop : ComplementarySkillBase
 {
-    public float maxCooldown = 4;
-    public byte maxChargesActive = 4;
+    public SO_EMPCaltrop skillData;
 
     float _currentCooldown = 0;
     bool _canTap = true;
@@ -17,6 +16,9 @@ public class SK_EMPCaltrop : ComplementarySkillBase
     {
         base.Start();
 
+        skillData = Resources.Load<SO_EMPCaltrop>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_EMPCaltrop;
+
+
         LoadPrefabs();
     }
 
@@ -24,7 +26,7 @@ public class SK_EMPCaltrop : ComplementarySkillBase
     {
         var loadedPrefab = Resources.Load<DMM_EMPCaltrop>("Prefabs/Projectiles/EMPCaltrop");
 
-        for (byte i = 0; i < maxChargesActive; i++)
+        for (byte i = 0; i < skillData.maxChargesActive; i++)
         {
             var charge = Instantiate(loadedPrefab);
             _charges.Add(charge);
@@ -50,7 +52,7 @@ public class SK_EMPCaltrop : ComplementarySkillBase
 
                 LaunchCaltrop();
 
-                _currentCooldown = maxCooldown;
+                _currentCooldown = skillData.maxCooldown;
             }
         }
         //else _stateSource.PlayOneShot(unavailableSound);
@@ -67,7 +69,7 @@ public class SK_EMPCaltrop : ComplementarySkillBase
         var caltrop = _charges.First();
         if (caltrop.gameObject.activeInHierarchy) caltrop.ForceActivation();
         caltrop.gameObject.SetActive(true);
-        caltrop.Spawn(_owner.transform.position, _owner.gameObject.transform.forward, _owner.gameObject.tag, OnCaltropActivation);
+        caltrop.Spawn(_owner.transform.position, _owner.gameObject.transform.forward, _owner.gameObject.tag, OnCaltropActivation, skillData);
     }
 
     void OnCaltropActivation(DMM_EMPCaltrop obj)

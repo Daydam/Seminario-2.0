@@ -6,9 +6,8 @@ using System;
 
 public class DMM_RocketMini : MonoBehaviour
 {
-    public float explosionRadius = 1.15f;
-    public float damage = 3;
-    public float speed = 30;
+    public SO_RocketSalvo skillData;
+
     Action<DMM_RocketMini> _activationCallback;
 
     Rigidbody _rb;
@@ -19,8 +18,10 @@ public class DMM_RocketMini : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
     }
 
-    public DMM_RocketMini Spawn(Vector3 spawnPos, Vector3 landingPoint, string emmitter, Player owner, Action<DMM_RocketMini> activationCallback)
+    public DMM_RocketMini Spawn(Vector3 spawnPos, Vector3 landingPoint, string emmitter, Player owner, Action<DMM_RocketMini> activationCallback, SO_RocketSalvo data)
     {
+        skillData = data;
+
         transform.position = spawnPos;
         transform.forward = (landingPoint - transform.position).normalized;
         transform.parent = null;
@@ -57,13 +58,13 @@ public class DMM_RocketMini : MonoBehaviour
     {
         StopAllCoroutines();
 
-        var cols = Physics.OverlapSphere(transform.position, explosionRadius);
+        var cols = Physics.OverlapSphere(transform.position, skillData.explosionRadius);
 
         var damageable = cols.Select(x => x.GetComponent(typeof(IDamageable)) as IDamageable).Where(x => x != null);
 
         foreach (var item in damageable)
         {
-            item.TakeDamage(damage, gameObject.tag);
+            item.TakeDamage(skillData.damage, gameObject.tag);
         }
 
         _activationCallback(this);
@@ -75,7 +76,7 @@ public class DMM_RocketMini : MonoBehaviour
 
         while (Vector3.Distance(transform.position, landingPoint) > .001f)
         {
-            _rb.MovePosition(transform.position + (transform.forward * speed * Time.fixedDeltaTime));
+            _rb.MovePosition(transform.position + (transform.forward * skillData.speed * Time.fixedDeltaTime));
             yield return inst;
         }
 

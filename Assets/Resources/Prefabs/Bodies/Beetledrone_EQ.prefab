@@ -579,6 +579,7 @@ GameObject:
   - component: {fileID: 114155350176001540}
   - component: {fileID: 95967551853141604}
   - component: {fileID: 114345293119366864}
+  - component: {fileID: 8633881909459949694}
   m_Layer: 0
   m_Name: Beetledrone_EQ
   m_TagString: Untagged
@@ -646,7 +647,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turningSpeed: 3.5
-  weight: 0
+  weightModule: {fileID: 0}
   movementSpeed: 7
   movDir: {x: 0, y: 0, z: 0}
   playerEndgameTexts: {fileID: 1643405460474728}
@@ -826,6 +827,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a6a5274025591479f37b354667054c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8633881909459949694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785207140606284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01aef9376d3b6a84da34f76d0f2b1ee8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weight: 10
+  sufix: _EQ
 --- !u!1 &1793874535216528
 GameObject:
   m_ObjectHideFlags: 0

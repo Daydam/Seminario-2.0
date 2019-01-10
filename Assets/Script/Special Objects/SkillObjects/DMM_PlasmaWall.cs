@@ -5,8 +5,7 @@ using System.Linq;
 
 public class DMM_PlasmaWall : MonoBehaviour, IDamageable
 {
-    public float maxHP = 5;
-    public float lifeTime = 5f;
+    public SO_PlasmaWall skillData;
 
     Coroutine _lifeTimerRoutine;
     Renderer _rend;
@@ -21,15 +20,18 @@ public class DMM_PlasmaWall : MonoBehaviour, IDamageable
 
         private set
         {
-            _hp = value >= maxHP ? maxHP : value <= 0 ? 0 : value;
+            _hp = value >= skillData.maxHP ? skillData.maxHP : value <= 0 ? 0 : value;
         }
     }
 
-    public DMM_PlasmaWall Spawn(Vector3 spawnPos, Vector3 fwd)
+    public DMM_PlasmaWall Spawn(Vector3 spawnPos, Vector3 fwd, float size, SO_PlasmaWall data)
     {
+        skillData = data;
+
         transform.position = spawnPos;
         transform.forward = fwd;
         transform.parent = null;
+        transform.localScale = new Vector3(size, transform.localScale.y, transform.localScale.z);
 
         ResetHP();
 
@@ -55,14 +57,14 @@ public class DMM_PlasmaWall : MonoBehaviour, IDamageable
 
     IEnumerator LifeTimer()
     {
-        yield return new WaitForSeconds(lifeTime);
+        yield return new WaitForSeconds(skillData.lifeTime);
 
         Destruction();
     }
 
     public void ResetHP()
     {
-        Hp = maxHP;
+        Hp = skillData.maxHP;
         if (_rend == null) _rend = GetComponent<Renderer>();
         _rend.material.SetFloat("_Life", 1);
     }
@@ -82,7 +84,7 @@ public class DMM_PlasmaWall : MonoBehaviour, IDamageable
     void SubstractLife(float damage)
     {
         Hp -= damage;
-        _rend.material.SetFloat("_Life", Mathf.Lerp(0, 1, Hp / maxHP));
+        _rend.material.SetFloat("_Life", Mathf.Lerp(0, 1, Hp / skillData.maxHP));
     }
 
     void Destruction()

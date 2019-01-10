@@ -7,7 +7,12 @@ using UnityEngine;
 public class Player : MonoBehaviour, IDamageable
 {
     public float turningSpeed;
-    public int weight;
+
+    public DroneWeightModule weightModule;
+    public int Weight
+    {
+        get { return weightModule.weight; }
+    }
 
     Controller _control;
     public Controller Control { get { return _control; } }
@@ -134,6 +139,7 @@ public class Player : MonoBehaviour, IDamageable
         _animationController = GetComponent<PlayerAnimations>();
         _lifeForcefield = GetComponentInChildren<PlayerLifeForcefield>();
         _col = GetComponent<Collider>();
+        weightModule = GetComponent<DroneWeightModule>();
 
     }
 

@@ -31,6 +31,11 @@ public abstract class SkillBase : MonoBehaviour
     /// <returns> </returns>
     public abstract SkillState GetActualState();
 
+    protected virtual string GetSkillName()
+    {
+        return this.ToString().Split('_').Skip(1).First().Split(')').First();
+    }
+
 }
 
 public enum SkillState { Unavailable, Available, Active, UserDisabled, ERROR }

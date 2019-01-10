@@ -12,9 +12,10 @@ public class DMM_StunMissile : MonoBehaviour
 {
     AnimationCurve _AOEDecay;
     Rigidbody _rb;
-    public float maximumRadius;
+
+    public SO_StunMissile skillData;
+
     float minAoE, medAoE, maxAoE;
-    public float damage, knockback, speed, duration;
     float _travelledDistance;
     float _maximumDistance;
 
@@ -24,16 +25,14 @@ public class DMM_StunMissile : MonoBehaviour
 
     void Awake()
     {
-        SetAoEValues();
-        SetCurveValues();
         _rb = GetComponent<Rigidbody>();
     }
 
     void SetAoEValues()
     {
-        minAoE = maximumRadius * 0.335f;
-        medAoE = maximumRadius * 0.7f;
-        maxAoE = maximumRadius * 1f;
+        minAoE = skillData.maximumRadius * 0.335f;
+        medAoE = skillData.maximumRadius * 0.7f;
+        maxAoE = skillData.maximumRadius * 1f;
     }
 
     void SetCurveValues()
@@ -49,8 +48,12 @@ public class DMM_StunMissile : MonoBehaviour
         _AOEDecay.AddKey(zero);
     }
 
-    public DMM_StunMissile Spawn(Vector3 spawnPos, Vector3 fwd, float maximumDistance, string emmitter)
+    public DMM_StunMissile Spawn(Vector3 spawnPos, Vector3 fwd, float maximumDistance, string emmitter, SO_StunMissile data)
     {
+        skillData = data;
+        SetAoEValues();
+        SetCurveValues();
+
         transform.position = spawnPos;
         transform.forward = fwd;
         transform.parent = null;
@@ -71,7 +74,7 @@ public class DMM_StunMissile : MonoBehaviour
     {
         if (!_stopMoving)
         {
-            var distance = speed * Time.fixedDeltaTime;
+            var distance = skillData.speed * Time.fixedDeltaTime;
             _travelledDistance += distance;
             _rb.MovePosition(_rb.position + transform.forward * distance);
         }
@@ -124,7 +127,7 @@ public class DMM_StunMissile : MonoBehaviour
         foreach (var play in inMinAoe)
         {
             var multiplier = _AOEDecay.Evaluate(minAoE);
-            play.ApplyStun(duration * multiplier);
+            play.ApplyStun(skillData.duration * multiplier);
         }
 
         var inMedAoe = players.Where(x => 
@@ -135,7 +138,7 @@ public class DMM_StunMissile : MonoBehaviour
         foreach (var play in inMedAoe)
         {
             var multiplier = _AOEDecay.Evaluate(medAoE);
-            play.ApplyStun(duration * multiplier);
+            play.ApplyStun(skillData.duration * multiplier);
         }
 
         var inMaxAoe = players.Where(x => Vector3.Distance(x.gameObject.transform.position, transform.position) > medAoE);
@@ -143,7 +146,7 @@ public class DMM_StunMissile : MonoBehaviour
         foreach (var play in inMaxAoe)
         {
             var multiplier = _AOEDecay.Evaluate(maxAoE);
-            play.ApplyStun(duration * multiplier);
+            play.ApplyStun(skillData.duration * multiplier);
         }
 
         ReturnToPool();

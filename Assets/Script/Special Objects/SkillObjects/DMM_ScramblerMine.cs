@@ -6,10 +6,11 @@ using UnityEngine.AI;
 
 public class DMM_ScramblerMine : MonoBehaviour, IDamageable
 {
+    public SO_ScramblerMine skillData;
+
     Rigidbody _rb;
     Collider _col;
     NavMeshAgent _nav;
-    public float damage, activationDelay, speed, maxHP;
 
     float _duration, _explosionRadius, _hp;
 
@@ -35,7 +36,7 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
         private set
         {
             if (value <= 0) _hp = 0;
-            else if (value >= maxHP) _hp = maxHP;
+            else if (value >= skillData.maxHP) _hp = skillData.maxHP;
             else _hp = value;
         }
     }
@@ -73,12 +74,14 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
         _nav.Warp(pos);
     }
 
-    public DMM_ScramblerMine Spawn(Vector3 spawnPos, Vector3 fwd, float duration, float explosionRadius, string emmitter)
+    public DMM_ScramblerMine Spawn(Vector3 spawnPos, Vector3 fwd, float duration, float explosionRadius, string emmitter, SO_ScramblerMine data)
     {
         foreach (var item in Trail)
         {
             item.enabled = false;
         }
+
+        skillData = data;
 
         transform.position = spawnPos;
 
@@ -95,7 +98,7 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
         _explosionRadius = explosionRadius;
 
         _nav.ResetPath();
-        _nav.speed = speed;
+        _nav.speed = skillData.speed;
 
         WarpNavMeshAgent(spawnPos);
 
@@ -123,7 +126,7 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
 
     IEnumerator DelayedActivation()
     {
-        yield return new WaitForSeconds(activationDelay);
+        yield return new WaitForSeconds(skillData.activationDelay);
         Activate();
     }
 
@@ -138,7 +141,7 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
 
     Player GetTarget()
     {
-        return GameManager.Instance.Players.Where(x => x.gameObject.tag != gameObject.tag).Where(x => x.gameObject.activeInHierarchy).OrderBy(a => Vector3.Distance(a.transform.position, transform.position)).First();
+        return GameManager.Instance.Players.Where(x => x.gameObject.tag != gameObject.tag).Where(x => x.gameObject.activeInHierarchy).OrderBy(a => Vector3.Distance(a.transform.position, transform.position)).FirstOrDefault();
     }
 
     void HuntTarget()
@@ -215,7 +218,7 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
 
     public void ResetHP()
     {
-        Hp = maxHP;
+        Hp = skillData.maxHP;
     }
 
     public void TakeDamage(float damage)

@@ -5,8 +5,9 @@ using System.Linq;
 
 public class SK_PlasmaWall : DefensiveSkillBase
 {
+    public SO_PlasmaWall skillData;
+
     Transform spawnPos;
-    public float maxCooldown = 6f;
 
     float _currentCooldown = 0;
     bool _canTap = true;
@@ -18,6 +19,13 @@ public class SK_PlasmaWall : DefensiveSkillBase
             if (!spawnPos) spawnPos = transform.Find("SpawnPoint");
             return spawnPos;
         }
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        skillData = Resources.Load<SO_PlasmaWall>("Scriptable Objects/Skills/Defensive/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_PlasmaWall;
+
     }
 
     protected override void InitializeUseCondition()
@@ -37,7 +45,7 @@ public class SK_PlasmaWall : DefensiveSkillBase
                 {
                     _canTap = false;
                     SpawnWall();
-                    _currentCooldown = maxCooldown;
+                    _currentCooldown = skillData.maxCooldown;
                 }
             }
             else
@@ -54,7 +62,7 @@ public class SK_PlasmaWall : DefensiveSkillBase
 
     void SpawnWall()
     {
-        PlasmaWallSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(SpawnPos.position, _owner.transform.forward);
+        PlasmaWallSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(SpawnPos.position, _owner.transform.forward, skillData.size, skillData);
     }
 
     public override void ResetRound()

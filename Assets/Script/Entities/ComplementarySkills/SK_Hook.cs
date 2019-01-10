@@ -6,10 +6,7 @@ using System;
 
 public class SK_Hook : ComplementarySkillBase
 {
-    public float playerTravelTime = .6f;
-    public float stunIfNullTarget = .4f;
-    public float castTime = .2f;
-    public float maxCooldown = 6;
+    public SO_Hook skillData;
 
     bool _skillActive = false, _canTap = true;
     float _currentCooldown = 0;
@@ -24,6 +21,8 @@ public class SK_Hook : ComplementarySkillBase
     protected override void Start()
     {
         base.Start();
+
+        skillData = Resources.Load<SO_Hook>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_Hook;
 
         var loadedPrefab = Resources.Load<DMM_Hook>("Prefabs/Projectiles/Hook");
 
@@ -57,7 +56,7 @@ public class SK_Hook : ComplementarySkillBase
 
     void UseSkill()
     {
-        _owner.ApplyCastState(castTime);
+        _owner.ApplyCastState(skillData.castTime);
 
         StartCoroutine(WaitForCastEnd(_owner.FinishedCasting));
     }
@@ -65,7 +64,7 @@ public class SK_Hook : ComplementarySkillBase
     public IEnumerator WaitForCastEnd(Func<bool> callback)
     {
         yield return new WaitUntil(callback);
-        _currentCooldown = maxCooldown;
+        _currentCooldown = skillData.maxCooldown;
         _canTap = false;
 
         StartCoroutine(LaunchHook());
@@ -74,7 +73,7 @@ public class SK_Hook : ComplementarySkillBase
     IEnumerator LaunchHook()
     {
         _hook.gameObject.SetActive(true);
-        _hook.Spawn(_owner.transform.position, _owner.transform.forward, _owner.tag, _owner);
+        _hook.Spawn(_owner.transform.position, _owner.transform.forward, _owner.tag, _owner, skillData);
 
         yield return new WaitUntil(() => _hook.movementFinished);
 
@@ -82,8 +81,8 @@ public class SK_Hook : ComplementarySkillBase
         {
             var targetPlayer = (Player)_hook.Target;
 
-            if (_owner.weight > targetPlayer.weight) HeavierWeightBehaviour(targetPlayer);
-            else if (_owner.weight < targetPlayer.weight) LighterWeightBehaviour(targetPlayer.gameObject);
+            if (_owner.Weight > targetPlayer.Weight) HeavierWeightBehaviour(targetPlayer);
+            else if (_owner.Weight < targetPlayer.Weight) LighterWeightBehaviour(targetPlayer.gameObject);
             else SameWeightBehaviour(targetPlayer);
         }
         else if (_hook.Target is RingWall)
@@ -103,7 +102,7 @@ public class SK_Hook : ComplementarySkillBase
         }
         else
         {
-            _owner.ApplyStun(stunIfNullTarget);
+            _owner.ApplyStun(skillData.stunIfNullTarget);
         }
 
         _hook.gameObject.SetActive(false);
@@ -157,7 +156,7 @@ public class SK_Hook : ComplementarySkillBase
 
         var startPoint = player.transform.position;
 
-        var tTick = Time.fixedDeltaTime / playerTravelTime;
+        var tTick = Time.fixedDeltaTime / skillData.playerTravelTime;
         var elapsed = 0f;
 
         while (Vector3.Distance(player.transform.position, landingPoint) > .3f)
@@ -191,7 +190,7 @@ public class SK_Hook : ComplementarySkillBase
 
         var startPoint = _owner.transform.position;
 
-        var tTick = Time.fixedDeltaTime / playerTravelTime;
+        var tTick = Time.fixedDeltaTime / skillData.playerTravelTime;
         var elapsed = 0f;
 
         while (Vector3.Distance(_owner.transform.position, landingPoint) > .3f)
@@ -222,7 +221,7 @@ public class SK_Hook : ComplementarySkillBase
 
         var startPoint = target.transform.position;
 
-        var tTick = Time.fixedDeltaTime / playerTravelTime;
+        var tTick = Time.fixedDeltaTime / skillData.playerTravelTime;
         var elapsed = 0f;
 
         while (Vector3.Distance(target.transform.position, landingPoint) > .3f)

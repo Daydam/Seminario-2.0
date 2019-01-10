@@ -5,11 +5,16 @@ using UnityEngine;
 
 public class SK_StunMissile : ComplementarySkillBase
 {
-    public float maxCooldown;
-    public float minRange, maxRange;
+    public SO_StunMissile skillData;
 
     bool _canTap = true;
     float _currentCooldown = 0;
+
+    protected override void Start()
+    {
+        base.Start();
+        skillData = Resources.Load<SO_StunMissile>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_StunMissile;
+    }
 
     protected override void InitializeUseCondition()
     {
@@ -29,7 +34,7 @@ public class SK_StunMissile : ComplementarySkillBase
                     if (activationAnim != null) activationAnim.Play();
                     _canTap = false;
                     ShootProjectile();
-                    _currentCooldown = maxCooldown;
+                    _currentCooldown = skillData.maxCooldown;
                 }
             }
             //else _stateSource.PlayOneShot(unavailableSound);
@@ -48,13 +53,13 @@ public class SK_StunMissile : ComplementarySkillBase
         RaycastHit rch;
         Vector3 dir;
 
-        if (Physics.Raycast(_owner.transform.position, _owner.gameObject.transform.forward, out rch, maxRange, maskOfLayers))
+        if (Physics.Raycast(_owner.transform.position, _owner.gameObject.transform.forward, out rch, skillData.maxRange, maskOfLayers))
         {
             dir = rch.collider.transform.position - transform.position;
         }
         else dir = _owner.gameObject.transform.forward;
 
-        StunMissileSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, dir, maxRange, _owner.gameObject.tag);
+        StunMissileSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, dir, skillData.maxRange, _owner.gameObject.tag, skillData);
     }
 
     public override void ResetRound()

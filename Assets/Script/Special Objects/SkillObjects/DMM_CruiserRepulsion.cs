@@ -5,12 +5,14 @@ using System.Linq;
 
 public class DMM_CruiserRepulsion : MonoBehaviour
 {
-    Player _owner;
-    public float repulsiveForce = 30;
-    public float radius = 5;
+    public SO_CruiserFlight skillData;
 
-    public DMM_CruiserRepulsion Spawn(Vector3 spawnPos, Player owner)
+    Player _owner;
+
+    public DMM_CruiserRepulsion Spawn(Vector3 spawnPos, Player owner, SO_CruiserFlight data)
     {
+        skillData = data;
+
         transform.position = spawnPos;
         transform.parent = null;
 
@@ -30,7 +32,7 @@ public class DMM_CruiserRepulsion : MonoBehaviour
 
         SimpleParticleSpawner.Instance.SpawnParticle(particle.gameObject, transform.position, transform.forward, null);
 
-        var cols = Physics.OverlapSphere(transform.position, radius);
+        var cols = Physics.OverlapSphere(transform.position, skillData.radius);
 
         if (!cols.Any()) return;
 
@@ -40,7 +42,7 @@ public class DMM_CruiserRepulsion : MonoBehaviour
 
         for (int i = 0; i < playersAffected.Length; i++)
         {
-            playersAffected[i].ApplyExplosionForce(repulsiveForce, transform.position, radius, _owner);
+            playersAffected[i].ApplyExplosionForce(skillData.repulsiveForce, transform.position, skillData.radius, _owner);
         }
 
         Invoke("Destruction", .1f);

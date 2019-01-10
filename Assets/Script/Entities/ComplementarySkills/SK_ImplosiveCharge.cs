@@ -5,7 +5,7 @@ using System.Linq;
 
 public class SK_ImplosiveCharge : ComplementarySkillBase
 {
-    public float maxCooldown = 7, playerTravelTime = .4f;
+    public SO_ImplosiveCharge skillData;
 
     float _currentCooldown;
     bool _skillActive, _canTap = true;
@@ -20,6 +20,8 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
     protected override void Start()
     {
         base.Start();
+
+        skillData = Resources.Load<SO_ImplosiveCharge>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_ImplosiveCharge;
 
         var loadedPrefab = Resources.Load<DMM_ImplosiveCharge>("Prefabs/Projectiles/ImplosiveCharge");
 
@@ -51,7 +53,7 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
     IEnumerator ChargeActivationHandler()
     {
         _charge.gameObject.SetActive(true);
-        _charge.Spawn(_owner.transform.position, _owner.transform.forward, _owner.tag, _owner);
+        _charge.Spawn(_owner.transform.position, _owner.transform.forward, _owner.tag, _owner, skillData);
         _skillActive = true;
 
         yield return new WaitUntil(() => _charge.movementFinished);
@@ -66,7 +68,7 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
 
         _charge.gameObject.SetActive(false);
         _skillActive = false;
-        _currentCooldown = maxCooldown;
+        _currentCooldown = skillData.maxCooldown;
     }
 
     /// <summary>
@@ -81,7 +83,7 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
 
         var startPoint = player.transform.position;
 
-        var tTick = Time.fixedDeltaTime / playerTravelTime;
+        var tTick = Time.fixedDeltaTime / skillData.playerTravelTime;
         var elapsed = 0f;
 
         while (Vector3.Distance(player.transform.position, landingPoint) > .3f)

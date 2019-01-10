@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class SK_FragmentMissile : ComplementarySkillBase
 {
-    public float maxCooldown;
-    public float minRange, maxRange;
+    public SO_FragmentMissile skillData;
 
     bool _canTap = true;
     float _currentCooldown = 0;
@@ -14,6 +13,12 @@ public class SK_FragmentMissile : ComplementarySkillBase
     protected override void InitializeUseCondition()
     {
         _canUseSkill = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting && !_owner.lockedByGame && _currentCooldown <= 0;
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        skillData = Resources.Load<SO_FragmentMissile>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_FragmentMissile;
     }
 
     protected override void CheckInput()
@@ -28,7 +33,7 @@ public class SK_FragmentMissile : ComplementarySkillBase
                     _canTap = false;
                     if (activationAnim != null) activationAnim.Play();
                     ShootProjectile();
-                    _currentCooldown = maxCooldown;
+                    _currentCooldown = skillData.maxCooldown;
                 }
             }
             //else _stateSource.PlayOneShot(unavailableSound);
@@ -47,13 +52,13 @@ public class SK_FragmentMissile : ComplementarySkillBase
         RaycastHit rch;
         Vector3 dir;
 
-        if (Physics.Raycast(_owner.transform.position, _owner.gameObject.transform.forward, out rch, maxRange, maskOfLayers))
+        if (Physics.Raycast(_owner.transform.position, _owner.gameObject.transform.forward, out rch, skillData.maxRange, maskOfLayers))
         {
             dir = rch.collider.transform.position - transform.position;
         }
         else dir = _owner.gameObject.transform.forward;
 
-        FragmentMissileSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, dir, maxRange, _owner.gameObject.tag, _owner);
+        FragmentMissileSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, dir, skillData.maxRange, _owner.gameObject.tag, _owner, skillData);
     }
 
     public override void ResetRound()

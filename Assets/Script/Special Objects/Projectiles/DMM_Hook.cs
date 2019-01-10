@@ -5,7 +5,8 @@ using System.Linq;
 
 public class DMM_Hook : MonoBehaviour
 {
-    public float maxRange = 7, travelTime = .5f;
+    public SO_Hook skillData;
+
     float _travelledDistance, _speed;
 
     Player _owner;
@@ -21,12 +22,14 @@ public class DMM_Hook : MonoBehaviour
 
     void Awake()
     {
-        _speed = Time.fixedDeltaTime * maxRange / travelTime;
         _rb = GetComponent<Rigidbody>();
     }
 
-    public DMM_Hook Spawn(Vector3 spawnPos, Vector3 dir, string emmitter, Player owner)
+    public DMM_Hook Spawn(Vector3 spawnPos, Vector3 dir, string emmitter, Player owner, SO_Hook data)
     {
+        skillData = data;
+        _speed = Time.fixedDeltaTime * skillData.maxRange / skillData.travelTime;
+
         transform.position = spawnPos;
         transform.forward = dir;
         transform.parent = null;
@@ -42,7 +45,7 @@ public class DMM_Hook : MonoBehaviour
 
     void Update()
     {
-        if (_travelledDistance >= maxRange)
+        if (_travelledDistance >= skillData.maxRange)
         {
             _target = null;
             Activate();

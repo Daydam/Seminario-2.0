@@ -9,14 +9,11 @@ using UnityEngine;
 /// </summary>
 public class SK_Vortex : DefensiveSkillBase
 {
+    public SO_Vortex skillData;
+
     public AudioClip startVortex, endVortex;
 
     Renderer[] _rends;
-
-    public float maxCooldown;
-    public float blinkDistance;
-    public float blinkDuration;
-    public float disableDuration;
 
     readonly string _vertexShaderTag = "VertexCollapse";
 
@@ -27,6 +24,10 @@ public class SK_Vortex : DefensiveSkillBase
     protected override void Start()
     {
         base.Start();
+
+        skillData = Resources.Load<SO_Vortex>("Scriptable Objects/Skills/Defensive/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_Vortex;
+
+
         _rends = _owner.GetComponentsInChildren<Renderer>().Where(x => x.materials.Where(y => y.GetTag(_vertexShaderTag, true, "Nothing") == "true").Any()).ToArray();
         foreach (var item in _rends)
         {
@@ -58,16 +59,16 @@ public class SK_Vortex : DefensiveSkillBase
                 if (_canTap)
                 {
                     _canTap = false;
-                    var blinkPos = _owner.transform.position + _owner.transform.forward * blinkDistance;
+                    var blinkPos = _owner.transform.position + _owner.transform.forward * skillData.blinkDistance;
                     var partDir = _owner.transform.forward;
 
                     if (_owner.movDir != Vector3.zero)
                     {
-                        blinkPos = _owner.transform.position + _owner.movDir.normalized * blinkDistance;
+                        blinkPos = _owner.transform.position + _owner.movDir.normalized * skillData.blinkDistance;
                         partDir = _owner.movDir.normalized;
                     }
 
-                    _currentCooldown = maxCooldown;
+                    _currentCooldown = skillData.maxCooldown;
 
                     SimpleParticleSpawner.Instance.SpawnParticle(SimpleParticleSpawner.ParticleID.VORTEX, _owner.transform.position, partDir);
 
@@ -95,8 +96,8 @@ public class SK_Vortex : DefensiveSkillBase
 
         bool mid = false;
 
-        _owner.ApplyCastState(blinkDuration + disableDuration);
-        _owner.ApplyInvulnerability(blinkDuration);
+        _owner.ApplyCastState(skillData.blinkDuration + skillData.disableDuration);
+        _owner.ApplyInvulnerability(skillData.blinkDuration);
         _stateSource.PlayOneShot(startVortex);
 
         var dir = pos - _owner.transform.position;
@@ -119,11 +120,11 @@ public class SK_Vortex : DefensiveSkillBase
 
         var distanceTraveled = 0f;
 
-        var amountByDelta = Time.fixedDeltaTime * blinkDistance / blinkDuration;
+        var amountByDelta = Time.fixedDeltaTime * skillData.blinkDistance / skillData.blinkDuration;
 
-        while (distanceTraveled <= blinkDistance)
+        while (distanceTraveled <= skillData.blinkDistance)
         {
-            if (Mathf.Abs(distanceTraveled / blinkDistance) - 0.5f <= Mathf.Epsilon && !mid)
+            if (Mathf.Abs(distanceTraveled / skillData.blinkDistance) - 0.5f <= Mathf.Epsilon && !mid)
             {
                 _stateSource.PlayOneShot(endVortex);
                 mid = true;
@@ -154,7 +155,7 @@ public class SK_Vortex : DefensiveSkillBase
     {
         yield return new WaitUntil(callback);
 
-        _currentCooldown = maxCooldown;
+        _currentCooldown = skillData.maxCooldown;
         _canTap = false;
     }
 

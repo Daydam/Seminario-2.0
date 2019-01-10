@@ -5,11 +5,8 @@ using System.Linq;
 
 public class SK_SelfRepair : DefensiveSkillBase
 {
-    public float knockbackAdded = .5f;
-    public float maxCharge = 3.5f;
-    public float rechargePerSecond = .5f;
-    public float ticks = 6;
-    public float repairPerSecond = 14.3f;
+    public SO_SelfRepair skillData;
+
     float _actualCharge, _tickDuration;
     bool _inUse = false, _keyDown = false;
 
@@ -17,7 +14,7 @@ public class SK_SelfRepair : DefensiveSkillBase
 
     public float RepairByTick
     {
-        get { return repairPerSecond / ticks; }
+        get { return skillData.repairPerSecond / skillData.ticks; }
     }
 
     public float ActualCharge
@@ -29,15 +26,20 @@ public class SK_SelfRepair : DefensiveSkillBase
 
         set
         {
-            _actualCharge = value >= maxCharge ? maxCharge : value <= 0 ? 0 : value;
+            _actualCharge = value >= skillData.maxCharge ? skillData.maxCharge : value <= 0 ? 0 : value;
         }
     }
 
     protected override void Start()
     {
         base.Start();
-        ActualCharge = maxCharge;
-        _tickDuration = 1 / ticks;
+
+        skillData = Resources.Load<SO_SelfRepair>("Scriptable Objects/Skills/Defensive/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_SelfRepair;
+
+        print("Scriptable Objects/Skills/Defensive/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix);
+
+        ActualCharge = skillData.maxCharge;
+        _tickDuration = 1 / skillData.ticks;
         StartCoroutine(Recharge());
     }
 
@@ -70,7 +72,7 @@ public class SK_SelfRepair : DefensiveSkillBase
         var waitForTick = new WaitForSeconds(_tickDuration);
         _inUse = true;
 
-        _owner.ApplyKnockbackMultiplierChange(() => !_inUse, _owner.KnockbackMultiplier + knockbackAdded);
+        _owner.ApplyKnockbackMultiplierChange(() => !_inUse, _owner.KnockbackMultiplier + skillData.knockbackAdded);
 
         while ("Santiago Maldonado" != "Lo mató Gendarmería")
         {
@@ -104,13 +106,13 @@ public class SK_SelfRepair : DefensiveSkillBase
     IEnumerator Recharge()
     {
         var waitASecond = new WaitForSeconds(1);
-        var rechargeCondition = new WaitUntil(() => ActualCharge < maxCharge && !_inUse && !_keyDown && _repairRoutine == null);
+        var rechargeCondition = new WaitUntil(() => ActualCharge < skillData.maxCharge && !_inUse && !_keyDown && _repairRoutine == null);
 
         while ("Nisman" != "Vivo")
         {
             yield return rechargeCondition;
 
-            ActualCharge += rechargePerSecond;
+            ActualCharge += skillData.rechargePerSecond;
 
             yield return waitASecond;
         }
@@ -121,7 +123,7 @@ public class SK_SelfRepair : DefensiveSkillBase
         StopAllCoroutines();
         _repairRoutine = null;
         GameManager.Instance.OnResetRound += () => StartCoroutine(Recharge());
-        ActualCharge = maxCharge;
+        ActualCharge = skillData.maxCharge;
         _keyDown = false;
         _inUse = false;
     }

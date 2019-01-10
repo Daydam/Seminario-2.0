@@ -5,8 +5,7 @@ using System.Linq;
 
 public class SK_RocketSalvo : ComplementarySkillBase
 {
-    public int rocketCount = 25;
-    public float maxCooldown = 7, duration = 3, effectRadius = 2.5f, rocketCooldown = .12f;
+    public SO_RocketSalvo skillData;
 
     float _currentCooldown = 0;
     bool _canTap = true;
@@ -20,15 +19,17 @@ public class SK_RocketSalvo : ComplementarySkillBase
     {
         base.Start();
 
+        skillData = Resources.Load<SO_RocketSalvo>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_RocketSalvo;
+
         LoadPrefabs();
     }
 
-    void OnEnable()
+    void ApplyEffectArea()
     {
         if (_effectArea == null)
         {
             _effectArea = GetComponentsInChildren<SphereCollider>(true).Where(x => x.gameObject.name == "EffectArea").First();
-            _effectArea.transform.localScale = new Vector3(effectRadius, 0, effectRadius);
+            _effectArea.transform.localScale = new Vector3(skillData.effectRadius, 0, skillData.effectRadius);
             //concha en el medio del código como pidió santi
         }
 
@@ -50,16 +51,14 @@ public class SK_RocketSalvo : ComplementarySkillBase
     {
         var loadedPrefab = Resources.Load<DMM_RocketMini>("Prefabs/Projectiles/RocketMini");
 
-        for (byte i = 0; i < rocketCount; i++)
+        for (byte i = 0; i < skillData.rocketCount; i++)
         {
             var rocket = Instantiate(loadedPrefab);
             _rockets.Add(rocket);
             rocket.gameObject.SetActive(false);
         }
 
-        _effectArea = GetComponentsInChildren<SphereCollider>(true).Where(x => x.gameObject.name == "EffectArea").First();
-        _effectArea.transform.localScale = new Vector3(effectRadius, 0, effectRadius);
-        SetCollisionsIgnored();
+        ApplyEffectArea();
     }
 
     protected override void InitializeUseCondition()
@@ -78,21 +77,23 @@ public class SK_RocketSalvo : ComplementarySkillBase
 
     void ActivateSalvo()
     {
-        _owner.ApplyDisarm(duration);
+        ApplyEffectArea();
+
+        _owner.ApplyDisarm(skillData.duration);
 
         StartCoroutine(FireRockets());
     }
 
     IEnumerator FireRockets()
     {
-        var inst = new WaitForSeconds(rocketCooldown);
+        var inst = new WaitForSeconds(skillData.rocketCooldown);
 
         int rocketsFired = 0;
         float timeElapsed = 0f;
 
-        while (rocketsFired < rocketCount - 1)
+        while (rocketsFired < skillData.rocketCount - 1)
         {
-            timeElapsed += rocketCooldown;
+            timeElapsed += skillData.rocketCooldown;
 
             _rockets[rocketsFired].gameObject.SetActive(true);
 
@@ -103,7 +104,7 @@ public class SK_RocketSalvo : ComplementarySkillBase
 
             var rocketLandingPoint = new Vector3(rndX, 0, rndZ);
 
-            _rockets[rocketsFired].Spawn(transform.position, rocketLandingPoint, _owner.tag, _owner, OnRocketActivation);
+            _rockets[rocketsFired].Spawn(transform.position, rocketLandingPoint, _owner.tag, _owner, OnRocketActivation, skillData);
 
             rocketsFired++;
 

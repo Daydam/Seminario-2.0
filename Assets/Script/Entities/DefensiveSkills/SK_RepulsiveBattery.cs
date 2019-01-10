@@ -6,13 +6,11 @@ using System;
 
 public class SK_RepulsiveBattery : DefensiveSkillBase
 {
+    public SO_RepulsiveBattery skillData;
+
     public AudioClip skillUse;
 
     public DMM_RepulsiveBatteryShield shield;
-
-    public float maxCooldown;
-    public float castTime;
-    float _shieldDuration = 1f;
 
     bool _canTap = true;
     float _currentCooldown = 0;
@@ -20,6 +18,9 @@ public class SK_RepulsiveBattery : DefensiveSkillBase
     protected override void Start()
     {
         base.Start();
+
+        skillData = Resources.Load<SO_RepulsiveBattery>("Scriptable Objects/Skills/Defensive/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_RepulsiveBattery;
+
         shield = GetComponentInChildren<DMM_RepulsiveBatteryShield>(true);
         shield.gameObject.layer = _owner.gameObject.layer;
         shield.gameObject.SetActive(false);
@@ -52,7 +53,7 @@ public class SK_RepulsiveBattery : DefensiveSkillBase
     void UseSkill()
     {
         if (activationAnim != null) activationAnim.Play();
-        _owner.ApplyCastState(castTime);
+        _owner.ApplyCastState(skillData.castTime);
 
         StartCoroutine(ShieldActivation());
 
@@ -62,9 +63,9 @@ public class SK_RepulsiveBattery : DefensiveSkillBase
     public IEnumerator WaitForCastEnd(Func<bool> callback)
     {
         yield return new WaitUntil(callback);
-        RepulsiveBatterySpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, _owner);
+        RepulsiveBatterySpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, _owner, skillData);
         _stateSource.PlayOneShot(skillUse);
-        _currentCooldown = maxCooldown;
+        _currentCooldown = skillData.maxCooldown;
         _canTap = false;
     }
 
@@ -72,7 +73,7 @@ public class SK_RepulsiveBattery : DefensiveSkillBase
     {
         shield.gameObject.SetActive(true);
 
-        yield return new WaitForSeconds(_shieldDuration);
+        yield return new WaitForSeconds(skillData.shieldDuration);
 
         shield.gameObject.SetActive(false);
     }

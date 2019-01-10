@@ -10,7 +10,7 @@ public class DMM_EMPCaltrop : MonoBehaviour
     Collider _coll;
     Action<DMM_EMPCaltrop> _activationCallback;
 
-    public float duration, radius, amount;
+    public SO_EMPCaltrop skillData;
 
     float _lifeTime;
 
@@ -28,8 +28,10 @@ public class DMM_EMPCaltrop : MonoBehaviour
         _coll = GetComponent<Collider>();
     }
 
-    public DMM_EMPCaltrop Spawn(Vector3 spawnPos, Vector3 fwd, string emmitter, Action<DMM_EMPCaltrop> activationCallback)
+    public DMM_EMPCaltrop Spawn(Vector3 spawnPos, Vector3 fwd, string emmitter, Action<DMM_EMPCaltrop> activationCallback, SO_EMPCaltrop data)
     {
+        skillData = data;
+
         transform.position = spawnPos;
         transform.forward = fwd;
         gameObject.tag = emmitter;
@@ -61,11 +63,11 @@ public class DMM_EMPCaltrop : MonoBehaviour
 
     void ActivateAOE()
     {
-        var players = Physics.OverlapSphere(transform.position, radius).Select(x => x.GetComponent<Player>()).Where(x => x != null);
+        var players = Physics.OverlapSphere(transform.position, skillData.radius).Select(x => x.GetComponent<Player>()).Where(x => x != null);
 
         foreach (var pl in players)
         {
-            pl.ApplySlowMovement(duration, amount);
+            pl.ApplySlowMovement(skillData.duration, skillData.amount);
         }
 
         _activationCallback(this);

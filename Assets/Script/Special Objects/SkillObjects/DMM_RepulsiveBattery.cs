@@ -5,15 +5,18 @@ using System.Linq;
 
 public class DMM_RepulsiveBattery : MonoBehaviour
 {
+    public SO_RepulsiveBattery skillData;
+
     Player _owner;
-    public float repulsiveForce;
-    public float radius;
+
     int _layerMask;
 
     bool _showGizmos = true;
 
-    public DMM_RepulsiveBattery Spawn(Vector3 spawnPos, Player owner)
+    public DMM_RepulsiveBattery Spawn(Vector3 spawnPos, Player owner, SO_RepulsiveBattery data)
     {
+        skillData = data;
+
         transform.position = spawnPos;
         transform.parent = null;
         var otherPlayerLayers = new int[] { LayerMask.NameToLayer("Player1"), LayerMask.NameToLayer("Player2"), LayerMask.NameToLayer("Player3"), LayerMask.NameToLayer("Player4") }
@@ -52,7 +55,7 @@ public class DMM_RepulsiveBattery : MonoBehaviour
 
         SimpleParticleSpawner.Instance.SpawnParticle(particle.gameObject, transform.position, transform.forward, null);
 
-        var cols = Physics.OverlapSphere(transform.position, radius);
+        var cols = Physics.OverlapSphere(transform.position, skillData.radius);
 
         if (!cols.Any()) return;
 
@@ -62,7 +65,7 @@ public class DMM_RepulsiveBattery : MonoBehaviour
 
         for (int i = 0; i < playersAffected.Length; i++)
         {
-            playersAffected[i].ApplyExplosionForce(repulsiveForce, transform.position, radius, _owner);
+            playersAffected[i].ApplyExplosionForce(skillData.repulsiveForce, transform.position, skillData.radius, _owner);
         }
 
         Invoke("Destruction", .1f);
