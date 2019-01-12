@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Events;
+using Firepower.Events;
 using System;
 
 public class EmpCloudParticles : MonoBehaviour

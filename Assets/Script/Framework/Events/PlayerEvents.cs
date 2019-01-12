@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-namespace Events
+namespace Firepower.Events
 {
     public static class PlayerEvents
     {

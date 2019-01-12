@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
-using Events;
+using Firepower.Events;
 using System;
 using UnityEngine.SceneManagement;
 

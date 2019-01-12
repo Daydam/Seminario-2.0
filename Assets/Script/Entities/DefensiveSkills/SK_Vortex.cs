@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Firepower.Events;
 
 /// <summary>
 /// El favorito de papi :)
@@ -103,7 +104,7 @@ public class SK_Vortex : DefensiveSkillBase
         var dir = pos - _owner.transform.position;
 
         var collapsePoint = Vector3.Lerp(_owner.GetRigidbody.position, pos, .5f);
-        EventManager.Instance.DispatchEvent(Events.SkillEvents.VortexStart, _owner);
+        EventManager.Instance.DispatchEvent(SkillEvents.VortexStart, _owner);
 
         foreach (var item in _rends)
         {
@@ -148,7 +149,7 @@ public class SK_Vortex : DefensiveSkillBase
         }
 
         StartCoroutine(WaitForCastEnd(_owner.FinishedCasting));
-        EventManager.Instance.DispatchEvent(Events.SkillEvents.VortexEnd, _owner);
+        EventManager.Instance.DispatchEvent(SkillEvents.VortexEnd, _owner);
     }
 
     public IEnumerator WaitForCastEnd(Func<bool> callback)
