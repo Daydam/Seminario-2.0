@@ -78,7 +78,7 @@ namespace UnityEditor
 #if UNITY_2017_1_OR_NEWER
 				m_cameraTransform = m_previewRenderUtility.camera.transform;
 #else
-				m_cameraTransform = m_previewRenderUtility.m_Camera.transform;
+				m_cameraTransform = m_previewRenderUtility.camera.transform;
 #endif
 				m_cameraTransform.position = new Vector3( 0, 0, -4 );
 				m_cameraTransform.rotation = Quaternion.identity;
@@ -161,7 +161,7 @@ namespace UnityEditor
 #if UNITY_2017_1_OR_NEWER
 				m_previewRenderUtility.camera.Render();
 #else
-				m_previewRenderUtility.m_Camera.Render();
+				m_previewRenderUtility.camera.Render();
 #endif
 				GUI.DrawTexture( r, resultRender, ScaleMode.StretchToFill, false );
 			}

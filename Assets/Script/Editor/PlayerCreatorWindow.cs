@@ -10,6 +10,10 @@ public class PlayerCreatorWindow : EditorWindow
     int player = 1;
     CharacterURLs character;
 
+    int currentBodyIndex;
+    int[] bodyIndexes;
+    string[] allBodies;
+
     int currentWeaponIndex;
     int[] weaponIndexes;
     string[] allWeapons;
@@ -43,6 +47,19 @@ public class PlayerCreatorWindow : EditorWindow
         EditorGUILayout.LabelField("Player URLs", titleStyle);
 
         player = EditorGUILayout.IntSlider(player, 1, 4);
+
+        if (allBodies == null)
+        {
+            allBodies = Resources.LoadAll<GameObject>("Prefabs/Bodies").Select(a => a.name).ToArray();
+        }
+        if (bodyIndexes == null)
+        {
+            bodyIndexes = new int[allBodies.Length];
+            for (int i = 0; i < bodyIndexes.Length; i++)
+            {
+                bodyIndexes[i] = i;
+            }
+        }
 
         if (allWeapons == null)
         {
@@ -99,10 +116,12 @@ public class PlayerCreatorWindow : EditorWindow
         if (character == null)
         {
             character = new CharacterURLs();
-            character.bodyURL = "Beetledrone";
             character.complementaryURL = new string[2];
         }
-        
+
+        currentBodyIndex = EditorGUILayout.IntPopup(currentBodyIndex, allBodies, bodyIndexes);
+        character.bodyURL = allBodies[currentBodyIndex];
+
         currentWeaponIndex = EditorGUILayout.IntPopup(currentWeaponIndex, allWeapons, weaponIndexes);
         character.weaponURL = allWeapons[currentWeaponIndex];
         

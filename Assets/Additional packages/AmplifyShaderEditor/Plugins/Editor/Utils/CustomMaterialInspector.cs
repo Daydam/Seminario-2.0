@@ -409,7 +409,7 @@ internal class ASEMaterialInspector : ShaderGUI
 #if UNITY_2017_1_OR_NEWER
 			m_previewRenderUtility.cameraFieldOfView = 30f;
 #else
-			m_previewRenderUtility.m_CameraFieldOfView = 30f;
+			m_previewRenderUtility.cameraFieldOfView = 30f;
 #endif
 		}
 
