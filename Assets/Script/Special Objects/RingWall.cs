@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using Events;
+using Firepower.Events;
 
 public class RingWall : MonoBehaviour, IDamageable
 {

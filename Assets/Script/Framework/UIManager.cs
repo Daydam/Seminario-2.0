@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 using System;
+using Firepower.Events;
 
 public class UIManager : MonoBehaviour
 {
@@ -39,7 +40,7 @@ public class UIManager : MonoBehaviour
     public void Initialize(IEnumerable<Player> players, Action callback, int pointsToWin)
     {
         _startRoundCallback = callback;
-        EventManager.Instance.AddEventListener(Events.UIEvents.StartRound, OnFinishedCountdown);
+        EventManager.Instance.AddEventListener(UIEvents.StartRound, OnFinishedCountdown);
         _canvas = GameObject.Find(canvasName);
         fader = _canvas.transform.Find(blackFadeName).GetComponent<Image>();
         countdown = _canvas.transform.Find(coundownName).GetComponent<Animator>();

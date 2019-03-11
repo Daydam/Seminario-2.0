@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Firepower.Events;
 
 /// <summary>
 /// Un cromosoma, dos cromosomas, tres cromosomas...
@@ -10,6 +11,6 @@ public class UI_Countdown : MonoBehaviour
 {
 	public void AStartRound()
     {
-        EventManager.Instance.DispatchEvent(Events.UIEvents.StartRound);
+        EventManager.Instance.DispatchEvent(UIEvents.StartRound);
     }
 }

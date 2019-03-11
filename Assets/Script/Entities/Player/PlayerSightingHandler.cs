@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
+using Firepower.Events;
 
 public class PlayerSightingHandler : MonoBehaviour
 {
@@ -25,8 +26,8 @@ public class PlayerSightingHandler : MonoBehaviour
 
         _rim.material.SetVector("_CollapsePosition", new Vector3(55555, 55555, 55555));
 
-        EventManager.Instance.AddEventListener(Events.SkillEvents.VortexStart, OnVortexStart);
-        EventManager.Instance.AddEventListener(Events.SkillEvents.VortexEnd, OnVortexEnd);
+        EventManager.Instance.AddEventListener(SkillEvents.VortexStart, OnVortexStart);
+        EventManager.Instance.AddEventListener(SkillEvents.VortexEnd, OnVortexEnd);
     }
 
     void OnVortexStart(object[] paramsContainer)

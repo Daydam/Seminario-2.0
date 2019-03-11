@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-namespace Events
+//"PEOR OPORTUNO" - MARTÍN DÍAZ, 10/1/2019
+
+namespace Firepower.Events
 {
     public static class GameEvents
     {
