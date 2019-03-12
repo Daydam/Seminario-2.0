@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        spawns = GameObject.Find("Stage").transform.Find("SpawnPoints").GetComponentsInChildren<Transform>().Where(x => x.name != "SpawnPoints").ToArray();
+        spawns = StageManager.instance.transform.Find("SpawnPoints").GetComponentsInChildren<Transform>().Where(x => x.name != "SpawnPoints").ToArray();
 
         playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
         playerInfo.playerStats = new PlayerStats[playerInfo.playerControllers.Length];
