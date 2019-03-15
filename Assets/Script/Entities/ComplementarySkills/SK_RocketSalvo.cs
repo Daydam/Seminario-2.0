@@ -39,8 +39,8 @@ public class SK_RocketSalvo : ComplementarySkillBase
     void SetCollisionsIgnored()
     {
         var list = GameObject.FindGameObjectsWithTag("DeathZone").Select(x => x.GetComponent<Collider>()).Where(x => x != null).ToFList();
-        list += StageManager.instance.empCloud.col;
-
+        if (StageManager.instance.empCloud != null) list += StageManager.instance.empCloud.col;
+        
         foreach (var item in list)
         {
             Physics.IgnoreCollision(_effectArea, item);
