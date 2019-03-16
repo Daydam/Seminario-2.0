@@ -65,6 +65,8 @@ public class CharacterSelectionManager : MonoBehaviour
 
     public Color[] playerColors;
 
+    RegisteredPlayers playerInfo;
+
     void Start()
     {
         ready = new bool[4] { false, false, false, false };
@@ -168,10 +170,20 @@ public class CharacterSelectionManager : MonoBehaviour
 
                         if (regPlayers.Length >= 2 && allReady)
                         {
-                            var reg = new RegisteredPlayers();
-                            reg.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
-                            Serializacion.SaveJsonToDisk(reg, "Registered Players");
-                            StartCoroutine(StartGameCoroutine());
+                            playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
+                            if(playerInfo == null || playerInfo.fileRegVersion < RegisteredPlayers.latestRegVersion)
+                            {
+                                playerInfo = new RegisteredPlayers();
+                                playerInfo.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
+                                Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
+                                StartCoroutine(StartGameCoroutine());
+                            }
+                            else
+                            {
+                                playerInfo.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
+                                Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
+                                StartCoroutine(StartGameCoroutine());
+                            }
                         }
                     }
                 }
@@ -187,7 +199,7 @@ public class CharacterSelectionManager : MonoBehaviour
 
     IEnumerator StartGameCoroutine()
     {
-        var asyncOp = SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
+        var asyncOp = SceneManager.LoadSceneAsync(playerInfo.stage, LoadSceneMode.Single);
         asyncOp.allowSceneActivation = true;
 
         while (asyncOp.progress <= .99f)

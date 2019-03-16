@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class RegisteredPlayersCreatorWindow : EditorWindow
 {
@@ -15,6 +16,10 @@ public class RegisteredPlayersCreatorWindow : EditorWindow
     int[] modeIndexes;
 
     string[] allModes;
+
+    int[] stageIndexes;
+    string[] allStages;
+    int currentStageIndex;
 
     GUIStyle titleStyle;
 
@@ -29,11 +34,34 @@ public class RegisteredPlayersCreatorWindow : EditorWindow
         if (titleStyle == null) titleStyle = new GUIStyle();
         titleStyle.fontStyle = FontStyle.Bold;
 
-        //RegisteredPlayers
+        if(reg == null)
+        {
+            //RegisteredPlayers
+            reg = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
+            if (reg == null || reg.fileRegVersion < RegisteredPlayers.latestRegVersion) reg = new RegisteredPlayers();
+            else
+            {
+                regPlayers = reg.playerControllers.ToList();
+
+                allModes = Resources.LoadAll<SO_GameRules>("Scriptable Objects").Select(a => a.name.Substring(9)).ToArray();
+                int sceneCount = SceneManager.sceneCountInBuildSettings;
+                allStages = new string[sceneCount];
+                for (int i = 0; i < sceneCount; i++)
+                {
+                    allStages[i] = System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i));
+                }
+
+                allStages = allStages.Where(a => a.Split('_')[0] == "Stage").Select(a => a.Split('_')[1]).ToArray();
+
+                currentModeIndex = Mathf.Max(System.Array.IndexOf(allModes, reg.gameMode), 0);
+                currentStageIndex = Mathf.Max(System.Array.IndexOf(allStages, reg.stage.Split('_')[1]), 0);
+            }
+        }
+
         EditorGUILayout.LabelField("Game Configuration", titleStyle);
+        EditorGUILayout.LabelField("Current Reg version: " + RegisteredPlayers.latestRegVersion);
         if (GUILayout.Button("Show Help")) showRegHelp = !showRegHelp;
         if (showRegHelp) EditorGUILayout.HelpBox("This is the Game Configuration Window. Here, you can edit the amount of players and their respective controllers, as well as the game mode. Please remember that, when setting up the controllers, you must substract 1 from the actual controller number. For example, write 0 for controller 1", MessageType.Info);
-        if (reg == null) reg = new RegisteredPlayers();
         if (regPlayers == null) regPlayers = new List<int> { 0, 0 };
         for (int i = 0; i < regPlayers.Count; i++)
         {
@@ -51,7 +79,6 @@ public class RegisteredPlayersCreatorWindow : EditorWindow
         if (allModes == null)
         {
             allModes = Resources.LoadAll<SO_GameRules>("Scriptable Objects").Select(a => a.name.Substring(9)).ToArray();
-            reg.gameMode = allModes[0];
         }
         if (modeIndexes == null)
         {
@@ -62,16 +89,40 @@ public class RegisteredPlayersCreatorWindow : EditorWindow
             }
         }
         
-        currentModeIndex = EditorGUILayout.IntPopup(currentModeIndex, allModes, modeIndexes);
-        reg.gameMode = allModes[currentModeIndex];
+        currentModeIndex = EditorGUILayout.IntPopup("Mode:", currentModeIndex, allModes, modeIndexes);
 
-        if(GUILayout.Button("Save Game Configuration"))
+        if(allStages == null)
+        {
+            int sceneCount = SceneManager.sceneCountInBuildSettings;
+            allStages = new string[sceneCount];
+            for (int i = 0; i < sceneCount; i++)
+            {
+                allStages[i] = System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i));
+            }
+            
+            allStages = allStages.Where(a => a.Split('_')[0] == "Stage").Select(a => a.Split('_')[1]).ToArray();
+        }
+        if (stageIndexes == null)
+        {
+            stageIndexes = new int[allStages.Length];
+            for (int i = 0; i < stageIndexes.Length; i++)
+            {
+                stageIndexes[i] = i;
+            }
+        }
+
+        currentStageIndex = EditorGUILayout.IntPopup("Stage:", currentStageIndex, allStages, stageIndexes);
+        Debug.Log("stage: " + currentStageIndex);
+        
+        if (GUILayout.Button("Save Game Configuration"))
         {
             reg.playerControllers = new int[regPlayers.Count];
             for (int i = 0; i < regPlayers.Count; i++)
             {
                 reg.playerControllers[i] = regPlayers[i];
             }
+            reg.gameMode = allModes[currentModeIndex];
+            reg.stage = "Stage_" + allStages[currentStageIndex];
 
             Serializacion.SaveJsonToDisk(reg, "Registered Players");
         }
