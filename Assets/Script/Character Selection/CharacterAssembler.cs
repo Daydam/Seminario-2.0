@@ -45,7 +45,7 @@ public class CharacterAssembler
         weapon.transform.parent = null;
         GameObject.Destroy(oldBody);
         Assemble(newBody, defensive, complimentary1, complimentary2, weapon);
-	return newBody;
+	    return newBody;
     }
 
     public static GameObject ChangePart(GameObject oldPart, GameObject newPart)
@@ -54,6 +54,6 @@ public class CharacterAssembler
         newPart.transform.rotation = oldPart.transform.rotation;
         newPart.transform.parent = oldPart.transform.parent;
         GameObject.Destroy(oldPart);
-	return newPart;
+	    return newPart;
     }
 }

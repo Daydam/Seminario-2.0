@@ -39,7 +39,6 @@ public class CharacterSelectionManager : MonoBehaviour
     bool[] ready;
     public bool[] Ready { get { return ready; } }
     GameObject[] players;
-    GameObject[] currentBodies;
     GameObject[] currentWeapons;
     GameObject[,] currentComplementary;
     GameObject[] currentDefensive;
@@ -73,8 +72,7 @@ public class CharacterSelectionManager : MonoBehaviour
 
         players = new GameObject[4];
         URLs = new CharacterURLs[4];
-
-        currentBodies = new GameObject[4];
+        
         bodyIndexes = new int[4] { 0, 0, 0, 0 };
 
         currentWeapons = new GameObject[4];
@@ -303,13 +301,13 @@ public class CharacterSelectionManager : MonoBehaviour
 
                 var bodyName = bodies[bodyIndexes[player]].gameObject.name;
                 URLs[player].bodyURL = bodyName;
-                
-                currentBodies[player] = CharacterAssembler.ChangeBody(
-                    Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Bodies/" + URLs[player].bodyURL), players[player].transform.position, Quaternion.identity), 
-                    currentBodies[player], 
-                    currentDefensive[player], 
-                    currentComplementary[player, 0], 
-                    currentComplementary[player, 1], 
+
+                players[player] = CharacterAssembler.ChangeBody(
+                    Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Bodies/" + URLs[player].bodyURL), players[player].transform.position, Quaternion.identity),
+                    players[player],
+                    currentDefensive[player],
+                    currentComplementary[player, 0],
+                    currentComplementary[player, 1],
                     currentWeapons[player]);
             }
 
@@ -322,9 +320,9 @@ public class CharacterSelectionManager : MonoBehaviour
                 var bodyName = bodies[bodyIndexes[player]].gameObject.name;
                 URLs[player].bodyURL = bodyName;
 
-                currentBodies[player] = CharacterAssembler.ChangeBody(
+                players[player] = CharacterAssembler.ChangeBody(
                     Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Bodies/" + URLs[player].bodyURL), players[player].transform.position, Quaternion.identity),
-                    currentBodies[player],
+                    players[player],
                     currentDefensive[player],
                     currentComplementary[player, 0],
                     currentComplementary[player, 1],
