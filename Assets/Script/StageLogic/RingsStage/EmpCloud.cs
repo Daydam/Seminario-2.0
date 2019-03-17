@@ -10,12 +10,14 @@ public class EmpCloud : MonoBehaviour
     public Vector3 initialScale;
     public float shrinkSpeed = .3f;
     bool _shrink;
+    RingsStage _stage;
 
     void Start()
     {
         col = GetComponent<Collider>();
         initialScale = transform.localScale;
         GameManager.Instance.StartRound += () => StartCoroutine(StartShrinking(1));
+        _stage = StageManager.instance.stage as RingsStage;
     }
 
     void Update()
@@ -28,17 +30,20 @@ public class EmpCloud : MonoBehaviour
         }
         else if (_shrink)
         {
-            if (!StageManager.instance.isLast) CheckAntennas();
+            if (_stage) if (!_stage.isLast) CheckAntennas();
             transform.localScale -= new Vector3(shrinkSpeed * Time.deltaTime, shrinkSpeed * Time.deltaTime, shrinkSpeed * Time.deltaTime);
         }
     }
 
     void CheckAntennas()
     {
-        if (!StageManager.instance.levelRings[StageManager.instance.actualRing].antennas
-            .Where(x => col.bounds.Contains(x.transform.position)).Any())
+        if (_stage)
         {
-            StageManager.instance.DestroyRing();
+            if (!_stage.levelRings[_stage.actualRing].antennas
+            .Where(x => col.bounds.Contains(x.transform.position)).Any())
+            {
+                _stage.DestroyRing();
+            }
         }
     }
 

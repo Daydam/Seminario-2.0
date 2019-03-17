@@ -3,26 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class StageManager : MonoBehaviour
+public class RingsStage : StageBase
 {
-    public static StageManager instance;
     public EmpCloud empCloud;
 
     public MutatorRing[] levelRings;
     public int actualRing;
     public bool isLast;
 
-    void Awake()
-    {
-        if (instance == null) instance = this;
-        else Destroy(gameObject);
-    }
-
-    void Start()
+    protected void Start()
     {
         empCloud = GameObject.FindObjectOfType<EmpCloud>();
-        GameManager.Instance.OnResetRound += ResetRound;
-        GameManager.Instance.OnChangeScene += DestroyStatic;
     }
 
     public void DestroyRing()
@@ -32,7 +23,7 @@ public class StageManager : MonoBehaviour
         if (actualRing == levelRings.Length - 1) isLast = true;
     }
 
-    public void ResetRound()
+    public override void ResetRound()
     {
         empCloud.ResetRound();
         isLast = false;
@@ -43,12 +34,5 @@ public class StageManager : MonoBehaviour
             item.ResetRound();
         }
 
-    }
-
-    void DestroyStatic()
-    {
-        StopAllCoroutines();
-        instance = null;
-        //Destroy(gameObject);
     }
 }
