@@ -49,6 +49,9 @@ public class CrystalPyramidStage : StageBase
 
     public override void ResetRound()
     {
+        StopAllCoroutines();
+        CancelInvoke();
+
         pyramid.OnResetRound();
         foreach (var item in crystalRomboids)
         {
