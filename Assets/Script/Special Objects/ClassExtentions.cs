@@ -15,6 +15,11 @@ public static class ClassExtentions
         return !layers.Where(x => x == checker.layer).Any();
     }
 
+    public static bool LayerDifferentFrom(this GameObject checker, params string[] layers)
+    {
+        return !layers.Where(x => x == LayerMask.LayerToName(checker.layer)).Any();
+    }
+
     public static bool TagMatchesWith(this GameObject checker, params string[] tags)
     {
         return tags.Where(x => x == checker.tag).Any();
@@ -23,6 +28,11 @@ public static class ClassExtentions
     public static bool LayerMatchesWith(this GameObject checker, params int[] layers)
     {
         return layers.Where(x => x == checker.layer).Any();
+    }
+
+    public static bool LayerMatchesWith(this GameObject checker, params string[] layers)
+    {
+        return layers.Where(x => x == LayerMask.LayerToName(checker.layer)).Any();
     }
 
     public static bool ContainsLayer(this Camera cam, int layer)

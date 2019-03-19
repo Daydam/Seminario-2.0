@@ -235,7 +235,6 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
 
     void SubstractLife(float damage)
     {
-        print("Puta rastrera de mierda hija de re mil puta");
         Hp -= damage;
     }
 
