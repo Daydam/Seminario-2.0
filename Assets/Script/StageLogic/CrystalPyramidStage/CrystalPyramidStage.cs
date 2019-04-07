@@ -41,7 +41,7 @@ public class CrystalPyramidStage : StageBase
     public void RomboidFall()
     {
         if (_actualIndex >= crystalRomboids.Length) return;
-        //pyramid.OnFall(_actualIndex);
+        pyramid.OnFall(_actualIndex);
         crystalRomboids[_actualIndex].RomboidFall();
         _actualIndex++;
     }

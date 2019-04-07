@@ -3940,9 +3940,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3048695476858807312}
-  - {fileID: 5921768538534327479}
-  - {fileID: 5569350997591384684}
-  - {fileID: 7979753412261322153}
   m_Father: {fileID: 1056990141}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9099,8 +9096,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 621028139}
-  m_Father: {fileID: 1621900428}
-  m_RootOrder: 2
+  - {fileID: 7979753412261322153}
+  m_Father: {fileID: 5921768538534327479}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1152683427041958090
 Animator:
@@ -9112,7 +9110,7 @@ Animator:
   m_GameObject: {fileID: 1873423701694521276}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: dd8d02d74cfc8ad4cac2ada8efe795a1, type: 2}
+  m_Controller: {fileID: 22100000, guid: 7f9b9c379e1bab64e84f865355023e03, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 1
   m_ApplyRootMotion: 0
@@ -19312,11 +19310,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5832626604589279878}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 318265030}
+  - {fileID: 5921768538534327479}
   m_Father: {fileID: 1621900428}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19330,7 +19329,7 @@ Animator:
   m_GameObject: {fileID: 5832626604589279878}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: cde18b4a105cac7458aeca4e48ec2763, type: 2}
+  m_Controller: {fileID: 9100000, guid: 60ff543245ae3e445ab7fa7193c66b84, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 1
   m_ApplyRootMotion: 0
@@ -23791,12 +23790,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7213119888116868114}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 624196481}
-  m_Father: {fileID: 1621900428}
+  - {fileID: 5569350997591384684}
+  m_Father: {fileID: 3048695476858807312}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &8795169428127421984
@@ -23809,7 +23809,7 @@ Animator:
   m_GameObject: {fileID: 7213119888116868114}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 82c8f7270d4ec474ebc346ac8cc26af3, type: 2}
+  m_Controller: {fileID: 22100000, guid: 20825ecfaf44e3842a04daa8bb6603a1, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 1
   m_ApplyRootMotion: 0
@@ -25635,8 +25635,8 @@ Transform:
   - {fileID: 1790494495}
   - {fileID: 999117143}
   - {fileID: 445235278}
-  m_Father: {fileID: 1621900428}
-  m_RootOrder: 3
+  m_Father: {fileID: 5569350997591384684}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &8252580171690511981
 Animator:
@@ -25648,7 +25648,7 @@ Animator:
   m_GameObject: {fileID: 7970047002318378922}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 937154178bc607f46bebfbebad288eb2, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 1
   m_ApplyRootMotion: 0
@@ -30015,14 +30015,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6596804894743012725, guid: 4f954013273b9564fab4e43f1802f1a5,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6596804894743012727, guid: 4f954013273b9564fab4e43f1802f1a5,
         type: 3}
       propertyPath: _entityType
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6596804894743012726, guid: 4f954013273b9564fab4e43f1802f1a5,
-        type: 3}
-      propertyPath: m_SelectedEditorRenderState
       value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
