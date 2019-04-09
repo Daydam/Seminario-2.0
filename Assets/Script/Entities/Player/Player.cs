@@ -16,6 +16,10 @@ public class Player : MonoBehaviour, IDamageable
 
     Controller _control;
     public Controller Control { get { return _control; } }
+    Vector2 lastAnimMovement = Vector2.zero;
+    Vector3 lastMovement = Vector2.zero;
+    float inertiaFactor = 0.06f;
+    float animInertiaFactor = 0.02f;
 
     public float movementSpeed;
     public Vector3 movDir;
@@ -293,11 +297,25 @@ public class Player : MonoBehaviour, IDamageable
     void Movement()
     {
         var dir = transform.forward * _control.LeftAnalog().y + transform.right * _control.LeftAnalog().x;
-        var movVector = _rb.position + dir.normalized * Time.fixedDeltaTime * movementSpeed * MovementMultiplier;
+        var newMovement = Vector3.Lerp(lastMovement, dir.normalized * Time.fixedDeltaTime * movementSpeed * MovementMultiplier, inertiaFactor);
+        var movVector = _rb.position + newMovement;
         movDir = dir;
         _rb.MovePosition(movVector);
-        _animationController.SetMovementDir(_control.LeftAnalog());
+
+        //Normalmente lerp como en 297, si la diferencia es >1 directamente un snap al lado contrario.
+        Vector2 movement = _control.LeftAnalog();
+        /*if (Mathf.Abs(lastAnimMovement.x - movement.x) > 1) movement.x *= -1;
+        else*/ movement.x = Mathf.Lerp(lastAnimMovement.x, movement.x, inertiaFactor);
+        /*if (Mathf.Abs(lastAnimMovement.y - movement.y) > 1) movement.y *= -1;
+        else*/ movement.y = Mathf.Lerp(lastAnimMovement.y, movement.y, inertiaFactor);
+
+        print(movement);
+
+        _animationController.SetMovementDir(movement);
+
         //_soundModule.SetEnginePitch((control.LeftAnalog().y + control.LeftAnalog().x)/2 * movementSpeed * MovementMultiplier);
+        lastAnimMovement = movement;
+        lastMovement = newMovement;
     }
 
     public IDamageable GetEntityType()
