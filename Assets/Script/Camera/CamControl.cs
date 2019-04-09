@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Top-Down Camera
+/// </summary>
 public class CamControl : MonoBehaviour
 {
     [Range(0f, 1f)]

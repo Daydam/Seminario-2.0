@@ -380,7 +380,7 @@ GameObject:
   - component: {fileID: 272722851}
   - component: {fileID: 272722850}
   - component: {fileID: 6133654984610771720}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -488,7 +488,7 @@ GameObject:
   - component: {fileID: 276718585}
   - component: {fileID: 276718584}
   - component: {fileID: 8186280830443570713}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -708,7 +708,7 @@ GameObject:
   - component: {fileID: 310486121}
   - component: {fileID: 310486120}
   - component: {fileID: 2965940594460341619}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -886,6 +886,7 @@ GameObject:
   - component: {fileID: 318265031}
   - component: {fileID: 1146443993}
   - component: {fileID: 1146443998}
+  - component: {fileID: 2084470869}
   m_Layer: 0
   m_Name: BorderContainer
   m_TagString: Untagged
@@ -979,6 +980,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6face6db7427344b99adcfc96b7b7bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  falling: 0
 --- !u!114 &1146443998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -995,6 +997,22 @@ MonoBehaviour:
   m_Area: 0
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
+--- !u!54 &2084470869
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318265029}
+  serializedVersion: 2
+  m_Mass: 0.1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 90
+  m_CollisionDetection: 0
 --- !u!1 &376047947
 GameObject:
   m_ObjectHideFlags: 0
@@ -1112,7 +1130,7 @@ GameObject:
   - component: {fileID: 487678653}
   - component: {fileID: 487678652}
   - component: {fileID: 487678651}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Arch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1867,7 +1885,7 @@ GameObject:
   - component: {fileID: 521177531}
   - component: {fileID: 521177530}
   - component: {fileID: 4064659116996876979}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2130,6 +2148,7 @@ GameObject:
   - component: {fileID: 621028140}
   - component: {fileID: 68898006}
   - component: {fileID: 68898011}
+  - component: {fileID: 1516364753}
   m_Layer: 0
   m_Name: BorderContainer
   m_TagString: Untagged
@@ -2223,6 +2242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6face6db7427344b99adcfc96b7b7bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  falling: 0
 --- !u!114 &68898011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2239,6 +2259,22 @@ MonoBehaviour:
   m_Area: 0
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
+--- !u!54 &1516364753
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 621028138}
+  serializedVersion: 2
+  m_Mass: 0.1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 90
+  m_CollisionDetection: 0
 --- !u!1 &624196480
 GameObject:
   m_ObjectHideFlags: 0
@@ -2253,6 +2289,7 @@ GameObject:
   - component: {fileID: 624196482}
   - component: {fileID: 1832852850}
   - component: {fileID: 1832852855}
+  - component: {fileID: 1823383892}
   m_Layer: 0
   m_Name: BorderContainer
   m_TagString: Untagged
@@ -2346,6 +2383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6face6db7427344b99adcfc96b7b7bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  falling: 0
 --- !u!114 &1832852855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2362,6 +2400,22 @@ MonoBehaviour:
   m_Area: 0
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
+--- !u!54 &1823383892
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 624196480}
+  serializedVersion: 2
+  m_Mass: 0.1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 90
+  m_CollisionDetection: 0
 --- !u!1 &627824815
 GameObject:
   m_ObjectHideFlags: 0
@@ -2454,8 +2508,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 675912435}
-  m_LocalRotation: {x: -0, y: -0.38268322, z: -0, w: 0.9238797}
-  m_LocalPosition: {x: 0, y: 1.3, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1773896342}
@@ -2464,7 +2518,7 @@ Transform:
   - {fileID: 1506550821}
   m_Father: {fileID: 1056990141}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: -45.000004, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &739481091
 GameObject:
   m_ObjectHideFlags: 0
@@ -2739,7 +2793,7 @@ GameObject:
   - component: {fileID: 952556701}
   - component: {fileID: 952556700}
   - component: {fileID: 1806910547762873784}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: CenterLandmark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3381,7 +3435,7 @@ GameObject:
   - component: {fileID: 1284846961}
   - component: {fileID: 1284846960}
   - component: {fileID: 8595148114027624115}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3490,6 +3544,7 @@ GameObject:
   - component: {fileID: 1374249103}
   - component: {fileID: 956129774}
   - component: {fileID: 956129779}
+  - component: {fileID: 1581078886}
   m_Layer: 0
   m_Name: CenterContainer
   m_TagString: Untagged
@@ -3589,6 +3644,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6face6db7427344b99adcfc96b7b7bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  falling: 0
 --- !u!114 &956129779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3605,6 +3661,22 @@ MonoBehaviour:
   m_Area: 0
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
+--- !u!54 &1581078886
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1374249101}
+  serializedVersion: 2
+  m_Mass: 0.1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 90
+  m_CollisionDetection: 0
 --- !u!1 &1390875514
 GameObject:
   m_ObjectHideFlags: 0
@@ -3659,8 +3731,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1436171814}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: -37}
+  m_LocalRotation: {x: -0, y: -0.38268322, z: -0, w: 0.9238797}
+  m_LocalPosition: {x: 26.16294, y: 1.5, z: -26.162964}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 675912436}
@@ -3828,8 +3900,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1506550820}
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: 36, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: 0.92387944, z: -0, w: -0.3826837}
+  m_LocalPosition: {x: 25.455856, y: 1.5, z: 25.455833}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 675912436}
@@ -4107,8 +4179,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1707380455}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -38, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: 0.3826837, z: -0, w: 0.92387944}
+  m_LocalPosition: {x: -26.87007, y: 1.5, z: -26.870047}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 675912436}
@@ -4206,8 +4278,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1773896341}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 36}
+  m_LocalRotation: {x: -0, y: 0.9238797, z: -0, w: 0.38268322}
+  m_LocalPosition: {x: -25.455833, y: 1.5, z: 25.455856}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 675912436}
@@ -4450,7 +4522,7 @@ GameObject:
   - component: {fileID: 2019388543}
   - component: {fileID: 2019388542}
   - component: {fileID: 2110954244823781086}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4558,7 +4630,7 @@ GameObject:
   - component: {fileID: 5181665372525256387}
   - component: {fileID: 7398931253285518580}
   - component: {fileID: 954548806783783735}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (25)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4666,7 +4738,7 @@ GameObject:
   - component: {fileID: 5134552789790852362}
   - component: {fileID: 4486150494939494871}
   - component: {fileID: 576984979636476183}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (64)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4774,7 +4846,7 @@ GameObject:
   - component: {fileID: 6042444789028240807}
   - component: {fileID: 692582177522324479}
   - component: {fileID: 2859903268825626250}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (28)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4882,7 +4954,7 @@ GameObject:
   - component: {fileID: 1548354378007030583}
   - component: {fileID: 4749360151920347116}
   - component: {fileID: 7995037545416672435}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (26)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4990,7 +5062,7 @@ GameObject:
   - component: {fileID: 8995314550342829269}
   - component: {fileID: 2669348311472763384}
   - component: {fileID: 3255885178384282573}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (18)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5380,7 +5452,7 @@ GameObject:
   - component: {fileID: 724568654423021917}
   - component: {fileID: 4516185981864055799}
   - component: {fileID: 5033181568457541750}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5489,7 +5561,7 @@ GameObject:
   - component: {fileID: 5344955102747726503}
   - component: {fileID: 8345892755537467337}
   - component: {fileID: 116007424672049949}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (28)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5597,7 +5669,7 @@ GameObject:
   - component: {fileID: 5664904635007808837}
   - component: {fileID: 6740006640835056408}
   - component: {fileID: 5351487228709792215}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5706,7 +5778,7 @@ GameObject:
   - component: {fileID: 8393570001894299629}
   - component: {fileID: 4300438551325654301}
   - component: {fileID: 5612227072300413735}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (18)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5815,7 +5887,7 @@ GameObject:
   - component: {fileID: 1883960876784902701}
   - component: {fileID: 7988970551317506052}
   - component: {fileID: 3144402274050721894}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (12)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5923,7 +5995,7 @@ GameObject:
   - component: {fileID: 5037581028661345126}
   - component: {fileID: 8198850580100151419}
   - component: {fileID: 4940940327706230003}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (60)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6031,7 +6103,7 @@ GameObject:
   - component: {fileID: 1499707031681804245}
   - component: {fileID: 3605491353024354308}
   - component: {fileID: 9059683801840997383}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (42)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6140,7 +6212,7 @@ GameObject:
   - component: {fileID: 3946914964591451503}
   - component: {fileID: 9083942005489843236}
   - component: {fileID: 696879328103692977}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Arch (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6994,7 +7066,7 @@ GameObject:
   - component: {fileID: 2616189926977458313}
   - component: {fileID: 1195675236475858226}
   - component: {fileID: 4095666911531782864}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (29)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7255,7 +7327,7 @@ GameObject:
   - component: {fileID: 3658619720120238224}
   - component: {fileID: 8707731456858866398}
   - component: {fileID: 6495267591209046675}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7364,7 +7436,7 @@ GameObject:
   - component: {fileID: 7325755332797055331}
   - component: {fileID: 2066423725762347003}
   - component: {fileID: 1612336379970531603}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (20)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7472,7 +7544,7 @@ GameObject:
   - component: {fileID: 7470344058274780485}
   - component: {fileID: 3397203339821438499}
   - component: {fileID: 230473342749778518}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (37)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7580,7 +7652,7 @@ GameObject:
   - component: {fileID: 1872133510963868111}
   - component: {fileID: 6776284615022376137}
   - component: {fileID: 4601987878049566954}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7752,7 +7824,7 @@ GameObject:
   - component: {fileID: 8531940257236570537}
   - component: {fileID: 685566994953915651}
   - component: {fileID: 8758319484017948203}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (32)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7912,7 +7984,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5531431667965584457}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Undestruct
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7946,7 +8018,7 @@ GameObject:
   - component: {fileID: 3815219965380875769}
   - component: {fileID: 4373582062946040552}
   - component: {fileID: 7938827101332885390}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (23)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8054,7 +8126,7 @@ GameObject:
   - component: {fileID: 2238994722088427078}
   - component: {fileID: 9196546547225497453}
   - component: {fileID: 8119917550859153792}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8163,7 +8235,7 @@ GameObject:
   - component: {fileID: 1737224565813994692}
   - component: {fileID: 3070313709255569580}
   - component: {fileID: 7136480375780429174}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8272,7 +8344,7 @@ GameObject:
   - component: {fileID: 8652208697936100097}
   - component: {fileID: 4850622003280948442}
   - component: {fileID: 5418574290896474191}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (19)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8380,7 +8452,7 @@ GameObject:
   - component: {fileID: 3120859657550173699}
   - component: {fileID: 2559354493296858330}
   - component: {fileID: 6084403733514596470}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (63)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8488,7 +8560,7 @@ GameObject:
   - component: {fileID: 7980736267039982673}
   - component: {fileID: 5200976217426071802}
   - component: {fileID: 3486063957929126562}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (24)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8756,7 +8828,7 @@ GameObject:
   - component: {fileID: 8918656273779506485}
   - component: {fileID: 386982224927351748}
   - component: {fileID: 6003207524561728550}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (51)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8864,7 +8936,7 @@ GameObject:
   - component: {fileID: 7842798686916838192}
   - component: {fileID: 7886785428637994866}
   - component: {fileID: 6957313726633624923}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (16)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8973,7 +9045,7 @@ GameObject:
   - component: {fileID: 6913041126198483751}
   - component: {fileID: 7844293510519174039}
   - component: {fileID: 5708319030734969865}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (28)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9079,7 +9151,6 @@ GameObject:
   - component: {fileID: 5569350997591384684}
   - component: {fileID: 1152683427041958090}
   - component: {fileID: 3420764279745826331}
-  - component: {fileID: 942228608}
   m_Layer: 0
   m_Name: Inner
   m_TagString: Untagged
@@ -9133,22 +9204,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86eb37d4bbf89e1478f36be9f61be4e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!54 &942228608
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1873423701694521276}
-  serializedVersion: 2
-  m_Mass: 0.1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 90
-  m_CollisionDetection: 0
 --- !u!1 &1880478486033715105
 GameObject:
   m_ObjectHideFlags: 0
@@ -9162,7 +9217,7 @@ GameObject:
   - component: {fileID: 3017510313620809336}
   - component: {fileID: 2172634059230102760}
   - component: {fileID: 4923874612691382987}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9266,7 +9321,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2873611333228908489}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Undestruct
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9310,7 +9365,7 @@ GameObject:
   - component: {fileID: 8756036330319044700}
   - component: {fileID: 586917339332804667}
   - component: {fileID: 545386848693095645}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (43)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9418,7 +9473,7 @@ GameObject:
   - component: {fileID: 5652345651154006228}
   - component: {fileID: 7955735640558660686}
   - component: {fileID: 2993936786860099792}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (41)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9526,7 +9581,7 @@ GameObject:
   - component: {fileID: 8699506822624292120}
   - component: {fileID: 4707193124935819982}
   - component: {fileID: 4232182120219288085}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (30)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9634,7 +9689,7 @@ GameObject:
   - component: {fileID: 6313463114689011323}
   - component: {fileID: 6761458939628839029}
   - component: {fileID: 5420192819567991228}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (15)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9743,7 +9798,7 @@ GameObject:
   - component: {fileID: 3636389229917853013}
   - component: {fileID: 5331888076513936763}
   - component: {fileID: 3772306694344602320}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (54)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10127,7 +10182,7 @@ GameObject:
   - component: {fileID: 4546123032668871350}
   - component: {fileID: 4287462495078799914}
   - component: {fileID: 6448515094536043875}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (36)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10235,7 +10290,7 @@ GameObject:
   - component: {fileID: 4223364475346011940}
   - component: {fileID: 5893175360828528619}
   - component: {fileID: 3800463389292768517}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (52)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10339,7 +10394,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7755728710785799366}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Undestruct
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10470,7 +10525,7 @@ GameObject:
   - component: {fileID: 8856254264344590076}
   - component: {fileID: 7615817365790492264}
   - component: {fileID: 9039736443715664610}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (25)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10578,7 +10633,7 @@ GameObject:
   - component: {fileID: 174684074401242159}
   - component: {fileID: 4701932835468610370}
   - component: {fileID: 1837974381294536461}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10763,7 +10818,7 @@ GameObject:
   - component: {fileID: 45437475752580769}
   - component: {fileID: 7877993564694060806}
   - component: {fileID: 6135188724408490424}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (55)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10871,7 +10926,7 @@ GameObject:
   - component: {fileID: 6565878770459467226}
   - component: {fileID: 1522943042741996376}
   - component: {fileID: 5586004892527427773}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (18)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11135,7 +11190,7 @@ GameObject:
   - component: {fileID: 1750824338739169936}
   - component: {fileID: 2999947010235931014}
   - component: {fileID: 3153981219319796311}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (44)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11245,7 +11300,7 @@ GameObject:
   - component: {fileID: 5013168466675734712}
   - component: {fileID: 1418535961128451808}
   - component: {fileID: 550915149}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: LeftWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11702,7 +11757,7 @@ GameObject:
   - component: {fileID: 68252737243346172}
   - component: {fileID: 2514428847320791945}
   - component: {fileID: 7336743040814137048}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11811,7 +11866,7 @@ GameObject:
   - component: {fileID: 6973724725089592968}
   - component: {fileID: 7199727667151721614}
   - component: {fileID: 4401854256279142547}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12045,7 +12100,7 @@ GameObject:
   - component: {fileID: 5037992431486244449}
   - component: {fileID: 6593503652468389011}
   - component: {fileID: 1742608736}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: LeftWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12532,7 +12587,7 @@ GameObject:
   - component: {fileID: 8344265321424308482}
   - component: {fileID: 1514995578320633746}
   - component: {fileID: 3965189435432444531}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12641,7 +12696,7 @@ GameObject:
   - component: {fileID: 3973605047369296664}
   - component: {fileID: 2237855184677175713}
   - component: {fileID: 1363592639629533353}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (14)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12954,7 +13009,7 @@ GameObject:
   - component: {fileID: 4507347735661532885}
   - component: {fileID: 305745320831152382}
   - component: {fileID: 233800841177967852}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (17)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13122,7 +13177,7 @@ GameObject:
   - component: {fileID: 8185519985843236838}
   - component: {fileID: 1127369983430395120}
   - component: {fileID: 6276266738547979906}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13477,7 +13532,7 @@ GameObject:
   - component: {fileID: 990023430070305089}
   - component: {fileID: 5262431825146364968}
   - component: {fileID: 8069630213477641435}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (21)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13709,7 +13764,7 @@ GameObject:
   - component: {fileID: 268628856448883384}
   - component: {fileID: 6760784661197607832}
   - component: {fileID: 1484202004040315434}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13853,7 +13908,7 @@ GameObject:
   - component: {fileID: 6662834752703285222}
   - component: {fileID: 748723584889298856}
   - component: {fileID: 6544531235851796192}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14084,7 +14139,7 @@ GameObject:
   - component: {fileID: 6729234616162869892}
   - component: {fileID: 1840519409440865725}
   - component: {fileID: 292949900116309029}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14193,7 +14248,7 @@ GameObject:
   - component: {fileID: 327621127069313033}
   - component: {fileID: 3449876851822209727}
   - component: {fileID: 3776594283589726105}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (27)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14301,7 +14356,7 @@ GameObject:
   - component: {fileID: 9210552555993026732}
   - component: {fileID: 1781719739302364172}
   - component: {fileID: 6553672546851121975}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (29)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14486,7 +14541,7 @@ GameObject:
   - component: {fileID: 1299514225026853286}
   - component: {fileID: 3113359200948264120}
   - component: {fileID: 8827563823278985129}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14594,7 +14649,7 @@ GameObject:
   - component: {fileID: 2498559233163131640}
   - component: {fileID: 717770371642123243}
   - component: {fileID: 7475749102127691270}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (27)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14826,7 +14881,7 @@ GameObject:
   - component: {fileID: 7831999568260806393}
   - component: {fileID: 973793932213311926}
   - component: {fileID: 7821348823917716806}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14934,7 +14989,7 @@ GameObject:
   - component: {fileID: 4964466013897652946}
   - component: {fileID: 2127352654279209627}
   - component: {fileID: 2944378617600045027}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (27)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15166,7 +15221,7 @@ GameObject:
   - component: {fileID: 673992743944376235}
   - component: {fileID: 3889396948255361226}
   - component: {fileID: 4485207379837234082}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Arch (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15231,7 +15286,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 3
+  m_SelectedEditorRenderState: 2
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -15897,7 +15952,7 @@ GameObject:
   - component: {fileID: 8535511148265120929}
   - component: {fileID: 5580056772370119698}
   - component: {fileID: 4094034460109626033}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (21)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16005,7 +16060,7 @@ GameObject:
   - component: {fileID: 3034120118205742434}
   - component: {fileID: 7285487782976454626}
   - component: {fileID: 2866720426359989628}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (38)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16113,7 +16168,7 @@ GameObject:
   - component: {fileID: 1937625958230519527}
   - component: {fileID: 2610867922236053491}
   - component: {fileID: 5806343328382847581}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16222,7 +16277,7 @@ GameObject:
   - component: {fileID: 2758976907226895773}
   - component: {fileID: 2508890746097099395}
   - component: {fileID: 3285277092677480718}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16361,7 +16416,7 @@ GameObject:
   - component: {fileID: 7615893009060954624}
   - component: {fileID: 862889981782966877}
   - component: {fileID: 4433921556297389082}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (57)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16469,7 +16524,7 @@ GameObject:
   - component: {fileID: 8749496737661794737}
   - component: {fileID: 2494643708421415616}
   - component: {fileID: 2271885917601564425}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16700,7 +16755,7 @@ GameObject:
   - component: {fileID: 6376569065317356575}
   - component: {fileID: 5172034549123916637}
   - component: {fileID: 4196377314382410011}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (15)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16838,7 +16893,7 @@ GameObject:
   - component: {fileID: 8951487972699075997}
   - component: {fileID: 1014762618826331810}
   - component: {fileID: 2232851988031792466}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16947,7 +17002,7 @@ GameObject:
   - component: {fileID: 4143369655388250919}
   - component: {fileID: 2162740704430755575}
   - component: {fileID: 8953841189634735659}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17174,7 +17229,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 901444389158162192}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Undestruct
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17353,7 +17408,7 @@ GameObject:
   - component: {fileID: 2375818160176220354}
   - component: {fileID: 2287233558474975784}
   - component: {fileID: 9154819571026086686}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (68)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17461,7 +17516,7 @@ GameObject:
   - component: {fileID: 9012609879351632971}
   - component: {fileID: 208228473454629708}
   - component: {fileID: 7264895466856954690}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17570,7 +17625,7 @@ GameObject:
   - component: {fileID: 419282053177616216}
   - component: {fileID: 6110242369772126076}
   - component: {fileID: 6674445617996692422}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17802,7 +17857,7 @@ GameObject:
   - component: {fileID: 6907479942574772973}
   - component: {fileID: 5347624023574827707}
   - component: {fileID: 5802717037061004769}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17911,7 +17966,7 @@ GameObject:
   - component: {fileID: 1019940883750295969}
   - component: {fileID: 8214687259370302317}
   - component: {fileID: 3590165919794813931}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18019,7 +18074,7 @@ GameObject:
   - component: {fileID: 1257922551957244445}
   - component: {fileID: 1535356209745024990}
   - component: {fileID: 3749771894201414805}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (29)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18157,7 +18212,7 @@ GameObject:
   - component: {fileID: 191444378997390642}
   - component: {fileID: 1477789804982478008}
   - component: {fileID: 4137157990544196279}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (31)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18388,7 +18443,7 @@ GameObject:
   - component: {fileID: 381625188789508123}
   - component: {fileID: 7530217414245737222}
   - component: {fileID: 3671466534931877401}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (26)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18526,7 +18581,7 @@ GameObject:
   - component: {fileID: 5632724733162083087}
   - component: {fileID: 912396829607353664}
   - component: {fileID: 1109225050046815750}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (40)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18634,7 +18689,7 @@ GameObject:
   - component: {fileID: 9059998153617939259}
   - component: {fileID: 520365396551372730}
   - component: {fileID: 1684781859299333048}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18742,7 +18797,7 @@ GameObject:
   - component: {fileID: 8709724917248971141}
   - component: {fileID: 1368486429401487245}
   - component: {fileID: 7868040766660107606}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18850,7 +18905,7 @@ GameObject:
   - component: {fileID: 424838449768300588}
   - component: {fileID: 6913734580310075134}
   - component: {fileID: 5575440007210325954}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19082,7 +19137,7 @@ GameObject:
   - component: {fileID: 7293861703310626900}
   - component: {fileID: 3148272204450242037}
   - component: {fileID: 8065560666010810472}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19191,7 +19246,7 @@ GameObject:
   - component: {fileID: 6336409018030654871}
   - component: {fileID: 9173079545466228993}
   - component: {fileID: 8591447588922828637}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (27)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19297,7 +19352,6 @@ GameObject:
   - component: {fileID: 3048695476858807312}
   - component: {fileID: 3244152391550230786}
   - component: {fileID: 8348873499762055360}
-  - component: {fileID: 582674413}
   m_Layer: 0
   m_Name: Border
   m_TagString: Untagged
@@ -19351,22 +19405,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86eb37d4bbf89e1478f36be9f61be4e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!54 &582674413
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5832626604589279878}
-  serializedVersion: 2
-  m_Mass: 0.1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 90
-  m_CollisionDetection: 0
 --- !u!1 &5833648854211643414
 GameObject:
   m_ObjectHideFlags: 0
@@ -19380,7 +19418,7 @@ GameObject:
   - component: {fileID: 4507275215744338738}
   - component: {fileID: 1530637923850795875}
   - component: {fileID: 6085110434426598036}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (12)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19615,7 +19653,7 @@ GameObject:
   - component: {fileID: 4953286613975554522}
   - component: {fileID: 5674168986681634667}
   - component: {fileID: 105052548}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: RightWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19673,7 +19711,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 0
+  m_SelectedEditorRenderState: 2
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -20072,7 +20110,7 @@ GameObject:
   - component: {fileID: 705158049260759510}
   - component: {fileID: 6731810548977856802}
   - component: {fileID: 6037180751076975390}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (18)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20182,7 +20220,7 @@ GameObject:
   - component: {fileID: 1232686571738944847}
   - component: {fileID: 3636144487743705520}
   - component: {fileID: 3831177831546152631}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Arch (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20937,7 +20975,7 @@ GameObject:
   - component: {fileID: 5356892223801527530}
   - component: {fileID: 331689224107564055}
   - component: {fileID: 8964576785261009197}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (32)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21045,7 +21083,7 @@ GameObject:
   - component: {fileID: 7225043727750892432}
   - component: {fileID: 2946122398188163501}
   - component: {fileID: 18260826617996979}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21153,7 +21191,7 @@ GameObject:
   - component: {fileID: 384309840761494187}
   - component: {fileID: 8347076978542366567}
   - component: {fileID: 2674991600134668154}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21262,7 +21300,7 @@ GameObject:
   - component: {fileID: 3569951721049801860}
   - component: {fileID: 8434805807490276082}
   - component: {fileID: 2963320900301383403}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (62)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21370,7 +21408,7 @@ GameObject:
   - component: {fileID: 7242687198439038625}
   - component: {fileID: 4501292287192139256}
   - component: {fileID: 7247727430052025243}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21555,7 +21593,7 @@ GameObject:
   - component: {fileID: 921399615899852060}
   - component: {fileID: 85688382949096514}
   - component: {fileID: 2071672055502187771}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (34)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21665,7 +21703,7 @@ GameObject:
   - component: {fileID: 8290003280791348814}
   - component: {fileID: 2595900995312293777}
   - component: {fileID: 1972883800}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: LeftWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22245,7 +22283,7 @@ GameObject:
   - component: {fileID: 696184159678060711}
   - component: {fileID: 3364187057499126823}
   - component: {fileID: 4280543712119547000}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22353,7 +22391,7 @@ GameObject:
   - component: {fileID: 747675916520340767}
   - component: {fileID: 5573175853677512790}
   - component: {fileID: 4425300924672816841}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (47)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22461,7 +22499,7 @@ GameObject:
   - component: {fileID: 3760057893319826844}
   - component: {fileID: 5954780473606287808}
   - component: {fileID: 4256153831624644639}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (19)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22570,7 +22608,7 @@ GameObject:
   - component: {fileID: 5551709688575091874}
   - component: {fileID: 2523614774461018094}
   - component: {fileID: 6170769410133310967}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (50)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22678,7 +22716,7 @@ GameObject:
   - component: {fileID: 5461239219081015877}
   - component: {fileID: 8797865538570823412}
   - component: {fileID: 4195949658459410339}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (31)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22910,7 +22948,7 @@ GameObject:
   - component: {fileID: 7508792076318050518}
   - component: {fileID: 4435100554273904450}
   - component: {fileID: 8425872875202409167}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23019,7 +23057,7 @@ GameObject:
   - component: {fileID: 7468892156159337350}
   - component: {fileID: 4873043384688144294}
   - component: {fileID: 2179297497897165781}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (30)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23127,7 +23165,7 @@ GameObject:
   - component: {fileID: 1233728603060092139}
   - component: {fileID: 6290840230748266055}
   - component: {fileID: 8743660866369562975}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23236,7 +23274,7 @@ GameObject:
   - component: {fileID: 2782321309408560627}
   - component: {fileID: 2769297661868024832}
   - component: {fileID: 6086979665382653728}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23345,7 +23383,7 @@ GameObject:
   - component: {fileID: 4573858594849826913}
   - component: {fileID: 1245803855012165553}
   - component: {fileID: 2172070912545536633}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23453,7 +23491,7 @@ GameObject:
   - component: {fileID: 6578357644072373578}
   - component: {fileID: 7351040069779252577}
   - component: {fileID: 8915437810124160979}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (32)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23561,7 +23599,7 @@ GameObject:
   - component: {fileID: 1321081684435498826}
   - component: {fileID: 1423747843016811760}
   - component: {fileID: 663433296901860442}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23669,7 +23707,7 @@ GameObject:
   - component: {fileID: 484795476088547177}
   - component: {fileID: 704185363784036410}
   - component: {fileID: 5187872003345093226}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23776,7 +23814,6 @@ GameObject:
   - component: {fileID: 5921768538534327479}
   - component: {fileID: 8795169428127421984}
   - component: {fileID: 315229299101311658}
-  - component: {fileID: 1677503250}
   m_Layer: 0
   m_Name: Middle
   m_TagString: Untagged
@@ -23830,22 +23867,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86eb37d4bbf89e1478f36be9f61be4e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!54 &1677503250
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7213119888116868114}
-  serializedVersion: 2
-  m_Mass: 0.1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 90
-  m_CollisionDetection: 0
 --- !u!1 &7213602836023231521
 GameObject:
   m_ObjectHideFlags: 0
@@ -23859,7 +23880,7 @@ GameObject:
   - component: {fileID: 2343021898086017995}
   - component: {fileID: 8132831975561712107}
   - component: {fileID: 1873322436853165715}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (17)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24091,7 +24112,7 @@ GameObject:
   - component: {fileID: 4095433825371794542}
   - component: {fileID: 2399464702883710611}
   - component: {fileID: 3210476505147351959}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24200,7 +24221,7 @@ GameObject:
   - component: {fileID: 4358900172973931805}
   - component: {fileID: 1201642767416902091}
   - component: {fileID: 2956414153218772010}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24309,7 +24330,7 @@ GameObject:
   - component: {fileID: 3393026101410463652}
   - component: {fileID: 5321563972707898467}
   - component: {fileID: 2221878886062207154}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24580,7 +24601,7 @@ GameObject:
   - component: {fileID: 3015686834147266484}
   - component: {fileID: 6288202423107703042}
   - component: {fileID: 9102528411913407244}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (23)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24934,7 +24955,7 @@ GameObject:
   - component: {fileID: 18687833986943480}
   - component: {fileID: 515489346474049655}
   - component: {fileID: 5037117088530257920}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25043,7 +25064,7 @@ GameObject:
   - component: {fileID: 110016264579939618}
   - component: {fileID: 1617258378839379957}
   - component: {fileID: 8887548355566681089}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (56)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25151,7 +25172,7 @@ GameObject:
   - component: {fileID: 5974243642592963890}
   - component: {fileID: 5503983682616955517}
   - component: {fileID: 8044982227996814925}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (61)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25505,7 +25526,7 @@ GameObject:
   - component: {fileID: 4236810131980279132}
   - component: {fileID: 3745270030884850500}
   - component: {fileID: 2971152680893485273}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (16)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25611,7 +25632,6 @@ GameObject:
   - component: {fileID: 7979753412261322153}
   - component: {fileID: 8252580171690511981}
   - component: {fileID: 3487973887166493666}
-  - component: {fileID: 2043209421}
   m_Layer: 0
   m_Name: Center
   m_TagString: Untagged
@@ -25669,22 +25689,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86eb37d4bbf89e1478f36be9f61be4e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!54 &2043209421
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7970047002318378922}
-  serializedVersion: 2
-  m_Mass: 0.1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 90
-  m_CollisionDetection: 0
 --- !u!1 &7973853627501478438
 GameObject:
   m_ObjectHideFlags: 0
@@ -25821,7 +25825,7 @@ GameObject:
   - component: {fileID: 1183383885095127897}
   - component: {fileID: 4414538870419318473}
   - component: {fileID: 5992062500697064103}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25930,7 +25934,7 @@ GameObject:
   - component: {fileID: 8775172551355567037}
   - component: {fileID: 8327764268234245090}
   - component: {fileID: 85462419887288165}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (46)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26161,7 +26165,7 @@ GameObject:
   - component: {fileID: 2039497839523528810}
   - component: {fileID: 1828518659143962686}
   - component: {fileID: 2724471868480485689}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (66)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26269,7 +26273,7 @@ GameObject:
   - component: {fileID: 5847497908959168074}
   - component: {fileID: 6297777224477774667}
   - component: {fileID: 2390668078710043146}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26377,7 +26381,7 @@ GameObject:
   - component: {fileID: 8617766667736698625}
   - component: {fileID: 1920684523631661431}
   - component: {fileID: 5774329088727226740}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Column (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26488,7 +26492,7 @@ GameObject:
   - component: {fileID: 7363920738366502595}
   - component: {fileID: 5217544869383705468}
   - component: {fileID: 1791760429}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: LeftWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27194,7 +27198,7 @@ GameObject:
   - component: {fileID: 7267491853333039464}
   - component: {fileID: 4053081877879551787}
   - component: {fileID: 3073556068553090779}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: RightWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27252,7 +27256,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 1
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -27651,7 +27655,7 @@ GameObject:
   - component: {fileID: 8153332131468222608}
   - component: {fileID: 1144158251938966553}
   - component: {fileID: 9178506163716341861}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (22)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27761,7 +27765,7 @@ GameObject:
   - component: {fileID: 9122273542317877298}
   - component: {fileID: 5399022868648575202}
   - component: {fileID: 1792777764}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: RightWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28466,7 +28470,7 @@ GameObject:
   - component: {fileID: 3713318818567564407}
   - component: {fileID: 5288341240334795179}
   - component: {fileID: 600934790}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: RightWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28923,7 +28927,7 @@ GameObject:
   - component: {fileID: 7038983370858979927}
   - component: {fileID: 2018036389294249761}
   - component: {fileID: 8500433374326797102}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (45)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29154,7 +29158,7 @@ GameObject:
   - component: {fileID: 4802771092083936222}
   - component: {fileID: 1907008293836956282}
   - component: {fileID: 8486009457995303609}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29262,7 +29266,7 @@ GameObject:
   - component: {fileID: 2690818512918877474}
   - component: {fileID: 8990542652253231962}
   - component: {fileID: 2119911196329532554}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29370,7 +29374,7 @@ GameObject:
   - component: {fileID: 3582218240508780410}
   - component: {fileID: 4076497053037213842}
   - component: {fileID: 3693607409465771459}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (24)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29478,7 +29482,7 @@ GameObject:
   - component: {fileID: 1732409078810133096}
   - component: {fileID: 1915290029912680393}
   - component: {fileID: 6757133355667181146}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29740,7 +29744,7 @@ GameObject:
   - component: {fileID: 1641429665914860279}
   - component: {fileID: 6121630358780942002}
   - component: {fileID: 1131343193942884015}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29848,7 +29852,7 @@ GameObject:
   - component: {fileID: 6674438745980197895}
   - component: {fileID: 5608987825248760541}
   - component: {fileID: 5150431771709234788}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: IndestructWall (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29950,16 +29954,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5816710894162335263}
     m_Modifications:
-    - target: {fileID: 6596804894743012722, guid: 4f954013273b9564fab4e43f1802f1a5,
-        type: 3}
-      propertyPath: m_Name
-      value: CrystalPyramid
-      objectReference: {fileID: 0}
-    - target: {fileID: 6596804894743012722, guid: 4f954013273b9564fab4e43f1802f1a5,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 40
-      objectReference: {fileID: 0}
     - target: {fileID: 6596804894743012728, guid: 4f954013273b9564fab4e43f1802f1a5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -30015,14 +30009,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6596804894743012727, guid: 4f954013273b9564fab4e43f1802f1a5,
+    - target: {fileID: 6596804894743012722, guid: 4f954013273b9564fab4e43f1802f1a5,
         type: 3}
-      propertyPath: _entityType
-      value: 2
+      propertyPath: m_Name
+      value: CrystalPyramid
+      objectReference: {fileID: 0}
+    - target: {fileID: 6596804894743012722, guid: 4f954013273b9564fab4e43f1802f1a5,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 6596804894743012726, guid: 4f954013273b9564fab4e43f1802f1a5,
         type: 3}
       propertyPath: m_SelectedEditorRenderState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6596804894743012727, guid: 4f954013273b9564fab4e43f1802f1a5,
+        type: 3}
+      propertyPath: _entityType
       value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []

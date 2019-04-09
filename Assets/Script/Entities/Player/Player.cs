@@ -19,7 +19,6 @@ public class Player : MonoBehaviour, IDamageable
     Vector2 lastAnimMovement = Vector2.zero;
     Vector3 lastMovement = Vector2.zero;
     float inertiaFactor = 0.06f;
-    float animInertiaFactor = 0.02f;
 
     public float movementSpeed;
     public Vector3 movDir;
@@ -268,6 +267,8 @@ public class Player : MonoBehaviour, IDamageable
         var deathParticle = SimpleParticleSpawner.Instance.particles[deathPartID].GetComponentInChildren<ParticleSystem>();
         SimpleParticleSpawner.Instance.SpawnParticle(deathParticle.gameObject, transform.position, transform.forward);
 
+        _cam.OnPlayerDeath();
+
         EventManager.Instance.DispatchEvent(PlayerEvents.Death, this, type, isPushed, gameObject.tag);
         _rb.velocity = Vector3.zero;
         gameObject.SetActive(false);
@@ -280,6 +281,8 @@ public class Player : MonoBehaviour, IDamageable
         var deathPartID = SimpleParticleSpawner.ParticleID.DEATHPARTICLE;
         var deathParticle = SimpleParticleSpawner.Instance.particles[deathPartID].GetComponentInChildren<ParticleSystem>();
         SimpleParticleSpawner.Instance.SpawnParticle(deathParticle.gameObject, transform.position, transform.forward);
+
+        _cam.OnPlayerDeath();
 
         EventManager.Instance.DispatchEvent(PlayerEvents.Death, this, type, isPushed, killerTag);
         _rb.velocity = Vector3.zero;
@@ -309,7 +312,7 @@ public class Player : MonoBehaviour, IDamageable
         /*if (Mathf.Abs(lastAnimMovement.y - movement.y) > 1) movement.y *= -1;
         else*/ movement.y = Mathf.Lerp(lastAnimMovement.y, movement.y, inertiaFactor);
 
-        print(movement);
+        //print(movement);
 
         _animationController.SetMovementDir(movement);
 
