@@ -212,6 +212,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < Players.Count; i++)
         {
+            Players[i].transform.parent = null;
             Players[i].gameObject.SetActive(true);
             Players[i].transform.position = spawns[i].transform.position;
             Players[i].transform.forward = spawns[i].forward;

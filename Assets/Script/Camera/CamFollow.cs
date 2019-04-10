@@ -97,6 +97,6 @@ public class CamFollow : MonoBehaviour
 
     void EnableDeathCam()
     {
-        //do the thing with canvas
+        UIManager.Instance.OnPlayerDeath(target.myID);
     }
 }

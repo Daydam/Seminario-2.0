@@ -37,6 +37,9 @@ public class UIManager : MonoBehaviour
     public Text targetPointsText;
     Action _startRoundCallback;
 
+    [SerializeField]
+    public CanvasPlayerCameraSwapper[] canvasPlayers;
+
     public void Initialize(IEnumerable<Player> players, Action callback, int pointsToWin)
     {
         _startRoundCallback = callback;
@@ -49,6 +52,16 @@ public class UIManager : MonoBehaviour
         ApplyTextes(players.ToArray());
 
         StartCoroutine(FadeIn(callback));
+
+        GameManager.Instance.OnResetRound += OnResetRound;
+
+        for (int i = 0; i < 4; i++)
+        {
+            var realIndex = (i + 1).ToString();
+            var nameToSearch = canvasPlayers[i].prefix + realIndex;
+            var imgs = _canvas.transform.GetComponentsInChildren<Image>().Where(x => x.name == nameToSearch).ToArray();
+            canvasPlayers[i].Initialize(imgs);
+        }
     }
 
     void OnFinishedCountdown(object[] paramsContainer)
@@ -118,5 +131,65 @@ public class UIManager : MonoBehaviour
         }
 
         callback();
+    }
+
+    #region PlayerCallbacks
+
+    public void OnPlayerDeath(int indx)
+    {
+        canvasPlayers[indx].OnPlayerDeath();
+    }
+
+    public void OnResetRound()
+    {
+        foreach (var item in canvasPlayers)
+        {
+            item.OnResetRound();
+        }
+    }
+
+    #endregion
+}
+
+[Serializable]
+public class CanvasPlayerCameraSwapper
+{
+    public readonly string prefix = "Camera Player ";
+    Image[] _imgs;
+    public Material playerCameraMat, topDownCameraMat;
+
+    public void Initialize(Image[] imgs)
+    {
+        _imgs = imgs;
+    }
+
+    public Texture GetBlackTexture()
+    {
+        return Texture2D.blackTexture;
+    }
+
+    public Material GetBlackMaterial()
+    {
+        var mat = new Material(Shader.Find("Unlit/Texture"));
+        mat.mainTexture = GetBlackTexture();
+        return mat;
+    }
+
+    public void OnPlayerDeath(bool blackMat = false)
+    {
+        foreach (var item in _imgs)
+        {
+            item.material = blackMat ? GetBlackMaterial() : topDownCameraMat;
+        }
+        
+    }
+
+    public void OnResetRound()
+    {
+        foreach (var item in _imgs)
+        {
+            item.material = playerCameraMat;
+        }
+        
     }
 }
