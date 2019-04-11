@@ -17,7 +17,7 @@ public class RomboidParent : MonoBehaviour
         var obj = collision.collider.transform;
         if (obj.gameObject.LayerMatchesWith(LayerMask.NameToLayer("Player1"), LayerMask.NameToLayer("Player2"), LayerMask.NameToLayer("Player3"), LayerMask.NameToLayer("Player4")))
         {
-            obj.SetParent(this.transform);
+            if (obj.parent != this.transform) obj.SetParent(this.transform);
         }
     }
 
@@ -31,7 +31,7 @@ public class RomboidParent : MonoBehaviour
         var obj = collision.collider.transform;
         if (obj.gameObject.LayerMatchesWith(LayerMask.NameToLayer("Player1"), LayerMask.NameToLayer("Player2"), LayerMask.NameToLayer("Player3"), LayerMask.NameToLayer("Player4")))
         {
-            obj.SetParent(this.transform);
+            if (obj.parent != this.transform) obj.SetParent(this.transform);
         }
     }
 
@@ -40,7 +40,7 @@ public class RomboidParent : MonoBehaviour
         var obj = collision.collider.transform;
         if (obj.gameObject.LayerMatchesWith(LayerMask.NameToLayer("Player1"), LayerMask.NameToLayer("Player2"), LayerMask.NameToLayer("Player3"), LayerMask.NameToLayer("Player4")))
         {
-            if (obj.parent == this.transform) obj.SetParent(null);           
+            if (obj.parent == this.transform) obj.SetParent(null);
         }
     }
 }
