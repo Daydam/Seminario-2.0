@@ -19,7 +19,7 @@ public class Player : MonoBehaviour, IDamageable
     Vector2 lastDir = Vector2.zero;
     Vector2 lastAnimMovement = Vector2.zero;
     Vector3 lastMovement = Vector2.zero;
-    float inertiaFactor = 0.02f;
+    float inertiaFactor = 0.05f;
     float animInertiaFactor = 0.2f;
 
     public float movementSpeed;

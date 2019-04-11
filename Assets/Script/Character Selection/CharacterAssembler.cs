@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CharacterAssembler
@@ -11,6 +12,7 @@ public class CharacterAssembler
         Transform comp2Node = null;
         Transform weaponNode = null;
 
+        #region Puto
         foreach (Transform child in body.transform)
         {
             foreach (Transform c in child.transform)
@@ -21,6 +23,7 @@ public class CharacterAssembler
                 if (c.name == "Node_Weapon") weaponNode = c;
             }
         }
+        #endregion
 
         defensive.transform.position = defNode.position;
         defensive.transform.rotation = defNode.rotation;
