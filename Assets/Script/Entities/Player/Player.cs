@@ -16,9 +16,11 @@ public class Player : MonoBehaviour, IDamageable
 
     Controller _control;
     public Controller Control { get { return _control; } }
+    Vector2 lastDir = Vector2.zero;
     Vector2 lastAnimMovement = Vector2.zero;
     Vector3 lastMovement = Vector2.zero;
-    float inertiaFactor = 0.06f;
+    float inertiaFactor = 0.02f;
+    float animInertiaFactor = 0.2f;
 
     public float movementSpeed;
     public Vector3 movDir;
@@ -272,6 +274,11 @@ public class Player : MonoBehaviour, IDamageable
         EventManager.Instance.DispatchEvent(PlayerEvents.Death, this, type, isPushed, gameObject.tag);
         _rb.velocity = Vector3.zero;
         gameObject.SetActive(false);
+        
+        //Iván si se rompe algo perdón
+        lastMovement = Vector3.zero;
+        lastAnimMovement = Vector3.zero;
+        lastDir = Vector3.zero;
     }
 
     void DestroyPlayer(DeathType type, string killerTag)
@@ -304,21 +311,32 @@ public class Player : MonoBehaviour, IDamageable
         var movVector = _rb.position + newMovement;
         movDir = dir;
         _rb.MovePosition(movVector);
+        
+        Vector2 animMovement = _control.LeftAnalog();
 
-        //Normalmente lerp como en 297, si la diferencia es >1 directamente un snap al lado contrario.
-        Vector2 movement = _control.LeftAnalog();
-        /*if (Mathf.Abs(lastAnimMovement.x - movement.x) > 1) movement.x *= -1;
-        else*/ movement.x = Mathf.Lerp(lastAnimMovement.x, movement.x, inertiaFactor);
-        /*if (Mathf.Abs(lastAnimMovement.y - movement.y) > 1) movement.y *= -1;
-        else*/ movement.y = Mathf.Lerp(lastAnimMovement.y, movement.y, inertiaFactor);
+        animMovement = Vector2.Lerp(lastAnimMovement, animMovement, inertiaFactor);
+        
+        Vector2 finalDir = new Vector2(animMovement.x - lastAnimMovement.x, animMovement.y - lastAnimMovement.y);
 
-        //print(movement);
+        if (Mathf.Sign(_control.LeftAnalog().x) != Mathf.Sign(lastAnimMovement.x) || Mathf.Abs(_control.LeftAnalog().x) <= 0.004f)
+            finalDir.x = Mathf.Abs(finalDir.x) <= 0.007f ? animMovement.x : Mathf.Sign(finalDir.x);
+        else
+            finalDir.x = animMovement.x;
 
-        _animationController.SetMovementDir(movement);
+        if (Mathf.Sign(_control.LeftAnalog().y) != Mathf.Sign(lastAnimMovement.y) || Mathf.Abs(_control.LeftAnalog().y) <= 0.004f)
+            finalDir.y = Mathf.Abs(finalDir.y) <= 0.007f ? animMovement.y : Mathf.Sign(finalDir.y);
+        else
+            finalDir.y = animMovement.y;
+
+        finalDir.x = Mathf.Lerp(lastDir.x, finalDir.x, animInertiaFactor);
+        finalDir.y = Mathf.Lerp(lastDir.y, finalDir.y, animInertiaFactor);
+
+        _animationController.SetMovementDir(finalDir);
 
         //_soundModule.SetEnginePitch((control.LeftAnalog().y + control.LeftAnalog().x)/2 * movementSpeed * MovementMultiplier);
-        lastAnimMovement = movement;
         lastMovement = newMovement;
+        lastAnimMovement = animMovement;
+        lastDir = finalDir;
     }
 
     public IDamageable GetEntityType()
@@ -466,6 +484,10 @@ public class Player : MonoBehaviour, IDamageable
     {
         _rb.velocity = Vector3.zero;
 
+        //Iván si se rompe algo perdón
+        lastMovement = Vector3.zero;
+        lastAnimMovement = Vector3.zero;
+        lastDir = Vector3.zero;
     }
 
     #region Timed States
@@ -491,6 +513,11 @@ public class Player : MonoBehaviour, IDamageable
 
         _soundModule.PlayStunSound();
         StartCoroutine(ExecuteStun(duration));
+
+        //Iván si se rompe algo perdón
+        lastMovement = Vector3.zero;
+        lastAnimMovement = Vector3.zero;
+        lastDir = Vector3.zero;
     }
 
     public void ApplyDisarm(float duration)
@@ -504,6 +531,11 @@ public class Player : MonoBehaviour, IDamageable
     public void ApplyCastState(float duration)
     {
         StartCoroutine(ExecuteCastTime(duration));
+
+        //Iván si se rompe algo perdón
+        lastMovement = Vector3.zero;
+        lastAnimMovement = Vector3.zero;
+        lastDir = Vector3.zero;
     }
 
     public void ApplyInvulnerability(float duration)
