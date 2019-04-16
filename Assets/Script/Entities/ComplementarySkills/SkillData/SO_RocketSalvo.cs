@@ -7,7 +7,10 @@ using System.Linq;
 public class SO_RocketSalvo : ScriptableObject
 {
     public int rocketCount;
-    public float maxCooldown, duration, effectRadius, rocketCooldown;
+    public float maxCooldown, duration, effectRadius;
     public float explosionRadius, damage, speed;
+
+    public float RocketCooldown { get { return duration / rocketCount; } }
+
 }
 

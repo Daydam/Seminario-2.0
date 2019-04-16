@@ -87,14 +87,14 @@ public class SK_RocketSalvo : ComplementarySkillBase
 
     IEnumerator FireRockets()
     {
-        var inst = new WaitForSeconds(skillData.rocketCooldown);
+        var inst = new WaitForSeconds(skillData.RocketCooldown);
 
         int rocketsFired = 0;
         float timeElapsed = 0f;
 
         while (rocketsFired < skillData.rocketCount - 1)
         {
-            timeElapsed += skillData.rocketCooldown;
+            timeElapsed += skillData.RocketCooldown;
 
             _rockets[rocketsFired].gameObject.SetActive(true);
 
@@ -111,6 +111,8 @@ public class SK_RocketSalvo : ComplementarySkillBase
 
             yield return inst;
         }
+
+        _currentCooldown = skillData.maxCooldown;
 
         //set player state enabled
     }

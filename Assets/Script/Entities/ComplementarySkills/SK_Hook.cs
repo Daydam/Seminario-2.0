@@ -77,6 +77,8 @@ public class SK_Hook : ComplementarySkillBase
 
         yield return new WaitUntil(() => _hook.movementFinished);
 
+        yield return new WaitForSeconds(skillData.latchDelay);
+
         if (_hook.Target is Player)
         {
             var targetPlayer = (Player)_hook.Target;

@@ -9,13 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6df6cac119b71de40a851563aa2616cb, type: 3}
-  m_Name: DATA_Hook_EQ
+  m_Script: {fileID: 11500000, guid: b839c7056f0ee6d43b52e46606fb0b64, type: 3}
+  m_Name: DATA_Dash_HEAVY
   m_EditorClassIdentifier: 
-  playerTravelTime: 0.1
-  stunIfNullTarget: 0.3
-  castTime: 0.05
-  maxCooldown: 4
-  maxRange: 10
-  travelTime: 0.1
-  latchDelay: 0.1
+  maxCooldown: 1.5
+  dashDistance: 2.3
+  dashTime: 0.1

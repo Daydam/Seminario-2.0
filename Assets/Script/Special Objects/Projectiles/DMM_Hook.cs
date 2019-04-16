@@ -8,6 +8,7 @@ public class DMM_Hook : MonoBehaviour
     public SO_Hook skillData;
 
     float _travelledDistance, _speed;
+    TrailRenderer _trail;
 
     Player _owner;
     Rigidbody _rb;
@@ -23,6 +24,8 @@ public class DMM_Hook : MonoBehaviour
     void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        _trail = GetComponent<TrailRenderer>();
+        
     }
 
     public DMM_Hook Spawn(Vector3 spawnPos, Vector3 dir, string emmitter, Player owner, SO_Hook data)
@@ -39,6 +42,8 @@ public class DMM_Hook : MonoBehaviour
         _stopMoving = false;
         _travelledDistance = 0;
         _target = null;
+
+        _trail.Clear();
 
         return this;
     }

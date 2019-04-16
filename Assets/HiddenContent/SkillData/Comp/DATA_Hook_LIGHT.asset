@@ -10,12 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6df6cac119b71de40a851563aa2616cb, type: 3}
-  m_Name: DATA_Hook_EQ
+  m_Name: DATA_Hook_LIGHT
   m_EditorClassIdentifier: 
-  playerTravelTime: 0.1
-  stunIfNullTarget: 0.3
-  castTime: 0.05
-  maxCooldown: 4
-  maxRange: 10
+  playerTravelTime: 0.2
+  stunIfNullTarget: 0.5
+  castTime: 0.1
+  maxCooldown: 6
+  maxRange: 5
   travelTime: 0.1
-  latchDelay: 0.1

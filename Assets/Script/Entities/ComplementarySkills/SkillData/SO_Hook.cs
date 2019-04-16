@@ -10,5 +10,5 @@ public class SO_Hook : ScriptableObject
     public float stunIfNullTarget;
     public float castTime;
     public float maxCooldown;
-    public float maxRange, travelTime;
+    public float maxRange, travelTime, latchDelay;
 }
