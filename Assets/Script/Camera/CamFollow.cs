@@ -24,6 +24,7 @@ public class CamFollow : MonoBehaviour
     Player target;
     Vector3 targetSight;
     RaycastHit _toFloorRay;
+    DeathType _deathType = DeathType.COUNT;
 
     void Start()
     {
@@ -50,9 +51,10 @@ public class CamFollow : MonoBehaviour
         running = true;
     }
 
-    public void OnPlayerDeath()
+    public void OnPlayerDeath(DeathType type)
     {
         Physics.Raycast(target.transform.position, Vector3.down, out _toFloorRay, _maxRayDistance);
+        _deathType = type;
         _playerDead = true;
     }
 
@@ -61,7 +63,11 @@ public class CamFollow : MonoBehaviour
         if (running)
         {
             if (!_playerDead && target) CameraMovement();
-            else if (_cameraFallCoroutine == null) _cameraFallCoroutine = StartCoroutine(CameraFall());
+            else if(_cameraFallCoroutine == null)
+            {
+                var laserGridDeath = _deathType == DeathType.LaserGrid;
+                _cameraFallCoroutine = laserGridDeath ? StartCoroutine(CameraFall()) : StartCoroutine(DeathCamDelay());
+            }
         }
     }
 
@@ -92,6 +98,12 @@ public class CamFollow : MonoBehaviour
             }
 
         }
+        EnableDeathCam();
+    }
+
+    IEnumerator DeathCamDelay()
+    {
+        yield return new WaitForSeconds(_maxFallDuration);
         EnableDeathCam();
     }
 

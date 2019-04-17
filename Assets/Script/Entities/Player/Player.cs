@@ -269,7 +269,7 @@ public class Player : MonoBehaviour, IDamageable
         var deathParticle = SimpleParticleSpawner.Instance.particles[deathPartID].GetComponentInChildren<ParticleSystem>();
         SimpleParticleSpawner.Instance.SpawnParticle(deathParticle.gameObject, transform.position, transform.forward);
 
-        _cam.OnPlayerDeath();
+        _cam.OnPlayerDeath(type);
 
         EventManager.Instance.DispatchEvent(PlayerEvents.Death, this, type, isPushed, gameObject.tag);
         _rb.velocity = Vector3.zero;
@@ -289,7 +289,7 @@ public class Player : MonoBehaviour, IDamageable
         var deathParticle = SimpleParticleSpawner.Instance.particles[deathPartID].GetComponentInChildren<ParticleSystem>();
         SimpleParticleSpawner.Instance.SpawnParticle(deathParticle.gameObject, transform.position, transform.forward);
 
-        _cam.OnPlayerDeath();
+        _cam.OnPlayerDeath(type);
 
         EventManager.Instance.DispatchEvent(PlayerEvents.Death, this, type, isPushed, killerTag);
         _rb.velocity = Vector3.zero;
