@@ -38,6 +38,7 @@ public class SkillTrail : MonoBehaviour
         foreach(var tr in _trails)
         {
             tr.gameObject.layer = LayerMask.NameToLayer("Unrenderizable");
+            tr.Clear();
         }
     }
 }

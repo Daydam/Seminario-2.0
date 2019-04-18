@@ -78,6 +78,7 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
     {
         foreach (var item in Trail)
         {
+        	item.Clear();
             item.enabled = false;
         }
 
