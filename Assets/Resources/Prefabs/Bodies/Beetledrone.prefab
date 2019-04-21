@@ -580,6 +580,7 @@ GameObject:
   - component: {fileID: 95967551853141604}
   - component: {fileID: 114345293119366864}
   - component: {fileID: 8633881909459949694}
+  - component: {fileID: 986979500648557995}
   m_Layer: 0
   m_Name: Beetledrone
   m_TagString: Untagged
@@ -841,6 +842,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weight: 10
   sufix: _EQ
+--- !u!114 &986979500648557995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785207140606284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2a6c372b614cb743875c0811bf36c77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _droneBodyName: Beetledrone V2
 --- !u!1 &1793874535216528
 GameObject:
   m_ObjectHideFlags: 0

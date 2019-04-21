@@ -18,7 +18,7 @@ public class PlayerLifeForcefield : MonoBehaviour
 
     void Update()
     {
-        _rend.material.SetFloat("_Life", _owner.Rend.material.GetFloat("_Life"));
+        _rend.material.SetFloat("_Life", _owner.LightsModule.GetLifeValue());
     }
 
     public void TakeDamage()

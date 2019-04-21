@@ -4,11 +4,69 @@ ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
+    100002: CATRigHub002
+    100004: CATRigHub002Bone001
+    100006: CATRigHub002Bone001Bone001
+    100008: CATRigHub002Bone001Bone003
+    100010: CATRigHub002Bone001Gizmo
+    100012: CATRigHub002Bone002
+    100014: CATRigHub002Bone002Gizmo
+    100016: CATRigHub002Bone003
+    100018: CATRigHub002Bone003Bone001
+    100020: CATRigHub002Bone003Bone002
+    100022: CATRigHub002Bone003Gizmo
+    100024: CATRigHub002Bone004
+    100026: CATRigHub002Bone004Gizmo
+    100028: Character002
+    100030: costado
+    100032: cuerpo
+    100034: helices chicas
+    100036: helices grandes
     400000: //RootNode
+    400002: CATRigHub002
+    400004: CATRigHub002Bone001
+    400006: CATRigHub002Bone001Bone001
+    400008: CATRigHub002Bone001Bone003
+    400010: CATRigHub002Bone001Gizmo
+    400012: CATRigHub002Bone002
+    400014: CATRigHub002Bone002Gizmo
+    400016: CATRigHub002Bone003
+    400018: CATRigHub002Bone003Bone001
+    400020: CATRigHub002Bone003Bone002
+    400022: CATRigHub002Bone003Gizmo
+    400024: CATRigHub002Bone004
+    400026: CATRigHub002Bone004Gizmo
+    400028: Character002
+    400030: costado
+    400032: cuerpo
+    400034: helices chicas
+    400036: helices grandes
     2100000: No Name
     2300000: //RootNode
+    2300002: costado
+    2300004: cuerpo
+    2300006: helices chicas
+    2300008: helices grandes
     3300000: //RootNode
+    3300002: costado
+    3300004: cuerpo
+    3300006: helices chicas
+    3300008: helices grandes
     4300000: dron1
+    4300002: cuerpo
+    4300004: costado
+    4300006: helices chicas
+    4300008: helices grandes
+    7400000: idle
+    7400002: derecha
+    7400004: izquierda
+    7400006: adelante
+    7400008: atras
+    9500000: //RootNode
+    13700000: costado
+    13700002: cuerpo
+    13700004: helices chicas
+    13700006: helices grandes
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -29,7 +87,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -61,8 +119,8 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 1
-    hasPreviousCalculatedGlobalScale: 0
+    previousCalculatedGlobalScale: 0.0254
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -86,10 +144,10 @@ ModelImporter:
     feetSpacing: 0
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

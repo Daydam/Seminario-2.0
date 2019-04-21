@@ -6,7 +6,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Beetledrone
+  m_Name: Cardrone
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Front
@@ -55,7 +55,7 @@ BlendTree:
   m_Name: Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400006, guid: 219bc6ede079a7441aff7b648a0699fa, type: 3}
+    m_Motion: {fileID: 7400002, guid: 296d6181b530de14183cdd94854f3a54, type: 3}
     m_Threshold: 0
     m_Position: {x: 1, y: 0}
     m_TimeScale: 1
@@ -63,7 +63,7 @@ BlendTree:
     m_DirectBlendParameter: Blend
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400004, guid: 219bc6ede079a7441aff7b648a0699fa, type: 3}
+    m_Motion: {fileID: 7400004, guid: 296d6181b530de14183cdd94854f3a54, type: 3}
     m_Threshold: 0.33333334
     m_Position: {x: -1, y: 0}
     m_TimeScale: 1
@@ -71,7 +71,7 @@ BlendTree:
     m_DirectBlendParameter: Blend
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 219bc6ede079a7441aff7b648a0699fa, type: 3}
+    m_Motion: {fileID: 7400006, guid: 296d6181b530de14183cdd94854f3a54, type: 3}
     m_Threshold: 0.6666667
     m_Position: {x: 0, y: 1}
     m_TimeScale: 1
@@ -79,7 +79,7 @@ BlendTree:
     m_DirectBlendParameter: Blend
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400002, guid: 219bc6ede079a7441aff7b648a0699fa, type: 3}
+    m_Motion: {fileID: 7400008, guid: 296d6181b530de14183cdd94854f3a54, type: 3}
     m_Threshold: 1
     m_Position: {x: 0, y: -1}
     m_TimeScale: 1
@@ -113,7 +113,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400008, guid: 219bc6ede079a7441aff7b648a0699fa, type: 3}
+  m_Motion: {fileID: 7400000, guid: 296d6181b530de14183cdd94854f3a54, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

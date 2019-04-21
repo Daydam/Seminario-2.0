@@ -69,8 +69,12 @@ public class Player : MonoBehaviour, IDamageable
     public bool IsCasting { get { return _isCasting; } }
     public bool Invulnerable { get { return _invulnerable; } }
 
-    Renderer _rend;
-    public Renderer Rend { get { return _rend; } }
+    PlayerLightsModuleHandler _lightsModule;
+    public PlayerLightsModuleHandler LightsModule
+    {
+        get { return _lightsModule; }
+    }
+
 
     float _movementMultiplier = 1;
     public float MovementMultiplier
@@ -132,7 +136,7 @@ public class Player : MonoBehaviour, IDamageable
         myID = playerID;
         _control = new Controller(playerID);
         _rb = GetComponent<Rigidbody>();
-        _rend = GetComponentInChildren<Renderer>();
+        _lightsModule = GetComponent<PlayerLightsModuleHandler>();
         MovementMultiplier = 1;
         Hp = maxHP;
         gameObject.name = "Player " + (playerID + 1);
@@ -227,7 +231,7 @@ public class Player : MonoBehaviour, IDamageable
     public void ResetHP()
     {
         Hp = maxHP;
-        _rend.material.SetFloat("_Life", Hp / maxHP);
+        LightsModule.SetLifeValue(Hp / maxHP);
     }
 
     public void ResetRound()
@@ -274,7 +278,7 @@ public class Player : MonoBehaviour, IDamageable
         EventManager.Instance.DispatchEvent(PlayerEvents.Death, this, type, isPushed, gameObject.tag);
         _rb.velocity = Vector3.zero;
         gameObject.SetActive(false);
-        
+
         //Iván si se rompe algo perdón
         lastMovement = Vector3.zero;
         lastAnimMovement = Vector3.zero;
@@ -311,11 +315,11 @@ public class Player : MonoBehaviour, IDamageable
         var movVector = _rb.position + newMovement;
         movDir = dir;
         _rb.MovePosition(movVector);
-        
+
         Vector2 animMovement = _control.LeftAnalog();
 
         animMovement = Vector2.Lerp(lastAnimMovement, animMovement, inertiaFactor);
-        
+
         Vector2 finalDir = new Vector2(animMovement.x - lastAnimMovement.x, animMovement.y - lastAnimMovement.y);
 
         if (Mathf.Sign(_control.LeftAnalog().x) != Mathf.Sign(lastAnimMovement.x) || Mathf.Abs(_control.LeftAnalog().x) <= 0.004f)
@@ -354,7 +358,7 @@ public class Player : MonoBehaviour, IDamageable
         if (_invulnerable) return;
 
         Hp += heal;
-        _rend.material.SetFloat("_Life", Hp / maxHP);
+        LightsModule.SetLifeValue(Hp / maxHP);
     }
 
     public void TakeDamage(float damage)
@@ -392,7 +396,7 @@ public class Player : MonoBehaviour, IDamageable
         }
 
         Hp -= damage;
-        _rend.material.SetFloat("_Life", Hp / maxHP);
+        LightsModule.SetLifeValue(Hp / maxHP);
         _lifeForcefield.TakeDamage();
     }
 
@@ -407,7 +411,7 @@ public class Player : MonoBehaviour, IDamageable
         }
 
         Hp -= damage;
-        _rend.material.SetFloat("_Life", Hp / maxHP);
+        LightsModule.SetLifeValue(Hp / maxHP);
         _lifeForcefield.TakeDamage(hitPosition);
     }
 

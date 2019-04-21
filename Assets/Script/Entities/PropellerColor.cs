@@ -15,6 +15,6 @@ public class PropellerColor : MonoBehaviour
 	
 	void Update ()
 	{
-        rend.material.SetFloat("_Life", owner.Rend.material.GetFloat("_Life"));
+        rend.material.SetFloat("_Life", owner.LightsModule.GetLifeValue());
     }
 }

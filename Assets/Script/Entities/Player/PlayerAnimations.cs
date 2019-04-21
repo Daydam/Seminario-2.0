@@ -10,6 +10,11 @@ public class PlayerAnimations : MonoBehaviour
 	void Start ()
 	{
         _an = GetComponent<Animator>();
+        if (_an == null)
+        {
+            var name = GetComponent<PlayerLightsModuleHandler>().DroneBodyName;
+            _an = transform.Find(name).GetComponent<Animator>();
+        }
         GameManager.Instance.OnResetRound += () => SetMovementDir(Vector2.zero);
     }
 
