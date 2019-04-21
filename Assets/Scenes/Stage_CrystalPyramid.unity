@@ -675,7 +675,6 @@ GameObject:
   - component: {fileID: 89938949}
   - component: {fileID: 89938947}
   - component: {fileID: 89938948}
-  - component: {fileID: 89938952}
   m_Layer: 24
   m_Name: Main Camera RenderTexture
   m_TagString: MainCamera
@@ -823,23 +822,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 20.1, y: 0, z: 0}
---- !u!114 &89938952
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 89938946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: 93a4015457289764c9a11f81c62d750d, type: 2}
-  isGlobal: 1
-  blendDistance: 0
-  weight: 1
-  priority: 1
 --- !u!1 &110093283 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3837163294231191127, guid: 7ca25832ea902dd4898bb1ce73c54006,
@@ -2651,7 +2633,7 @@ GameObject:
   - component: {fileID: 514900254}
   - component: {fileID: 514900253}
   - component: {fileID: 514900257}
-  - component: {fileID: 514900259}
+  - component: {fileID: 514900258}
   m_Layer: 24
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2747,7 +2729,7 @@ MonoBehaviour:
   maximumDistancePercentage: 0.09
   minimumDistance: 45
   cameraOffset: {x: 0, y: 1, z: 0}
---- !u!114 &514900259
+--- !u!114 &514900258
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7030,23 +7012,6 @@ MonoBehaviour:
   - FavParams: 0
     FavString: []
     list:
-    - {fileID: 514900252}
-    - {fileID: 89938946}
-    - {fileID: 817577052}
-    - {fileID: 1174960086}
-    - {fileID: 2026929411}
-    - {fileID: 736362439}
-    ActiveGameObject: {fileID: 736362439}
-    GUIDsList: []
-    GUIDsActiveGameObject: 
-    PATHsList: []
-    PATHsActiveGameObject: 
-    InstanceID: 0
-    wasInit: 0
-    CashedBool: 0
-  - FavParams: 0
-    FavString: []
-    list:
     - {fileID: 1982025541}
     ActiveGameObject: {fileID: 1982025541}
     GUIDsList: []
@@ -7071,20 +7036,8 @@ MonoBehaviour:
   - FavParams: 0
     FavString: []
     list:
-    - {fileID: 2026929411}
-    ActiveGameObject: {fileID: 2026929411}
-    GUIDsList: []
-    GUIDsActiveGameObject: 
-    PATHsList: []
-    PATHsActiveGameObject: 
-    InstanceID: 0
-    wasInit: 0
-    CashedBool: 0
-  - FavParams: 0
-    FavString: []
-    list:
-    - {fileID: 1174960086}
-    ActiveGameObject: {fileID: 1174960086}
+    - {fileID: 514900252}
+    ActiveGameObject: {fileID: 514900252}
     GUIDsList: []
     GUIDsActiveGameObject: 
     PATHsList: []
@@ -7108,7 +7061,36 @@ MonoBehaviour:
     FavString: []
     list:
     - {fileID: 514900252}
-    ActiveGameObject: {fileID: 514900252}
+    - {fileID: 89938946}
+    - {fileID: 817577052}
+    - {fileID: 1174960086}
+    - {fileID: 2026929411}
+    - {fileID: 736362439}
+    ActiveGameObject: {fileID: 736362439}
+    GUIDsList: []
+    GUIDsActiveGameObject: 
+    PATHsList: []
+    PATHsActiveGameObject: 
+    InstanceID: 0
+    wasInit: 0
+    CashedBool: 0
+  - FavParams: 0
+    FavString: []
+    list:
+    - {fileID: 2026929411}
+    ActiveGameObject: {fileID: 2026929411}
+    GUIDsList: []
+    GUIDsActiveGameObject: 
+    PATHsList: []
+    PATHsActiveGameObject: 
+    InstanceID: 0
+    wasInit: 0
+    CashedBool: 0
+  - FavParams: 0
+    FavString: []
+    list:
+    - {fileID: 1174960086}
+    ActiveGameObject: {fileID: 1174960086}
     GUIDsList: []
     GUIDsActiveGameObject: 
     PATHsList: []
@@ -8301,6 +8283,7 @@ GameObject:
   - component: {fileID: 1982025544}
   - component: {fileID: 1982025543}
   - component: {fileID: 1982025542}
+  - component: {fileID: 1982025546}
   m_Layer: 24
   m_Name: PostProc
   m_TagString: Untagged
@@ -8380,6 +8363,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1982025546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982025541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: 93a4015457289764c9a11f81c62d750d, type: 2}
+  isGlobal: 1
+  blendDistance: 0
+  weight: 1
+  priority: 1
 --- !u!1 &1989473117 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 656263420746732267, guid: 7ca25832ea902dd4898bb1ce73c54006,
