@@ -60,9 +60,9 @@ public class CamFollow : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (running)
+        if (running && target)
         {
-            if (!_playerDead && target) CameraMovement();
+            if (!_playerDead) CameraMovement();
             else if(_cameraFallCoroutine == null)
             {
                 var laserGridDeath = _deathType == DeathType.LaserGrid;
