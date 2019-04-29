@@ -875,6 +875,7 @@ GameObject:
   m_Component:
   - component: {fileID: 68808070}
   - component: {fileID: 68808071}
+  - component: {fileID: 68808072}
   m_Layer: 1
   m_Name: DefensiveTooltip
   m_TagString: Untagged
@@ -912,6 +913,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36818988419195043afa0e5a64728a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &68808072
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 68808069}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: da5dd0bc9d11b4b4aae61ee49cb6813a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &70937521
 GameObject:
   m_ObjectHideFlags: 0
@@ -1718,6 +1738,7 @@ GameObject:
   m_Component:
   - component: {fileID: 137077531}
   - component: {fileID: 137077532}
+  - component: {fileID: 137077533}
   m_Layer: 1
   m_Name: Comp2Tooltip
   m_TagString: Untagged
@@ -1755,6 +1776,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36818988419195043afa0e5a64728a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &137077533
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 137077530}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: da5dd0bc9d11b4b4aae61ee49cb6813a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &140178547
 GameObject:
   m_ObjectHideFlags: 0
@@ -1891,6 +1931,7 @@ GameObject:
   m_Component:
   - component: {fileID: 157624340}
   - component: {fileID: 157624341}
+  - component: {fileID: 157624342}
   m_Layer: 1
   m_Name: Comp1Tooltip
   m_TagString: Untagged
@@ -1928,6 +1969,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36818988419195043afa0e5a64728a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &157624342
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157624339}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: da5dd0bc9d11b4b4aae61ee49cb6813a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &162119960
 GameObject:
   m_ObjectHideFlags: 0
@@ -2017,6 +2077,7 @@ GameObject:
   m_Component:
   - component: {fileID: 168047202}
   - component: {fileID: 168047203}
+  - component: {fileID: 168047204}
   m_Layer: 1
   m_Name: Comp2Tooltip
   m_TagString: Untagged
@@ -2054,6 +2115,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36818988419195043afa0e5a64728a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &168047204
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 168047201}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: da5dd0bc9d11b4b4aae61ee49cb6813a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &176542631
 GameObject:
   m_ObjectHideFlags: 0
@@ -2443,6 +2523,7 @@ GameObject:
   m_Component:
   - component: {fileID: 237193838}
   - component: {fileID: 237193839}
+  - component: {fileID: 237193840}
   m_Layer: 1
   m_Name: BodyTooltip
   m_TagString: Untagged
@@ -2480,6 +2561,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36818988419195043afa0e5a64728a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &237193840
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237193837}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: da5dd0bc9d11b4b4aae61ee49cb6813a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &256604988
 GameObject:
   m_ObjectHideFlags: 0
@@ -2936,6 +3036,7 @@ GameObject:
   m_Component:
   - component: {fileID: 281085360}
   - component: {fileID: 281085361}
+  - component: {fileID: 281085362}
   m_Layer: 1
   m_Name: Comp1Tooltip
   m_TagString: Untagged
@@ -2973,6 +3074,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36818988419195043afa0e5a64728a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &281085362
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 281085359}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: da5dd0bc9d11b4b4aae61ee49cb6813a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &295993960
 GameObject:
   m_ObjectHideFlags: 0
@@ -3057,6 +3177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 296729194}
   - component: {fileID: 296729195}
+  - component: {fileID: 296729196}
   m_Layer: 1
   m_Name: WeaponTooltip
   m_TagString: Untagged
@@ -3094,6 +3215,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36818988419195043afa0e5a64728a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &296729196
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296729193}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: da5dd0bc9d11b4b4aae61ee49cb6813a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &303565687
 GameObject:
   m_ObjectHideFlags: 0
@@ -7312,6 +7452,7 @@ GameObject:
   m_Component:
   - component: {fileID: 688903065}
   - component: {fileID: 688903066}
+  - component: {fileID: 688903067}
   m_Layer: 1
   m_Name: Comp1Tooltip
   m_TagString: Untagged
@@ -7349,6 +7490,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36818988419195043afa0e5a64728a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &688903067
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688903064}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: da5dd0bc9d11b4b4aae61ee49cb6813a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &689399093
 GameObject:
   m_ObjectHideFlags: 0
@@ -8339,6 +8499,7 @@ GameObject:
   m_Component:
   - component: {fileID: 711962535}
   - component: {fileID: 711962536}
+  - component: {fileID: 711962537}
   m_Layer: 1
   m_Name: DefensiveTooltip
   m_TagString: Untagged
@@ -8376,6 +8537,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36818988419195043afa0e5a64728a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &711962537
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 711962534}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: da5dd0bc9d11b4b4aae61ee49cb6813a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &715725077
 GameObject:
   m_ObjectHideFlags: 0
@@ -9201,7 +9381,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &799687189
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9400,6 +9580,7 @@ GameObject:
   m_Component:
   - component: {fileID: 827184509}
   - component: {fileID: 827184510}
+  - component: {fileID: 827184511}
   m_Layer: 1
   m_Name: WeaponTooltip
   m_TagString: Untagged
@@ -9437,6 +9618,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36818988419195043afa0e5a64728a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &827184511
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827184508}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: da5dd0bc9d11b4b4aae61ee49cb6813a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &841430530
 GameObject:
   m_ObjectHideFlags: 0
@@ -9790,7 +9990,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &882750203
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10835,7 +11035,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1008532030
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10977,6 +11177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1015858492}
   - component: {fileID: 1015858493}
+  - component: {fileID: 1015858494}
   m_Layer: 1
   m_Name: BodyTooltip
   m_TagString: Untagged
@@ -11014,6 +11215,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36818988419195043afa0e5a64728a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &1015858494
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1015858491}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: da5dd0bc9d11b4b4aae61ee49cb6813a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1032232865
 GameObject:
   m_ObjectHideFlags: 0
@@ -12010,6 +12230,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1065531375}
   - component: {fileID: 1065531376}
+  - component: {fileID: 1065531377}
   m_Layer: 1
   m_Name: DefensiveTooltip
   m_TagString: Untagged
@@ -12047,6 +12268,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36818988419195043afa0e5a64728a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &1065531377
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1065531374}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: da5dd0bc9d11b4b4aae61ee49cb6813a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1075485732
 GameObject:
   m_ObjectHideFlags: 0
@@ -14456,8 +14696,130 @@ MonoBehaviour:
   - FavParams: 0
     FavString: []
     list:
+    - {fileID: 711962534}
+    - {fileID: 688903064}
+    - {fileID: 1576460009}
+    - {fileID: 1015858491}
+    ActiveGameObject: {fileID: 711962534}
+    GUIDsList: []
+    GUIDsActiveGameObject: 
+    PATHsList: []
+    PATHsActiveGameObject: 
+    InstanceID: 0
+    wasInit: 0
+    CashedBool: 0
+  - FavParams: 0
+    FavString: []
+    list:
+    - {fileID: 1855280115}
+    - {fileID: 1626311335}
     - {fileID: 1274166341}
-    ActiveGameObject: {fileID: 1274166341}
+    ActiveGameObject: {fileID: 1855280115}
+    GUIDsList: []
+    GUIDsActiveGameObject: 
+    PATHsList: []
+    PATHsActiveGameObject: 
+    InstanceID: 0
+    wasInit: 0
+    CashedBool: 0
+  - FavParams: 0
+    FavString: []
+    list:
+    - {fileID: 1015858491}
+    - {fileID: 711962534}
+    - {fileID: 688903064}
+    - {fileID: 1576460009}
+    - {fileID: 2068418170}
+    - {fileID: 2081259905}
+    - {fileID: 1339872091}
+    - {fileID: 1813774578}
+    - {fileID: 137077530}
+    - {fileID: 1426662857}
+    - {fileID: 2125923632}
+    - {fileID: 1065531374}
+    - {fileID: 157624339}
+    - {fileID: 1721642254}
+    - {fileID: 237193837}
+    - {fileID: 296729193}
+    - {fileID: 68808069}
+    - {fileID: 281085359}
+    - {fileID: 168047201}
+    ActiveGameObject: {fileID: 168047201}
+    GUIDsList: []
+    GUIDsActiveGameObject: 
+    PATHsList: []
+    PATHsActiveGameObject: 
+    InstanceID: 0
+    wasInit: 0
+    CashedBool: 0
+  - FavParams: 0
+    FavString: []
+    list:
+    - {fileID: 1015858491}
+    - {fileID: 711962534}
+    - {fileID: 688903064}
+    - {fileID: 1576460009}
+    ActiveGameObject: {fileID: 1015858491}
+    GUIDsList: []
+    GUIDsActiveGameObject: 
+    PATHsList: []
+    PATHsActiveGameObject: 
+    InstanceID: 0
+    wasInit: 0
+    CashedBool: 0
+  - FavParams: 0
+    FavString: []
+    list:
+    - {fileID: 827184508}
+    ActiveGameObject: {fileID: 827184508}
+    GUIDsList: []
+    GUIDsActiveGameObject: 
+    PATHsList: []
+    PATHsActiveGameObject: 
+    InstanceID: 0
+    wasInit: 0
+    CashedBool: 0
+  - FavParams: 0
+    FavString: []
+    list:
+    - {fileID: 2068183809}
+    ActiveGameObject: {fileID: 2068183809}
+    GUIDsList: []
+    GUIDsActiveGameObject: 
+    PATHsList: []
+    PATHsActiveGameObject: 
+    InstanceID: 0
+    wasInit: 0
+    CashedBool: 0
+  - FavParams: 0
+    FavString: []
+    list:
+    - {fileID: 2000127871}
+    ActiveGameObject: {fileID: 2000127871}
+    GUIDsList: []
+    GUIDsActiveGameObject: 
+    PATHsList: []
+    PATHsActiveGameObject: 
+    InstanceID: 0
+    wasInit: 0
+    CashedBool: 0
+  - FavParams: 0
+    FavString: []
+    list:
+    - {fileID: 1963870947}
+    ActiveGameObject: {fileID: 1963870947}
+    GUIDsList: []
+    GUIDsActiveGameObject: 
+    PATHsList: []
+    PATHsActiveGameObject: 
+    InstanceID: 0
+    wasInit: 0
+    CashedBool: 0
+  - FavParams: 0
+    FavString: []
+    list:
+    - {fileID: 1584917215}
+    ActiveGameObject: {fileID: 1584917215}
     GUIDsList: []
     GUIDsActiveGameObject: 
     PATHsList: []
@@ -14469,9 +14831,6 @@ MonoBehaviour:
     FavString: []
     list:
     - {fileID: 1175477449}
-    - {fileID: 1274166341}
-    - {fileID: 1626311335}
-    - {fileID: 1855280115}
     ActiveGameObject: {fileID: 1175477449}
     GUIDsList: []
     GUIDsActiveGameObject: 
@@ -14483,8 +14842,73 @@ MonoBehaviour:
   - FavParams: 0
     FavString: []
     list:
+    - {fileID: 1274166341}
+    - {fileID: 1626311335}
     - {fileID: 1855280115}
-    ActiveGameObject: {fileID: 1855280115}
+    ActiveGameObject: {fileID: 1274166341}
+    GUIDsList: []
+    GUIDsActiveGameObject: 
+    PATHsList: []
+    PATHsActiveGameObject: 
+    InstanceID: 0
+    wasInit: 0
+    CashedBool: 0
+  - FavParams: 0
+    FavString: []
+    list:
+    - {fileID: 1553512277}
+    ActiveGameObject: {fileID: 1553512277}
+    GUIDsList: []
+    GUIDsActiveGameObject: 
+    PATHsList: []
+    PATHsActiveGameObject: 
+    InstanceID: 0
+    wasInit: 0
+    CashedBool: 0
+  - FavParams: 0
+    FavString: []
+    list:
+    - {fileID: 1517330884}
+    ActiveGameObject: {fileID: 1517330884}
+    GUIDsList: []
+    GUIDsActiveGameObject: 
+    PATHsList: []
+    PATHsActiveGameObject: 
+    InstanceID: 0
+    wasInit: 0
+    CashedBool: 0
+  - FavParams: 0
+    FavString: []
+    list:
+    - {fileID: 1563658214}
+    ActiveGameObject: {fileID: 1563658214}
+    GUIDsList: []
+    GUIDsActiveGameObject: 
+    PATHsList: []
+    PATHsActiveGameObject: 
+    InstanceID: 0
+    wasInit: 0
+    CashedBool: 0
+  - FavParams: 0
+    FavString: []
+    list:
+    - {fileID: 1874172981}
+    ActiveGameObject: {fileID: 1874172981}
+    GUIDsList: []
+    GUIDsActiveGameObject: 
+    PATHsList: []
+    PATHsActiveGameObject: 
+    InstanceID: 0
+    wasInit: 0
+    CashedBool: 0
+  - FavParams: 0
+    FavString: []
+    list:
+    - {fileID: 882750202}
+    - {fileID: 1008532029}
+    - {fileID: 799687188}
+    - {fileID: 1874172981}
+    ActiveGameObject: {fileID: 882750202}
     GUIDsList: []
     GUIDsActiveGameObject: 
     PATHsList: []
@@ -14543,21 +14967,6 @@ MonoBehaviour:
   - FavParams: 0
     FavString: []
     list:
-    - {fileID: 1015858491}
-    - {fileID: 827184508}
-    - {fileID: 711962534}
-    - {fileID: 688903064}
-    ActiveGameObject: {fileID: 1015858491}
-    GUIDsList: []
-    GUIDsActiveGameObject: 
-    PATHsList: []
-    PATHsActiveGameObject: 
-    InstanceID: 0
-    wasInit: 0
-    CashedBool: 0
-  - FavParams: 0
-    FavString: []
-    list:
     - {fileID: 1576460009}
     ActiveGameObject: {fileID: 1576460009}
     GUIDsList: []
@@ -14602,167 +15011,6 @@ MonoBehaviour:
     - {fileID: 1259697578}
     - {fileID: 1172651094}
     ActiveGameObject: {fileID: 126875589}
-    GUIDsList: []
-    GUIDsActiveGameObject: 
-    PATHsList: []
-    PATHsActiveGameObject: 
-    InstanceID: 0
-    wasInit: 0
-    CashedBool: 0
-  - FavParams: 0
-    FavString: []
-    list:
-    - {fileID: 711962534}
-    ActiveGameObject: {fileID: 711962534}
-    GUIDsList: []
-    GUIDsActiveGameObject: 
-    PATHsList: []
-    PATHsActiveGameObject: 
-    InstanceID: 0
-    wasInit: 0
-    CashedBool: 0
-  - FavParams: 0
-    FavString: []
-    list:
-    - {fileID: 1831465966}
-    - {fileID: 1313525741}
-    - {fileID: 2119098966}
-    - {fileID: 1282160601}
-    ActiveGameObject: {fileID: 1831465966}
-    GUIDsList: []
-    GUIDsActiveGameObject: 
-    PATHsList: []
-    PATHsActiveGameObject: 
-    InstanceID: 0
-    wasInit: 0
-    CashedBool: 0
-  - FavParams: 0
-    FavString: []
-    list:
-    - {fileID: 827184508}
-    ActiveGameObject: {fileID: 827184508}
-    GUIDsList: []
-    GUIDsActiveGameObject: 
-    PATHsList: []
-    PATHsActiveGameObject: 
-    InstanceID: 0
-    wasInit: 0
-    CashedBool: 0
-  - FavParams: 0
-    FavString: []
-    list:
-    - {fileID: 104607979}
-    - {fileID: 1686537565}
-    - {fileID: 2098444543}
-    - {fileID: 645291393}
-    ActiveGameObject: {fileID: 104607979}
-    GUIDsList: []
-    GUIDsActiveGameObject: 
-    PATHsList: []
-    PATHsActiveGameObject: 
-    InstanceID: 0
-    wasInit: 0
-    CashedBool: 0
-  - FavParams: 0
-    FavString: []
-    list:
-    - {fileID: 1584917215}
-    - {fileID: 1963870947}
-    - {fileID: 2068183809}
-    - {fileID: 2000127871}
-    ActiveGameObject: {fileID: 1584917215}
-    GUIDsList: []
-    GUIDsActiveGameObject: 
-    PATHsList: []
-    PATHsActiveGameObject: 
-    InstanceID: 0
-    wasInit: 0
-    CashedBool: 0
-  - FavParams: 0
-    FavString: []
-    list:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    ActiveGameObject: {fileID: 0}
-    GUIDsList: []
-    GUIDsActiveGameObject: 
-    PATHsList: []
-    PATHsActiveGameObject: 
-    InstanceID: 0
-    wasInit: 0
-    CashedBool: 0
-  - FavParams: 0
-    FavString: []
-    list:
-    - {fileID: 488368164}
-    - {fileID: 1063347651}
-    - {fileID: 1947668465}
-    - {fileID: 222554784}
-    ActiveGameObject: {fileID: 488368164}
-    GUIDsList: []
-    GUIDsActiveGameObject: 
-    PATHsList: []
-    PATHsActiveGameObject: 
-    InstanceID: 0
-    wasInit: 0
-    CashedBool: 0
-  - FavParams: 0
-    FavString: []
-    list:
-    - {fileID: 1342397552}
-    ActiveGameObject: {fileID: 1342397552}
-    GUIDsList: []
-    GUIDsActiveGameObject: 
-    PATHsList: []
-    PATHsActiveGameObject: 
-    InstanceID: 0
-    wasInit: 0
-    CashedBool: 0
-  - FavParams: 0
-    FavString: []
-    list:
-    - {fileID: 98938450}
-    - {fileID: 31000137}
-    - {fileID: 36663499}
-    - {fileID: 1151660104}
-    ActiveGameObject: {fileID: 98938450}
-    GUIDsList: []
-    GUIDsActiveGameObject: 
-    PATHsList: []
-    PATHsActiveGameObject: 
-    InstanceID: 0
-    wasInit: 0
-    CashedBool: 0
-  - FavParams: 0
-    FavString: []
-    list:
-    - {fileID: 1151660104}
-    ActiveGameObject: {fileID: 1151660104}
-    GUIDsList: []
-    GUIDsActiveGameObject: 
-    PATHsList: []
-    PATHsActiveGameObject: 
-    InstanceID: 0
-    wasInit: 0
-    CashedBool: 0
-  - FavParams: 0
-    FavString: []
-    list:
-    - {fileID: 1393384044}
-    ActiveGameObject: {fileID: 1393384044}
-    GUIDsList: []
-    GUIDsActiveGameObject: 
-    PATHsList: []
-    PATHsActiveGameObject: 
-    InstanceID: 0
-    wasInit: 0
-    CashedBool: 0
-  - FavParams: 0
-    FavString: []
-    list:
-    - {fileID: 1759185383}
-    ActiveGameObject: {fileID: 1759185383}
     GUIDsList: []
     GUIDsActiveGameObject: 
     PATHsList: []
@@ -14903,6 +15151,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1339872092}
   - component: {fileID: 1339872093}
+  - component: {fileID: 1339872094}
   m_Layer: 1
   m_Name: DefensiveTooltip
   m_TagString: Untagged
@@ -14940,6 +15189,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36818988419195043afa0e5a64728a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &1339872094
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339872091}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: da5dd0bc9d11b4b4aae61ee49cb6813a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1340425846
 GameObject:
   m_ObjectHideFlags: 0
@@ -15965,6 +16233,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1426662858}
   - component: {fileID: 1426662859}
+  - component: {fileID: 1426662860}
   m_Layer: 1
   m_Name: BodyTooltip
   m_TagString: Untagged
@@ -16002,6 +16271,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36818988419195043afa0e5a64728a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &1426662860
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426662857}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: da5dd0bc9d11b4b4aae61ee49cb6813a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1431176796
 GameObject:
   m_ObjectHideFlags: 0
@@ -17011,7 +17299,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1553512278
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17021,7 +17309,7 @@ RectTransform:
   m_GameObject: {fileID: 1553512277}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+  m_LocalScale: {x: 1, y: 0.15, z: 1}
   m_Children: []
   m_Father: {fileID: 1962662663}
   m_RootOrder: 18
@@ -17134,7 +17422,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1563658215
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17144,7 +17432,7 @@ RectTransform:
   m_GameObject: {fileID: 1563658214}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.15, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1962662663}
   m_RootOrder: 17
@@ -17507,6 +17795,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1576460010}
   - component: {fileID: 1576460011}
+  - component: {fileID: 1576460012}
   m_Layer: 1
   m_Name: Comp2Tooltip
   m_TagString: Untagged
@@ -17544,6 +17833,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36818988419195043afa0e5a64728a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &1576460012
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576460009}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: da5dd0bc9d11b4b4aae61ee49cb6813a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1579770200
 GameObject:
   m_ObjectHideFlags: 0
@@ -19050,6 +19358,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1721642255}
   - component: {fileID: 1721642256}
+  - component: {fileID: 1721642257}
   m_Layer: 1
   m_Name: Comp2Tooltip
   m_TagString: Untagged
@@ -19087,6 +19396,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36818988419195043afa0e5a64728a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &1721642257
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721642254}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: da5dd0bc9d11b4b4aae61ee49cb6813a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1722954121
 GameObject:
   m_ObjectHideFlags: 0
@@ -19676,6 +20004,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1813774579}
   - component: {fileID: 1813774580}
+  - component: {fileID: 1813774581}
   m_Layer: 1
   m_Name: Comp1Tooltip
   m_TagString: Untagged
@@ -19713,6 +20042,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36818988419195043afa0e5a64728a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &1813774581
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1813774578}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: da5dd0bc9d11b4b4aae61ee49cb6813a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1822790827
 GameObject:
   m_ObjectHideFlags: 0
@@ -20621,7 +20969,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1874172982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22919,6 +23267,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2068418171}
   - component: {fileID: 2068418172}
+  - component: {fileID: 2068418173}
   m_Layer: 1
   m_Name: BodyTooltip
   m_TagString: Untagged
@@ -22956,6 +23305,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36818988419195043afa0e5a64728a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &2068418173
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2068418170}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: da5dd0bc9d11b4b4aae61ee49cb6813a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2079776873
 GameObject:
   m_ObjectHideFlags: 0
@@ -23045,6 +23413,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2081259906}
   - component: {fileID: 2081259907}
+  - component: {fileID: 2081259908}
   m_Layer: 1
   m_Name: WeaponTooltip
   m_TagString: Untagged
@@ -23082,6 +23451,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36818988419195043afa0e5a64728a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &2081259908
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081259905}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: da5dd0bc9d11b4b4aae61ee49cb6813a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2081519206
 GameObject:
   m_ObjectHideFlags: 0
@@ -24285,6 +24673,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2125923633}
   - component: {fileID: 2125923634}
+  - component: {fileID: 2125923635}
   m_Layer: 1
   m_Name: WeaponTooltip
   m_TagString: Untagged
@@ -24322,6 +24711,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36818988419195043afa0e5a64728a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &2125923635
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2125923632}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: da5dd0bc9d11b4b4aae61ee49cb6813a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2136089682
 GameObject:
   m_ObjectHideFlags: 0

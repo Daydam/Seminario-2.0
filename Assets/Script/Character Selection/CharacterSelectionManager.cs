@@ -182,6 +182,8 @@ public class CharacterSelectionManager : MonoBehaviour
                         var finalComplementary2 = complementarySkills[1][complementaryIndexes[i, 1]].gameObject.name;
                         complementary2Texts[i].SetModuleName(finalComplementary2);
 
+                        DeactivateModuleTooltips(i);
+
                         //Check if they're all ready
                         var regPlayers = players.Where(a => a != default(Player)).ToArray();
                         bool allReady = true;
@@ -255,13 +257,24 @@ public class CharacterSelectionManager : MonoBehaviour
 
         for (int i = 0; i < modifier.Length; i++)
         {
-            if (i == selectedModifier[playerIndex])
-            {
-                modifier[i].EnableViewing(tranf);
-                Debug.Log("esta verga en el enable viewing " + tranf.name, tranf.gameObject);
-            }
+            if (i == selectedModifier[playerIndex]) modifier[i].EnableViewing(tranf);
             else modifier[i].DisableViewing();
         }
+    }
+
+    void DeactivateModuleTooltips(int playerIndex)
+    {
+        var modifier = new ModuleTooltip[5]{ bodyTexts[playerIndex],
+                                             weaponTexts[playerIndex],
+                                             defensiveTexts[playerIndex],
+                                             complementary1Texts[playerIndex],
+                                             complementary2Texts[playerIndex] };
+
+        for (int i = 0; i < modifier.Length; i++)
+        {
+            modifier[i].DisableViewing();
+        }
+
     }
     #endregion
 

@@ -9,9 +9,12 @@ public class CanvasModuleTooltip : MonoBehaviour
 {
     TextMeshPro _type, _name;
     SpriteRenderer _button, _line;
+    Animator _an;
 
     void Awake()
     {
+        _an = GetComponent<Animator>();
+
         var textes = GetComponentsInChildren<TextMeshPro>();
         var images = GetComponentsInChildren<SpriteRenderer>();
 
@@ -25,6 +28,7 @@ public class CanvasModuleTooltip : MonoBehaviour
     void OnEnable()
     {
         //do anims
+        _an.Play("In");
     }
 
     public void SetPosition(Camera playerCam, Vector3 position)
