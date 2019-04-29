@@ -105,5 +105,4 @@ public static class ClassExtentions
             curve.AddKey(key);
         }
     }
-
 }

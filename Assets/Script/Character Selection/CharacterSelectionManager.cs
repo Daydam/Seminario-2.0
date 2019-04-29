@@ -24,14 +24,16 @@ public class CharacterSelectionManager : MonoBehaviour
             return instance;
         }
     }
-    
+
     public GameObject[] playerSpawnPoints;
     public GameObject[] blackScreens;
-    public Text[] bodyTexts;
-    public Text[] weaponTexts;
-    public Text[] defensiveTexts;
-    public Text[] complementary1Texts;
-    public Text[] complementary2Texts;
+    #region Cambios Iván
+    public ModuleTooltip[] bodyTexts;
+    public ModuleTooltip[] weaponTexts;
+    public ModuleTooltip[] defensiveTexts;
+    public ModuleTooltip[] complementary1Texts;
+    public ModuleTooltip[] complementary2Texts;
+    #endregion
     public Text startWhenReadyText;
 
 
@@ -72,7 +74,28 @@ public class CharacterSelectionManager : MonoBehaviour
 
         players = new GameObject[4];
         URLs = new CharacterURLs[4];
-        
+
+        #region Cambios Iván
+        bodyTexts = new ModuleTooltip[4];
+        weaponTexts = new ModuleTooltip[4];
+        defensiveTexts = new ModuleTooltip[4];
+        complementary1Texts = new ModuleTooltip[4];
+        complementary2Texts = new ModuleTooltip[4];
+
+        for (int i = 0; i < players.Length; i++)
+        {
+            bodyTexts[i] = new ModuleTooltip("Player " + (i + 1).ToString(), ModuleTooltip.ModuleType.Body);
+
+            weaponTexts[i] = new ModuleTooltip("Player " + (i + 1).ToString(), ModuleTooltip.ModuleType.Weapon);
+
+            defensiveTexts[i] = new ModuleTooltip("Player " + (i + 1).ToString(), ModuleTooltip.ModuleType.Defensive);
+
+            complementary1Texts[i] = new ModuleTooltip("Player " + (i + 1).ToString(), ModuleTooltip.ModuleType.Comp1);
+
+            complementary2Texts[i] = new ModuleTooltip("Player " + (i + 1).ToString(), ModuleTooltip.ModuleType.Comp2);
+        }
+        #endregion
+
         bodyIndexes = new int[4] { 0, 0, 0, 0 };
 
         currentWeapons = new GameObject[4];
@@ -133,6 +156,9 @@ public class CharacterSelectionManager : MonoBehaviour
                     if (selectedModifier[i] == 2) SelectDefensive(i);
                     if (selectedModifier[i] == 3) SelectComplementary(i, 0);
                     if (selectedModifier[i] == 4) SelectComplementary(i, 1);
+
+                    //Cambio Iván
+                    SetVisibleModuleInfo(i);
                 }
                 lastAnalogValue[i] = JoystickInput.LeftAnalog(currentGamePads[i]);
 
@@ -146,15 +172,15 @@ public class CharacterSelectionManager : MonoBehaviour
                     {
                         //Set the text!
                         var finalBody = bodies[bodyIndexes[i]].gameObject.name;
-                        bodyTexts[i].text = "Body: " + finalBody;
+                        bodyTexts[i].SetModuleName(finalBody);
                         var finalWeapon = weapons[weaponIndexes[i]].gameObject.name;
-                        weaponTexts[i].text = "Weapon: " + finalWeapon;
+                        weaponTexts[i].SetModuleName(finalWeapon);
                         var finalDefensive = defensiveSkills[defensiveIndexes[i]].gameObject.name;
-                        defensiveTexts[i].text = "Defensive: " + finalDefensive;
+                        defensiveTexts[i].SetModuleName(finalDefensive);
                         var finalComplementary1 = complementarySkills[0][complementaryIndexes[i, 0]].gameObject.name;
-                        complementary1Texts[i].text = "Skill 1: " + finalComplementary1;
+                        complementary1Texts[i].SetModuleName(finalComplementary1);
                         var finalComplementary2 = complementarySkills[1][complementaryIndexes[i, 1]].gameObject.name;
-                        complementary2Texts[i].text = "Skill 2: " + finalComplementary2;
+                        complementary2Texts[i].SetModuleName(finalComplementary2);
 
                         //Check if they're all ready
                         var regPlayers = players.Where(a => a != default(Player)).ToArray();
@@ -169,7 +195,7 @@ public class CharacterSelectionManager : MonoBehaviour
                         if (regPlayers.Length >= 2 && allReady)
                         {
                             playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
-                            if(playerInfo == null || playerInfo.fileRegVersion < RegisteredPlayers.latestRegVersion)
+                            if (playerInfo == null || playerInfo.fileRegVersion < RegisteredPlayers.latestRegVersion)
                             {
                                 playerInfo = new RegisteredPlayers();
                                 playerInfo.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
@@ -194,6 +220,50 @@ public class CharacterSelectionManager : MonoBehaviour
             }
         }
     }
+
+    #region Cambios Iván
+    void SetVisibleModuleInfo(int playerIndex)
+    {
+        if (players[playerIndex] == null) return;
+
+        var modifier = new ModuleTooltip[5]{ bodyTexts[playerIndex],
+                                             weaponTexts[playerIndex],
+                                             defensiveTexts[playerIndex],
+                                             complementary1Texts[playerIndex],
+                                             complementary2Texts[playerIndex] };
+
+        Transform tranf = null;
+
+        switch (selectedModifier[playerIndex])
+        {
+            case 0:
+                tranf = players[playerIndex].transform;
+                break;
+            case 1:
+                tranf = currentWeapons[playerIndex].transform;
+                break;
+            case 2:
+                tranf = currentDefensive[playerIndex].transform;
+                break;
+            case 3:
+                tranf = currentComplementary[playerIndex, 0].transform;
+                break;
+            case 4:
+                tranf = currentComplementary[playerIndex, 1].transform;
+                break;
+        }
+
+        for (int i = 0; i < modifier.Length; i++)
+        {
+            if (i == selectedModifier[playerIndex])
+            {
+                modifier[i].EnableViewing(tranf);
+                Debug.Log("esta verga en el enable viewing " + tranf.name, tranf.gameObject);
+            }
+            else modifier[i].DisableViewing();
+        }
+    }
+    #endregion
 
     IEnumerator StartGameCoroutine()
     {
@@ -253,15 +323,15 @@ public class CharacterSelectionManager : MonoBehaviour
             players[player].GetComponentsInChildren<Renderer>().Where(x => x.material.GetTag("SkillStateColor", true, "Nothing") != "Nothing").First().material.SetColor("_PlayerColor", playerColors[player]);
 
             var finalBody = bodies[bodyIndexes[player]].gameObject.name;
-            bodyTexts[player].text = "<   Body: " + finalBody + "   >";
+            bodyTexts[player].SetModuleName(finalBody);
             var finalWeapon = weapons[weaponIndexes[player]].gameObject.name;
-            weaponTexts[player].text = "Weapon: " + finalWeapon;
+            weaponTexts[player].SetModuleName(finalWeapon);
             var finalDefensive = defensiveSkills[defensiveIndexes[player]].gameObject.name;
-            defensiveTexts[player].text = "Defensive: " + finalDefensive;
+            defensiveTexts[player].SetModuleName(finalDefensive);
             var finalComplementary1 = complementarySkills[0][complementaryIndexes[player, 0]].gameObject.name;
-            complementary1Texts[player].text = "Skill 1: " + finalComplementary1;
+            complementary1Texts[player].SetModuleName(finalComplementary1);
             var finalComplementary2 = complementarySkills[1][complementaryIndexes[player, 1]].gameObject.name;
-            complementary2Texts[player].text = "Skill 2: " + finalComplementary2;
+            complementary2Texts[player].SetModuleName(finalComplementary2);
 
             blackScreens[player].gameObject.SetActive(false);
         }
@@ -331,15 +401,15 @@ public class CharacterSelectionManager : MonoBehaviour
         }
 
         var finalBody = bodies[bodyIndexes[player]].gameObject.name;
-        bodyTexts[player].text = "<   Body: " + finalBody + "   >";
+        bodyTexts[player].SetModuleName(finalBody);
         var finalWeapon = weapons[weaponIndexes[player]].gameObject.name;
-        weaponTexts[player].text = "Weapon: " + finalWeapon;
+        weaponTexts[player].SetModuleName(finalWeapon);
         var finalDefensive = defensiveSkills[defensiveIndexes[player]].gameObject.name;
-        defensiveTexts[player].text = "Defensive: " + finalDefensive;
+        defensiveTexts[player].SetModuleName(finalDefensive);
         var finalComplementary1 = complementarySkills[0][complementaryIndexes[player, 0]].gameObject.name;
-        complementary1Texts[player].text = "Skill 1: " + finalComplementary1;
+        complementary1Texts[player].SetModuleName(finalComplementary1);
         var finalComplementary2 = complementarySkills[1][complementaryIndexes[player, 1]].gameObject.name;
-        complementary2Texts[player].text = "Skill 2: " + finalComplementary2;
+        complementary2Texts[player].SetModuleName(finalComplementary2);
 
     }
 
@@ -375,15 +445,15 @@ public class CharacterSelectionManager : MonoBehaviour
         }
 
         var finalBody = bodies[bodyIndexes[player]].gameObject.name;
-        bodyTexts[player].text = "Body: " + finalBody;
+        bodyTexts[player].SetModuleName(finalBody);
         var finalWeapon = weapons[weaponIndexes[player]].gameObject.name;
-        weaponTexts[player].text = "<   Weapon: " + finalWeapon + "   >";
+        weaponTexts[player].SetModuleName(finalWeapon);
         var finalDefensive = defensiveSkills[defensiveIndexes[player]].gameObject.name;
-        defensiveTexts[player].text = "Defensive: " + finalDefensive;
+        defensiveTexts[player].SetModuleName(finalDefensive);
         var finalComplementary1 = complementarySkills[0][complementaryIndexes[player, 0]].gameObject.name;
-        complementary1Texts[player].text = "Skill 1: " + finalComplementary1;
+        complementary1Texts[player].SetModuleName(finalComplementary1);
         var finalComplementary2 = complementarySkills[1][complementaryIndexes[player, 1]].gameObject.name;
-        complementary2Texts[player].text = "Skill 2: " + finalComplementary2;
+        complementary2Texts[player].SetModuleName(finalComplementary2);
 
     }
 
@@ -425,24 +495,24 @@ public class CharacterSelectionManager : MonoBehaviour
         }
 
         var finalBody = bodies[bodyIndexes[player]].gameObject.name;
-        bodyTexts[player].text = "Body: " + finalBody;
+        bodyTexts[player].SetModuleName(finalBody);
         var finalWeapon = weapons[weaponIndexes[player]].gameObject.name;
-        weaponTexts[player].text = "Weapon: " + finalWeapon;
+        weaponTexts[player].SetModuleName(finalWeapon);
         var finalDefensive = defensiveSkills[defensiveIndexes[player]].gameObject.name;
-        defensiveTexts[player].text = "Defensive: " + finalDefensive;
-        
+        defensiveTexts[player].SetModuleName(finalDefensive);
+
         var finalComplementary = complementarySkills[compIndex][complementaryIndexes[player, compIndex]].gameObject.name;
         if (compIndex == 0)
         {
-            complementary1Texts[player].text = "<   Skill " + (compIndex + 1) + ": " + finalComplementary + "   >";
+            complementary1Texts[player].SetModuleName(finalComplementary);
             var finalComplementary2 = complementarySkills[1][complementaryIndexes[player, 1]].gameObject.name;
-            complementary2Texts[player].text = "Skill 2: " + finalComplementary2;
+            complementary2Texts[player].SetModuleName(finalComplementary2);
         }
         if (compIndex == 1)
         {
             var finalComplementary1 = complementarySkills[0][complementaryIndexes[player, 0]].gameObject.name;
-            complementary1Texts[player].text = "Skill 1: " + finalComplementary1;
-            complementary2Texts[player].text = "<   Skill " + (compIndex + 1) + ": " + finalComplementary + "   >";
+            complementary1Texts[player].SetModuleName(finalComplementary1);
+            complementary2Texts[player].SetModuleName(finalComplementary);
         }
     }
 
@@ -478,22 +548,22 @@ public class CharacterSelectionManager : MonoBehaviour
         }
 
         var finalBody = bodies[bodyIndexes[player]].gameObject.name;
-        bodyTexts[player].text = "Body: " + finalBody;
+        bodyTexts[player].SetModuleName(finalBody);
         var finalWeapon = weapons[weaponIndexes[player]].gameObject.name;
-        weaponTexts[player].text = "Weapon: " + finalWeapon;
+        weaponTexts[player].SetModuleName(finalWeapon);
         var finalDefensive = defensiveSkills[defensiveIndexes[player]].gameObject.name;
-        defensiveTexts[player].text = "<   Defensive: " + finalDefensive + "   >";
+        defensiveTexts[player].SetModuleName(finalDefensive);
         var finalComplementary1 = complementarySkills[0][complementaryIndexes[player, 0]].gameObject.name;
-        complementary1Texts[player].text = "Skill 1: " + finalComplementary1;
+        complementary1Texts[player].SetModuleName(finalComplementary1);
         var finalComplementary2 = complementarySkills[1][complementaryIndexes[player, 1]].gameObject.name;
-        complementary2Texts[player].text = "Skill 2: " + finalComplementary2;
+        complementary2Texts[player].SetModuleName(finalComplementary2);
     }
 
     void CancelPlayer(int player)
     {
         Destroy(players[player]);
         players[player] = null;
-        if(players.Where(a => a != null).ToArray().Length <= 0) startWhenReadyText.gameObject.SetActive(false);
+        if (players.Where(a => a != null).ToArray().Length <= 0) startWhenReadyText.gameObject.SetActive(false);
         blackScreens[player].gameObject.SetActive(true);
     }
 }
