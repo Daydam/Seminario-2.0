@@ -217,6 +217,7 @@ public class CharacterSelectionManager : MonoBehaviour
                 || JoystickInput.allKeys[JoystickKey.BACK](previousGamePads[i], currentGamePads[i]))
                 {
                     ready[i] = false;
+                    DeactivateModuleTooltips(i);
                     //readyScreens[i].gameObject.SetActive(false);
                 }
             }
