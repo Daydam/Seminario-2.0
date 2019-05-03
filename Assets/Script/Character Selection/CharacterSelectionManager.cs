@@ -225,7 +225,7 @@ public class CharacterSelectionManager : MonoBehaviour
             #region KEYBOARD IMPLEMENTATION
             if (players[3] != null)
             {
-                if (Input.GetKeyDown(KeyCode.Return))
+                if (Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.F))
                 {
                     ready[3] = !ready[3];
                     //readyScreens[3].gameObject.SetActive(ready[3]);
@@ -275,7 +275,7 @@ public class CharacterSelectionManager : MonoBehaviour
                         }
                     }
                 }
-                if (Input.GetKeyDown(KeyCode.Escape))
+                if (Input.GetKey(KeyCode.Escape) && Input.GetKey(KeyCode.F))
                 {
                     ready[3] = false;
                     DeactivateModuleTooltips(3);
@@ -413,7 +413,7 @@ public class CharacterSelectionManager : MonoBehaviour
         }
 
         #region KEYBOARD IMPLEMENTATION
-        if (player == 3 && Input.GetKeyDown(KeyCode.Return))
+        if (player == 3 && Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.F))
         {
             if (!startWhenReadyText.gameObject.activeSelf) startWhenReadyText.gameObject.SetActive(true);
             URLs[player] = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (player + 1));
@@ -495,7 +495,7 @@ public class CharacterSelectionManager : MonoBehaviour
             CancelPlayer(player);
 
         #region KEYBOARD IMPLEMENTATION
-        if(player == 3)
+        if (player == 3)
         {
             if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
             {
@@ -507,7 +507,7 @@ public class CharacterSelectionManager : MonoBehaviour
                 selectedModifier[player] = selectedModifier[player] - 1 < 0 ? 4 : selectedModifier[player] - 1;
             }
 
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKey(KeyCode.Escape) && Input.GetKey(KeyCode.F))
                 CancelPlayer(player);
         }
         #endregion
@@ -555,7 +555,7 @@ public class CharacterSelectionManager : MonoBehaviour
         }
 
         #region KEYBOARD IMPLEMENTATION
-        if(player == 3)
+        if (player == 3)
         {
             if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
@@ -638,7 +638,7 @@ public class CharacterSelectionManager : MonoBehaviour
         }
 
         #region KEYBOARD IMPLEMENTATION
-        if(player == 3)
+        if (player == 3)
         {
             if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
@@ -717,7 +717,7 @@ public class CharacterSelectionManager : MonoBehaviour
         }
 
         #region KEYBOARD IMPLEMENTATION
-        if(player == 3)
+        if (player == 3)
         {
             if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
@@ -805,7 +805,7 @@ public class CharacterSelectionManager : MonoBehaviour
         }
 
         #region KEYBOARD IMPLEMENTATION
-        if(player == 3)
+        if (player == 3)
         {
             if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
