@@ -65,7 +65,7 @@ public class Controller
 
     public Vector2 RightAnalog()
     {
-        if (keyboardEnabled) return Input.GetAxis("Mouse X");
+        if (keyboardEnabled) return new Vector2(Input.GetAxis("Mouse X"), 0);
         else return JoystickInput.RightAnalog(state);
     }
 
