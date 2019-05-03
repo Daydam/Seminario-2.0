@@ -27,7 +27,7 @@ public class CharacterSelectionManager : MonoBehaviour
 
     public GameObject[] playerSpawnPoints;
     public GameObject[] blackScreens;
-    #region Cambios Iván
+    #region Cambios IvÃ¡n
     public ModuleTooltip[] bodyTexts;
     public ModuleTooltip[] weaponTexts;
     public ModuleTooltip[] defensiveTexts;
@@ -75,7 +75,7 @@ public class CharacterSelectionManager : MonoBehaviour
         players = new GameObject[4];
         URLs = new CharacterURLs[4];
 
-        #region Cambios Iván
+        #region Cambios IvÃ¡n
         bodyTexts = new ModuleTooltip[4];
         weaponTexts = new ModuleTooltip[4];
         defensiveTexts = new ModuleTooltip[4];
@@ -157,7 +157,7 @@ public class CharacterSelectionManager : MonoBehaviour
                     if (selectedModifier[i] == 3) SelectComplementary(i, 0);
                     if (selectedModifier[i] == 4) SelectComplementary(i, 1);
 
-                    //Cambio Iván
+                    //Cambio IvÃ¡n
                     SetVisibleModuleInfo(i);
                 }
                 lastAnalogValue[i] = JoystickInput.LeftAnalog(currentGamePads[i]);
@@ -221,10 +221,72 @@ public class CharacterSelectionManager : MonoBehaviour
                     //readyScreens[i].gameObject.SetActive(false);
                 }
             }
+
+            #region KEYBOARD IMPLEMENTATION
+            if (players[3] != null)
+            {
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    ready[3] = !ready[3];
+                    //readyScreens[3].gameObject.SetActive(ready[3]);
+                    readyScreens[3].GetComponentInChildren<Text>().text = ready[3] ? "Player " + 4 + " Ready" : "Player " + 4;
+                    if (ready[3])
+                    {
+                        //Set the text!
+                        var finalBody = bodies[bodyIndexes[3]].gameObject.name;
+                        bodyTexts[3].SetModuleName(finalBody);
+                        var finalWeapon = weapons[weaponIndexes[3]].gameObject.name;
+                        weaponTexts[3].SetModuleName(finalWeapon);
+                        var finalDefensive = defensiveSkills[defensiveIndexes[3]].gameObject.name;
+                        defensiveTexts[3].SetModuleName(finalDefensive);
+                        var finalComplementary1 = complementarySkills[0][complementaryIndexes[3, 0]].gameObject.name;
+                        complementary1Texts[3].SetModuleName(finalComplementary1);
+                        var finalComplementary2 = complementarySkills[1][complementaryIndexes[3, 1]].gameObject.name;
+                        complementary2Texts[3].SetModuleName(finalComplementary2);
+
+                        DeactivateModuleTooltips(3);
+
+                        //Check if they're all ready
+                        var regPlayers = players.Where(a => a != default(Player)).ToArray();
+                        bool allReady = true;
+                        for (int f = 0; f < regPlayers.Length; f++)
+                        {
+                            int playerIndex = System.Array.IndexOf(players, regPlayers[f]);
+                            URLs[playerIndex].SaveJsonToDisk("Player " + (playerIndex + 1));
+                            if (!ready[playerIndex]) allReady = false;
+                        }
+
+                        if (regPlayers.Length >= 2 && allReady)
+                        {
+                            playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
+                            if (playerInfo == null || playerInfo.fileRegVersion < RegisteredPlayers.latestRegVersion)
+                            {
+                                playerInfo = new RegisteredPlayers();
+                                playerInfo.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
+                                Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
+                                StartCoroutine(StartGameCoroutine());
+                            }
+                            else
+                            {
+                                playerInfo.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
+                                Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
+                                StartCoroutine(StartGameCoroutine());
+                            }
+                        }
+                    }
+                }
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    ready[3] = false;
+                    DeactivateModuleTooltips(3);
+                    //readyScreens[3].gameObject.SetActive(false);
+                }
+            }
+            #endregion
         }
     }
 
-    #region Cambios Iván
+    #region Cambios IvÃ¡n
     void SetVisibleModuleInfo(int playerIndex)
     {
         if (players[playerIndex] == null) return;
@@ -349,6 +411,66 @@ public class CharacterSelectionManager : MonoBehaviour
 
             blackScreens[player].gameObject.SetActive(false);
         }
+
+        #region KEYBOARD IMPLEMENTATION
+        if (player == 3 && Input.GetKeyDown(KeyCode.Return))
+        {
+            if (!startWhenReadyText.gameObject.activeSelf) startWhenReadyText.gameObject.SetActive(true);
+            URLs[player] = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (player + 1));
+            if (URLs[player] == default(CharacterURLs))
+            {
+                URLs[player] = new CharacterURLs();
+
+                var bodyNameChars = bodies[bodyIndexes[player]].gameObject.name.TakeWhile(a => a != '(').ToArray();
+                string bodyName = new string(bodyNameChars);
+
+                var weaponNameChars = weapons[weaponIndexes[player]].gameObject.name.TakeWhile(a => a != '(').ToArray();
+                string weaponName = new string(weaponNameChars);
+
+                var compNameChars1 = complementarySkills[0][complementaryIndexes[player, 0]].gameObject.name.TakeWhile(a => a != '(').ToArray();
+                string compName1 = new string(compNameChars1);
+
+                var compNameChars2 = complementarySkills[1][complementaryIndexes[player, 1]].gameObject.name.TakeWhile(a => a != '(').ToArray();
+                string compName2 = new string(compNameChars2);
+
+                var defNameChars = defensiveSkills[defensiveIndexes[player]].gameObject.name.TakeWhile(a => a != '(').ToArray();
+                string defName = new string(defNameChars);
+
+                URLs[player].bodyURL = bodyName;
+                URLs[player].weaponURL = weaponName;
+                URLs[player].complementaryURL = new string[2] { compName1, compName2 };
+                URLs[player].defensiveURL = defName;
+            }
+
+            bodyIndexes[player] = bodies.IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Bodies/" + URLs[player].bodyURL));
+            weaponIndexes[player] = weapons.IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs[player].weaponURL));
+            complementaryIndexes[player, 0] = complementarySkills[0].IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary/" + URLs[player].complementaryURL[0]));
+            complementaryIndexes[player, 1] = complementarySkills[1].IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary/" + URLs[player].complementaryURL[1]));
+            defensiveIndexes[player] = defensiveSkills.IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL));
+
+            players[player] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Bodies/" + URLs[player].bodyURL), playerSpawnPoints[player].transform.position, Quaternion.identity);
+            currentWeapons[player] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs[player].weaponURL), players[player].transform.position, Quaternion.identity);
+            currentComplementary[player, 0] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary/" + URLs[player].complementaryURL[0]), players[player].transform.position, Quaternion.identity);
+            currentComplementary[player, 1] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary/" + URLs[player].complementaryURL[1]), players[player].transform.position, Quaternion.identity);
+            currentDefensive[player] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL), players[player].transform.position, Quaternion.identity);
+
+            CharacterAssembler.Assemble(players[player], currentDefensive[player], currentComplementary[player, 0], currentComplementary[player, 1], currentWeapons[player]);
+            players[player].GetComponentsInChildren<Renderer>().Where(x => x.material.GetTag("SkillStateColor", true, "Nothing") != "Nothing").First().material.SetColor("_PlayerColor", playerColors[player]);
+
+            var finalBody = bodies[bodyIndexes[player]].gameObject.name;
+            bodyTexts[player].SetModuleName(finalBody);
+            var finalWeapon = weapons[weaponIndexes[player]].gameObject.name;
+            weaponTexts[player].SetModuleName(finalWeapon);
+            var finalDefensive = defensiveSkills[defensiveIndexes[player]].gameObject.name;
+            defensiveTexts[player].SetModuleName(finalDefensive);
+            var finalComplementary1 = complementarySkills[0][complementaryIndexes[player, 0]].gameObject.name;
+            complementary1Texts[player].SetModuleName(finalComplementary1);
+            var finalComplementary2 = complementarySkills[1][complementaryIndexes[player, 1]].gameObject.name;
+            complementary2Texts[player].SetModuleName(finalComplementary2);
+
+            blackScreens[player].gameObject.SetActive(false);
+        }
+        #endregion
     }
 
     void CheckSelect(int player)
@@ -371,6 +493,24 @@ public class CharacterSelectionManager : MonoBehaviour
         if (JoystickInput.allKeys[JoystickKey.B](previousGamePads[player], currentGamePads[player])
             || JoystickInput.allKeys[JoystickKey.BACK](previousGamePads[player], currentGamePads[player]))
             CancelPlayer(player);
+
+        #region KEYBOARD IMPLEMENTATION
+        if(player == 3)
+        {
+            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                selectedModifier[player] = selectedModifier[player] + 1 > 4 ? 0 : selectedModifier[player] + 1;
+            }
+
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                selectedModifier[player] = selectedModifier[player] - 1 < 0 ? 4 : selectedModifier[player] - 1;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+                CancelPlayer(player);
+        }
+        #endregion
     }
 
     void SelectBody(int player)
@@ -413,6 +553,45 @@ public class CharacterSelectionManager : MonoBehaviour
                     currentWeapons[player]);
             }
         }
+
+        #region KEYBOARD IMPLEMENTATION
+        if(player == 3)
+        {
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                bodyIndexes[player]++;
+                if (bodyIndexes[player] >= bodies.Count) bodyIndexes[player] = 0;
+
+                var bodyName = bodies[bodyIndexes[player]].gameObject.name;
+                URLs[player].bodyURL = bodyName;
+
+                players[player] = CharacterAssembler.ChangeBody(
+                    Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Bodies/" + URLs[player].bodyURL), players[player].transform.position, Quaternion.identity),
+                    players[player],
+                    currentDefensive[player],
+                    currentComplementary[player, 0],
+                    currentComplementary[player, 1],
+                    currentWeapons[player]);
+            }
+
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                bodyIndexes[player]--;
+                if (bodyIndexes[player] < 0) bodyIndexes[player] = bodies.Count - 1;
+
+                var bodyName = bodies[bodyIndexes[player]].gameObject.name;
+                URLs[player].bodyURL = bodyName;
+
+                players[player] = CharacterAssembler.ChangeBody(
+                    Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Bodies/" + URLs[player].bodyURL), players[player].transform.position, Quaternion.identity),
+                    players[player],
+                    currentDefensive[player],
+                    currentComplementary[player, 0],
+                    currentComplementary[player, 1],
+                    currentWeapons[player]);
+            }
+        }
+        #endregion
 
         var finalBody = bodies[bodyIndexes[player]].gameObject.name;
         bodyTexts[player].SetModuleName(finalBody);
@@ -457,6 +636,35 @@ public class CharacterSelectionManager : MonoBehaviour
                 currentWeapons[player] = CharacterAssembler.ChangePart(currentWeapons[player], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs[player].weaponURL), players[player].transform.position, Quaternion.identity));
             }
         }
+
+        #region KEYBOARD IMPLEMENTATION
+        if(player == 3)
+        {
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                weaponIndexes[player]++;
+                if (weaponIndexes[player] >= weapons.Count) weaponIndexes[player] = 0;
+
+                var weaponName = weapons[weaponIndexes[player]].gameObject.name;
+                URLs[player].weaponURL = weaponName;
+
+                Destroy(currentWeapons[player].gameObject);
+                currentWeapons[player] = CharacterAssembler.ChangePart(currentWeapons[player], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs[player].weaponURL), players[player].transform.position, Quaternion.identity));
+            }
+
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                weaponIndexes[player]--;
+                if (weaponIndexes[player] < 0) weaponIndexes[player] = weapons.Count - 1;
+
+                var weaponName = weapons[weaponIndexes[player]].gameObject.name;
+                URLs[player].weaponURL = weaponName;
+
+                Destroy(currentWeapons[player].gameObject);
+                currentWeapons[player] = CharacterAssembler.ChangePart(currentWeapons[player], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs[player].weaponURL), players[player].transform.position, Quaternion.identity));
+            }
+        }
+        #endregion
 
         var finalBody = bodies[bodyIndexes[player]].gameObject.name;
         bodyTexts[player].SetModuleName(finalBody);
@@ -507,6 +715,41 @@ public class CharacterSelectionManager : MonoBehaviour
                 currentComplementary[player, compIndex] = CharacterAssembler.ChangePart(currentComplementary[player, compIndex], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary" + /*(compIndex + 1) +*/ "/" + URLs[player].complementaryURL[compIndex]), players[player].transform.position, Quaternion.identity));
             }
         }
+
+        #region KEYBOARD IMPLEMENTATION
+        if(player == 3)
+        {
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                do
+                {
+                    complementaryIndexes[player, compIndex]++;
+                    if (complementaryIndexes[player, compIndex] >= complementarySkills[compIndex].Count) complementaryIndexes[player, compIndex] = 0;
+                } while (complementaryIndexes[player, 0] == complementaryIndexes[player, 1]);
+
+                var complementaryName = complementarySkills[compIndex][complementaryIndexes[player, compIndex]].gameObject.name;
+                URLs[player].complementaryURL[compIndex] = complementaryName;
+
+                Destroy(currentComplementary[player, compIndex].gameObject);
+                currentComplementary[player, compIndex] = CharacterAssembler.ChangePart(currentComplementary[player, compIndex], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary" + /*(compIndex + 1) +*/ "/" + URLs[player].complementaryURL[compIndex]), players[player].transform.position, Quaternion.identity));
+            }
+
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                do
+                {
+                    complementaryIndexes[player, compIndex]--;
+                    if (complementaryIndexes[player, compIndex] < 0) complementaryIndexes[player, compIndex] = complementarySkills[compIndex].Count - 1;
+                } while (complementaryIndexes[player, 0] == complementaryIndexes[player, 1]);
+
+                var complementaryName = complementarySkills[compIndex][complementaryIndexes[player, compIndex]].gameObject.name;
+                URLs[player].complementaryURL[compIndex] = complementaryName;
+
+                Destroy(currentComplementary[player, compIndex].gameObject);
+                currentComplementary[player, compIndex] = CharacterAssembler.ChangePart(currentComplementary[player, compIndex], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary" + /*(compIndex + 1) +*/ "/" + URLs[player].complementaryURL[compIndex]), players[player].transform.position, Quaternion.identity));
+            }
+        }
+        #endregion
 
         var finalBody = bodies[bodyIndexes[player]].gameObject.name;
         bodyTexts[player].SetModuleName(finalBody);
@@ -560,6 +803,35 @@ public class CharacterSelectionManager : MonoBehaviour
                 currentDefensive[player] = CharacterAssembler.ChangePart(currentDefensive[player], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL), players[player].transform.position, Quaternion.identity));
             }
         }
+
+        #region KEYBOARD IMPLEMENTATION
+        if(player == 3)
+        {
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                defensiveIndexes[player]++;
+                if (defensiveIndexes[player] >= defensiveSkills.Count) defensiveIndexes[player] = 0;
+
+                var defName = defensiveSkills[defensiveIndexes[player]].gameObject.name;
+                URLs[player].defensiveURL = defName;
+
+                Destroy(currentDefensive[player].gameObject);
+                currentDefensive[player] = CharacterAssembler.ChangePart(currentDefensive[player], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL), players[player].transform.position, Quaternion.identity));
+            }
+
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                defensiveIndexes[player]--;
+                if (defensiveIndexes[player] < 0) defensiveIndexes[player] = defensiveSkills.Count - 1;
+
+                var defName = defensiveSkills[defensiveIndexes[player]].gameObject.name;
+                URLs[player].defensiveURL = defName;
+
+                Destroy(currentDefensive[player].gameObject);
+                currentDefensive[player] = CharacterAssembler.ChangePart(currentDefensive[player], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL), players[player].transform.position, Quaternion.identity));
+            }
+        }
+        #endregion
 
         var finalBody = bodies[bodyIndexes[player]].gameObject.name;
         bodyTexts[player].SetModuleName(finalBody);
