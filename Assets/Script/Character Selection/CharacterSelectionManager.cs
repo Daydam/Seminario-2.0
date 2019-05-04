@@ -70,6 +70,9 @@ public class CharacterSelectionManager : MonoBehaviour
 
     void Start()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
         ready = new bool[4] { false, false, false, false };
 
         players = new GameObject[4];
@@ -220,69 +223,69 @@ public class CharacterSelectionManager : MonoBehaviour
                     DeactivateModuleTooltips(i);
                     //readyScreens[i].gameObject.SetActive(false);
                 }
-            }
 
-            #region KEYBOARD IMPLEMENTATION
-            if (players[3] != null)
-            {
-                if (Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.F))
+                #region KEYBOARD IMPLEMENTATION
+                if (players[3] != null && i == 3)
                 {
-                    ready[3] = !ready[3];
-                    //readyScreens[3].gameObject.SetActive(ready[3]);
-                    readyScreens[3].GetComponentInChildren<Text>().text = ready[3] ? "Player " + 4 + " Ready" : "Player " + 4;
-                    if (ready[3])
+                    if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.F))
                     {
-                        //Set the text!
-                        var finalBody = bodies[bodyIndexes[3]].gameObject.name;
-                        bodyTexts[3].SetModuleName(finalBody);
-                        var finalWeapon = weapons[weaponIndexes[3]].gameObject.name;
-                        weaponTexts[3].SetModuleName(finalWeapon);
-                        var finalDefensive = defensiveSkills[defensiveIndexes[3]].gameObject.name;
-                        defensiveTexts[3].SetModuleName(finalDefensive);
-                        var finalComplementary1 = complementarySkills[0][complementaryIndexes[3, 0]].gameObject.name;
-                        complementary1Texts[3].SetModuleName(finalComplementary1);
-                        var finalComplementary2 = complementarySkills[1][complementaryIndexes[3, 1]].gameObject.name;
-                        complementary2Texts[3].SetModuleName(finalComplementary2);
-
-                        DeactivateModuleTooltips(3);
-
-                        //Check if they're all ready
-                        var regPlayers = players.Where(a => a != default(Player)).ToArray();
-                        bool allReady = true;
-                        for (int f = 0; f < regPlayers.Length; f++)
+                        ready[3] = !ready[3];
+                        //readyScreens[3].gameObject.SetActive(ready[3]);
+                        readyScreens[3].GetComponentInChildren<Text>().text = ready[3] ? "Player " + 4 + " Ready" : "Player " + 4;
+                        if (ready[3])
                         {
-                            int playerIndex = System.Array.IndexOf(players, regPlayers[f]);
-                            URLs[playerIndex].SaveJsonToDisk("Player " + (playerIndex + 1));
-                            if (!ready[playerIndex]) allReady = false;
-                        }
+                            //Set the text!
+                            var finalBody = bodies[bodyIndexes[3]].gameObject.name;
+                            bodyTexts[3].SetModuleName(finalBody);
+                            var finalWeapon = weapons[weaponIndexes[3]].gameObject.name;
+                            weaponTexts[3].SetModuleName(finalWeapon);
+                            var finalDefensive = defensiveSkills[defensiveIndexes[3]].gameObject.name;
+                            defensiveTexts[3].SetModuleName(finalDefensive);
+                            var finalComplementary1 = complementarySkills[0][complementaryIndexes[3, 0]].gameObject.name;
+                            complementary1Texts[3].SetModuleName(finalComplementary1);
+                            var finalComplementary2 = complementarySkills[1][complementaryIndexes[3, 1]].gameObject.name;
+                            complementary2Texts[3].SetModuleName(finalComplementary2);
 
-                        if (regPlayers.Length >= 2 && allReady)
-                        {
-                            playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
-                            if (playerInfo == null || playerInfo.fileRegVersion < RegisteredPlayers.latestRegVersion)
+                            DeactivateModuleTooltips(3);
+
+                            //Check if they're all ready
+                            var regPlayers = players.Where(a => a != default(Player)).ToArray();
+                            bool allReady = true;
+                            for (int f = 0; f < regPlayers.Length; f++)
                             {
-                                playerInfo = new RegisteredPlayers();
-                                playerInfo.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
-                                Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
-                                StartCoroutine(StartGameCoroutine());
+                                int playerIndex = System.Array.IndexOf(players, regPlayers[f]);
+                                URLs[playerIndex].SaveJsonToDisk("Player " + (playerIndex + 1));
+                                if (!ready[playerIndex]) allReady = false;
                             }
-                            else
+
+                            if (regPlayers.Length >= 2 && allReady)
                             {
-                                playerInfo.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
-                                Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
-                                StartCoroutine(StartGameCoroutine());
+                                playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
+                                if (playerInfo == null || playerInfo.fileRegVersion < RegisteredPlayers.latestRegVersion)
+                                {
+                                    playerInfo = new RegisteredPlayers();
+                                    playerInfo.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
+                                    Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
+                                    StartCoroutine(StartGameCoroutine());
+                                }
+                                else
+                                {
+                                    playerInfo.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
+                                    Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
+                                    StartCoroutine(StartGameCoroutine());
+                                }
                             }
                         }
                     }
+                    if (Input.GetKeyDown(KeyCode.Escape) && Input.GetKey(KeyCode.F))
+                    {
+                        ready[3] = false;
+                        DeactivateModuleTooltips(3);
+                        //readyScreens[3].gameObject.SetActive(false);
+                    }
                 }
-                if (Input.GetKey(KeyCode.Escape) && Input.GetKey(KeyCode.F))
-                {
-                    ready[3] = false;
-                    DeactivateModuleTooltips(3);
-                    //readyScreens[3].gameObject.SetActive(false);
-                }
+                #endregion
             }
-            #endregion
         }
     }
 
@@ -343,7 +346,7 @@ public class CharacterSelectionManager : MonoBehaviour
 
     IEnumerator StartGameCoroutine()
     {
-        var asyncOp = SceneManager.LoadSceneAsync(2/*playerInfo.stage*/, LoadSceneMode.Single);
+        var asyncOp = SceneManager.LoadSceneAsync(1/*playerInfo.stage*/, LoadSceneMode.Single);
         asyncOp.allowSceneActivation = true;
 
         while (asyncOp.progress <= .99f)
@@ -413,7 +416,7 @@ public class CharacterSelectionManager : MonoBehaviour
         }
 
         #region KEYBOARD IMPLEMENTATION
-        if (player == 3 && Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.F))
+        if (player == 3 && Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.F))
         {
             if (!startWhenReadyText.gameObject.activeSelf) startWhenReadyText.gameObject.SetActive(true);
             URLs[player] = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (player + 1));
@@ -507,7 +510,7 @@ public class CharacterSelectionManager : MonoBehaviour
                 selectedModifier[player] = selectedModifier[player] - 1 < 0 ? 4 : selectedModifier[player] - 1;
             }
 
-            if (Input.GetKey(KeyCode.Escape) && Input.GetKey(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.Escape) && Input.GetKey(KeyCode.F))
                 CancelPlayer(player);
         }
         #endregion

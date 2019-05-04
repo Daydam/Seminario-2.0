@@ -10,6 +10,7 @@ public class Controller
     GamePadState state;
     GamePadState prevState;
     bool keyboardEnabled;
+    float mouseSensitivity = 0.0000035f;
 
     /* In case I needed a 3D camera, I'd use this. If the camera is set to be top-down, then this should be disabled
     bool invertVertical;
@@ -38,8 +39,8 @@ public class Controller
         state = GamePad.GetState(player);
         if((int)player == 3)
         {
-            if (Input.GetKey(KeyCode.F) && Input.GetKey(KeyCode.Return)) keyboardEnabled = true;
-            if (Input.GetKey(KeyCode.F) && Input.GetKey(KeyCode.Escape)) keyboardEnabled = false;
+            if (Input.GetKey(KeyCode.F) && Input.GetKeyDown(KeyCode.Return)) keyboardEnabled = true;
+            if (Input.GetKey(KeyCode.F) && Input.GetKeyDown(KeyCode.Escape)) keyboardEnabled = false;
         }
     }
 
@@ -53,11 +54,11 @@ public class Controller
         if(keyboardEnabled)
         {
             int xValue = 0;
-            if (Input.GetKey(KeyCode.A)) value--;
-            if (Input.GetKey(KeyCode.D)) value++;
+            if (Input.GetKey(KeyCode.A)) xValue--;
+            if (Input.GetKey(KeyCode.D)) xValue++;
             int yValue = 0;
-            if (Input.GetKey(KeyCode.S)) value--;
-            if (Input.GetKey(KeyCode.W)) value++;
+            if (Input.GetKey(KeyCode.S)) yValue--;
+            if (Input.GetKey(KeyCode.W)) yValue++;
             return new Vector2(xValue, yValue);
         }
         return JoystickInput.LeftAnalog(state);
@@ -65,7 +66,7 @@ public class Controller
 
     public Vector2 RightAnalog()
     {
-        if (keyboardEnabled) return new Vector2(Input.GetAxis("Mouse X"), 0);
+        if (keyboardEnabled) return new Vector2(Input.GetAxis("Mouse X") * mouseSensitivity, 0);
         else return JoystickInput.RightAnalog(state);
     }
 
