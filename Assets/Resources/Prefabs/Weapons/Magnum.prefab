@@ -174,8 +174,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1615882783643656}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.004, y: -0.13, z: 0.335}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.0029896, y: -0.087605, z: 0.24109599}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children: []
   m_Father: {fileID: 4827037730505918}
   m_RootOrder: 1
@@ -187,21 +187,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4827037730505918}
     m_Modifications:
-    - target: {fileID: 100006, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
-      propertyPath: m_Name
-      value: gauss canon
-      objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.00018964
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.0034
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.0066
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
       propertyPath: m_LocalRotation.x
@@ -234,6 +230,22 @@ PrefabInstance:
     - target: {fileID: 400006, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400006, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 400006, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 400006, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
+      propertyPath: m_Name
+      value: gauss canon
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
       propertyPath: m_Materials.Array.data[0]
