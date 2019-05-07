@@ -7,10 +7,12 @@ using Firepower.Events;
 public class RingWall : MonoBehaviour, IDamageable
 {
     public AudioClip bulletHit;
-    Material dissolveMaterial;
+    Material[] dissolveMaterials;
     Collider col;
     //AudioSource _source;
 
+    readonly string _shaderTag = "Dissolver", _tagValue = "Nothing";
+    
     public float maxHP = 5;
     private float hp;
     public float Hp
@@ -29,8 +31,8 @@ public class RingWall : MonoBehaviour, IDamageable
     private void Start()
     {
         //_source = GetComponent<AudioSource>();
-        dissolveMaterial = GetComponent<Renderer>().material;
-        dissolveMaterial.SetFloat("_Dissolved", 0);
+        dissolveMaterials = GetComponentsInChildren<Renderer>().SelectMany(x => x.materials).ToArray();
+        SetDissolve(0);
         col = GetComponent<Collider>();
         ResetHP();
         EventManager.Instance.AddEventListener(GameEvents.RoundReset, ResetHP);
@@ -40,7 +42,7 @@ public class RingWall : MonoBehaviour, IDamageable
     {
         StopAllCoroutines();
         Hp = maxHP;
-        dissolveMaterial.SetFloat("_Dissolved", 0);
+        SetDissolve(0);
         col.enabled = true;
     }
 
@@ -48,7 +50,7 @@ public class RingWall : MonoBehaviour, IDamageable
     {
         StopAllCoroutines();
         Hp = maxHP;
-        dissolveMaterial.SetFloat("_Dissolved", 0);
+        SetDissolve(0);
         col.enabled = true;
     }
 
@@ -63,6 +65,14 @@ public class RingWall : MonoBehaviour, IDamageable
     {
         SubstractLife(damage);
         if (Hp <= 0) Death();
+    }
+
+    void SetDissolve(float val)
+    {
+        foreach (var item in dissolveMaterials)
+        {
+            item.SetFloat("_Dissolved", val);
+        }
     }
 
     void Death()
@@ -90,7 +100,7 @@ public class RingWall : MonoBehaviour, IDamageable
         while (dissolveAmount < 1)
         {
             dissolveAmount += Time.deltaTime/2;
-            dissolveMaterial.SetFloat("_Dissolved", dissolveAmount);
+            SetDissolve(dissolveAmount);
             yield return new WaitForEndOfFrame();
         }
     }

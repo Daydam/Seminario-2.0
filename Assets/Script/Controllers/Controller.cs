@@ -37,10 +37,28 @@ public class Controller
         //XInput
         prevState = state;
         state = GamePad.GetState(player);
-        if((int)player == 3)
+        if ((int)player == 3)
         {
-            if (Input.GetKey(KeyCode.F) && Input.GetKeyDown(KeyCode.Return)) keyboardEnabled = true;
-            if (Input.GetKey(KeyCode.F) && Input.GetKeyDown(KeyCode.Escape)) keyboardEnabled = false;
+            if (Input.GetKey(KeyCode.F) && Input.GetKeyDown(KeyCode.Return))
+            {
+                if (Application.isEditor)
+                {
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
+                }
+
+                keyboardEnabled = true;
+            }
+            if (Input.GetKey(KeyCode.F) && Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (Application.isEditor)
+                {
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.None;
+                }
+
+                keyboardEnabled = false;
+            }
         }
     }
 
@@ -51,7 +69,7 @@ public class Controller
 
     public Vector2 LeftAnalog()
     {
-        if(keyboardEnabled)
+        if (keyboardEnabled)
         {
             int xValue = 0;
             if (Input.GetKey(KeyCode.A)) xValue--;

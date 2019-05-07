@@ -60,8 +60,11 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        if (!Application.isEditor)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
 
         spawns = StageManager.instance.transform.Find("SpawnPoints").GetComponentsInChildren<Transform>().Where(x => x.name != "SpawnPoints").ToArray();
 
@@ -338,7 +341,7 @@ public class GameManager : MonoBehaviour
             var score = wasPushed ? gameRules.pointsPerDrop : gameRules.pointsPerSuicide;
             dyingPlayer.UpdateScore(score);
         }
-        else if(deathType == DeathType.Player)
+        else if (deathType == DeathType.Player)
         {
             dyingPlayer.UpdateScore(gameRules.pointsPerDeath);
         }

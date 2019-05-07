@@ -70,15 +70,18 @@ public class CharacterSelectionManager : MonoBehaviour
 
     void Start()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-
         ready = new bool[4] { false, false, false, false };
 
         players = new GameObject[4];
         URLs = new CharacterURLs[4];
 
         #region Cambios Iván
+        if (!Application.isEditor)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
         bodyTexts = new ModuleTooltip[4];
         weaponTexts = new ModuleTooltip[4];
         defensiveTexts = new ModuleTooltip[4];
@@ -229,6 +232,12 @@ public class CharacterSelectionManager : MonoBehaviour
                 {
                     if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.F))
                     {
+                        if (Application.isEditor)
+                        {
+                            Cursor.visible = false;
+                            Cursor.lockState = CursorLockMode.Locked;
+                        }
+
                         ready[3] = !ready[3];
                         //readyScreens[3].gameObject.SetActive(ready[3]);
                         readyScreens[3].GetComponentInChildren<Text>().text = ready[3] ? "Player " + 4 + " Ready" : "Player " + 4;
@@ -274,6 +283,9 @@ public class CharacterSelectionManager : MonoBehaviour
                                     Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
                                     StartCoroutine(StartGameCoroutine());
                                 }
+
+                                Debug.Log("MARTÍN HARDCODEE EL NOMBRE DE LA ESCENA EN EL CAMBIO DE ESCENAS PORQUE NO ME GUSTA TENER EL NUMERITO");
+                                Debug.LogWarning("MARTÍN HARDCODEE EL NOMBRE DE LA ESCENA EN EL CAMBIO DE ESCENAS PORQUE NO ME GUSTA TENER EL NUMERITO");
                             }
                         }
                     }
@@ -281,6 +293,13 @@ public class CharacterSelectionManager : MonoBehaviour
                     {
                         ready[3] = false;
                         DeactivateModuleTooltips(3);
+
+                        if (Application.isEditor)
+                        {
+                            Cursor.visible = true;
+                            Cursor.lockState = CursorLockMode.None;
+                        }
+
                         //readyScreens[3].gameObject.SetActive(false);
                     }
                 }
@@ -346,7 +365,7 @@ public class CharacterSelectionManager : MonoBehaviour
 
     IEnumerator StartGameCoroutine()
     {
-        var asyncOp = SceneManager.LoadSceneAsync(1/*playerInfo.stage*/, LoadSceneMode.Single);
+        var asyncOp = SceneManager.LoadSceneAsync("Stage_CrystalPyramid"/*playerInfo.stage*/, LoadSceneMode.Single);
         asyncOp.allowSceneActivation = true;
 
         while (asyncOp.progress <= .99f)
