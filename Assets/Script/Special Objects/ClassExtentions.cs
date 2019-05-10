@@ -105,4 +105,9 @@ public static class ClassExtentions
             curve.AddKey(key);
         }
     }
+
+    public static int GetCurrentAnimatorClipFrame(this AnimatorClipInfo clipInfo)
+    {
+        return Mathf.RoundToInt(clipInfo.weight * (clipInfo.clip.length * clipInfo.clip.frameRate));
+    }
 }

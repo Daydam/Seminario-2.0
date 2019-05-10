@@ -14,7 +14,7 @@ public class RingWall : MonoBehaviour, IDamageable
     readonly string _shaderTag = "Dissolver", _tagValue = "Nothing";
     
     public float maxHP = 5;
-    private float hp;
+    float hp;
     public float Hp
     {
         get
@@ -28,7 +28,7 @@ public class RingWall : MonoBehaviour, IDamageable
         }
     }
 
-    private void Start()
+    void Start()
     {
         //_source = GetComponent<AudioSource>();
         dissolveMaterials = GetComponentsInChildren<Renderer>().SelectMany(x => x.materials).ToArray();
