@@ -10,9 +10,9 @@ public class DestructibleStatue : MonoBehaviour, IDamageable
     GameObject _baseObj;
     Animator _destructibleObj;
 
-    public int normalSpeedFrame;
+    public int normalSpeedFrame = 20;
 
-    public float maxHP = 5, normalAnimSpeed = 1, slowAnimSpeed = .7f;
+    public float maxHP = 5, normalAnimSpeed = .8f, slowAnimSpeed = .5f;
     private float hp;
     public float Hp
     {
