@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.1102941, g: 0, b: 0, a: 1}
+  m_AmbientSkyColor: {r: 0, g: 0.003921569, b: 0.22352941, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0
@@ -441,11 +441,31 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1392171914}
+    - target: {fileID: 6248588945555138121, guid: 7ca25832ea902dd4898bb1ce73c54006,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3798817643609159862, guid: 7ca25832ea902dd4898bb1ce73c54006,
         type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6248588945552947339, guid: 7ca25832ea902dd4898bb1ce73c54006,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2dafa32145f0d6340993725c1101ce17, type: 3}
+    - target: {fileID: 6248588945552947343, guid: 7ca25832ea902dd4898bb1ce73c54006,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2dafa32145f0d6340993725c1101ce17, type: 3}
+    - target: {fileID: 6248588945552947337, guid: 7ca25832ea902dd4898bb1ce73c54006,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2dafa32145f0d6340993725c1101ce17, type: 3}
     - target: {fileID: 943107437, guid: 7ca25832ea902dd4898bb1ce73c54006, type: 3}
       propertyPath: maxHP
       value: 15
@@ -2918,7 +2938,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh41544
+  m_Name: pb_Mesh-188222
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
