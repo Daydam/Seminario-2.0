@@ -154,7 +154,7 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
             {
                 _target = GetTarget();
             }
-            _nav.SetDestination(_target.transform.position);
+            if (_target) _nav.SetDestination(_target.transform.position);
         }
     }
 
