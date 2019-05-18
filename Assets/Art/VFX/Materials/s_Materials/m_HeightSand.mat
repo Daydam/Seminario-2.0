@@ -31,6 +31,10 @@ Material:
         m_Texture: {fileID: 2800002, guid: 2dafa32145f0d6340993725c1101ce17, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _RT_Drones:
+        m_Texture: {fileID: 8400000, guid: 4fa09269bf77113458c9d4ea221c50e3, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Texture0:
         m_Texture: {fileID: 2800006, guid: 2dafa32145f0d6340993725c1101ce17, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -48,15 +52,24 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _CavityIntensity: -0.17
+    - _CavityunderDron: -0.34
     - _CurvFix: 1
     - _CurvatureU: 46.5
     - _CurvatureV: 8.2
     - _EdgeLength: 25
     - _Float0: 0.41
+    - _Gradientintensity: 3
     - _Heightscale: 0.18
     - _Metallic: 0.09
+    - _Radius: 1.6
+    - _Radiuscavityarea: 1.6
+    - _ScaleHeight: 0.18
     - _ScaleParallax: 0.1
     - _Smoothness: 0.2
     - _TilingAlbedoNormalHeight: 10
     - __dirty: 0
-    m_Colors: []
+    m_Colors:
+    - _CurrentPos_Dron: {r: -10.954, g: 1.161, b: 9.669, a: 0}
+    - _CurrentPos_Drone: {r: -8.485435, g: 0.010199994, b: 6.74484, a: 0}
+    - _Vector0: {r: 0, g: 1, b: 0, a: 0}
