@@ -429,6 +429,26 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1392171914}
+    - target: {fileID: 6248588945552947339, guid: 7ca25832ea902dd4898bb1ce73c54006,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 27bbcb158e926804ca91b071059747e2, type: 2}
+    - target: {fileID: 6248588945552947343, guid: 7ca25832ea902dd4898bb1ce73c54006,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 27bbcb158e926804ca91b071059747e2, type: 2}
+    - target: {fileID: 6248588945552947337, guid: 7ca25832ea902dd4898bb1ce73c54006,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 27bbcb158e926804ca91b071059747e2, type: 2}
+    - target: {fileID: 6248588945552947341, guid: 7ca25832ea902dd4898bb1ce73c54006,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 27bbcb158e926804ca91b071059747e2, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ca25832ea902dd4898bb1ce73c54006, type: 3}
 --- !u!1 &134544818
@@ -2796,7 +2816,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 0
-  m_Color: {r: 0.9716981, g: 0.8459497, b: 0.637104, a: 1}
+  m_Color: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   m_Intensity: 1
   m_Range: 84.2
   m_SpotAngle: 118
