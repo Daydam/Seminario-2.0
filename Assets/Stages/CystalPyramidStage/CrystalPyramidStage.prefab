@@ -25774,10 +25774,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 15
       objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 48d59d5d67728864486143a5b71478e1, type: 3}
-      propertyPath: m_Layer
-      value: 15
-      objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 48d59d5d67728864486143a5b71478e1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -25842,6 +25838,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 59528cf216c92524ba10596a544b3247, type: 3}
+    - target: {fileID: 100002, guid: 48d59d5d67728864486143a5b71478e1, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48d59d5d67728864486143a5b71478e1, type: 3}
 --- !u!1 &2932272378899362201 stripped
@@ -25944,6 +25944,18 @@ PrefabInstance:
     - target: {fileID: 400010, guid: 8da67d98bb0dabd4fa4bc3d1d318645e, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 400024, guid: 8da67d98bb0dabd4fa4bc3d1d318645e, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400024, guid: 8da67d98bb0dabd4fa4bc3d1d318645e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400024, guid: 8da67d98bb0dabd4fa4bc3d1d318645e, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2300020, guid: 8da67d98bb0dabd4fa4bc3d1d318645e, type: 3}
       propertyPath: m_Materials.Array.size
@@ -26657,6 +26669,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _entityType
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6596804894743012726, guid: 4f954013273b9564fab4e43f1802f1a5,
+        type: 3}
+      propertyPath: m_SelectedEditorRenderState
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3995747462750943428, guid: 4f954013273b9564fab4e43f1802f1a5,
         type: 3}
