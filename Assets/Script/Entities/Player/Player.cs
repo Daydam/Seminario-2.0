@@ -149,7 +149,6 @@ public class Player : MonoBehaviour, IDamageable
         _lifeForcefield = GetComponentInChildren<PlayerLifeForcefield>();
         _col = GetComponent<Collider>();
         weightModule = GetComponent<DroneWeightModule>();
-
     }
 
     void Start()
@@ -158,6 +157,7 @@ public class Player : MonoBehaviour, IDamageable
         GameManager.Instance.OnResetRound += StopVibrating;
         GameManager.Instance.OnResetRound += ResetRound;
         GameManager.Instance.OnChangeScene += StopVibrating;
+        transform.Find("DronePos_To_RT").gameObject.layer = LayerMask.NameToLayer("Drone");
     }
 
     void Update()
