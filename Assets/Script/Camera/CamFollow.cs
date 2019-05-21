@@ -110,5 +110,6 @@ public class CamFollow : MonoBehaviour
     void EnableDeathCam()
     {
         UIManager.Instance.OnPlayerDeath(target.myID);
+        gameObject.SetActive(false);
     }
 }

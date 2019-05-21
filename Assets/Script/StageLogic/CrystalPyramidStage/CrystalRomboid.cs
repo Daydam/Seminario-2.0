@@ -14,7 +14,7 @@ public class CrystalRomboid : MonoBehaviour
 
     public void SetDanger()
     {
-        _an.SetTrigger("Danger");
+        //_an.SetTrigger("Danger");
     }
 
     public void RomboidFall()

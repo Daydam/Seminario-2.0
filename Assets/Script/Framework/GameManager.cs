@@ -93,6 +93,9 @@ public class GameManager : MonoBehaviour
         //Setting the mode!
         gameRules = Resources.Load("Scriptable Objects/GameMode_" + playerInfo.gameMode) as SO_GameRules;
 
+        //get all the cameras
+        var allCams = GameObject.FindObjectsOfType<CamFollow>().ToList();
+
         for (int i = 0; i < playerInfo.playerControllers.Length; i++)
         {
             var URLs = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (playerInfo.playerControllers[i] + 1));
@@ -123,9 +126,13 @@ public class GameManager : MonoBehaviour
 
             player.LightsModule.SetPlayerColor(playerColors[playerInfo.playerControllers[i]]);
 
-            CamFollow cam = GameObject.Find("Camera_P" + (i + 1)).GetComponent<CamFollow>();
+            CamFollow cam = allCams.Where(x => x.name == "Camera_P" + (i + 1)).First();
+            allCams.Remove(cam);
             cam.AssignTarget(player);
         }
+
+        //disable cams that are not being used
+        foreach (var item in allCams) item.gameObject.SetActive(false);
 
         AddEvents();
         UIManager.Instance.Initialize(Players, StartFirstRound, gameRules.pointsToWin[playerInfo.playerControllers.Length - 2]);

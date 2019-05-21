@@ -250,6 +250,7 @@ public class Player : MonoBehaviour, IDamageable
         myPusher = null;
         CancelForces();
         StopAllCoroutines();
+        _cam.gameObject.SetActive(true);
     }
 
     public void ActivatePlayerEndgame(bool activate, string replaceName, string replaceScore)
