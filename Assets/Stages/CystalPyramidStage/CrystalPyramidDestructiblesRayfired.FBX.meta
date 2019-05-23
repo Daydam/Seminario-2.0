@@ -1516,6 +1516,7 @@ ModelImporter:
     103020: pilar destructible_frag_023
     103022: pilar destructible_frag_024
     103024: pilar destructible_frag_025
+    103026: RF_Bomb001
     400000: columna ancha destructible_frag_001
     400002: columna ancha destructible_frag_002
     400004: columna ancha destructible_frag_003
@@ -3029,6 +3030,7 @@ ModelImporter:
     403020: pilar destructible_frag_023
     403022: pilar destructible_frag_024
     403024: pilar destructible_frag_025
+    403026: RF_Bomb001
     2100000: No Name
     2300000: columna ancha destructible_frag_001
     2300002: columna ancha destructible_frag_002
@@ -7368,6 +7370,8 @@ ModelImporter:
     4302886: pared destructible 026_frag_052
     4302888: pared destructible 026_frag_040
     4302890: pared destructible 026_frag_031
+    7400000: Take 001
+    11100000: //RootNode
     2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
@@ -7396,7 +7400,35 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 8
+      lastFrame: 100.00001
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
@@ -7446,10 +7478,10 @@ ModelImporter:
     feetSpacing: 0
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 1
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

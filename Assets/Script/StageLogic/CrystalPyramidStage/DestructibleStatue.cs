@@ -101,10 +101,4 @@ public class DestructibleStatue : MonoBehaviour, IDamageable
         //  NO QUEDA BIEEEN
         // _source.PlayOneShot(bulletHit);
     }
-
-    public IDamageable GetThisEntity()
-    {
-        return this;
-    }
-
 }
