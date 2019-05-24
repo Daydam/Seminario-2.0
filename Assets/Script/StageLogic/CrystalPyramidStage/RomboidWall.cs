@@ -7,7 +7,7 @@ using Firepower.Events;
 public class RomboidWall : MonoBehaviour, IDamageable
 {
     Collider col;
-    Renderer _baseObj;
+    GameObject _baseObj;
     Animator _destructibleObj;
 
     public int normalSpeedFrame = 20;
@@ -29,8 +29,8 @@ public class RomboidWall : MonoBehaviour, IDamageable
 
     void Awake()
     {
-        _baseObj = GetComponent<Renderer>();
-        _destructibleObj = GetComponentInChildren<Animator>();
+        _baseObj = transform.parent.Find("BaseObj").gameObject;
+        _destructibleObj = transform.parent.GetComponentInChildren<Animator>(true);
         col = GetComponent<Collider>();
     }
 
@@ -45,7 +45,7 @@ public class RomboidWall : MonoBehaviour, IDamageable
         StopAllCoroutines();
         Hp = maxHP;
         col.enabled = true;
-        _baseObj.enabled = true;
+        _baseObj.SetActive(true);
         _destructibleObj.gameObject.SetActive(false);
     }
 
@@ -69,9 +69,8 @@ public class RomboidWall : MonoBehaviour, IDamageable
 
     void Death()
     {
-        _baseObj.enabled = false;
+        _baseObj.SetActive(false);
         _destructibleObj.gameObject.SetActive(true);
-
         _destructibleObj.Play("Destroy");
         col.enabled = false;
     }
