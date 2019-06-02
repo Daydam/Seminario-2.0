@@ -9,6 +9,7 @@ public class RomboidWall : MonoBehaviour, IDamageable
     Collider col;
     GameObject _baseObj;
     Animator _destructibleObj;
+    GameObject _forceScale;
 
     public int normalSpeedFrame = 20;
 
@@ -31,6 +32,11 @@ public class RomboidWall : MonoBehaviour, IDamageable
     {
         _baseObj = transform.parent.Find("BaseObj").gameObject;
         _destructibleObj = transform.parent.GetComponentInChildren<Animator>(true);
+
+        //Hardcode porque Alembic resulta que me achica el objeto cada vez que se prende
+        var parentOfForced = _destructibleObj.GetComponentInChildren<UTJ.Alembic.AlembicStreamPlayer>();
+        _forceScale = parentOfForced.transform.GetChild(0).gameObject;// Find("CrystalPyramidDestructibles_FBX").gameObject;
+
         col = GetComponent<Collider>();
     }
 
@@ -38,6 +44,11 @@ public class RomboidWall : MonoBehaviour, IDamageable
     {
         ResetHP();
         EventManager.Instance.AddEventListener(GameEvents.RoundReset, ResetHP);
+    }
+
+    void Update()
+    {
+        _forceScale.transform.localScale = Vector3.one;
     }
 
     public void ResetHP()
@@ -73,6 +84,7 @@ public class RomboidWall : MonoBehaviour, IDamageable
         _destructibleObj.gameObject.SetActive(true);
         _destructibleObj.Play("Destroy");
         col.enabled = false;
+        _forceScale.transform.localScale = Vector3.one;
     }
 
     void SubstractLife(float damage)
