@@ -9,11 +9,11 @@ public class RomboidWall : MonoBehaviour, IDamageable
     Collider col;
     GameObject _baseObj;
     Animator _destructibleObj;
-    GameObject _forceScale;
+    GameObject[] _destroyedFragments;
 
     public int normalSpeedFrame = 20;
 
-    public float maxHP = 5, normalAnimSpeed = .8f, slowAnimSpeed = .5f;
+    public float maxHP = 5, normalAnimSpeed = .8f, slowAnimSpeed = .5f, fragmentMaxLifeTime = 10f, fragmentDisableDelay = 2f;
     private float hp;
     public float Hp
     {
@@ -32,11 +32,8 @@ public class RomboidWall : MonoBehaviour, IDamageable
     {
         _baseObj = transform.parent.Find("BaseObj").gameObject;
         _destructibleObj = transform.parent.GetComponentInChildren<Animator>(true);
-
-        //Hardcode porque Alembic resulta que me achica el objeto cada vez que se prende
-        var parentOfForced = _destructibleObj.GetComponentInChildren<UTJ.Alembic.AlembicStreamPlayer>();
-        _forceScale = parentOfForced.transform.GetChild(0).gameObject;// Find("CrystalPyramidDestructibles_FBX").gameObject;
-
+        var transformNode = _destructibleObj.transform.Find("TRANSFORM_NODE");
+        _destroyedFragments = transformNode.GetComponentsInChildren<Transform>().Where(x => x != transformNode).Select(x => x.gameObject).ToArray();
         col = GetComponent<Collider>();
     }
 
@@ -44,11 +41,7 @@ public class RomboidWall : MonoBehaviour, IDamageable
     {
         ResetHP();
         EventManager.Instance.AddEventListener(GameEvents.RoundReset, ResetHP);
-    }
-
-    void Update()
-    {
-        _forceScale.transform.localScale = Vector3.one;
+        EventManager.Instance.AddEventListener(CrystalPyramidEvents.DestructibleWallDestroyEnd, OnDestroyAnimationEnd);
     }
 
     public void ResetHP()
@@ -57,6 +50,7 @@ public class RomboidWall : MonoBehaviour, IDamageable
         Hp = maxHP;
         col.enabled = true;
         _baseObj.SetActive(true);
+        foreach (var item in _destroyedFragments) item.SetActive(true);
         _destructibleObj.gameObject.SetActive(false);
     }
 
@@ -84,7 +78,6 @@ public class RomboidWall : MonoBehaviour, IDamageable
         _destructibleObj.gameObject.SetActive(true);
         _destructibleObj.Play("Destroy");
         col.enabled = false;
-        _forceScale.transform.localScale = Vector3.one;
     }
 
     void SubstractLife(float damage)
@@ -109,4 +102,28 @@ public class RomboidWall : MonoBehaviour, IDamageable
         return this;
     }
 
+    public void OnDestroyAnimationEnd(params object[] parameters)
+    {
+        var sender = (Animator)parameters[0];
+
+        if (sender == _destructibleObj)
+        {
+            StartCoroutine(DisableFragments());
+        }
+    }
+
+    IEnumerator DisableFragments()
+    {
+        yield return new WaitForSeconds(fragmentDisableDelay);
+
+        float tick = _destroyedFragments.Length / fragmentMaxLifeTime;
+        var inst = new WaitForSeconds(tick);
+
+        foreach (var item in _destroyedFragments)
+        {
+            item.SetActive(false);
+
+            yield return inst;
+        }
+    }
 }
