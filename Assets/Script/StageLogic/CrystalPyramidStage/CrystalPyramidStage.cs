@@ -18,7 +18,7 @@ public class CrystalPyramidStage : StageBase
 
     public void StartPyramidShrinkage()
     {
-        //StartCoroutine(TestMugriento());
+        StartCoroutine(TestMugriento());
     }
 
     IEnumerator TestMugriento()
