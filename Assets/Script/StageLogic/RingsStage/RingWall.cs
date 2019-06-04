@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 using Firepower.Events;
 
-public class RingWall : MonoBehaviour, IDamageable
+public class RingWall : DestructibleBase, IDamageable
 {
     public AudioClip bulletHit;
     Material[] dissolveMaterials;
@@ -38,7 +38,7 @@ public class RingWall : MonoBehaviour, IDamageable
         EventManager.Instance.AddEventListener(GameEvents.RoundReset, ResetHP);
     }
 
-    public void ResetHP()
+    public override void ResetHP()
     {
         StopAllCoroutines();
         Hp = maxHP;
@@ -46,7 +46,7 @@ public class RingWall : MonoBehaviour, IDamageable
         col.enabled = true;
     }
 
-    public void ResetHP(params object[] info)
+    public override void ResetHP(params object[] info)
     {
         StopAllCoroutines();
         Hp = maxHP;
@@ -54,14 +54,14 @@ public class RingWall : MonoBehaviour, IDamageable
         col.enabled = true;
     }
 
-    public void TakeDamage(float damage)
+    public override void TakeDamage(float damage)
     {
         SubstractLife(damage);
 
         if (Hp <= 0) Death();
     }
 
-    public void TakeDamage(float damage, string killerTag)
+    public override void TakeDamage(float damage, string killerTag)
     {
         SubstractLife(damage);
         if (Hp <= 0) Death();
@@ -75,13 +75,13 @@ public class RingWall : MonoBehaviour, IDamageable
         }
     }
 
-    void Death()
+    protected override void Death()
     {
         //gameObject.SetActive(false);
         StartCoroutine(DestroyRingWall());
     }
 
-    void SubstractLife(float damage)
+    protected override void SubstractLife(float damage)
     {
         Hp -= damage;
     }
@@ -104,10 +104,4 @@ public class RingWall : MonoBehaviour, IDamageable
             yield return new WaitForEndOfFrame();
         }
     }
-
-    public IDamageable GetThisEntity()
-    {
-        return this;
-    }
-
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 using Firepower.Events;
 
-public class RomboidWall : MonoBehaviour, IDamageable
+public class RomboidWall : DestructibleBase, IDamageable
 {
     Collider col;
     GameObject _baseObj;
@@ -44,7 +44,7 @@ public class RomboidWall : MonoBehaviour, IDamageable
         EventManager.Instance.AddEventListener(CrystalPyramidEvents.DestructibleWallDestroyEnd, OnDestroyAnimationEnd);
     }
 
-    public void ResetHP()
+    public override void ResetHP()
     {
         StopAllCoroutines();
         Hp = maxHP;
@@ -54,25 +54,25 @@ public class RomboidWall : MonoBehaviour, IDamageable
         _destructibleObj.gameObject.SetActive(false);
     }
 
-    public void ResetHP(params object[] info)
+    public override void ResetHP(params object[] info)
     {
         ResetHP();
     }
 
-    public void TakeDamage(float damage)
+    public override void TakeDamage(float damage)
     {
         SubstractLife(damage);
 
         if (Hp <= 0) Death();
     }
 
-    public void TakeDamage(float damage, string killerTag)
+    public override void TakeDamage(float damage, string killerTag)
     {
         SubstractLife(damage);
         if (Hp <= 0) Death();
     }
 
-    void Death()
+    protected override void Death()
     {
         _baseObj.SetActive(false);
         _destructibleObj.gameObject.SetActive(true);
@@ -80,7 +80,7 @@ public class RomboidWall : MonoBehaviour, IDamageable
         col.enabled = false;
     }
 
-    void SubstractLife(float damage)
+    protected override void SubstractLife(float damage)
     {
         Hp -= damage;
     }
@@ -95,11 +95,6 @@ public class RomboidWall : MonoBehaviour, IDamageable
         //No parece quedar bien
         //  NO QUEDA BIEEEN
         // _source.PlayOneShot(bulletHit);
-    }
-
-    public IDamageable GetThisEntity()
-    {
-        return this;
     }
 
     public void OnDestroyAnimationEnd(params object[] parameters)

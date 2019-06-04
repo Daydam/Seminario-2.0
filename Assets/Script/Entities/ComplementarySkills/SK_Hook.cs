@@ -87,9 +87,9 @@ public class SK_Hook : ComplementarySkillBase
             else if (_owner.Weight < targetPlayer.Weight) LighterWeightBehaviour(targetPlayer.gameObject);
             else SameWeightBehaviour(targetPlayer);
         }
-        else if (_hook.Target is RingWall)
+        else if (_hook.Target is DestructibleBase)
         {
-            var tgt = (RingWall)_hook.Target;
+            var tgt = (DestructibleBase)_hook.Target;
             LighterWeightBehaviour(tgt.gameObject);
         }
         else if (_hook.Target is RingStructure)
