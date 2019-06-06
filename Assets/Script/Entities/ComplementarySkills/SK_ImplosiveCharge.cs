@@ -69,6 +69,7 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
         _charge.gameObject.SetActive(false);
         _skillActive = false;
         _currentCooldown = skillData.maxCooldown;
+        NotifyUIModule();
     }
 
     /// <summary>
@@ -124,5 +125,10 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
         else if (unavailable) return SkillState.Unavailable;
         else if (_skillActive) return SkillState.Active;
         else return SkillState.Available;
+    }
+
+    public override float GetCooldownPerc()
+    {
+        return Mathf.Lerp(1, 0, _currentCooldown / skillData.maxCooldown);
     }
 }

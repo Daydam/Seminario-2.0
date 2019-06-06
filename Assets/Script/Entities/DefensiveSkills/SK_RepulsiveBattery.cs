@@ -66,6 +66,7 @@ public class SK_RepulsiveBattery : DefensiveSkillBase
         RepulsiveBatterySpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, _owner, skillData);
         _stateSource.PlayOneShot(skillUse);
         _currentCooldown = skillData.maxCooldown;
+        NotifyUIModule();
         _canTap = false;
     }
 
@@ -93,5 +94,10 @@ public class SK_RepulsiveBattery : DefensiveSkillBase
         if (userDisabled) return SkillState.UserDisabled;
         else if (unavailable) return SkillState.Unavailable;
         else return SkillState.Available;
+    }
+
+    public override float GetCooldownPerc()
+    {
+        return Mathf.Lerp(1, 0, _currentCooldown / skillData.maxCooldown);
     }
 }

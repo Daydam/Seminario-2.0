@@ -70,6 +70,7 @@ public class SK_Vortex : DefensiveSkillBase
                     }
 
                     _currentCooldown = skillData.maxCooldown;
+                    NotifyUIModule();
 
                     SimpleParticleSpawner.Instance.SpawnParticle(SimpleParticleSpawner.ParticleID.VORTEX, _owner.transform.position, partDir);
 
@@ -179,5 +180,10 @@ public class SK_Vortex : DefensiveSkillBase
         if (userDisabled) return SkillState.UserDisabled;
         else if (unavailable) return SkillState.Unavailable;
         else return SkillState.Available;
+    }
+
+    public override float GetCooldownPerc()
+    {
+        return Mathf.Lerp(1, 0, _currentCooldown / skillData.maxCooldown);
     }
 }

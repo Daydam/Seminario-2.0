@@ -65,6 +65,7 @@ public class SK_Hook : ComplementarySkillBase
     {
         yield return new WaitUntil(callback);
         _currentCooldown = skillData.maxCooldown;
+        NotifyUIModule();
         _canTap = false;
 
         StartCoroutine(LaunchHook());
@@ -260,4 +261,8 @@ public class SK_Hook : ComplementarySkillBase
         else return SkillState.Available;
     }
 
+    public override float GetCooldownPerc()
+    {
+        return Mathf.Lerp(1, 0, _currentCooldown / skillData.maxCooldown);
+    }
 }

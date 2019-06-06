@@ -46,6 +46,7 @@ public class SK_ScramblerMine : ComplementarySkillBase
                     _mine.Spawn(_owner.transform.position, _owner.gameObject.transform.forward, skillData.duration, skillData.radius, _owner.gameObject.tag, skillData);
 
                     _currentCooldown = skillData.maxCooldown;
+                    NotifyUIModule();
                 }
             }
             //else _stateSource.PlayOneShot(unavailableSound);
@@ -73,5 +74,10 @@ public class SK_ScramblerMine : ComplementarySkillBase
         else if (unavailable) return SkillState.Unavailable;
         else if (MineActive()) return SkillState.Active;
         else return SkillState.Available;
+    }
+
+    public override float GetCooldownPerc()
+    {
+        return Mathf.Lerp(1, 0, _currentCooldown / skillData.maxCooldown);
     }
 }

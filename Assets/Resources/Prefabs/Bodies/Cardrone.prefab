@@ -240,6 +240,7 @@ GameObject:
   - component: {fileID: 114345293119366864}
   - component: {fileID: 8633881909459949694}
   - component: {fileID: 2061198278304189514}
+  - component: {fileID: 360165680340728546}
   m_Layer: 0
   m_Name: Cardrone
   m_TagString: Untagged
@@ -501,6 +502,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _droneBodyName: Cardrone
+--- !u!114 &360165680340728546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785207140606284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fa1f7bee08afce4b927caa2935f65da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasName: Skills
 --- !u!1 &1793874535216528
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,7 +18,6 @@ public class SK_EMPCaltrop : ComplementarySkillBase
 
         skillData = Resources.Load<SO_EMPCaltrop>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_EMPCaltrop;
 
-
         LoadPrefabs();
     }
 
@@ -53,6 +52,8 @@ public class SK_EMPCaltrop : ComplementarySkillBase
                 LaunchCaltrop();
 
                 _currentCooldown = skillData.maxCooldown;
+
+                NotifyUIModule();
             }
         }
         //else _stateSource.PlayOneShot(unavailableSound);
@@ -94,5 +95,10 @@ public class SK_EMPCaltrop : ComplementarySkillBase
         if (userDisabled) return SkillState.UserDisabled;
         else if (unavailable) return SkillState.Unavailable;
         else return SkillState.Available;
+    }
+
+    public override float GetCooldownPerc()
+    {
+        return Mathf.Lerp(1, 0, _currentCooldown / skillData.maxCooldown);
     }
 }

@@ -54,6 +54,7 @@ public class SK_Dash : DefensiveSkillBase
                     _canTap = false;
                     StartCoroutine(DashHandler(dirV.normalized));
                     _currentCooldown = skillData.maxCooldown;
+                    NotifyUIModule();
                 }
             }
             else
@@ -107,5 +108,10 @@ public class SK_Dash : DefensiveSkillBase
         if (userDisabled) return SkillState.UserDisabled;
         else if (unavailable) return SkillState.Unavailable;
         else return SkillState.Available;
+    }
+
+    public override float GetCooldownPerc()
+    {
+        return Mathf.Lerp(1, 0, _currentCooldown / skillData.maxCooldown);
     }
 }

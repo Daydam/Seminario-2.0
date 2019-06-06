@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 114345293119366864}
   - component: {fileID: 8633881909459949694}
   - component: {fileID: 2041210247128258284}
+  - component: {fileID: 7918185284875839206}
   m_Layer: 0
   m_Name: Fastdrone
   m_TagString: Untagged
@@ -497,6 +498,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _droneBodyName: Fastdrone
+--- !u!114 &7918185284875839206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785207140606284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fa1f7bee08afce4b927caa2935f65da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasName: Skills
 --- !u!1 &1793874535216528
 GameObject:
   m_ObjectHideFlags: 0
@@ -6144,7 +6158,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400026, guid: 1d69215e648a4e54982670c377fe75cd, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 400024, guid: 1d69215e648a4e54982670c377fe75cd, type: 3}
       propertyPath: m_RootOrder
@@ -6152,15 +6166,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: 1d69215e648a4e54982670c377fe75cd, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 1d69215e648a4e54982670c377fe75cd, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 1d69215e648a4e54982670c377fe75cd, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 400010, guid: 1d69215e648a4e54982670c377fe75cd, type: 3}
       propertyPath: m_RootOrder
