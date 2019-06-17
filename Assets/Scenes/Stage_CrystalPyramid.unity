@@ -58,7 +58,7 @@ LightmapSettings:
     m_Resolution: 2
     m_BakeResolution: 40
     m_AtlasSize: 1024
-    m_AO: 0
+    m_AO: 1
     m_AOMaxDistance: 1
     m_CompAOExponent: 1
     m_CompAOExponentDirect: 0
@@ -71,7 +71,7 @@ LightmapSettings:
     m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 2
-    m_BakeBackend: 0
+    m_BakeBackend: 1
     m_PVRSampling: 1
     m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 500
@@ -88,7 +88,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 112000002, guid: 071f39da69d8301438041846eccba964,
+  m_LightingDataAsset: {fileID: 112000000, guid: f830a7606221ba44891c0b6b9914c854,
     type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -4457,6 +4457,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: CrystalPyramidStage
       objectReference: {fileID: 0}
+    - target: {fileID: 1569910599339817908, guid: 7ca25832ea902dd4898bb1ce73c54006,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1569910599339817914, guid: 7ca25832ea902dd4898bb1ce73c54006,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4863328862898650700, guid: 7ca25832ea902dd4898bb1ce73c54006,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4517,6 +4527,16 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 159726292}
+    - target: {fileID: 1569910599339817912, guid: 7ca25832ea902dd4898bb1ce73c54006,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1569910599339817918, guid: 7ca25832ea902dd4898bb1ce73c54006,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ca25832ea902dd4898bb1ce73c54006, type: 3}
 --- !u!1001 &7081113446649467869
