@@ -241,6 +241,7 @@ GameObject:
   - component: {fileID: 8633881909459949694}
   - component: {fileID: 2061198278304189514}
   - component: {fileID: 360165680340728546}
+  - component: {fileID: 1484340683305361769}
   m_Layer: 0
   m_Name: Cardrone
   m_TagString: Untagged
@@ -515,6 +516,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasName: Skills
+--- !u!114 &1484340683305361769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785207140606284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68d611c1ba9cc1f4d81b68e02cc23de4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _offset: {x: 0, y: 2, z: -3}
 --- !u!1 &1793874535216528
 GameObject:
   m_ObjectHideFlags: 0
@@ -5890,15 +5904,9 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 2d986f08a917ea048847b795d2a94b38, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 296d6181b530de14183cdd94854f3a54, type: 3}
---- !u!4 &5098069302028737239 stripped
+--- !u!4 &5098069302028737237 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 400018, guid: 296d6181b530de14183cdd94854f3a54,
-    type: 3}
-  m_PrefabInstance: {fileID: 5098069302028337221}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &5098069302028737225 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400012, guid: 296d6181b530de14183cdd94854f3a54,
+  m_CorrespondingSourceObject: {fileID: 400016, guid: 296d6181b530de14183cdd94854f3a54,
     type: 3}
   m_PrefabInstance: {fileID: 5098069302028337221}
   m_PrefabAsset: {fileID: 0}
@@ -5938,15 +5946,21 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5098069302028337221}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &5098069302028737237 stripped
+--- !u!4 &5098069302028737239 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 400016, guid: 296d6181b530de14183cdd94854f3a54,
+  m_CorrespondingSourceObject: {fileID: 400018, guid: 296d6181b530de14183cdd94854f3a54,
     type: 3}
   m_PrefabInstance: {fileID: 5098069302028337221}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &5098069302028737229 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400008, guid: 296d6181b530de14183cdd94854f3a54,
+    type: 3}
+  m_PrefabInstance: {fileID: 5098069302028337221}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5098069302028737225 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400012, guid: 296d6181b530de14183cdd94854f3a54,
     type: 3}
   m_PrefabInstance: {fileID: 5098069302028337221}
   m_PrefabAsset: {fileID: 0}

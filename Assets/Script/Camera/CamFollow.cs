@@ -43,6 +43,30 @@ public class CamFollow : MonoBehaviour
         running = true;
     }
 
+    public void AssignTarget(Player target, Transform camPos)
+    {
+        this.target = target;
+        transform.position = target.transform.position;
+        transform.forward = target.transform.forward;
+        targetSight = transform.forward;
+        positionOffset = camPos.transform.localPosition;
+        target.AssignCamera(this);
+        _playerDead = false;
+        running = true;
+    }
+
+    public void AssignTarget(Player target, Vector3 camPos)
+    {
+        this.target = target;
+        transform.position = target.transform.position;
+        transform.forward = target.transform.forward;
+        targetSight = transform.forward;
+        positionOffset = camPos;
+        target.AssignCamera(this);
+        _playerDead = false;
+        running = true;
+    }
+
     public void ResetRound()
     {
         StopAllCoroutines();

@@ -582,6 +582,7 @@ GameObject:
   - component: {fileID: 8633881909459949694}
   - component: {fileID: 986979500648557995}
   - component: {fileID: 5798731936613833216}
+  - component: {fileID: 849446900468470514}
   m_Layer: 0
   m_Name: Beetledrone
   m_TagString: Untagged
@@ -873,6 +874,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasName: Skills
+--- !u!114 &849446900468470514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785207140606284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68d611c1ba9cc1f4d81b68e02cc23de4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _offset: {x: 0, y: 2, z: -3}
 --- !u!1 &1793874535216528
 GameObject:
   m_ObjectHideFlags: 0
@@ -5962,12 +5976,12 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2786939978545894439, guid: 6164addaff243bb4ba96c2c060efc873,
+    - target: {fileID: 1027788906850417261, guid: 6164addaff243bb4ba96c2c060efc873,
         type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1027788906850417261, guid: 6164addaff243bb4ba96c2c060efc873,
+    - target: {fileID: 2786939978545894439, guid: 6164addaff243bb4ba96c2c060efc873,
         type: 3}
       propertyPath: m_IsActive
       value: 0

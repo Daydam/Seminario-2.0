@@ -40,6 +40,7 @@ public class Player : MonoBehaviour, IDamageable
 
     PlayerAnimations _animationController;
     PlayerLifeForcefield _lifeForcefield;
+    PlayerCameraModule _camModule;
     PlayerScoreController _scoreController;
     public PlayerScoreController ScoreController
     {
@@ -147,6 +148,7 @@ public class Player : MonoBehaviour, IDamageable
         _soundModule = GetComponent<DroneSoundController>();
         _animationController = GetComponent<PlayerAnimations>();
         _lifeForcefield = GetComponentInChildren<PlayerLifeForcefield>();
+        _camModule = GetComponentInChildren<PlayerCameraModule>();
         _col = GetComponent<Collider>();
         weightModule = GetComponent<DroneWeightModule>();
     }
@@ -170,6 +172,11 @@ public class Player : MonoBehaviour, IDamageable
         {
             transform.Rotate(transform.up, _control.RightAnalog().x * turningSpeed);
         }
+    }
+
+    public Vector3 GetCameraOffset()
+    {
+        return _camModule.Offset;
     }
 
     public void AssignCamera(CamFollow cam)
