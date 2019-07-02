@@ -12,7 +12,7 @@ public class DestructiblesBatcher : MonoBehaviour
 
     void Start()
     {
-        BatchProps();
+        Batch();
         var ans = GetComponentsInChildren<Animator>(true).Select(x => x.gameObject).ToFList();
         var flist = FList.Create<GameObject>();
         foreach (var item in ans)
@@ -23,10 +23,10 @@ public class DestructiblesBatcher : MonoBehaviour
         flist += ans;
         _destructibleProps = flist.ToArray();
         
-        EventManager.Instance.AddEventListener(CrystalPyramidEvents.DestructibleWallDestroyEnd, OnDestroyAnimationEnd);
+        //EventManager.Instance.AddEventListener(CrystalPyramidEvents.DestructibleWallDestroyEnd, OnDestroyAnimationEnd);
     }
 
-    void BatchProps()
+    void Batch()
     {
         _baseObjs = GetComponentsInChildren<Transform>().Where(x => x.name == "BaseObj").Select(x => x.gameObject).ToList();
         StaticBatchingUtility.Combine(_baseObjs.ToArray(), transform.parent.gameObject);
