@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: m_HeightSand
-  m_Shader: {fileID: 4800000, guid: 40552bc4c228ec54f86ce0f3abdfb4f6, type: 3}
+  m_Name: m_HeightSand_new
+  m_Shader: {fileID: 4800000, guid: 2883a394122706b4fbc7f7d8507d371b, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -23,8 +23,20 @@ Material:
         m_Texture: {fileID: 2800000, guid: 2dafa32145f0d6340993725c1101ce17, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DefEmission:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Height:
         m_Texture: {fileID: 2800006, guid: 2dafa32145f0d6340993725c1101ce17, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LifeEmission:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Metallic:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal:
@@ -33,6 +45,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _RT_Drones:
         m_Texture: {fileID: 8400000, guid: 4fa09269bf77113458c9d4ea221c50e3, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Roughness:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture0:
@@ -52,22 +68,26 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _Available: 1
     - _CavityIntensity: -1
     - _CavityunderDron: -0.34
     - _CurvFix: 1
     - _CurvatureU: 46.5
     - _CurvatureV: 8.2
-    - _EdgeLength: 15
+    - _EdgeLength: 10
     - _Float0: 0.41
     - _Gradientintensity: 3
+    - _Height: 0.38
     - _Heightscale: 0.18
+    - _Intensity: 0.13
+    - _Life: 1
     - _Metallic: 0.09
-    - _Radius: 1.6
+    - _Radius: 0.02
     - _Radiuscavityarea: 1.6
-    - _ScaleHeight: 0
-    - _ScaleParallax: 0.025
+    - _ScaleHeight: 0.4
+    - _ScaleParallax: 0
     - _Smoothness: 0.2
-    - _TilingAlbedoNormalHeight: 30
+    - _TilingAlbedoNormalHeight: 20
     - __dirty: 0
     m_Colors:
     - _CurrentPos_Dron: {r: -10.954, g: 1.161, b: 9.669, a: 0}

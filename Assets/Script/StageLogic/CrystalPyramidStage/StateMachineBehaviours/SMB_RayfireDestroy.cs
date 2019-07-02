@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class SMB_RomboidWallDestroy : StateMachineBehaviour
+public class SMB_RayfireDestroy : StateMachineBehaviour
 {
     public override void OnStateExit(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
     {
