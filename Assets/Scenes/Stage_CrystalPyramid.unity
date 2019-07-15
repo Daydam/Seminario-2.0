@@ -1472,12 +1472,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 180, y: -90, z: -90}
---- !u!1 &697798086 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 450567016180546953, guid: 7ca25832ea902dd4898bb1ce73c54006,
-    type: 3}
-  m_PrefabInstance: {fileID: 4863328862225587636}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &736362439
 GameObject:
   m_ObjectHideFlags: 0
@@ -1708,6 +1702,7 @@ GameObject:
   - component: {fileID: 817577058}
   - component: {fileID: 817577056}
   - component: {fileID: 817577057}
+  - component: {fileID: 817577059}
   m_Layer: 24
   m_Name: Camera_P1
   m_TagString: Untagged
@@ -1867,6 +1862,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ed4a6bb3bd253d40b4ed01ea94fda95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &817577059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817577052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99865e99d3db02d45929889b8231ab7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imageFX: {fileID: 2100000, guid: 41f3ebe84eea195448318ece02acab64, type: 2}
 --- !u!114 &826102354 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7081113446904086927, guid: a93b2b523902d3e4e86a8d96b6566f79,
@@ -3617,6 +3625,18 @@ MonoBehaviour:
   - FavParams: 0
     FavString: []
     list:
+    - {fileID: 817577052}
+    ActiveGameObject: {fileID: 817577052}
+    GUIDsList: []
+    GUIDsActiveGameObject: 
+    PATHsList: []
+    PATHsActiveGameObject: 
+    InstanceID: 0
+    wasInit: 0
+    CashedBool: 0
+  - FavParams: 0
+    FavString: []
+    list:
     - {fileID: 1312997440}
     ActiveGameObject: {fileID: 1312997440}
     GUIDsList: []
@@ -3883,18 +3903,6 @@ MonoBehaviour:
     list:
     - {fileID: 1564394884}
     ActiveGameObject: {fileID: 1564394884}
-    GUIDsList: []
-    GUIDsActiveGameObject: 
-    PATHsList: []
-    PATHsActiveGameObject: 
-    InstanceID: 0
-    wasInit: 0
-    CashedBool: 0
-  - FavParams: 0
-    FavString: []
-    list:
-    - {fileID: 697798086}
-    ActiveGameObject: {fileID: 697798086}
     GUIDsList: []
     GUIDsActiveGameObject: 
     PATHsList: []
