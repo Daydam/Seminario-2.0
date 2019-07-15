@@ -82,7 +82,13 @@ public class CamFollow : MonoBehaviour
         _playerDead = true;
     }
 
-    private void FixedUpdate()
+    public void OnPlayerDisarm(bool activation)
+    {
+        print(" gorda sarnosa " + activation);
+        GetComponent<PPFX_EMPScramble>().ActivateEMPFX(activation);
+    }
+
+    void FixedUpdate()
     {
         if (running && target)
         {

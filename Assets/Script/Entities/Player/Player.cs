@@ -594,10 +594,12 @@ public class Player : MonoBehaviour, IDamageable
     IEnumerator ExecuteDisarm(float duration)
     {
         _isDisarmed = true;
+        _cam.OnPlayerDisarm(_isDisarmed);
 
         yield return new WaitForSeconds(duration);
 
         _isDisarmed = false;
+        _cam.OnPlayerDisarm(_isDisarmed);
     }
 
     IEnumerator ExecuteCastTime(float duration)
@@ -645,6 +647,11 @@ public class Player : MonoBehaviour, IDamageable
 
     #endregion
 
+    /// <summary>
+    /// por favor no tocar
+    /// </summary>
+    /// <param name="callback"></param>
+    /// <param name="amount"></param>
     #region States with callback
     public void ApplySlowMovement(Func<bool> callback, float amount)
     {
