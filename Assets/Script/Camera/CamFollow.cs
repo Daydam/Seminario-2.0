@@ -84,7 +84,6 @@ public class CamFollow : MonoBehaviour
 
     public void OnPlayerDisarm(bool activation)
     {
-        print(" gorda sarnosa " + activation);
         GetComponent<PPFX_EMPScramble>().ActivateEMPFX(activation);
     }
 

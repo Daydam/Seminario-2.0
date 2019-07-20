@@ -14,7 +14,6 @@ public class PPFX_EMPScramble : MonoBehaviour
 
     public void ActivateEMPFX(bool activation)
     {
-        print("idioita " + activation);
     	imageFX.SetFloat("_Activation", activation ? 1 : 0);
     }
 }
