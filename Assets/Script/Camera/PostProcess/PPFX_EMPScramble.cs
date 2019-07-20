@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Firepower.Events;
 
 public class PPFX_EMPScramble : MonoBehaviour
 {
     public Material imageFX;
+
+    void Start()
+    {
+        GameManager.Instance.OnResetRound += () => ActivateEMPFX(false);
+    }
 
     void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
