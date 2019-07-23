@@ -55,6 +55,8 @@ public class SK_RepulsiveBattery : DefensiveSkillBase
         if (activationAnim != null) activationAnim.Play();
         _owner.ApplyCastState(skillData.castTime);
 
+        _owner.ActivateRepulsion(skillData.shieldDuration, skillData.radius);
+
         StartCoroutine(ShieldActivation());
 
         StartCoroutine(WaitForCastEnd(_owner.FinishedCasting));

@@ -84,7 +84,12 @@ public class CamFollow : MonoBehaviour
 
     public void OnPlayerDisarm(bool activation)
     {
-        GetComponent<PPFX_EMPScramble>().ActivateEMPFX(activation);
+        GetComponent<PPFX_EMPScramble>().ActivatePostProcess(activation);
+    }
+
+    public void OnPlayerUseRepulsion(bool activation, float radius, float duration)
+    {
+        GetComponent<PPFX_RepulsionScreen>().ActivatePostProcess(activation, target.transform.position, radius, duration);
     }
 
     void FixedUpdate()

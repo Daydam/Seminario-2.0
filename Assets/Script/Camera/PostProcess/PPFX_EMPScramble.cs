@@ -10,7 +10,7 @@ public class PPFX_EMPScramble : MonoBehaviour
 
     void Start()
     {
-        GameManager.Instance.OnResetRound += () => ActivateEMPFX(false);
+        GameManager.Instance.OnResetRound += () => ActivatePostProcess(false);
     }
 
     void OnRenderImage(RenderTexture source, RenderTexture destination)
@@ -18,7 +18,7 @@ public class PPFX_EMPScramble : MonoBehaviour
         Graphics.Blit(source, destination, imageFX);
     }
 
-    public void ActivateEMPFX(bool activation)
+    public void ActivatePostProcess(bool activation)
     {
     	imageFX.SetFloat("_Activation", activation ? 1 : 0);
     }

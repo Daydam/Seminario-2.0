@@ -555,6 +555,20 @@ public class Player : MonoBehaviour, IDamageable
         StartCoroutine(ExecuteInvulnerabilityTime(duration));
     }
 
+    public void ActivateRepulsion(float duration, float radius)
+    {
+        StartCoroutine(RepulsionManagement(duration, radius));
+    }
+
+    public IEnumerator RepulsionManagement(float duration, float radius)
+    {
+        _cam.OnPlayerUseRepulsion(true, radius, duration);
+
+        yield return new WaitForSeconds(duration);
+
+        _cam.OnPlayerUseRepulsion(false, radius, duration);
+    }
+
     public bool FinishedCasting()
     {
         return true;
@@ -647,26 +661,7 @@ public class Player : MonoBehaviour, IDamageable
 
     #endregion
 
-    /// <summary>
-    /// por favor no tocar
-    /// </summary>
-    /// <param name="callback"></param>
-    /// <param name="amount"></param>
     #region States with callback
-    public void ApplySlowMovement(Func<bool> callback, float amount)
-    {
-        if (_invulnerable) return;
-
-        _soundModule.PlayDisarmSound();
-        StartCoroutine(ExecuteSlowMovement(callback, amount));
-    }
-
-    public void ApplyKnockbackMultiplierChange(Func<bool> callback, float amount)
-    {
-        if (_invulnerable) return;
-
-        StartCoroutine(ExecuteKnockbackMultiplierChange(callback, amount));
-    }
 
     public void ApplyStun(Func<bool> callback)
     {
@@ -676,22 +671,9 @@ public class Player : MonoBehaviour, IDamageable
         StartCoroutine(ExecuteStun(callback));
     }
 
-    public void ApplyDisarm(Func<bool> callback)
-    {
-        if (_invulnerable) return;
-
-        _soundModule.PlayDisarmSound();
-        StartCoroutine(ExecuteDisarm(callback));
-    }
-
     public void ApplyCastState(Func<bool> callback)
     {
         StartCoroutine(ExecuteCastTime(callback));
-    }
-
-    public void ApplyInvulnerability(Func<bool> callback)
-    {
-        StartCoroutine(ExecuteInvulnerabilityTime(callback));
     }
 
     IEnumerator ExecuteStun(Func<bool> callback)
@@ -703,37 +685,6 @@ public class Player : MonoBehaviour, IDamageable
         _isStunned = false;
     }
 
-    IEnumerator ExecuteKnockbackMultiplierChange(Func<bool> callback, float amount)
-    {
-        var oldMulti = KnockbackMultiplier;
-
-        KnockbackMultiplier = amount;
-
-        yield return new WaitUntil(callback);
-
-        KnockbackMultiplier = oldMulti;
-    }
-
-    IEnumerator ExecuteSlowMovement(Func<bool> callback, float amount)
-    {
-        var oldMulti = MovementMultiplier;
-
-        MovementMultiplier = amount;
-
-        yield return new WaitUntil(callback);
-
-        MovementMultiplier = oldMulti;
-    }
-
-    IEnumerator ExecuteDisarm(Func<bool> callback)
-    {
-        _isDisarmed = true;
-
-        yield return new WaitUntil(callback);
-
-        _isDisarmed = false;
-    }
-
     IEnumerator ExecuteCastTime(Func<bool> callback)
     {
         _isCasting = true;
@@ -742,15 +693,6 @@ public class Player : MonoBehaviour, IDamageable
 
         _isCasting = false;
         FinishedCasting();
-    }
-
-    IEnumerator ExecuteInvulnerabilityTime(Func<bool> callback)
-    {
-        _invulnerable = true;
-
-        yield return new WaitUntil(callback);
-
-        _invulnerable = false;
     }
     #endregion
 
