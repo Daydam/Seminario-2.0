@@ -23,9 +23,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Activation: 0
     - _Falloff: 0.2
-    - _RepulsionRadius: 3
+    - _RepulsionRadius: 12
+    - _Speed: 0
     m_Colors:
-    - _PlayerPosition: {r: 0, g: 0, b: 0, a: 0}
+    - _PlayerPosition: {r: -12.117828, g: 1.4804001, b: 12.301893, a: 0}

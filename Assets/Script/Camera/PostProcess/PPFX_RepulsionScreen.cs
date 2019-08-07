@@ -22,14 +22,18 @@ public class PPFX_RepulsionScreen : MonoBehaviour
 
     public void DeactivatePostProcess()
     {
-        imageFX.SetFloat("_Activation", 0);
+        //GetComponent<RPSH_Wallhack>().SetWallhackState();
+
+        //imageFX.SetFloat("_Activation", 0);
     }
 
     public void ActivatePostProcess(bool activation, Vector3 playerPosition, float radius, float duration)
     {
-        SetRepulsionValues(playerPosition, radius);
+        //GetComponent<RPSH_Wallhack>().SetWallhackState();
+
+        /*SetRepulsionValues(playerPosition, radius);
         imageFX.SetFloat("_Activation", activation ? 1 : 0);
-        _effectDuration = duration;
+        _effectDuration = duration;*/
     }
 
     public void SetRepulsionValues(Vector3 playerPosition, float radius)
@@ -51,7 +55,11 @@ public class PPFX_RepulsionScreen : MonoBehaviour
     void OnResetRound()
     {
         DeactivatePostProcess();
-        StopCoroutine(_runningRoutine);
-        _runningRoutine = null;
+        if (_runningRoutine != null)
+        {
+            StopCoroutine(_runningRoutine);
+            _runningRoutine = null;
+        }
+        
     }
 }

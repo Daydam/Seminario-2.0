@@ -33,6 +33,10 @@ public class CharacterSelectionManager : MonoBehaviour
     public ModuleTooltip[] defensiveTexts;
     public ModuleTooltip[] complementary1Texts;
     public ModuleTooltip[] complementary2Texts;
+    public GameObject splashScreen;
+
+    public bool InputAllowed { get { return !splashScreen.activeInHierarchy; } }
+
     #endregion
     public Text startWhenReadyText;
 
@@ -143,119 +147,54 @@ public class CharacterSelectionManager : MonoBehaviour
 
     void Update()
     {
-        for (int i = 0; i < currentGamePads.Length; i++)
+        if (InputAllowed)
         {
-            previousGamePads[i] = currentGamePads[i];
-            currentGamePads[i] = GamePad.GetState((PlayerIndex)i);
-        }
-
-        for (int i = 0; i < 4; i++)
-        {
-            if (players[i] == null) CheckStart(i);
-            else
+            for (int i = 0; i < currentGamePads.Length; i++)
             {
-                if (!ready[i])
+                previousGamePads[i] = currentGamePads[i];
+                currentGamePads[i] = GamePad.GetState((PlayerIndex)i);
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (players[i] == null) CheckStart(i);
+                else
                 {
-                    CheckSelect(i);
-                    if (selectedModifier[i] == 0) SelectBody(i);
-                    if (selectedModifier[i] == 1) SelectWeapon(i);
-                    if (selectedModifier[i] == 2) SelectDefensive(i);
-                    if (selectedModifier[i] == 3) SelectComplementary(i, 0);
-                    if (selectedModifier[i] == 4) SelectComplementary(i, 1);
-
-                    //Cambio Iván
-                    SetVisibleModuleInfo(i);
-                }
-                lastAnalogValue[i] = JoystickInput.LeftAnalog(currentGamePads[i]);
-
-
-                if (JoystickInput.allKeys[JoystickKey.START](previousGamePads[i], currentGamePads[i]))
-                {
-                    ready[i] = !ready[i];
-                    //readyScreens[i].gameObject.SetActive(ready[i]);
-                    readyScreens[i].GetComponentInChildren<Text>().text = ready[i] ? "Player " + (i + 1) + " Ready" : "Player " + (i + 1);
-                    if (ready[i])
+                    if (!ready[i])
                     {
-                        //Set the text!
-                        var finalBody = bodies[bodyIndexes[i]].gameObject.name;
-                        bodyTexts[i].SetModuleName(finalBody);
-                        var finalWeapon = weapons[weaponIndexes[i]].gameObject.name;
-                        weaponTexts[i].SetModuleName(finalWeapon);
-                        var finalDefensive = defensiveSkills[defensiveIndexes[i]].gameObject.name;
-                        defensiveTexts[i].SetModuleName(finalDefensive);
-                        var finalComplementary1 = complementarySkills[0][complementaryIndexes[i, 0]].gameObject.name;
-                        complementary1Texts[i].SetModuleName(finalComplementary1);
-                        var finalComplementary2 = complementarySkills[1][complementaryIndexes[i, 1]].gameObject.name;
-                        complementary2Texts[i].SetModuleName(finalComplementary2);
+                        CheckSelect(i);
+                        if (selectedModifier[i] == 0) SelectBody(i);
+                        if (selectedModifier[i] == 1) SelectWeapon(i);
+                        if (selectedModifier[i] == 2) SelectDefensive(i);
+                        if (selectedModifier[i] == 3) SelectComplementary(i, 0);
+                        if (selectedModifier[i] == 4) SelectComplementary(i, 1);
 
-                        DeactivateModuleTooltips(i);
-
-                        //Check if they're all ready
-                        var regPlayers = players.Where(a => a != default(Player)).ToArray();
-                        bool allReady = true;
-                        for (int f = 0; f < regPlayers.Length; f++)
-                        {
-                            int playerIndex = System.Array.IndexOf(players, regPlayers[f]);
-                            URLs[playerIndex].SaveJsonToDisk("Player " + (playerIndex + 1));
-                            if (!ready[playerIndex]) allReady = false;
-                        }
-
-                        if (regPlayers.Length >= 2 && allReady)
-                        {
-                            playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
-                            if (playerInfo == null || playerInfo.fileRegVersion < RegisteredPlayers.latestRegVersion)
-                            {
-                                playerInfo = new RegisteredPlayers();
-                                playerInfo.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
-                                Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
-                                StartCoroutine(StartGameCoroutine());
-                            }
-                            else
-                            {
-                                playerInfo.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
-                                Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
-                                StartCoroutine(StartGameCoroutine());
-                            }
-                        }
+                        //Cambio Iván
+                        SetVisibleModuleInfo(i);
                     }
-                }
-                else if (JoystickInput.allKeys[JoystickKey.B](previousGamePads[i], currentGamePads[i])
-                || JoystickInput.allKeys[JoystickKey.BACK](previousGamePads[i], currentGamePads[i]))
-                {
-                    ready[i] = false;
-                    DeactivateModuleTooltips(i);
-                    //readyScreens[i].gameObject.SetActive(false);
-                }
+                    lastAnalogValue[i] = JoystickInput.LeftAnalog(currentGamePads[i]);
 
-                #region KEYBOARD IMPLEMENTATION
-                if (players[3] != null && i == 3)
-                {
-                    if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.F))
+
+                    if (JoystickInput.allKeys[JoystickKey.START](previousGamePads[i], currentGamePads[i]))
                     {
-                        if (Application.isEditor)
-                        {
-                            Cursor.visible = false;
-                            Cursor.lockState = CursorLockMode.Locked;
-                        }
-
-                        ready[3] = !ready[3];
-                        //readyScreens[3].gameObject.SetActive(ready[3]);
-                        readyScreens[3].GetComponentInChildren<Text>().text = ready[3] ? "Player " + 4 + " Ready" : "Player " + 4;
-                        if (ready[3])
+                        ready[i] = !ready[i];
+                        //readyScreens[i].gameObject.SetActive(ready[i]);
+                        readyScreens[i].GetComponentInChildren<Text>().text = ready[i] ? "Player " + (i + 1) + " Ready" : "Player " + (i + 1);
+                        if (ready[i])
                         {
                             //Set the text!
-                            var finalBody = bodies[bodyIndexes[3]].gameObject.name;
-                            bodyTexts[3].SetModuleName(finalBody);
-                            var finalWeapon = weapons[weaponIndexes[3]].gameObject.name;
-                            weaponTexts[3].SetModuleName(finalWeapon);
-                            var finalDefensive = defensiveSkills[defensiveIndexes[3]].gameObject.name;
-                            defensiveTexts[3].SetModuleName(finalDefensive);
-                            var finalComplementary1 = complementarySkills[0][complementaryIndexes[3, 0]].gameObject.name;
-                            complementary1Texts[3].SetModuleName(finalComplementary1);
-                            var finalComplementary2 = complementarySkills[1][complementaryIndexes[3, 1]].gameObject.name;
-                            complementary2Texts[3].SetModuleName(finalComplementary2);
+                            var finalBody = bodies[bodyIndexes[i]].gameObject.name;
+                            bodyTexts[i].SetModuleName(finalBody);
+                            var finalWeapon = weapons[weaponIndexes[i]].gameObject.name;
+                            weaponTexts[i].SetModuleName(finalWeapon);
+                            var finalDefensive = defensiveSkills[defensiveIndexes[i]].gameObject.name;
+                            defensiveTexts[i].SetModuleName(finalDefensive);
+                            var finalComplementary1 = complementarySkills[0][complementaryIndexes[i, 0]].gameObject.name;
+                            complementary1Texts[i].SetModuleName(finalComplementary1);
+                            var finalComplementary2 = complementarySkills[1][complementaryIndexes[i, 1]].gameObject.name;
+                            complementary2Texts[i].SetModuleName(finalComplementary2);
 
-                            DeactivateModuleTooltips(3);
+                            DeactivateModuleTooltips(i);
 
                             //Check if they're all ready
                             var regPlayers = players.Where(a => a != default(Player)).ToArray();
@@ -283,27 +222,102 @@ public class CharacterSelectionManager : MonoBehaviour
                                     Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
                                     StartCoroutine(StartGameCoroutine());
                                 }
-
-                                Debug.Log("MARTÍN HARDCODEE EL NOMBRE DE LA ESCENA EN EL CAMBIO DE ESCENAS PORQUE NO ME GUSTA TENER EL NUMERITO");
-                                Debug.LogWarning("MARTÍN HARDCODEE EL NOMBRE DE LA ESCENA EN EL CAMBIO DE ESCENAS PORQUE NO ME GUSTA TENER EL NUMERITO");
                             }
                         }
                     }
-                    if (Input.GetKeyDown(KeyCode.Escape) && Input.GetKey(KeyCode.F))
+                    else if (JoystickInput.allKeys[JoystickKey.B](previousGamePads[i], currentGamePads[i])
+                    || JoystickInput.allKeys[JoystickKey.BACK](previousGamePads[i], currentGamePads[i]))
                     {
-                        ready[3] = false;
-                        DeactivateModuleTooltips(3);
-
-                        if (Application.isEditor)
-                        {
-                            Cursor.visible = true;
-                            Cursor.lockState = CursorLockMode.None;
-                        }
-
-                        //readyScreens[3].gameObject.SetActive(false);
+                        ready[i] = false;
+                        DeactivateModuleTooltips(i);
+                        //readyScreens[i].gameObject.SetActive(false);
                     }
+
+                    #region KEYBOARD IMPLEMENTATION
+                    if (players[3] != null && i == 3)
+                    {
+                        if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.F))
+                        {
+                            if (Application.isEditor)
+                            {
+                                Cursor.visible = false;
+                                Cursor.lockState = CursorLockMode.Locked;
+                            }
+
+                            ready[3] = !ready[3];
+                            //readyScreens[3].gameObject.SetActive(ready[3]);
+                            readyScreens[3].GetComponentInChildren<Text>().text = ready[3] ? "Player " + 4 + " Ready" : "Player " + 4;
+                            if (ready[3])
+                            {
+                                //Set the text!
+                                var finalBody = bodies[bodyIndexes[3]].gameObject.name;
+                                bodyTexts[3].SetModuleName(finalBody);
+                                var finalWeapon = weapons[weaponIndexes[3]].gameObject.name;
+                                weaponTexts[3].SetModuleName(finalWeapon);
+                                var finalDefensive = defensiveSkills[defensiveIndexes[3]].gameObject.name;
+                                defensiveTexts[3].SetModuleName(finalDefensive);
+                                var finalComplementary1 = complementarySkills[0][complementaryIndexes[3, 0]].gameObject.name;
+                                complementary1Texts[3].SetModuleName(finalComplementary1);
+                                var finalComplementary2 = complementarySkills[1][complementaryIndexes[3, 1]].gameObject.name;
+                                complementary2Texts[3].SetModuleName(finalComplementary2);
+
+                                DeactivateModuleTooltips(3);
+
+                                //Check if they're all ready
+                                var regPlayers = players.Where(a => a != default(Player)).ToArray();
+                                bool allReady = true;
+                                for (int f = 0; f < regPlayers.Length; f++)
+                                {
+                                    int playerIndex = System.Array.IndexOf(players, regPlayers[f]);
+                                    URLs[playerIndex].SaveJsonToDisk("Player " + (playerIndex + 1));
+                                    if (!ready[playerIndex]) allReady = false;
+                                }
+
+                                if (regPlayers.Length >= 2 && allReady)
+                                {
+                                    playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
+                                    if (playerInfo == null || playerInfo.fileRegVersion < RegisteredPlayers.latestRegVersion)
+                                    {
+                                        playerInfo = new RegisteredPlayers();
+                                        playerInfo.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
+                                        Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
+                                        StartCoroutine(StartGameCoroutine());
+                                    }
+                                    else
+                                    {
+                                        playerInfo.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
+                                        Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
+                                        StartCoroutine(StartGameCoroutine());
+                                    }
+
+                                    Debug.Log("MARTÍN HARDCODEE EL NOMBRE DE LA ESCENA EN EL CAMBIO DE ESCENAS PORQUE NO ME GUSTA TENER EL NUMERITO");
+                                    Debug.LogWarning("MARTÍN HARDCODEE EL NOMBRE DE LA ESCENA EN EL CAMBIO DE ESCENAS PORQUE NO ME GUSTA TENER EL NUMERITO");
+                                }
+                            }
+                        }
+                        if (Input.GetKeyDown(KeyCode.Escape) && Input.GetKey(KeyCode.F))
+                        {
+                            ready[3] = false;
+                            DeactivateModuleTooltips(3);
+
+                            if (Application.isEditor)
+                            {
+                                Cursor.visible = true;
+                                Cursor.lockState = CursorLockMode.None;
+                            }
+
+                            //readyScreens[3].gameObject.SetActive(false);
+                        }
+                    }
+                    #endregion
                 }
-                #endregion
+            }
+        }
+        else
+        {
+            if(Input.anyKeyDown)
+            {
+                splashScreen.SetActive(false);
             }
         }
     }

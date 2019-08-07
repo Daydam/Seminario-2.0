@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using Firepower.Events;
 using Firepower;
+using PhoenixDevelopment;
 
 public class DestructibleProp : DestructibleBase, IDamageable
 {

@@ -20,6 +20,6 @@ public class PPFX_EMPScramble : MonoBehaviour
 
     public void ActivatePostProcess(bool activation)
     {
-    	imageFX.SetFloat("_Activation", activation ? 1 : 0);
+        imageFX.SetFloat("_Activation", activation ? 1 : 0);
     }
 }

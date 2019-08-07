@@ -31,7 +31,7 @@ Shader "Drone_Body"
 
 	SubShader
 	{
-		Tags{ "RenderType" = "Opaque"  "Queue" = "Geometry+0" "IgnoreProjector" = "True" "IsEmissive" = "true"  "SkillStateColor"="Defensive" "BestPlayerMaterial"="true" "VertexCollapse"="true" }
+		Tags{ "RenderType" = "Opaque"  "Queue" = "Geometry+0" "IgnoreProjector" = "True" "IsEmissive" = "true"  "SkillStateColor"="Defensive" "BestPlayerMaterial"="true" "VertexCollapse"="true" "Wallhack"="DroneBody" }
 		Cull Back
 		CGINCLUDE
 		#include "UnityShaderVariables.cginc"
@@ -45,45 +45,53 @@ Shader "Drone_Body"
 			#undef WorldNormalVector
 			#define INTERNAL_DATA half3 internalSurfaceTtoW0; half3 internalSurfaceTtoW1; half3 internalSurfaceTtoW2;
 			#define WorldReflectionVector(data,normal) reflect (data.worldRefl, half3(dot(data.internalSurfaceTtoW0,normal), dot(data.internalSurfaceTtoW1,normal), dot(data.internalSurfaceTtoW2,normal)))
-			#define WorldNormalVector(data,normal) fixed3(dot(data.internalSurfaceTtoW0,normal), dot(data.internalSurfaceTtoW1,normal), dot(data.internalSurfaceTtoW2,normal))
+			#define WorldNormalVector(data,normal) half3(dot(data.internalSurfaceTtoW0,normal), dot(data.internalSurfaceTtoW1,normal), dot(data.internalSurfaceTtoW2,normal))
 		#endif
 		struct Input
 		{
-			float2 uv_texcoord;
 			float3 worldPos;
+			float2 uv_texcoord;
 			float3 viewDir;
 			INTERNAL_DATA
 		};
 
 		uniform sampler2D _NormalMap;
-		uniform float4 _NormalMap_ST;
 		uniform sampler2D _Albedo;
-		uniform float4 _Albedo_ST;
 		uniform sampler2D _PlayerColorTexture;
-		uniform float4 _PlayerColorTexture_ST;
 		uniform sampler2D _LifeRamp;
 		uniform sampler2D _LifeEmission;
-		uniform float4 _LifeEmission_ST;
 		uniform sampler2D _DefEmission;
-		uniform float4 _DefEmission_ST;
 		uniform float4 _SkillStateColor;
 		uniform float _ScanLinesAmount;
 		uniform float _Speed;
 		uniform sampler2D _TextureSample1;
 		uniform float _RimPower;
 		uniform sampler2D _Metallic;
-		uniform float4 _Metallic_ST;
 		uniform float _MetallicIntensity;
 		uniform sampler2D _Roughness;
-		uniform float4 _Roughness_ST;
 		uniform sampler2D _AmbientOcclusion;
-		uniform float4 _AmbientOcclusion_ST;
 
 		UNITY_INSTANCING_BUFFER_START(Drone_Body)
-			UNITY_DEFINE_INSTANCED_PROP(float3, _CollapsePosition)
-#define _CollapsePosition_arr Drone_Body
+			UNITY_DEFINE_INSTANCED_PROP(float4, _LifeEmission_ST)
+#define _LifeEmission_ST_arr Drone_Body
+			UNITY_DEFINE_INSTANCED_PROP(float4, _AmbientOcclusion_ST)
+#define _AmbientOcclusion_ST_arr Drone_Body
+			UNITY_DEFINE_INSTANCED_PROP(float4, _DefEmission_ST)
+#define _DefEmission_ST_arr Drone_Body
+			UNITY_DEFINE_INSTANCED_PROP(float4, _Metallic_ST)
+#define _Metallic_ST_arr Drone_Body
+			UNITY_DEFINE_INSTANCED_PROP(float4, _Roughness_ST)
+#define _Roughness_ST_arr Drone_Body
+			UNITY_DEFINE_INSTANCED_PROP(float4, _Albedo_ST)
+#define _Albedo_ST_arr Drone_Body
+			UNITY_DEFINE_INSTANCED_PROP(float4, _NormalMap_ST)
+#define _NormalMap_ST_arr Drone_Body
 			UNITY_DEFINE_INSTANCED_PROP(float4, _PlayerColor)
 #define _PlayerColor_arr Drone_Body
+			UNITY_DEFINE_INSTANCED_PROP(float4, _PlayerColorTexture_ST)
+#define _PlayerColorTexture_ST_arr Drone_Body
+			UNITY_DEFINE_INSTANCED_PROP(float3, _CollapsePosition)
+#define _CollapsePosition_arr Drone_Body
 			UNITY_DEFINE_INSTANCED_PROP(float, _Life)
 #define _Life_arr Drone_Body
 			UNITY_DEFINE_INSTANCED_PROP(float, _isBest)
@@ -104,11 +112,14 @@ Shader "Drone_Body"
 
 		void surf( Input i , inout SurfaceOutputStandard o )
 		{
-			float2 uv_NormalMap = i.uv_texcoord * _NormalMap_ST.xy + _NormalMap_ST.zw;
+			float4 _NormalMap_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(_NormalMap_ST_arr, _NormalMap_ST);
+			float2 uv_NormalMap = i.uv_texcoord * _NormalMap_ST_Instance.xy + _NormalMap_ST_Instance.zw;
 			o.Normal = UnpackNormal( tex2D( _NormalMap, uv_NormalMap ) );
-			float2 uv_Albedo = i.uv_texcoord * _Albedo_ST.xy + _Albedo_ST.zw;
+			float4 _Albedo_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(_Albedo_ST_arr, _Albedo_ST);
+			float2 uv_Albedo = i.uv_texcoord * _Albedo_ST_Instance.xy + _Albedo_ST_Instance.zw;
 			o.Albedo = tex2D( _Albedo, uv_Albedo ).rgb;
-			float2 uv_PlayerColorTexture = i.uv_texcoord * _PlayerColorTexture_ST.xy + _PlayerColorTexture_ST.zw;
+			float4 _PlayerColorTexture_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(_PlayerColorTexture_ST_arr, _PlayerColorTexture_ST);
+			float2 uv_PlayerColorTexture = i.uv_texcoord * _PlayerColorTexture_ST_Instance.xy + _PlayerColorTexture_ST_Instance.zw;
 			float4 _PlayerColor_Instance = UNITY_ACCESS_INSTANCED_PROP(_PlayerColor_arr, _PlayerColor);
 			float2 temp_cast_1 = (i.uv_texcoord.x).xx;
 			float _Life_Instance = UNITY_ACCESS_INSTANCED_PROP(_Life_arr, _Life);
@@ -141,22 +152,28 @@ Shader "Drone_Body"
 			// Flipbook UV
 			half2 fbuv28 = temp_cast_1 * fbtiling28 + fboffset28;
 			// *** END Flipbook UV Animation vars ***
-			float2 uv_LifeEmission = i.uv_texcoord * _LifeEmission_ST.xy + _LifeEmission_ST.zw;
-			float2 uv_DefEmission = i.uv_texcoord * _DefEmission_ST.xy + _DefEmission_ST.zw;
-			float lerpResult16_g25 = lerp( 1.0 , 0.0 , saturate( 0.0 ));
+			float4 _LifeEmission_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(_LifeEmission_ST_arr, _LifeEmission_ST);
+			float2 uv_LifeEmission = i.uv_texcoord * _LifeEmission_ST_Instance.xy + _LifeEmission_ST_Instance.zw;
+			float4 _DefEmission_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(_DefEmission_ST_arr, _DefEmission_ST);
+			float2 uv_DefEmission = i.uv_texcoord * _DefEmission_ST_Instance.xy + _DefEmission_ST_Instance.zw;
 			float3 ase_worldPos = i.worldPos;
 			float temp_output_14_0_g24 = _Speed;
+			float temp_output_11_0_g25 = sin( ( ( ( _ScanLinesAmount * ase_worldPos.y ) + (( 1.0 - ( temp_output_14_0_g24 * _Time ) )).y ) * ( 2.49 * UNITY_PI ) ) );
+			float lerpResult16_g25 = lerp( 1.0 , 0.0 , saturate( (0.54 + (temp_output_11_0_g25 - 0.0) * (0.42 - 0.54) / (1.0 - 0.0)) ));
 			float3 normalizeResult8_g26 = normalize( i.viewDir );
 			float dotResult10_g26 = dot( UnpackNormal( tex2D( _TextureSample1, ( ( ( temp_output_14_0_g24 / 50.0 ) * _Time ) + float4( i.uv_texcoord, 0.0 , 0.0 ) ).xy ) ) , normalizeResult8_g26 );
 			float _isBest_Instance = UNITY_ACCESS_INSTANCED_PROP(_isBest_arr, _isBest);
-			float temp_output_11_0_g24 = ( ( ( lerpResult16_g25 - sin( ( ( ( _ScanLinesAmount * ase_worldPos.y ) + (( 1.0 - ( temp_output_14_0_g24 * _Time ) )).y ) * ( 2.49 * UNITY_PI ) ) ) ) + pow( ( 1.0 - saturate( dotResult10_g26 ) ) , ( 9.24 - _RimPower ) ) ) * trunc( _isBest_Instance ) );
+			float temp_output_11_0_g24 = ( ( ( lerpResult16_g25 - temp_output_11_0_g25 ) + pow( ( 1.0 - saturate( dotResult10_g26 ) ) , ( 9.24 - _RimPower ) ) ) * trunc( _isBest_Instance ) );
 			float4 lerpResult59 = lerp( ( saturate( ( ( tex2D( _PlayerColorTexture, uv_PlayerColorTexture ) * _PlayerColor_Instance ) * 0.7 ) ) + ( ( ( tex2D( _LifeRamp, fbuv28 ) * tex2D( _LifeEmission, uv_LifeEmission ) ) + ( tex2D( _DefEmission, uv_DefEmission ) * _SkillStateColor ) ) * 5.0 ) ) , ( float4(1,0.9724138,0,0) * temp_output_11_0_g24 ) , saturate( temp_output_11_0_g24 ));
 			o.Emission = lerpResult59.rgb;
-			float2 uv_Metallic = i.uv_texcoord * _Metallic_ST.xy + _Metallic_ST.zw;
+			float4 _Metallic_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(_Metallic_ST_arr, _Metallic_ST);
+			float2 uv_Metallic = i.uv_texcoord * _Metallic_ST_Instance.xy + _Metallic_ST_Instance.zw;
 			o.Metallic = ( tex2D( _Metallic, uv_Metallic ) * _MetallicIntensity ).r;
-			float2 uv_Roughness = i.uv_texcoord * _Roughness_ST.xy + _Roughness_ST.zw;
+			float4 _Roughness_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(_Roughness_ST_arr, _Roughness_ST);
+			float2 uv_Roughness = i.uv_texcoord * _Roughness_ST_Instance.xy + _Roughness_ST_Instance.zw;
 			o.Smoothness = ( 1.0 - tex2D( _Roughness, uv_Roughness ) ).r;
-			float2 uv_AmbientOcclusion = i.uv_texcoord * _AmbientOcclusion_ST.xy + _AmbientOcclusion_ST.zw;
+			float4 _AmbientOcclusion_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(_AmbientOcclusion_ST_arr, _AmbientOcclusion_ST);
+			float2 uv_AmbientOcclusion = i.uv_texcoord * _AmbientOcclusion_ST_Instance.xy + _AmbientOcclusion_ST_Instance.zw;
 			o.Occlusion = tex2D( _AmbientOcclusion, uv_AmbientOcclusion ).r;
 			o.Alpha = 1;
 		}
@@ -179,7 +196,7 @@ Shader "Drone_Body"
 			#pragma multi_compile UNITY_PASS_SHADOWCASTER
 			#pragma skip_variants FOG_LINEAR FOG_EXP FOG_EXP2
 			#include "HLSLSupport.cginc"
-			#if ( SHADER_API_D3D11 || SHADER_API_GLCORE || SHADER_API_GLES3 || SHADER_API_METAL || SHADER_API_VULKAN )
+			#if ( SHADER_API_D3D11 || SHADER_API_GLCORE || SHADER_API_GLES || SHADER_API_GLES3 || SHADER_API_METAL || SHADER_API_VULKAN )
 				#define CAN_SKIP_VPOS
 			#endif
 			#include "UnityCG.cginc"
@@ -203,10 +220,10 @@ Shader "Drone_Body"
 				Input customInputData;
 				vertexDataFunc( v, customInputData );
 				float3 worldPos = mul( unity_ObjectToWorld, v.vertex ).xyz;
-				fixed3 worldNormal = UnityObjectToWorldNormal( v.normal );
-				fixed3 worldTangent = UnityObjectToWorldDir( v.tangent.xyz );
-				fixed tangentSign = v.tangent.w * unity_WorldTransformParams.w;
-				fixed3 worldBinormal = cross( worldNormal, worldTangent ) * tangentSign;
+				half3 worldNormal = UnityObjectToWorldNormal( v.normal );
+				half3 worldTangent = UnityObjectToWorldDir( v.tangent.xyz );
+				half tangentSign = v.tangent.w * unity_WorldTransformParams.w;
+				half3 worldBinormal = cross( worldNormal, worldTangent ) * tangentSign;
 				o.tSpace0 = float4( worldTangent.x, worldBinormal.x, worldNormal.x, worldPos.x );
 				o.tSpace1 = float4( worldTangent.y, worldBinormal.y, worldNormal.y, worldPos.y );
 				o.tSpace2 = float4( worldTangent.z, worldBinormal.z, worldNormal.z, worldPos.z );
@@ -215,7 +232,7 @@ Shader "Drone_Body"
 				TRANSFER_SHADOW_CASTER_NORMALOFFSET( o )
 				return o;
 			}
-			fixed4 frag( v2f IN
+			half4 frag( v2f IN
 			#if !defined( CAN_SKIP_VPOS )
 			, UNITY_VPOS_TYPE vpos : VPOS
 			#endif
@@ -226,7 +243,7 @@ Shader "Drone_Body"
 				UNITY_INITIALIZE_OUTPUT( Input, surfIN );
 				surfIN.uv_texcoord = IN.customPack1.xy;
 				float3 worldPos = float3( IN.tSpace0.w, IN.tSpace1.w, IN.tSpace2.w );
-				fixed3 worldViewDir = normalize( UnityWorldSpaceViewDir( worldPos ) );
+				half3 worldViewDir = normalize( UnityWorldSpaceViewDir( worldPos ) );
 				surfIN.viewDir = IN.tSpace0.xyz * worldViewDir.x + IN.tSpace1.xyz * worldViewDir.y + IN.tSpace2.xyz * worldViewDir.z;
 				surfIN.worldPos = worldPos;
 				surfIN.internalSurfaceTtoW0 = IN.tSpace0.xyz;
@@ -247,8 +264,8 @@ Shader "Drone_Body"
 	CustomEditor "ASEMaterialInspector"
 }
 /*ASEBEGIN
-Version=15301
-94;72;1091;606;1877.417;539.9504;2.37764;True;False
+Version=16700
+27;91;814;532;1548.114;451.9777;2.37764;True;False
 Node;AmplifyShaderEditor.RangedFloatNode;35;-2614.488,-458.1126;Float;False;InstancedProperty;_Life;Life;16;0;Create;True;0;0;False;0;0;1;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.TextureCoordinatesNode;36;-2112.075,-796.0167;Float;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.TFHCRemapNode;38;-2220.62,-528.2474;Float;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;3.8;False;4;FLOAT;0;False;1;FLOAT;0
@@ -256,9 +273,9 @@ Node;AmplifyShaderEditor.TFHCFlipBookUVAnimation;28;-1810.048,-622.0981;Float;Fa
 Node;AmplifyShaderEditor.SamplerNode;29;-1470.743,-646.7331;Float;True;Property;_LifeRamp;LifeRamp;10;0;Create;True;0;0;False;0;4d64ea565d9a404479a62e2bdadb63a6;4d64ea565d9a404479a62e2bdadb63a6;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SamplerNode;15;-2102.454,507.7737;Float;True;Property;_DefEmission;Def Emission;2;0;Create;True;0;0;False;0;None;ecb0650971a8e7a478dd39f312bb42be;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SamplerNode;3;-1691.199,-91.99553;Float;True;Property;_LifeEmission;Life Emission;1;0;Create;True;0;0;False;0;None;10e3522f15a131b449ee6e36c6709104;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;17;-2026.107,823.8917;Float;False;Property;_SkillStateColor;SkillStateColor;9;0;Create;True;0;0;False;0;0,1,1,0;0,1,1,1;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;17;-2026.107,823.8917;Float;False;Property;_SkillStateColor;SkillStateColor;9;0;Create;True;0;0;False;0;0,1,1,0;0,1,1,1;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SamplerNode;40;-1028.382,-775.0621;Float;True;Property;_PlayerColorTexture;PlayerColorTexture;3;0;Create;True;0;0;False;0;e4bd927386352c649bfd7f64c6869152;798bed6ff2228394fa0d1c78fa306457;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;41;-980.0304,-578.0621;Float;False;InstancedProperty;_PlayerColor;PlayerColor;17;0;Create;True;0;0;False;0;0,0,0,0;0,0,0,0;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;41;-980.0304,-578.0621;Float;False;InstancedProperty;_PlayerColor;PlayerColor;17;0;Create;True;0;0;False;0;0,0,0,0;0,0,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;39;-599.1735,-639.556;Float;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;13;-1191.844,-211.771;Float;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;46;-688.719,-417.0808;Float;False;Constant;_MultiplierEmission;MultiplierEmission;13;0;Create;True;0;0;False;0;0.7;0;0;0;0;1;FLOAT;0
@@ -286,7 +303,7 @@ Node;AmplifyShaderEditor.LerpOp;59;1776.105,439.7803;Float;False;3;0;COLOR;0,0,0
 Node;AmplifyShaderEditor.OneMinusNode;6;41.07049,276.9182;Float;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;70;-128.4911,133.9312;Float;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.FunctionNode;22;-83.3712,957.9627;Float;False;VertexCollapse;-1;;27;71a74875a0190c346ab880dd8b435206;0;2;17;FLOAT3;0,0,0;False;16;FLOAT3;0,0,0;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;2002.142,-565.7762;Float;False;True;2;Float;ASEMaterialInspector;0;0;Standard;Drone_Body;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;False;False;False;False;False;Back;0;False;-1;0;False;-1;False;0;0;False;2;Opaque;0.5;True;True;0;False;Opaque;;Geometry;All;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;0;False;-1;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;6;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;0;4;10;25;False;0.5;True;0;0;False;-1;0;False;-1;0;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;0;;-1;-1;-1;-1;0;3;SkillStateColor=Defensive;BestPlayerMaterial=true;VertexCollapse=true;0;False;0;0;0;False;-1;-1;0;False;-1;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
+Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;2002.142,-565.7762;Float;False;True;2;Float;ASEMaterialInspector;0;0;Standard;Drone_Body;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;False;False;False;False;False;False;Back;0;False;-1;0;False;-1;False;0;False;-1;0;False;-1;False;2;Opaque;0.5;True;True;0;False;Opaque;;Geometry;All;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;0;False;-1;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;6;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;0;4;10;25;False;0.5;True;0;0;False;-1;0;False;-1;0;0;False;-1;0;False;-1;1;False;-1;1;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;0;;-1;-1;-1;-1;4;SkillStateColor=Defensive;BestPlayerMaterial=true;VertexCollapse=true;Wallhack=DroneBody;False;0;0;False;-1;-1;0;False;-1;0;0;0;False;0.1;False;-1;0;False;-1;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
 WireConnection;38;0;35;0
 WireConnection;28;0;36;1
 WireConnection;28;4;38;0
@@ -326,4 +343,4 @@ WireConnection;0;4;6;0
 WireConnection;0;5;51;0
 WireConnection;0;11;22;0
 ASEEND*/
-//CHKSM=530B4AD3C7AAF022D012FCC362D48AB438AD082A
+//CHKSM=EDFFCD9EF6AD706E93781937C6A8C418FD9CEACE
