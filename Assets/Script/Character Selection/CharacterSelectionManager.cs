@@ -72,6 +72,14 @@ public class CharacterSelectionManager : MonoBehaviour
 
     RegisteredPlayers playerInfo;
 
+    Dictionary<string, string> descriptions;
+    bool[] showingHelp;
+    public Text[] descriptionText;
+    public float descriptionCamOffset = .035f;
+    public float offsetSpeed = 2.5f;
+    float[] offsetState;
+    public Camera[] cameras;
+
     void Start()
     {
         ready = new bool[4] { false, false, false, false };
@@ -143,6 +151,31 @@ public class CharacterSelectionManager : MonoBehaviour
         {
             currentGamePads[i] = GamePad.GetState((PlayerIndex)i);
         }
+
+        //Description Work
+        showingHelp = new bool[4];
+        offsetState = new float[4] { 0,0,0,0 };
+        descriptions = new Dictionary<string, string>()
+        {
+            { "Shotgun", "Short range, wide spread. Lacking precision? Get close and blast 'em all!" },
+            { "Magnum", "Not too fast, but very powerful. Ready, aim, destroy!" },
+            { "Assault Rifle", "Rapid-fire, long range. Unleash a maelstrom of bullets upon your enemies!" },
+            { "Repulsive Battery", "A powerful blow that pushes away nearby enemies. Move, bitch, get out da way!" },
+            { "Scrambler Bot", "This cute little spider will pursue your enemies and disable their guns and skills!" },
+            { "Plasma Wall", "Block the enemies with this wall, but be careful, it can be destroyed!" },
+            { "Dash", "Short movement burst. Dodge, hide, approach, destroy!" },
+            { "Blink", "Teleport a short distance away. Not even walls can stop you!" },
+            { "Stun Missile", "Stuns enemies on impact. Useful both for defense and offense!" },
+            { "Rocket Salvo", "Unleash a barrage of short-range missiles!" },
+            { "Rocket Launcher", "Does this really need any description? Hasta la vista, baby!" },
+            { "Implosive Charge", "Throw a black hole and attract nearby enemies!" },
+            { "Hook", "Get over here!" },
+            { "EMP Caltrop", "Leave a mine on the floor, and slow down anyone who comes near it!" },
+            { "SpiderMech", "Afraid of spiders? No? What about a mechanic, fully loaded one?" },
+            { "Fastdrone", "They see me rollin', they hatin'" },
+            { "Cardrone", "No, it's not a car. I don't even know why we named it that way" },
+            { "Beetledrone", "Because nothing beats the classics" },
+        };
     }
 
     void Update()
@@ -171,12 +204,16 @@ public class CharacterSelectionManager : MonoBehaviour
 
                         //Cambio Iván
                         SetVisibleModuleInfo(i);
+
+                        HelpCamPos(i);
                     }
                     lastAnalogValue[i] = JoystickInput.LeftAnalog(currentGamePads[i]);
 
 
                     if (JoystickInput.allKeys[JoystickKey.START](previousGamePads[i], currentGamePads[i]))
                     {
+                        if (showingHelp[i])
+                            ShowHelp(i);
                         ready[i] = !ready[i];
                         //readyScreens[i].gameObject.SetActive(ready[i]);
                         readyScreens[i].GetComponentInChildren<Text>().text = ready[i] ? "Player " + (i + 1) + " Ready" : "Player " + (i + 1);
@@ -551,6 +588,8 @@ public class CharacterSelectionManager : MonoBehaviour
 
     void SelectBody(int player)
     {
+        descriptionText[player].text = URLs[player].bodyURL + "\n\n" + descriptions[URLs[player].bodyURL];
+
         if (-0.3f < lastAnalogValue[player].x && lastAnalogValue[player].x < 0.3f)
         {
             if (JoystickInput.LeftAnalog(currentGamePads[player]).x >= 0.3f
@@ -640,10 +679,13 @@ public class CharacterSelectionManager : MonoBehaviour
         var finalComplementary2 = complementarySkills[1][complementaryIndexes[player, 1]].gameObject.name;
         complementary2Texts[player].SetModuleName(finalComplementary2);
 
+        if (JoystickInput.allKeys[JoystickKey.Y](previousGamePads[player], currentGamePads[player])) ShowHelp(player);
     }
 
     void SelectWeapon(int player)
     {
+        descriptionText[player].text = URLs[player].weaponURL + "\n\n" + descriptions[URLs[player].weaponURL];
+
         if (-0.3f < lastAnalogValue[player].x && lastAnalogValue[player].x < 0.3f)
         {
             if (JoystickInput.LeftAnalog(currentGamePads[player]).x >= 0.3f
@@ -713,10 +755,13 @@ public class CharacterSelectionManager : MonoBehaviour
         var finalComplementary2 = complementarySkills[1][complementaryIndexes[player, 1]].gameObject.name;
         complementary2Texts[player].SetModuleName(finalComplementary2);
 
+        if (JoystickInput.allKeys[JoystickKey.Y](previousGamePads[player], currentGamePads[player])) ShowHelp(player);
     }
 
     void SelectComplementary(int player, int compIndex)
     {
+        descriptionText[player].text = URLs[player].complementaryURL[compIndex] + "\n\n" + descriptions[URLs[player].complementaryURL[compIndex]];
+
         if (-0.3f < lastAnalogValue[player].x && lastAnalogValue[player].x < 0.3f)
         {
             if (JoystickInput.LeftAnalog(currentGamePads[player]).x >= 0.3f
@@ -807,10 +852,14 @@ public class CharacterSelectionManager : MonoBehaviour
             complementary1Texts[player].SetModuleName(finalComplementary1);
             complementary2Texts[player].SetModuleName(finalComplementary);
         }
+
+        if (JoystickInput.allKeys[JoystickKey.Y](previousGamePads[player], currentGamePads[player])) ShowHelp(player);
     }
 
     void SelectDefensive(int player)
     {
+        descriptionText[player].text = URLs[player].defensiveURL + "\n\n" + descriptions[URLs[player].defensiveURL];
+
         if (-0.3f < lastAnalogValue[player].x && lastAnalogValue[player].x < 0.3f)
         {
             if (JoystickInput.LeftAnalog(currentGamePads[player]).x >= 0.3f
@@ -879,6 +928,8 @@ public class CharacterSelectionManager : MonoBehaviour
         complementary1Texts[player].SetModuleName(finalComplementary1);
         var finalComplementary2 = complementarySkills[1][complementaryIndexes[player, 1]].gameObject.name;
         complementary2Texts[player].SetModuleName(finalComplementary2);
+
+        if (JoystickInput.allKeys[JoystickKey.Y](previousGamePads[player], currentGamePads[player])) ShowHelp(player);
     }
 
     void CancelPlayer(int player)
@@ -887,5 +938,36 @@ public class CharacterSelectionManager : MonoBehaviour
         players[player] = null;
         if (players.Where(a => a != null).ToArray().Length <= 0) startWhenReadyText.gameObject.SetActive(false);
         blackScreens[player].gameObject.SetActive(true);
+        if (showingHelp[player])
+            ShowHelp(player);
+    }
+
+    void ShowHelp(int player)
+    {
+        if(showingHelp[player])
+        {
+            descriptionText[player].transform.parent.gameObject.SetActive(false);
+        }
+        else
+        {
+            descriptionText[player].transform.parent.gameObject.SetActive(true);
+        }
+        showingHelp[player] = !showingHelp[player];
+    }
+
+    void HelpCamPos(int player)
+    {
+        if(showingHelp[player])
+        {
+            if (offsetState[player] < 1f)
+                offsetState[player] = Mathf.Min(1, offsetState[player] + Time.deltaTime * offsetSpeed);
+        }
+        else
+        {
+            if (offsetState[player] > 0f)
+                offsetState[player] = Mathf.Max(0, offsetState[player] - Time.deltaTime * offsetSpeed);
+        }
+
+        cameras[player].transform.localPosition = new Vector3(Mathf.Lerp(0, descriptionCamOffset, offsetState[player]), cameras[player].transform.localPosition.y, cameras[player].transform.localPosition.z);
     }
 }
