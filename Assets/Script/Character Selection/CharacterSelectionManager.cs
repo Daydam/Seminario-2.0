@@ -75,6 +75,7 @@ public class CharacterSelectionManager : MonoBehaviour
     Dictionary<string, string> descriptions;
     bool[] showingHelp;
     public Text[] descriptionText;
+    public GameObject[] pressYForInfo;
     public float descriptionCamOffset = .035f;
     public float offsetSpeed = 2.5f;
     float[] offsetState;
@@ -87,7 +88,7 @@ public class CharacterSelectionManager : MonoBehaviour
         players = new GameObject[4];
         URLs = new CharacterURLs[4];
 
-        #region Cambios Iván
+
         if (!Application.isEditor)
         {
             Cursor.visible = false;
@@ -112,7 +113,6 @@ public class CharacterSelectionManager : MonoBehaviour
 
             complementary2Texts[i] = new ModuleTooltip("Player " + (i + 1).ToString(), ModuleTooltip.ModuleType.Comp2);
         }
-        #endregion
 
         bodyIndexes = new int[4] { 0, 0, 0, 0 };
 
@@ -175,6 +175,8 @@ public class CharacterSelectionManager : MonoBehaviour
             { "Fastdrone", "They see me rollin', they hatin'" },
             { "Cardrone", "No, it's not a car. I don't even know why we named it that way" },
             { "Beetledrone", "Because nothing beats the classics" },
+            { "Quadro", "Four legs, a box for a head, one animation, all shit" },
+            { "Sphero", "Four legs, two watch batteries for a head, no animation, full shit" },
         };
     }
 
@@ -202,7 +204,6 @@ public class CharacterSelectionManager : MonoBehaviour
                         if (selectedModifier[i] == 3) SelectComplementary(i, 0);
                         if (selectedModifier[i] == 4) SelectComplementary(i, 1);
 
-                        //Cambio Iván
                         SetVisibleModuleInfo(i);
 
                         HelpCamPos(i);
@@ -215,6 +216,7 @@ public class CharacterSelectionManager : MonoBehaviour
                         if (showingHelp[i])
                             ShowHelp(i);
                         ready[i] = !ready[i];
+                        HelpOnStartPressed(i, ready[i]);
                         //readyScreens[i].gameObject.SetActive(ready[i]);
                         readyScreens[i].GetComponentInChildren<Text>().text = ready[i] ? "Player " + (i + 1) + " Ready" : "Player " + (i + 1);
                         if (ready[i])
@@ -359,7 +361,6 @@ public class CharacterSelectionManager : MonoBehaviour
         }
     }
 
-    #region Cambios Iván
     void SetVisibleModuleInfo(int playerIndex)
     {
         if (players[playerIndex] == null) return;
@@ -412,7 +413,6 @@ public class CharacterSelectionManager : MonoBehaviour
         }
 
     }
-    #endregion
 
     IEnumerator StartGameCoroutine()
     {
@@ -947,12 +947,19 @@ public class CharacterSelectionManager : MonoBehaviour
         if(showingHelp[player])
         {
             descriptionText[player].transform.parent.gameObject.SetActive(false);
+            pressYForInfo[player].gameObject.SetActive(true);
         }
         else
         {
             descriptionText[player].transform.parent.gameObject.SetActive(true);
+            pressYForInfo[player].gameObject.SetActive(false);
         }
         showingHelp[player] = !showingHelp[player];
+    }
+
+    void HelpOnStartPressed(int player, bool forceHelp)
+    {
+        pressYForInfo[player].gameObject.SetActive(!forceHelp);
     }
 
     void HelpCamPos(int player)
