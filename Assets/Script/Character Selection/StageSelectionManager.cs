@@ -66,7 +66,28 @@ public class StageSelectionManager : MonoBehaviour
             {
                 selectedIndex = selectedIndex - 1 < 0 ? stages.Length : selectedIndex - 1;
             }
+            if(JoystickInput.allKeys[JoystickKey.A](previousGamePad, currentGamePad))
+            {
+                StartCoroutine(StartGameCoroutine());
+            }
         }
+        #region KEYBOARD IMPLEMENTATION
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            selectedIndex = selectedIndex + 1 >= stages.Length ? 0 : selectedIndex + 1;
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            selectedIndex = selectedIndex - 1 < 0 ? stages.Length : selectedIndex - 1;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            selectedIndex = selectedIndex - 1 < 0 ? stages.Length : selectedIndex - 1;
+        }
+        #endregion
+
 
         for (int i = 0; i < stages.Length; i++)
         {

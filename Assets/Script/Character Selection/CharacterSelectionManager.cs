@@ -416,7 +416,7 @@ public class CharacterSelectionManager : MonoBehaviour
 
     IEnumerator StartGameCoroutine()
     {
-        var asyncOp = SceneManager.LoadSceneAsync("Stage_CrystalPyramid"/*playerInfo.stage*/, LoadSceneMode.Single);
+        var asyncOp = SceneManager.LoadSceneAsync("Stage selection", LoadSceneMode.Single);
         asyncOp.allowSceneActivation = true;
 
         while (asyncOp.progress <= .99f)
