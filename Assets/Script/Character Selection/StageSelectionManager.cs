@@ -84,7 +84,7 @@ public class StageSelectionManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            selectedIndex = selectedIndex - 1 < 0 ? stages.Length : selectedIndex - 1;
+            StartCoroutine(StartGameCoroutine());
         }
         #endregion
 
