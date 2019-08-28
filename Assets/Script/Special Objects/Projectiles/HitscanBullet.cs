@@ -18,6 +18,11 @@ public class HitscanBullet
         var dist = rch.distance;
         objDist = dist;
 
+
+        //if(col.gameObject.layer == 13 || col.gameObject.layer == 14 || col.gameObject.layer == 15)
+        
+
+
         var otherPlayerLayers = new int[] { LayerMask.NameToLayer("Player1"), LayerMask.NameToLayer("Player2"), LayerMask.NameToLayer("Player3"), LayerMask.NameToLayer("Player4") }
                                             .Where(x => x != player.gameObject.layer)
                                             .ToArray();
@@ -69,6 +74,10 @@ public class HitscanBullet
                     var damageable = col.GetComponent(typeof(IDamageable)) as IDamageable;
                     if (damageable != null) damageable.TakeDamage(appliableDamage);
 
+                    SimpleParticleSpawner.Instance.SpawnParticlesImpact(rch.point, Quaternion.LookRotation(rch.normal), 2.0f);
+
+                    EventManager.Instance.DispatchEvent("SpawnDust", new object[] { rch.normal });
+
                     var wall = col.GetComponent<RingWall>();
                     if (wall)
                     {
@@ -78,6 +87,8 @@ public class HitscanBullet
             }
             else
             {
+                SimpleParticleSpawner.Instance.SpawnParticlesImpact(rch.point, Quaternion.LookRotation(rch.normal), 2.0f);
+
                 objDist = dist;
                 Debug.DrawRay(origin, dir * objDist, Color.red, 3);
             }
