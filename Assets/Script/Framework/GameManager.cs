@@ -128,7 +128,17 @@ public class GameManager : MonoBehaviour
 
             CamFollow cam = allCams.Where(x => x.name == "Camera_P" + (i + 1)).First();
             allCams.Remove(cam);
-            cam.AssignTarget(player, player.GetCameraOffset());
+
+            if (player.ControlModule.playerType == PlayerControlModule.PlayerType.DRONE)
+            {
+                cam.AssignTarget(player, player.GetCameraOffset());
+            }
+            else
+            {
+                var castedControlModule = player.ControlModule as QuadrupedControlModule;
+                cam.AssignTarget(player, player.GetCameraOffset(), castedControlModule.HeadBone);
+            }
+
         }
 
         //disable cams that are not being used

@@ -26,6 +26,10 @@ public class CamFollow : MonoBehaviour
     RaycastHit _toFloorRay;
     DeathType _deathType = DeathType.COUNT;
 
+    #region Cambios Iván 27/8
+    Transform _targetTransform;
+    #endregion
+
     void Start()
     {
         _cam = GetComponent<Camera>();
@@ -43,23 +47,24 @@ public class CamFollow : MonoBehaviour
         running = true;
     }
 
-    public void AssignTarget(Player target, Transform camPos)
-    {
-        this.target = target;
-        transform.position = target.transform.position;
-        transform.forward = target.transform.forward;
-        targetSight = transform.forward;
-        positionOffset = camPos.transform.localPosition;
-        target.AssignCamera(this);
-        _playerDead = false;
-        running = true;
-    }
-
     public void AssignTarget(Player target, Vector3 camPos)
     {
         this.target = target;
         transform.position = target.transform.position;
         transform.forward = target.transform.forward;
+        targetSight = transform.forward;
+        positionOffset = camPos;
+        target.AssignCamera(this);
+        _playerDead = false;
+        running = true;
+    }
+
+    public void AssignTarget(Player target, Vector3 camPos, Transform transformTarget)
+    {
+        this.target = target;
+        transform.position = target.transform.position;
+        transform.forward = target.transform.forward;
+        _targetTransform = transformTarget;
         targetSight = transform.forward;
         positionOffset = camPos;
         target.AssignCamera(this);
@@ -97,7 +102,7 @@ public class CamFollow : MonoBehaviour
         if (running && target)
         {
             if (!_playerDead) CameraMovement();
-            else if(_cameraFallCoroutine == null)
+            else if (_cameraFallCoroutine == null)
             {
                 var laserGridDeath = _deathType == DeathType.LaserGrid;
                 _cameraFallCoroutine = laserGridDeath ? StartCoroutine(CameraFall()) : StartCoroutine(DeathCamDelay());
@@ -108,8 +113,19 @@ public class CamFollow : MonoBehaviour
     void CameraMovement()
     {
         transform.position = Vector3.Lerp(transform.position, target.transform.position + target.transform.right * positionOffset.x + target.transform.up * positionOffset.y + target.transform.forward * positionOffset.z, movementSpeed);
-        targetSight = Vector3.Lerp(targetSight, target.transform.position + target.transform.right * aimOffset.x + target.transform.up * aimOffset.y + target.transform.forward * aimOffset.z, aimSpeed);
-        transform.LookAt(targetSight);
+
+        var sightVkt = target.transform.position + target.transform.right * aimOffset.x + target.transform.up * aimOffset.y + target.transform.forward * aimOffset.z;
+        if (_targetTransform != null)
+        {
+            sightVkt = target.transform.position + _targetTransform.right * aimOffset.x + _targetTransform.up * aimOffset.y + _targetTransform.forward * aimOffset.z;
+            targetSight = Vector3.Lerp(targetSight, sightVkt, aimSpeed);
+            transform.LookAt(Quaternion.Euler(90, 0, 90) * targetSight);
+        }
+        else
+        {
+            targetSight = Vector3.Lerp(targetSight, sightVkt, aimSpeed);
+            transform.LookAt(targetSight);
+        }
     }
 
     IEnumerator CameraFall()
