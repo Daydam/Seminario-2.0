@@ -6,29 +6,27 @@ using System.Linq;
 public class QuadrupedControlModule : PlayerControlModule
 {
     public string boneName;
+    public string headName;
     Transform _headBone;
+    Transform _headMesh;
     Player _owner;
 
-    public Transform HeadBone
+    public Transform Head
     {
         get
         {
-            if (_headBone == null)
+            if (_headMesh == null)
             {
-                _headBone = GetComponentsInChildren<Transform>().Where(x => x.name == boneName).First();
+                _headMesh = GetComponentsInChildren<Transform>().Where(x => x.name == headName).First();
             }
-            return _headBone;
-        }
-
-        private set
-        {
-            _headBone = value;
+            return _headMesh;
         }
     }
 
     void Start()
     {
         _headBone = GetComponentsInChildren<Transform>().Where(x => x.name == boneName).First();
+        _headMesh = GetComponentsInChildren<Transform>().Where(x => x.name == headName).First();
         _owner = GetComponent<Player>();
     }
 

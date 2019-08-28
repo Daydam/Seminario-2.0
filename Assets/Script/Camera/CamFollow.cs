@@ -119,7 +119,7 @@ public class CamFollow : MonoBehaviour
         {
             sightVkt = target.transform.position + _targetTransform.right * aimOffset.x + _targetTransform.up * aimOffset.y + _targetTransform.forward * aimOffset.z;
             targetSight = Vector3.Lerp(targetSight, sightVkt, aimSpeed);
-            transform.LookAt(Quaternion.Euler(90, 0, 90) * targetSight);
+            transform.LookAt(/*Quaternion.Euler(90, 0, 90) * */targetSight);
         }
         else
         {
