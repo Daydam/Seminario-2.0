@@ -11,9 +11,6 @@ public class RomboidWall : DestructibleBase, IDamageable
     Animator _destructibleObj;
     GameObject[] _destroyedFragments;
 
-    //private Pool<GameObject> _poolDustParticle;
-    //private GameObject _dustParent;
-
     public int normalSpeedFrame = 20;
 
     public float maxHP = 5, normalAnimSpeed = .8f, slowAnimSpeed = .5f, fragmentMaxLifeTime = 10f, fragmentDisableDelay = 2f;
@@ -33,8 +30,6 @@ public class RomboidWall : DestructibleBase, IDamageable
 
     void Awake()
     {
-        //_dustParent = GameObject.Find("AllParticles_Dust_Wall_Destruction");
-        //_poolDustParticle = new Pool<GameObject>(10, Factory, TurnOnObject, TurnOffObject, true);
         _baseObj = transform.parent.Find("BaseObj").gameObject;
         _destructibleObj = transform.parent.GetComponentInChildren<Animator>(true);
         var transformNode = _destructibleObj.transform.Find("TRANSFORM_NODE");
@@ -79,7 +74,6 @@ public class RomboidWall : DestructibleBase, IDamageable
 
     protected override void Death()
     {
-        SimpleParticleSpawner.Instance.SpawnDust(SimpleParticleSpawner.ParticleID.DUST_WALL_DESTRUCTION, transform.position);
         _baseObj.SetActive(false);
         _destructibleObj.gameObject.SetActive(true);
         _destructibleObj.Play("Destroy");
@@ -127,22 +121,4 @@ public class RomboidWall : DestructibleBase, IDamageable
             yield return inst;
         }
     }
-
-    //Seguir después: Hacer andar el pool.
-    /*private GameObject Factory()
-    {
-        var go = Instantiate<GameObject>(SimpleParticleSpawner.Instance.GetParticleByID(SimpleParticleSpawner.ParticleID.DUST_WALL_DESTRUCTION));
-        go.transform.parent = _dustParent.transform;
-        return go;
-    }
-
-    private void TurnOnObject(GameObject go)
-    {
-        go.SetActive(true);
-    }
-
-    private void TurnOffObject(GameObject go)
-    {
-        go.SetActive(false);
-    }*/
 }
