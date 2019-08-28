@@ -240,6 +240,7 @@ GameObject:
   - component: {fileID: 2041210247128258284}
   - component: {fileID: 7918185284875839206}
   - component: {fileID: 6486891919491309466}
+  - component: {fileID: 706636455587427338}
   m_Layer: 0
   m_Name: Fastdrone
   m_TagString: Untagged
@@ -525,6 +526,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _offset: {x: 0, y: 2, z: -5}
+--- !u!114 &706636455587427338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785207140606284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57229ab534fb00d4183d6f404029d5f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1793874535216528
 GameObject:
   m_ObjectHideFlags: 0

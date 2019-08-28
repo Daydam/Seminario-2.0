@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PhoenixDevelopment;
 
 public class Player : MonoBehaviour, IDamageable
 {
@@ -41,6 +42,7 @@ public class Player : MonoBehaviour, IDamageable
     PlayerAnimations _animationController;
     PlayerLifeForcefield _lifeForcefield;
     PlayerCameraModule _camModule;
+    PlayerControlModule _controlModule;
     PlayerScoreController _scoreController;
     public PlayerScoreController ScoreController
     {
@@ -131,6 +133,19 @@ public class Player : MonoBehaviour, IDamageable
         }
     }
 
+    public PlayerControlModule ControlModule
+    {
+        get
+        {
+            return _controlModule;
+        }
+
+        private set
+        {
+            _controlModule = value;
+        }
+    }
+
     void Awake()
     {
         int playerID = GameManager.Instance.Register(this);
@@ -149,6 +164,7 @@ public class Player : MonoBehaviour, IDamageable
         _animationController = GetComponent<PlayerAnimations>();
         _lifeForcefield = GetComponentInChildren<PlayerLifeForcefield>();
         _camModule = GetComponentInChildren<PlayerCameraModule>();
+        _controlModule = GetComponent<PlayerControlModule>();
         _col = GetComponent<Collider>();
         weightModule = GetComponent<DroneWeightModule>();
     }
@@ -170,7 +186,8 @@ public class Player : MonoBehaviour, IDamageable
 
         if (!IsStunned && _control.RightAnalog() != Vector2.zero)
         {
-            transform.Rotate(transform.up, _control.RightAnalog().x * turningSpeed);
+            _controlModule.HandleRotation(transform.up, _control.RightAnalog().x * turningSpeed);
+            //transform.Rotate(transform.up, _control.RightAnalog().x * turningSpeed);
         }
     }
 

@@ -84,9 +84,11 @@ public class SK_Hook : ComplementarySkillBase
         {
             var targetPlayer = (Player)_hook.Target;
 
-            if (_owner.Weight > targetPlayer.Weight) HeavierWeightBehaviour(targetPlayer);
+            HeavierWeightBehaviour(targetPlayer);
+
+            /*if (_owner.Weight > targetPlayer.Weight) HeavierWeightBehaviour(targetPlayer);
             else if (_owner.Weight < targetPlayer.Weight) LighterWeightBehaviour(targetPlayer.gameObject);
-            else SameWeightBehaviour(targetPlayer);
+            else SameWeightBehaviour(targetPlayer);*/
         }
         else if (_hook.Target is DestructibleBase)
         {
