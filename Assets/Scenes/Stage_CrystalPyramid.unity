@@ -354,6 +354,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &84265486 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4863328862898650698, guid: 7ca25832ea902dd4898bb1ce73c54006,
+    type: 3}
+  m_PrefabInstance: {fileID: 4863328862225587636}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &89938946
 GameObject:
   m_ObjectHideFlags: 0
@@ -4160,6 +4166,30 @@ MonoBehaviour:
   - FavParams: 0
     FavString: []
     list:
+    - {fileID: 2097610641}
+    ActiveGameObject: {fileID: 2097610641}
+    GUIDsList: []
+    GUIDsActiveGameObject: 
+    PATHsList: []
+    PATHsActiveGameObject: 
+    InstanceID: 0
+    wasInit: 0
+    CashedBool: 0
+  - FavParams: 0
+    FavString: []
+    list:
+    - {fileID: 84265486}
+    ActiveGameObject: {fileID: 84265486}
+    GUIDsList: []
+    GUIDsActiveGameObject: 
+    PATHsList: []
+    PATHsActiveGameObject: 
+    InstanceID: 0
+    wasInit: 0
+    CashedBool: 0
+  - FavParams: 0
+    FavString: []
+    list:
     - {fileID: 515226237}
     - {fileID: 407890100}
     - {fileID: 606955342}
@@ -5121,6 +5151,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7081113446649467869}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2097610641 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 477201149492998036, guid: 7ca25832ea902dd4898bb1ce73c54006,
+    type: 3}
+  m_PrefabInstance: {fileID: 4863328862225587636}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2113045066
 GameObject:
   m_ObjectHideFlags: 0
@@ -5967,12 +6003,28 @@ PrefabInstance:
     - target: {fileID: 928512743741763564, guid: 7ca25832ea902dd4898bb1ce73c54006,
         type: 3}
       propertyPath: m_Lightmapping
-      value: 2
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1471634082, guid: 7ca25832ea902dd4898bb1ce73c54006, type: 3}
+      propertyPath: m_Animations.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1471634082, guid: 7ca25832ea902dd4898bb1ce73c54006, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1471634082, guid: 7ca25832ea902dd4898bb1ce73c54006, type: 3}
+      propertyPath: m_Animations.Array.data[1]
+      value: 
+      objectReference: {fileID: 7400000, guid: d8adcd43c23b10a47aa40fd0b68ebc9a, type: 2}
+    - target: {fileID: 1471634082, guid: 7ca25832ea902dd4898bb1ce73c54006, type: 3}
+      propertyPath: m_Animations.Array.data[2]
+      value: 
+      objectReference: {fileID: 7400000, guid: 5a6d70f1860d7fb48bb26b18d1fa6512, type: 2}
+    - target: {fileID: 1471634082, guid: 7ca25832ea902dd4898bb1ce73c54006, type: 3}
+      propertyPath: m_Animations.Array.data[3]
+      value: 
+      objectReference: {fileID: 7400000, guid: 6b7fd802f6de4b74a964dc8df6270532, type: 2}
     - target: {fileID: 6891684492720393965, guid: 7ca25832ea902dd4898bb1ce73c54006,
         type: 3}
       propertyPath: m_Lightmapping
