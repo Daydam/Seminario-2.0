@@ -136,7 +136,7 @@ public class GameManager : MonoBehaviour
             else
             {
                 var castedControlModule = player.ControlModule as QuadrupedControlModule;
-                cam.AssignTarget(player, player.GetCameraOffset(), castedControlModule.Head);
+                cam.AssignTarget(player, player.GetCameraOffset(), castedControlModule.HardcodeForCameraForward);
             }
 
         }

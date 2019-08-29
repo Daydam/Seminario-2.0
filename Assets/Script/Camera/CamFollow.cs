@@ -97,7 +97,7 @@ public class CamFollow : MonoBehaviour
         GetComponent<PPFX_RepulsionScreen>().ActivatePostProcess(activation, target.transform.position, radius, duration);
     }
 
-    void FixedUpdate()
+    void LateUpdate()
     {
         if (running && target)
         {
@@ -115,17 +115,19 @@ public class CamFollow : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, target.transform.position + target.transform.right * positionOffset.x + target.transform.up * positionOffset.y + target.transform.forward * positionOffset.z, movementSpeed);
 
         var sightVkt = target.transform.position + target.transform.right * aimOffset.x + target.transform.up * aimOffset.y + target.transform.forward * aimOffset.z;
-        if (_targetTransform != null)
+        /*if (_targetTransform != null)
         {
             sightVkt = target.transform.position + _targetTransform.right * aimOffset.x + _targetTransform.up * aimOffset.y + _targetTransform.forward * aimOffset.z;
             targetSight = Vector3.Lerp(targetSight, sightVkt, aimSpeed);
-            transform.LookAt(/*Quaternion.Euler(90, 0, 90) * */targetSight);
         }
         else
         {
             targetSight = Vector3.Lerp(targetSight, sightVkt, aimSpeed);
             transform.LookAt(targetSight);
-        }
+        }*/
+
+        targetSight = Vector3.Lerp(targetSight, sightVkt, aimSpeed);
+        transform.LookAt(targetSight);
     }
 
     IEnumerator CameraFall()
