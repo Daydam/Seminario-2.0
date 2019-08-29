@@ -70,6 +70,10 @@ public class HitscanBullet
                     var damageable = col.GetComponent(typeof(IDamageable)) as IDamageable;
                     if (damageable != null) damageable.TakeDamage(appliableDamage);
 
+                    SimpleParticleSpawner.Instance.SpawnParticlesImpact(rch.point, Quaternion.LookRotation(rch.normal), 2.0f);
+
+                    EventManager.Instance.DispatchEvent("SpawnDust", new object[] { rch.normal });
+
                     var wall = col.GetComponent<RingWall>();
                     if (wall)
                     {
