@@ -7,7 +7,10 @@ public class CrystalPyramidStage : StageBase
 {
     public LaserPyramid pyramid;
     public CrystalRomboid[] crystalRomboids;
-    int _actualIndex = 0;
+    public Animator centerLight;
+    int _actualIndex;
+    public float dangerTime = 15f;
+    public float fallTime = 10f;
 
     void Start()
     {
@@ -18,16 +21,16 @@ public class CrystalPyramidStage : StageBase
 
     public void StartPyramidShrinkage()
     {
-        StartCoroutine(TestMugriento());
+        StartCoroutine(StageMutationCoroutine());
     }
 
-    IEnumerator TestMugriento()
+    IEnumerator StageMutationCoroutine()
     {
         while (_actualIndex < crystalRomboids.Length - 1)
         {
-            yield return new WaitForSeconds(15);
+            yield return new WaitForSeconds(dangerTime);
             SetRomboidDanger();
-            yield return new WaitForSeconds(10);
+            yield return new WaitForSeconds(fallTime);
             RomboidFall();
         }
     }
@@ -36,6 +39,8 @@ public class CrystalPyramidStage : StageBase
     {
         if (_actualIndex >= crystalRomboids.Length) return;
         crystalRomboids[_actualIndex].SetDanger();
+        centerLight.SetTrigger("StartFall");
+
     }
 
     public void RomboidFall()
@@ -44,6 +49,8 @@ public class CrystalPyramidStage : StageBase
         pyramid.OnFall(_actualIndex);
         crystalRomboids[_actualIndex].RomboidFall();
         _actualIndex++;
+        centerLight.SetTrigger("EndFall");
+
     }
 
 
