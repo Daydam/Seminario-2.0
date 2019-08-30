@@ -39,6 +39,7 @@ public class SimpleParticleSpawner : MonoBehaviour
     }
 
     public GameObject parentStoneImpact;
+    public GameObject parentDustDestruction;
     public GameObject[] particles;
 
     public struct ParticleID
@@ -58,22 +59,31 @@ public class SimpleParticleSpawner : MonoBehaviour
     #region Particles Pool
 
     private Pool<GameObject> _poolHitStone;
+    private Pool<GameObject> _poolDustDestruction;
     private Quaternion _dir;
 
     private List<LifeParticleController> _activeHitStoneParticles;
+    private List<LifeParticleController> _activeDustDestruction;
     private float _timer;
     private bool _destroyHitStone;
 
     private void Awake()
     {
-        _activeHitStoneParticles = new List<LifeParticleController>();
-        _poolHitStone = new Pool<GameObject>(30, Factory, TurnOnObject, TurnOffObject, true);
+        _poolHitStone = new Pool<GameObject>(30, FactoryHitStone, TurnOnObject, TurnOffObject, true);
+        _poolDustDestruction = new Pool<GameObject>(10, FactoryDustDestrcution, TurnOnObject, TurnOffObject, true);
     }
 
-    private GameObject Factory()
+    private GameObject FactoryHitStone()
     {
         var go = Instantiate<GameObject>(GetParticleByID(ParticleID.BULLET_STONE_IMPACT));
         go.transform.parent = parentStoneImpact.transform;
+        return go;
+    }
+
+    private GameObject FactoryDustDestrcution()
+    {
+        var go = Instantiate<GameObject>(GetParticleByID(ParticleID.DUST_WALL_DESTRUCTION));
+        go.transform.parent = parentDustDestruction.transform;
         return go;
     }
 
@@ -91,6 +101,9 @@ public class SimpleParticleSpawner : MonoBehaviour
 
     void Start()
     {
+        _activeHitStoneParticles = new List<LifeParticleController>();
+        _activeDustDestruction = new List<LifeParticleController>();
+
         GameManager.Instance.OnResetRound += ResetRound;
         GameManager.Instance.OnChangeScene += ResetRound;
 
@@ -177,21 +190,25 @@ public class SimpleParticleSpawner : MonoBehaviour
         _dir = Quaternion.LookRotation(dir);
     }
 
-    public void SpawnDust(int part, Vector3 pos)
+    public void SpawnDust(Vector3 pos, float lifeTime)
     {
-        var particle = Instantiate(particles[part], pos, _dir);
-        particle.SetActive(true);
+        var p = _poolDustDestruction.GetObjectFromPool();
+        p.transform.position = pos;
+        p.transform.rotation = _dir;
+
+        var lifeController = p.GetComponent<LifeParticleController>();
+        lifeController.lifeTime = lifeTime;
+
+        _activeDustDestruction.Add(lifeController);
     }
 
     public void SpawnParticlesImpact(Vector3 pos, Quaternion dir, float lifeTime)
     {
         var go = _poolHitStone.GetObjectFromPool();
-        go.transform.parent = parentStoneImpact.transform;
         go.transform.position = pos;
         go.transform.rotation = dir;
 
         var lifeController = go.GetComponent<LifeParticleController>();
-
         lifeController.lifeTime = lifeTime;
 
         _activeHitStoneParticles.Add(lifeController);
@@ -199,12 +216,26 @@ public class SimpleParticleSpawner : MonoBehaviour
 
     private void Update()
     {
+        CheckParticles();
+    }
+
+    private void CheckParticles()
+    {
         for (int i = 0; i < _activeHitStoneParticles.Count; i++)
         {
-            if(_activeHitStoneParticles[i].backToPool)
+            if (_activeHitStoneParticles[i].backToPool)
             {
                 _poolHitStone.DisablePoolObject(_activeHitStoneParticles[i].gameObject);
                 _activeHitStoneParticles.RemoveAt(i);
+            }
+        }
+
+        for (int i = 0; i < _activeDustDestruction.Count; i++)
+        {
+            if (_activeDustDestruction[i].backToPool)
+            {
+                _poolDustDestruction.DisablePoolObject(_activeDustDestruction[i].gameObject);
+                _activeDustDestruction.RemoveAt(i);
             }
         }
     }

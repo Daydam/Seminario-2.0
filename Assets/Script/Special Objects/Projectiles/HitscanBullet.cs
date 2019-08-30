@@ -83,6 +83,8 @@ public class HitscanBullet
             }
             else
             {
+                SimpleParticleSpawner.Instance.SpawnParticlesImpact(rch.point, Quaternion.LookRotation(rch.normal), 2.0f);
+
                 objDist = dist;
                 Debug.DrawRay(origin, dir * objDist, Color.red, 3);
             }

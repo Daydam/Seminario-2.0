@@ -74,6 +74,7 @@ public class RomboidWall : DestructibleBase, IDamageable
 
     protected override void Death()
     {
+        SimpleParticleSpawner.Instance.SpawnDust(transform.position, 2.0f);
         _baseObj.SetActive(false);
         _destructibleObj.gameObject.SetActive(true);
         _destructibleObj.Play("Destroy");
