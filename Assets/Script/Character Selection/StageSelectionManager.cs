@@ -36,7 +36,7 @@ public class StageSelectionManager : MonoBehaviour
             slotTexts[i].rectTransform.position = new Vector3(Camera.main.pixelWidth/2 + stageSpacing/2 + stageSpacing * (Mathf.Ceil(-stages.Length / 2f) + i), slotTexts[i].rectTransform.position.y, slotTexts[i].rectTransform.position.z);
             slotTexts[i].gameObject.SetActive(true);
             slotTexts[i].text = "<b>" + stages[i].name + "</b> \n\n" + stages[i].description;
-            slotTexts[i].GetComponentInChildren<Image>().material.mainTexture = stages[i].stageImage;
+            slotTexts[i].GetComponentInChildren<Image>().sprite = stages[i].stageImage;
         }
         
         playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");

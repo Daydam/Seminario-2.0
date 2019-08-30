@@ -7,6 +7,6 @@ using UnityEngine.SceneManagement;
 public class SO_StageSelect : ScriptableObject
 {
     public string description;
-    public Texture2D stageImage;
+    public Sprite stageImage;
     public Scene stageScene;
 }
