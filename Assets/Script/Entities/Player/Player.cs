@@ -549,12 +549,12 @@ public class Player : MonoBehaviour, IDamageable
         lastDir = Vector3.zero;
     }
 
-    public void ApplyDisarm(float duration)
+    public void ApplyDisarm(float duration, bool scrambleScreen)
     {
         if (_invulnerable) return;
 
         _soundModule.PlayDisarmSound();
-        StartCoroutine(ExecuteDisarm(duration));
+        StartCoroutine(ExecuteDisarm(duration, scrambleScreen));
     }
 
     public void ApplyCastState(float duration)
@@ -622,15 +622,15 @@ public class Player : MonoBehaviour, IDamageable
         KnockbackMultiplier = oldMulti;
     }
 
-    IEnumerator ExecuteDisarm(float duration)
+    IEnumerator ExecuteDisarm(float duration, bool scrambleScreen)
     {
         _isDisarmed = true;
-        _cam.OnPlayerDisarm(_isDisarmed);
+        if (scrambleScreen) _cam.OnPlayerDisarm(_isDisarmed);
 
         yield return new WaitForSeconds(duration);
 
         _isDisarmed = false;
-        _cam.OnPlayerDisarm(_isDisarmed);
+        if (scrambleScreen) _cam.OnPlayerDisarm(_isDisarmed);
     }
 
     IEnumerator ExecuteCastTime(float duration)

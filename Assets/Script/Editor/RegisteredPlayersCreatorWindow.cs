@@ -54,7 +54,7 @@ public class RegisteredPlayersCreatorWindow : EditorWindow
                 allStages = allStages.Where(a => a.Split('_')[0] == "Stage").Select(a => a.Split('_')[1]).ToArray();
 
                 currentModeIndex = Mathf.Max(System.Array.IndexOf(allModes, reg.gameMode), 0);
-                currentStageIndex = Mathf.Max(System.Array.IndexOf(allStages, reg.stage.Split('_')[1]), 0);
+                //currentStageIndex = Mathf.Max(System.Array.IndexOf(allStages, reg.stage.Split('_')[1]), 0);
             }
         }
 
@@ -122,7 +122,8 @@ public class RegisteredPlayersCreatorWindow : EditorWindow
                 reg.playerControllers[i] = regPlayers[i];
             }
             reg.gameMode = allModes[currentModeIndex];
-            reg.stage = "Stage_" + allStages[currentStageIndex];
+            //Fix
+            //reg.stage = "Stage_" + allStages[currentStageIndex];
 
             Serializacion.SaveJsonToDisk(reg, "Registered Players");
         }

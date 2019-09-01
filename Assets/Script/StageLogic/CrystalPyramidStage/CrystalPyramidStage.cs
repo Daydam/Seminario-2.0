@@ -7,6 +7,7 @@ public class CrystalPyramidStage : StageBase
 {
     public LaserPyramid pyramid;
     public CrystalRomboid[] crystalRomboids;
+
     public Animator centerLight;
     int _actualIndex;
     public float dangerTime = 15f;
@@ -68,5 +69,8 @@ public class CrystalPyramidStage : StageBase
         _actualIndex = 0;
 
         Invoke("StartPyramidShrinkage", 3);
+        centerLight.ResetTrigger("StartFall");
+        centerLight.ResetTrigger("EndFall");
+        centerLight.CrossFadeInFixedTime("Normal", .1f);
     }
 }

@@ -33,15 +33,15 @@ public class StageSelectionManager : MonoBehaviour
         {
             slotTexts[i] = Instantiate(templateSlot, templateSlot.transform.parent).GetComponent<Text>();
             //Pos = -half + index+1
-            slotTexts[i].rectTransform.position = new Vector3(Camera.main.pixelWidth/2 + stageSpacing/2 + stageSpacing * (Mathf.Ceil(-stages.Length / 2f) + i), slotTexts[i].rectTransform.position.y, slotTexts[i].rectTransform.position.z);
+            slotTexts[i].rectTransform.position = new Vector3(Camera.main.pixelWidth / 2 + stageSpacing / 2 + stageSpacing * (Mathf.Ceil(-stages.Length / 2f) + i), slotTexts[i].rectTransform.position.y, slotTexts[i].rectTransform.position.z);
             slotTexts[i].gameObject.SetActive(true);
             slotTexts[i].text = "<b>" + stages[i].name + "</b> \n\n" + stages[i].description;
             slotTexts[i].GetComponentInChildren<Image>().sprite = stages[i].stageImage;
         }
-        
+
         playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
         selector = playerInfo.playerControllers[Random.Range(0, playerInfo.playerControllers.Length - 1)];
-        titleText.text = "Player <b>" + (selector+1) + "</b>, please select a stage";
+        titleText.text = "Player <b>" + (selector + 1) + "</b>, please select a stage";
 
         lastAnalogValue = Vector2.zero;
         currentGamePad = new GamePadState();
@@ -64,10 +64,13 @@ public class StageSelectionManager : MonoBehaviour
             if (JoystickInput.LeftAnalog(currentGamePad).x <= -0.3f
             || JoystickInput.allKeys[JoystickKey.DPAD_LEFT](previousGamePad, currentGamePad))
             {
-                selectedIndex = selectedIndex - 1 < 0 ? stages.Length : selectedIndex - 1;
+                selectedIndex = selectedIndex - 1 < 0 ? stages.Length-1 : selectedIndex - 1;
             }
-            if(JoystickInput.allKeys[JoystickKey.A](previousGamePad, currentGamePad))
+            if (JoystickInput.allKeys[JoystickKey.A](previousGamePad, currentGamePad))
             {
+                playerInfo.stage = stages[selectedIndex].stageScene.handle;
+                print(playerInfo.stage);
+                Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
                 StartCoroutine(StartGameCoroutine());
             }
         }

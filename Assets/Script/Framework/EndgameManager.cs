@@ -21,6 +21,8 @@ public class EndgameManager : MonoBehaviour
     public Color backToMenuColor;
     public Color notReadyColor;
 
+    RegisteredPlayers playerInfo;
+
     public string replaceStringName;
     public string replaceStringScore;
 
@@ -47,6 +49,8 @@ public class EndgameManager : MonoBehaviour
 
     void Start()
     {
+        playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
+
         LoadPlayers();
         ApplyTexts();
         ActivateCamera(true);
@@ -278,13 +282,14 @@ public class EndgameManager : MonoBehaviour
 
         if (ResetGame())
         {
+
             _inputsAllowed = false;
-            StartLoading("RingsStage");
+            StartLoading(playerInfo.stage);
         }
         else if (BackToMenu())
         {
             _inputsAllowed = false;
-            StartLoading("Character Selection");
+            StartLoading(0);
         }
     }
 
@@ -312,12 +317,12 @@ public class EndgameManager : MonoBehaviour
         Application.Quit();
     }
 
-    void StartLoading(string sceneName)
+    void StartLoading(int sceneName)
     {
         StartCoroutine(LoadSceneCoroutine(sceneName));
     }
 
-    IEnumerator LoadSceneCoroutine(string sceneName)
+    IEnumerator LoadSceneCoroutine(int sceneName)
     {
         var asyncOp = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
         asyncOp.allowSceneActivation = true;

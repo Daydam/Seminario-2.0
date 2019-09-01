@@ -80,7 +80,7 @@ public class SK_RocketSalvo : ComplementarySkillBase
     {
         ApplyEffectArea();
 
-        _owner.ApplyDisarm(skillData.duration);
+        _owner.ApplyDisarm(skillData.duration, false);
 
         StartCoroutine(FireRockets());
     }

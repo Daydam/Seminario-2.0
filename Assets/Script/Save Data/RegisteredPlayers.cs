@@ -10,12 +10,12 @@ public class RegisteredPlayers
     public int[] playerControllers;
     public PlayerStats[] playerStats;
     public string gameMode;
-    public string stage;
+    public int stage;
 
     public RegisteredPlayers()
     {
         fileRegVersion = latestRegVersion;
         gameMode = "Standard";
-        stage = "Stage_RingsStage";
+        stage = 3;
     }
 }
