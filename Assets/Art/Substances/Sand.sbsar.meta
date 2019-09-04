@@ -1,16 +1,16 @@
 fileFormatVersion: 2
-guid: ba111d5e6cefed3488435fbf554493e3
+guid: 916c2f58472e4d74390f0e72114cd42e
 ScriptedImporter:
   fileIDToRecycleName:
-    2100002: HieroglyphicsCracked
-    2800010: HieroglyphicsCracked - baseColor
-    2800012: HieroglyphicsCracked - normal
-    2800014: HieroglyphicsCracked - metallic
-    2800016: HieroglyphicsCracked - height
-    2800018: HieroglyphicsCracked - height
+    2100000: Sand
+    2800000: Sand - baseColor
+    2800002: Sand - normal
+    2800004: Sand - metallic
+    2800006: Sand - height
+    2800008: Sand - ambientOcclusion
+    2800010: Sand - emissive
     11400000: sbsar
     11400002: graph0
-    2186277476908879412: ImportLogs
   externalObjects: {}
   userData: 
   assetBundleName: 
@@ -18,14 +18,14 @@ ScriptedImporter:
   script: {fileID: 232528478, guid: 43a8bbf65be290d44ba52b94476242b9, type: 3}
   version: 17
   mGraphInstanceData:
-  - graphLabel: HieroglyphicsCracked
-    prototypeName: Hieroglyphics
+  - graphLabel: Sand
+    prototypeName: Sand
     graphDescIndex: 0
     generateAllOutputs: 0
     generateMipMaps: 1
-    preset: " <sbspreset pkgurl=\"pkg://Hieroglyphics\" label=\"\" >\n </sbspreset>\n"
+    preset: " <sbspreset pkgurl=\"pkg://Sand\" label=\"\" >\n </sbspreset>\n"
     shaderName: Standard
-    outputNames: baseColor,normal,metallic,height,height
+    outputNames: baseColor,normal,metallic,height,ambientOcclusion,emissive
     texturePackingList:
     - outputName: baseColor
       alphaSource: baseColor
@@ -37,46 +37,36 @@ ScriptedImporter:
       alphaSource: smoothness
     - outputName: height
       alphaSource: height
-    - outputName: height
-      alphaSource: height
+    - outputName: ambientOcclusion
+      alphaSource: ambientOcclusion
+    - outputName: emissive
+      alphaSource: emissive
     textureParameters:
-    - textureName: Hieroglyphics - roughness
+    - textureName: Sand - roughness
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: Hieroglyphics - baseColor
+    - textureName: Sand - baseColor
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: Hieroglyphics - normal
+    - textureName: Sand - normal
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: Hieroglyphics - metallic
+    - textureName: Sand - metallic
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: Hieroglyphics - height
+    - textureName: Sand - height
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: HieroglyphicsCracked - roughness
+    - textureName: Sand - ambientOcclusion
       wrapMode: 0
       filterMode: 1
       aniso: 1
-    - textureName: HieroglyphicsCracked - baseColor
-      wrapMode: 0
-      filterMode: 1
-      aniso: 1
-    - textureName: HieroglyphicsCracked - normal
-      wrapMode: 0
-      filterMode: 1
-      aniso: 1
-    - textureName: HieroglyphicsCracked - metallic
-      wrapMode: 0
-      filterMode: 1
-      aniso: 1
-    - textureName: HieroglyphicsCracked - height
+    - textureName: Sand - emissive
       wrapMode: 0
       filterMode: 1
       aniso: 1
@@ -91,15 +81,17 @@ ScriptedImporter:
       bLinear: 1
     - outputName: height
       bLinear: 1
-    - outputName: height
+    - outputName: ambientOcclusion
       bLinear: 1
+    - outputName: emissive
+      bLinear: 0
     inputTextureMap: []
     targetSettingList:
     - label: 
       bLockRatio: 1
-      textureWidth: 1024
-      textureHeight: 1024
+      textureWidth: 2048
+      textureHeight: 2048
       textureFormat: 0
       bGenerateOnLoad: 1
-    material: {fileID: 2100002, guid: ba111d5e6cefed3488435fbf554493e3, type: 3}
+    material: {fileID: 2100000, guid: 916c2f58472e4d74390f0e72114cd42e, type: 3}
     generatedTextures: []
