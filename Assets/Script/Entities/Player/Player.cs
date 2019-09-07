@@ -375,6 +375,7 @@ public class Player : MonoBehaviour, IDamageable
         finalDir.y = Mathf.Lerp(lastDir.y, finalDir.y, animInertiaFactor);
 
         AnimationController.SetMovementDir(finalDir);
+        _controlModule.HandleMovement(finalDir);
 
         //_soundModule.SetEnginePitch((control.LeftAnalog().y + control.LeftAnalog().x)/2 * movementSpeed * MovementMultiplier);
         lastMovement = newMovement;
