@@ -10,6 +10,8 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
     float _currentCooldown;
     bool _skillActive, _canTap = true;
 
+    readonly float _debugMaxTimeOfCast = 2f;
+
     DMM_ImplosiveCharge _charge;
 
     protected override void InitializeUseCondition()
@@ -80,6 +82,8 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
         player.CancelForces();
         var endCast = false;
 
+        var debugTime = 0f;
+
         player.ApplyStun(() => endCast);
 
         var startPoint = player.transform.position;
@@ -96,6 +100,15 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
             player.GetRigidbody.MovePosition(nextPos);
 
             yield return new WaitForFixedUpdate();
+
+            debugTime += Time.fixedDeltaTime;
+            if (debugTime >= _debugMaxTimeOfCast)
+            {
+                endCast = true;
+                _skillActive = false;
+                _canTap = false;
+                yield break;
+            }
         }
 
         endCast = true;

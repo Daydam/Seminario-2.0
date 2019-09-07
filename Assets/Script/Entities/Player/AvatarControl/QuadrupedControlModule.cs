@@ -57,8 +57,9 @@ public class QuadrupedControlModule : PlayerControlModule
         _headBone.Rotate(fixedDirection, angle);
     }
 
-    public override void HandleMovement(Vector3 axis, float angle)
+    public override void HandleMovement(Vector2 vel)
     {
-        //CUANDO SE ME CANTE EL OJETE LO HAGO
+        _owner.AnimationController.SetMovement(vel != Vector2.zero);
     }
 }
+

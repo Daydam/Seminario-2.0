@@ -10,7 +10,7 @@ public class DroneControlModule : PlayerControlModule
         transform.Rotate(axis, angle);
     }
 
-    public override void HandleMovement(Vector3 axis, float angle)
+    public override void HandleMovement(Vector2 vel)
     {
         //CUANDO SE ME CANTE EL OJETE LO HAGO v2
     }

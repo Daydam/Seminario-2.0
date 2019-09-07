@@ -7,6 +7,8 @@ using PhoenixDevelopment;
 
 public class Player : MonoBehaviour, IDamageable
 {
+    #region VARIABLES
+
     public float turningSpeed;
 
     public DroneWeightModule weightModule;
@@ -146,6 +148,19 @@ public class Player : MonoBehaviour, IDamageable
         }
     }
 
+    public PlayerAnimations AnimationController
+    {
+        get
+        {
+            return _animationController;
+        }
+
+        set
+        {
+            _animationController = value;
+        }
+    }
+    #endregion
     void Awake()
     {
         int playerID = GameManager.Instance.Register(this);
@@ -161,7 +176,7 @@ public class Player : MonoBehaviour, IDamageable
 
         ScoreController = GetComponent<PlayerScoreController>();
         _soundModule = GetComponent<DroneSoundController>();
-        _animationController = GetComponent<PlayerAnimations>();
+        AnimationController = GetComponent<PlayerAnimations>();
         _lifeForcefield = GetComponentInChildren<PlayerLifeForcefield>();
         _camModule = GetComponentInChildren<PlayerCameraModule>();
         _controlModule = GetComponent<PlayerControlModule>();
@@ -187,7 +202,6 @@ public class Player : MonoBehaviour, IDamageable
         if (!IsStunned && _control.RightAnalog() != Vector2.zero)
         {
             _controlModule.HandleRotation(transform.up, _control.RightAnalog().x * turningSpeed);
-            //transform.Rotate(transform.up, _control.RightAnalog().x * turningSpeed);
         }
     }
 
@@ -360,7 +374,7 @@ public class Player : MonoBehaviour, IDamageable
         finalDir.x = Mathf.Lerp(lastDir.x, finalDir.x, animInertiaFactor);
         finalDir.y = Mathf.Lerp(lastDir.y, finalDir.y, animInertiaFactor);
 
-        _animationController.SetMovementDir(finalDir);
+        AnimationController.SetMovementDir(finalDir);
 
         //_soundModule.SetEnginePitch((control.LeftAnalog().y + control.LeftAnalog().x)/2 * movementSpeed * MovementMultiplier);
         lastMovement = newMovement;

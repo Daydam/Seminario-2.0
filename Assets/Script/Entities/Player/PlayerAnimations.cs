@@ -23,4 +23,9 @@ public class PlayerAnimations : MonoBehaviour
         _an.SetFloat("Front", dir.y);
         _an.SetFloat("Sides", dir.x);
     }
+
+    public void SetMovement(bool activation)
+    {
+        _an.SetBool("moving", activation);
+    }
 }
