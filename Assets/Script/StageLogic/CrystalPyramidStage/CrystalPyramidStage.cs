@@ -7,8 +7,8 @@ public class CrystalPyramidStage : StageBase
 {
     public LaserPyramid pyramid;
     public CrystalRomboid[] crystalRomboids;
+    CrystalPyramidFallHandler _fallHandler;
 
-    public Animator centerLight;
     int _actualIndex;
     public float dangerTime = 15f;
     public float fallTime = 10f;
@@ -17,6 +17,9 @@ public class CrystalPyramidStage : StageBase
     {
         pyramid = GetComponentInChildren<LaserPyramid>();
         crystalRomboids = GetComponentsInChildren<CrystalRomboid>().ToArray();
+
+        _fallHandler = GetComponent<CrystalPyramidFallHandler>();
+
         StartPyramidShrinkage();
     }
 
@@ -40,7 +43,7 @@ public class CrystalPyramidStage : StageBase
     {
         if (_actualIndex >= crystalRomboids.Length) return;
         crystalRomboids[_actualIndex].SetDanger();
-        centerLight.SetTrigger("StartFall");
+        _fallHandler.SetDanger();
 
     }
 
@@ -50,7 +53,7 @@ public class CrystalPyramidStage : StageBase
         pyramid.OnFall(_actualIndex);
         crystalRomboids[_actualIndex].RomboidFall();
         _actualIndex++;
-        centerLight.SetTrigger("EndFall");
+        _fallHandler.SetEndFall();
 
     }
 
@@ -69,8 +72,6 @@ public class CrystalPyramidStage : StageBase
         _actualIndex = 0;
 
         Invoke("StartPyramidShrinkage", 3);
-        centerLight.ResetTrigger("StartFall");
-        centerLight.ResetTrigger("EndFall");
-        centerLight.CrossFadeInFixedTime("Normal", .1f);
+        _fallHandler.ResetRound();
     }
 }

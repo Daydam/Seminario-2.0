@@ -6,10 +6,12 @@ using System.Linq;
 public class CrystalRomboid : MonoBehaviour
 {
     Animator _an;
+    CrystalPyramidDangerParticle[] _dangerParticles;
 
     void Start()
     {
         _an = GetComponent<Animator>();
+        _dangerParticles = GetComponentsInChildren<CrystalPyramidDangerParticle>();
     }
 
     public void SetDanger()
