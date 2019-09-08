@@ -24,7 +24,7 @@ public class CrystalPyramidFallHandler : MonoBehaviour
     void Update()
     {
         obeliskRenderer.material.SetColor("_EmissionColor", _obeliskLight.intensity * _obeliskLight.color);
-        _obeliskParticleRenderer.material.SetColor("_EmissionColor", _obeliskLight.intensity * _obeliskLight.color);
+        _obeliskParticleRenderer.material.SetColor("_EmissionColor", _obeliskLight.color);
     }
 
     public void SetDanger()
