@@ -33,7 +33,7 @@ RenderSettings:
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
   m_DefaultReflectionMode: 0
-  m_DefaultReflectionResolution: 512
+  m_DefaultReflectionResolution: 1024
   m_ReflectionBounces: 2
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
@@ -57,13 +57,14 @@ LightmapSettings:
     serializedVersion: 10
     m_Resolution: 2
     m_BakeResolution: 40
-    m_AtlasSize: 1024
+    m_AtlasSize: 2048
     m_AO: 1
     m_AOMaxDistance: 1
     m_CompAOExponent: 1
     m_CompAOExponentDirect: 0
     m_Padding: 2
-    m_LightmapParameters: {fileID: 0}
+    m_LightmapParameters: {fileID: 15200, guid: 0000000000000000f000000000000000,
+      type: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
     m_FinalGather: 0
@@ -71,7 +72,7 @@ LightmapSettings:
     m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 2
-    m_BakeBackend: 1
+    m_BakeBackend: 0
     m_PVRSampling: 1
     m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 500
@@ -88,8 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 112000000, guid: 6091ea6025e9a8447b3adab6bce290f7,
-    type: 2}
+  m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -2123,10 +2123,10 @@ ReflectionProbe:
   m_Enabled: 1
   serializedVersion: 2
   m_Type: 0
-  m_Mode: 0
-  m_RefreshMode: 1
-  m_TimeSlicingMode: 0
-  m_Resolution: 1024
+  m_Mode: 1
+  m_RefreshMode: 0
+  m_TimeSlicingMode: 1
+  m_Resolution: 64
   m_UpdateFrequency: 0
   m_BoxSize: {x: 66, y: 33, z: 66}
   m_BoxOffset: {x: 0, y: 0, z: 0}
@@ -2137,13 +2137,13 @@ ReflectionProbe:
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1107558199
-  m_IntensityMultiplier: 0
+    m_Bits: 1107427127
+  m_IntensityMultiplier: 0.35
   m_BlendDistance: 1
   m_HDR: 1
   m_BoxProjection: 1
   m_RenderDynamicObjects: 0
-  m_UseOcclusionCulling: 1
+  m_UseOcclusionCulling: 0
   m_Importance: 1
   m_CustomBakedTexture: {fileID: 0}
 --- !u!4 &449422551
@@ -2492,7 +2492,7 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 0.8784314, g: 0.6039216, b: 0.21960784, a: 1}
-  m_Intensity: 0.79
+  m_Intensity: 0.58
   m_Range: 57.89
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -2652,7 +2652,7 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 0.43805626, g: 0.81933725, b: 0.8679245, a: 1}
-  m_Intensity: 0.79
+  m_Intensity: 0.58
   m_Range: 27.45863
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -3284,7 +3284,7 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 0.43805626, g: 0.81933725, b: 0.8679245, a: 1}
-  m_Intensity: 0.79
+  m_Intensity: 0.58
   m_Range: 27.45863
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -3804,7 +3804,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1082341464
 Transform:
   m_ObjectHideFlags: 0
@@ -3974,7 +3974,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1174794061
 Transform:
   m_ObjectHideFlags: 0
@@ -4318,7 +4318,7 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 0.8784314, g: 0.6039216, b: 0.21960784, a: 1}
-  m_Intensity: 0.79
+  m_Intensity: 0.58
   m_Range: 57.89
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -5124,7 +5124,7 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 0.8784314, g: 0.6039216, b: 0.21960784, a: 1}
-  m_Intensity: 0.79
+  m_Intensity: 0.58
   m_Range: 57.89
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -5426,7 +5426,7 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 0.43805626, g: 0.81933725, b: 0.8679245, a: 1}
-  m_Intensity: 0.79
+  m_Intensity: 0.58
   m_Range: 27.45863
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -5495,7 +5495,7 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 0.43805626, g: 0.81933725, b: 0.8679245, a: 1}
-  m_Intensity: 0.79
+  m_Intensity: 0.58
   m_Range: 27.45863
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -5564,7 +5564,7 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 0.8784314, g: 0.6039216, b: 0.21960784, a: 1}
-  m_Intensity: 0.79
+  m_Intensity: 0.58
   m_Range: 57.89
   m_SpotAngle: 30
   m_CookieSize: 10
