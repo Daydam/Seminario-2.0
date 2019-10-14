@@ -5,24 +5,27 @@ using System.Linq;
 using System;
 
 using Random = UnityEngine.Random;
-public enum Direction {
-	Up		= 0,
-	Right	= 1,
-	Down	= 2,
-	Left	= 3
+public enum Direction
+{
+    Up = 0,
+    Right = 1,
+    Down = 2,
+    Left = 3
 }
 
-public static class Utility {
-	//											  U  R   D   L
-	//											  N  E   S   W
-	public static int[] xMoveVector = new int[] { 0, 1,  0, -1 };
-	public static int[] yMoveVector = new int[] { 1, 0, -1,  0 };
+public static class Utility
+{
+    //											  U  R   D   L
+    //											  N  E   S   W
+    public static int[] xMoveVector = new int[] { 0, 1, 0, -1 };
+    public static int[] yMoveVector = new int[] { 1, 0, -1, 0 };
 
 
-	public static T Log<T>(T value, string prefix = "") {
-		Debug.Log(prefix + value);
-		return value;
-	}
+    public static T Log<T>(T value, string prefix = "")
+    {
+        Debug.Log(prefix + value);
+        return value;
+    }
 
     public static IEnumerable<T> MyTakeWhile<T>(this IEnumerable<T> list, Func<T, bool> predicate)
     {
@@ -67,14 +70,31 @@ public static class Utility {
     }
 
 
-    public static void KnuthShuffle<T>(List<T> array) {
-		for(int i = 0; i<array.Count-1; i++) {
-			var j = Random.Range(i, array.Count);
-			if(i != j) {
-				var temp = array[j];
-				array[j] = array[i];
-				array[i] = temp;
-			}
-		}
-	}
+    public static void KnuthShuffle<T>(List<T> array)
+    {
+        for (int i = 0; i < array.Count - 1; i++)
+        {
+            var j = Random.Range(i, array.Count);
+            if (i != j)
+            {
+                var temp = array[j];
+                array[j] = array[i];
+                array[i] = temp;
+            }
+        }
+    }
+
+    public static void KnuthShuffle<T>(T[] array)
+    {
+        for (int i = 0; i < array.Length - 1; i++)
+        {
+            var j = Random.Range(i, array.Length);
+            if (i != j)
+            {
+                var temp = array[j];
+                array[j] = array[i];
+                array[i] = temp;
+            }
+        }
+    }
 }

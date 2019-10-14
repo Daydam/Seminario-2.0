@@ -6,6 +6,7 @@ using System.Linq;
 using Firepower.Events;
 using System;
 using UnityEngine.SceneManagement;
+using PhoenixDevelopment;
 
 public class GameManager : MonoBehaviour
 {
@@ -95,6 +96,8 @@ public class GameManager : MonoBehaviour
 
         //get all the cameras
         var allCams = GameObject.FindObjectsOfType<CamFollow>().ToList();
+
+        Utility.KnuthShuffle(spawns);
 
         for (int i = 0; i < playerInfo.playerControllers.Length; i++)
         {
@@ -218,6 +221,10 @@ public class GameManager : MonoBehaviour
         {
             if (roundResults == null) roundResults = new Dictionary<int, Tuple<Player, int>>();
             roundResults[actualRound] = Tuple.Create(players.First(), players.First().Stats.Score);
+
+            print("Shuffling spawns...");
+            Utility.KnuthShuffle(spawns);
+            
             UIManager.Instance.EndRound(ResetRound);
             //do show winner and ui stuff
             //Invoke("ResetRound", 1);
