@@ -222,7 +222,6 @@ public class GameManager : MonoBehaviour
             if (roundResults == null) roundResults = new Dictionary<int, Tuple<Player, int>>();
             roundResults[actualRound] = Tuple.Create(players.First(), players.First().Stats.Score);
 
-            print("Shuffling spawns...");
             Utility.KnuthShuffle(spawns);
             
             UIManager.Instance.EndRound(ResetRound);

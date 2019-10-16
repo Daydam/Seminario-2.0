@@ -191,6 +191,7 @@ public class Player : MonoBehaviour, IDamageable
         GameManager.Instance.OnResetRound += ResetRound;
         GameManager.Instance.OnChangeScene += StopVibrating;
         transform.Find("DronePos_To_RT").gameObject.layer = LayerMask.NameToLayer("Drone");
+        ControlModule.HandleCollisions(this);
     }
 
     void Update()

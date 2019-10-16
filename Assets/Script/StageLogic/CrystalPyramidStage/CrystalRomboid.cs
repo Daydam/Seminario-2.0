@@ -30,4 +30,17 @@ public class CrystalRomboid : MonoBehaviour
         _an.ResetTrigger("Danger");
         _an.Play("Idle");
     }
+
+    public Collider[] GetStructuresColliders()
+    {
+        var destructibles = GetComponentsInChildren<DestructibleBase>(true).SelectMany(x => x.GetComponentsInChildren<Collider>()).ToArray();
+        var structures = GetComponentsInChildren<RingStructure>(true).SelectMany(x => x.GetComponentsInChildren<Collider>()).ToArray();
+        return destructibles.Concat(structures).ToArray();
+    }
+    public Collider[] GetStructuresColliders(ObstacleHeight height)
+    {
+        var destructibles = GetComponentsInChildren<DestructibleBase>(true).Where(x => x.obstacleHeight == height).SelectMany(x => x.GetComponentsInChildren<Collider>()).ToArray();
+        var structures = GetComponentsInChildren<RingStructure>(true).Where(x => x.obstacleHeight == height).SelectMany(x => x.GetComponentsInChildren<Collider>()).ToArray();
+        return destructibles.Concat(structures).ToArray();
+    }
 }

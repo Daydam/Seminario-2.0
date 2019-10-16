@@ -61,5 +61,10 @@ public class QuadrupedControlModule : PlayerControlModule
     {
         _owner.AnimationController.SetMovement(vel != Vector2.zero);
     }
+
+    public override void HandleCollisions(Player owner)
+    {
+
+    }
 }
 

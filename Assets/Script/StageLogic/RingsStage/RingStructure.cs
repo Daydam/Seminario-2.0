@@ -5,10 +5,7 @@ using System.Linq;
 
 public class RingStructure : MonoBehaviour,IDamageable
 {
-    public IDamageable GetThisEntity()
-    {
-        return this;
-    }
+    public ObstacleHeight obstacleHeight;
 
     public void ResetHP()
     {
