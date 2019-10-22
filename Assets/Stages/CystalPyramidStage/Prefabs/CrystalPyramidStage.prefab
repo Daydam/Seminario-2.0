@@ -17397,7 +17397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7eeab819da6bb74995cf27567211eae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacleHeight: 0
+  obstacleHeight: 2
   normalSpeedFrame: 20
   maxHP: 15
   normalAnimSpeed: 0.8
@@ -93390,10 +93390,6 @@ PrefabInstance:
     - target: {fileID: 100040, guid: 64f24d3d85308294dae763e033bbc3ba, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 65
-      objectReference: {fileID: 0}
-    - target: {fileID: 100040, guid: 64f24d3d85308294dae763e033bbc3ba, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: 64f24d3d85308294dae763e033bbc3ba, type: 3}
       propertyPath: m_LocalPosition.x
