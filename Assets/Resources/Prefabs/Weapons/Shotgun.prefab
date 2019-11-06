@@ -153,16 +153,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76d9a879a473d4e4e819a9ad69ad8223, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponStatsData: {fileID: 11400000, guid: d6931bd66ca912c46833ba11dd133216, type: 2}
   shootSound: {fileID: 8300000, guid: f5f89e66adbfcf141943ed995032182e, type: 3}
-  RPMScore: 2
-  minDamage: 10
-  maxDamage: 75
-  minKnockback: 1
-  maxKnockback: 6
-  falloffStart: 2.5
-  falloffEnd: 6
-  maxDispersionRadius: 0.13
-  pellets: 12
+  shotgunStatsData: {fileID: 11400000, guid: d6931bd66ca912c46833ba11dd133216, type: 2}
 --- !u!82 &82474129371338500
 AudioSource:
   m_ObjectHideFlags: 0

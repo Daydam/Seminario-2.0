@@ -46,14 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65773d33150aa574a83efe1592b651b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponStatsData: {fileID: 11400000, guid: 1fdc9ca9e6dbfd84bb7db9e3ba7497e8, type: 2}
   shootSound: {fileID: 8300000, guid: 3a2bf69b11d822b428312c6ed90bc636, type: 3}
-  RPMScore: 8
-  minDamage: 6
-  maxDamage: 10
-  minKnockback: 1.3
-  maxKnockback: 4.6
-  falloffStart: 7
-  falloffEnd: 14
 --- !u!82 &82727204188689398
 AudioSource:
   m_ObjectHideFlags: 0
@@ -187,6 +181,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4827037730505918}
     m_Modifications:
+    - target: {fileID: 100002, guid: 6fb308823a92f374d8cfec151d4b2e99, type: 3}
+      propertyPath: m_Name
+      value: rifle
+      objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 6fb308823a92f374d8cfec151d4b2e99, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.00012642
@@ -242,10 +240,6 @@ PrefabInstance:
     - target: {fileID: 400002, guid: 6fb308823a92f374d8cfec151d4b2e99, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 6fb308823a92f374d8cfec151d4b2e99, type: 3}
-      propertyPath: m_Name
-      value: rifle
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 6fb308823a92f374d8cfec151d4b2e99, type: 3}
       propertyPath: m_Materials.Array.data[0]

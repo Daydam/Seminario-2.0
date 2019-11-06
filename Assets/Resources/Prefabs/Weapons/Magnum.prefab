@@ -46,14 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c038aa19862b1a45949c0bb752e8065, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponStatsData: {fileID: 11400000, guid: 59b2d7f5740c76341b120a48065dde42, type: 2}
   shootSound: {fileID: 8300000, guid: 85ca42f0dfd72424a84a1669cbcd53b9, type: 3}
-  RPMScore: 5
-  minDamage: 10
-  maxDamage: 17
-  minKnockback: 2.5
-  maxKnockback: 7.5
-  falloffStart: 5.7
-  falloffEnd: 11
 --- !u!82 &82806118366441194
 AudioSource:
   m_ObjectHideFlags: 0
@@ -187,6 +181,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4827037730505918}
     m_Modifications:
+    - target: {fileID: 100006, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
+      propertyPath: m_Name
+      value: gauss canon
+      objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.00018964
@@ -243,15 +241,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.7
       objectReference: {fileID: 0}
-    - target: {fileID: 100006, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
-      propertyPath: m_Name
-      value: gauss canon
-      objectReference: {fileID: 0}
-    - target: {fileID: 2300000, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
+    - target: {fileID: 2300002, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 79b4520c1822aae46af80e9824d2607f, type: 2}
-    - target: {fileID: 2300002, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
+    - target: {fileID: 2300000, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 79b4520c1822aae46af80e9824d2607f, type: 2}

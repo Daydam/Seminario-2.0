@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dec6f4c954365a40a4148e5395c8a8f, type: 3}
+  m_Name: DATA_AssaultRifle
+  m_EditorClassIdentifier: 
+  RPMScore: 8
+  minDamage: 6
+  maxDamage: 10
+  falloffStart: 7
+  falloffEnd: 14
+  minKnockback: 0.3
+  maxKnockback: 0.6

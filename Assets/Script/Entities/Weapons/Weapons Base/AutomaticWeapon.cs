@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class AutomaticWeapon : Weapon
 {
-
     protected override void InitializeUseCondition()
     {
         _canUseWeapon = () => !_owner.IsStunned && !_owner.IsDisarmed && !_owner.IsCasting && !_owner.lockedByGame;
