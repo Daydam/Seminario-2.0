@@ -160,6 +160,10 @@ public class Player : MonoBehaviour, IDamageable
             _animationController = value;
         }
     }
+
+    //Permiso, agarro mi pequeño espacio para futuras partículas (es la forma que se me ocurrió ahora).
+    public GameObject stunStatusEffect;
+
     #endregion
     void Awake()
     {
@@ -557,6 +561,8 @@ public class Player : MonoBehaviour, IDamageable
         if (_invulnerable) return;
 
         _soundModule.PlayStunSound();
+        stunStatusEffect.GetComponentInChildren<ParticleSystem>().Play();
+
         StartCoroutine(ExecuteStun(duration));
 
         //Iván si se rompe algo perdón
@@ -612,6 +618,8 @@ public class Player : MonoBehaviour, IDamageable
         _isStunned = true;
 
         yield return new WaitForSeconds(duration);
+
+        stunStatusEffect.GetComponentInChildren<ParticleSystem>().Stop();
 
         _isStunned = false;
     }
@@ -699,8 +707,9 @@ public class Player : MonoBehaviour, IDamageable
     public void ApplyStun(Func<bool> callback)
     {
         if (_invulnerable) return;
-
         _soundModule.PlayStunSound();
+        stunStatusEffect.GetComponentInChildren<ParticleSystem>().Play();
+
         StartCoroutine(ExecuteStun(callback));
     }
 
@@ -714,6 +723,8 @@ public class Player : MonoBehaviour, IDamageable
         _isStunned = true;
 
         yield return new WaitUntil(callback);
+
+        stunStatusEffect.GetComponentInChildren<ParticleSystem>().Stop();
 
         _isStunned = false;
     }
