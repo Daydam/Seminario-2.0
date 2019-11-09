@@ -7,6 +7,7 @@ using PhoenixDevelopment;
 public class SK_StunMissile : ComplementarySkillBase
 {
     public SO_StunMissile skillData;
+    ModuleParticleController _particleModule;
 
     bool _canTap = true;
     float _currentCooldown = 0;
@@ -14,6 +15,7 @@ public class SK_StunMissile : ComplementarySkillBase
     protected override void Start()
     {
         base.Start();
+        _particleModule = GetComponent<ModuleParticleController>();
         skillData = Resources.Load<SO_StunMissile>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_StunMissile;
     }
 
@@ -61,11 +63,15 @@ public class SK_StunMissile : ComplementarySkillBase
         }
         else dir = _owner.gameObject.transform.forward;
 
+        _particleModule.OnShoot();
+        StartCoroutine(ApplyReadyParticles());
+
         StunMissileSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, dir, skillData.maxRange, _owner.gameObject.tag, skillData);
     }
 
     public override void ResetRound()
     {
+        StopAllCoroutines();
         _currentCooldown = 0;
     }
 
@@ -82,5 +88,12 @@ public class SK_StunMissile : ComplementarySkillBase
     public override float GetCooldownPerc()
     {
         return Mathf.Lerp(1, 0, _currentCooldown / skillData.maxCooldown);
+    }
+
+    public IEnumerator ApplyReadyParticles()
+    {
+        while (GetActualState() != SkillState.Available) yield return new WaitForEndOfFrame();
+
+        _particleModule.OnAvailableShot();
     }
 }

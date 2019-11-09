@@ -584,6 +584,7 @@ GameObject:
   - component: {fileID: 5798731936613833216}
   - component: {fileID: 849446900468470514}
   - component: {fileID: 1416708550278772853}
+  - component: {fileID: 6885073500407843308}
   m_Layer: 0
   m_Name: Beetledrone
   m_TagString: Untagged
@@ -667,7 +668,6 @@ MonoBehaviour:
   isPushed: 0
   myPusher: {fileID: 0}
   pushTimeCheck: 2
-  stunStatusEffect: {fileID: 3640408818433563844}
 --- !u!82 &82684276316580546
 AudioSource:
   m_ObjectHideFlags: 0
@@ -903,6 +903,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerType: 0
+--- !u!114 &6885073500407843308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785207140606284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed84b3f0cb977c74096052259cc64b04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stunStatusEffect: {fileID: 3640408818433563844}
 --- !u!1 &1793874535216528
 GameObject:
   m_ObjectHideFlags: 0
@@ -5936,10 +5949,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4824165918065654}
     m_Modifications:
-    - target: {fileID: 1785207140606284, guid: 6164addaff243bb4ba96c2c060efc873, type: 3}
-      propertyPath: m_Name
-      value: SkillUI
-      objectReference: {fileID: 0}
     - target: {fileID: 4649699730058142, guid: 6164addaff243bb4ba96c2c060efc873, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5992,6 +6001,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1785207140606284, guid: 6164addaff243bb4ba96c2c060efc873, type: 3}
+      propertyPath: m_Name
+      value: SkillUI
+      objectReference: {fileID: 0}
     - target: {fileID: 1027788906850417261, guid: 6164addaff243bb4ba96c2c060efc873,
         type: 3}
       propertyPath: m_IsActive
@@ -6020,7 +6033,7 @@ PrefabInstance:
     - target: {fileID: 180915337756996936, guid: 6a30209c654bf8143a53d85af636c4c8,
         type: 3}
       propertyPath: m_Name
-      value: VFX_StunMissile_StunedEffect
+      value: VFX_StunMissile_StunnedEffect
       objectReference: {fileID: 0}
     - target: {fileID: 180915337756996937, guid: 6a30209c654bf8143a53d85af636c4c8,
         type: 3}
@@ -6077,6 +6090,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 180915337937059292, guid: 6a30209c654bf8143a53d85af636c4c8,
+        type: 3}
+      propertyPath: m_Name
+      value: ps_Lightning_StunnedEffect
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a30209c654bf8143a53d85af636c4c8, type: 3}
 --- !u!1 &3640408818433563844 stripped
@@ -6098,11 +6116,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4649699730058142}
     m_Modifications:
-    - target: {fileID: 6170487796614397373, guid: 0fc1e7d535be0bb4e840006da866d592,
-        type: 3}
-      propertyPath: m_Name
-      value: ps_Sand_Particles
-      objectReference: {fileID: 0}
     - target: {fileID: 6170487796614397362, guid: 0fc1e7d535be0bb4e840006da866d592,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6158,6 +6171,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6170487796614397373, guid: 0fc1e7d535be0bb4e840006da866d592,
+        type: 3}
+      propertyPath: m_Name
+      value: ps_Sand_Particles
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fc1e7d535be0bb4e840006da866d592, type: 3}
 --- !u!4 &2277357681319897274 stripped
@@ -6173,17 +6191,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4649699730058142}
     m_Modifications:
-    - target: {fileID: 2778703850659387838, guid: f4d0cf53321b2874aa5ca4c09a3fbab2,
-        type: 3}
-      propertyPath: m_Name
-      value: ps_Turbine (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2778703850659387838, guid: f4d0cf53321b2874aa5ca4c09a3fbab2,
-        type: 3}
-      propertyPath: m_Icon
-      value: 
-      objectReference: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000,
-        type: 0}
     - target: {fileID: 2115701491119883610, guid: f4d0cf53321b2874aa5ca4c09a3fbab2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6249,6 +6256,17 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.11969005
       objectReference: {fileID: 0}
+    - target: {fileID: 2778703850659387838, guid: f4d0cf53321b2874aa5ca4c09a3fbab2,
+        type: 3}
+      propertyPath: m_Name
+      value: ps_Turbine (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778703850659387838, guid: f4d0cf53321b2874aa5ca4c09a3fbab2,
+        type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000,
+        type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4d0cf53321b2874aa5ca4c09a3fbab2, type: 3}
 --- !u!4 &7337050642712113511 stripped
@@ -6264,17 +6282,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4649699730058142}
     m_Modifications:
-    - target: {fileID: 2778703850659387838, guid: f4d0cf53321b2874aa5ca4c09a3fbab2,
-        type: 3}
-      propertyPath: m_Name
-      value: ps_Turbine
-      objectReference: {fileID: 0}
-    - target: {fileID: 2778703850659387838, guid: f4d0cf53321b2874aa5ca4c09a3fbab2,
-        type: 3}
-      propertyPath: m_Icon
-      value: 
-      objectReference: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000,
-        type: 0}
     - target: {fileID: 2115701491119883610, guid: f4d0cf53321b2874aa5ca4c09a3fbab2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6330,6 +6337,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2778703850659387838, guid: f4d0cf53321b2874aa5ca4c09a3fbab2,
+        type: 3}
+      propertyPath: m_Name
+      value: ps_Turbine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778703850659387838, guid: f4d0cf53321b2874aa5ca4c09a3fbab2,
+        type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000,
+        type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4d0cf53321b2874aa5ca4c09a3fbab2, type: 3}
 --- !u!4 &7336298306653778310 stripped

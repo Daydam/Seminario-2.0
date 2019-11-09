@@ -6,14 +6,15 @@ using System.Linq;
 public class PlayerParticlesModule : MonoBehaviour
 {
     public GameObject stunStatusEffect;
-    void Start ()
+    ParticleSystem _stunStatusEffect;
+    void Awake ()
 	{
-		
-	}
+        _stunStatusEffect = stunStatusEffect.GetComponentInChildren<ParticleSystem>();
+    }
 	
     public void ApplyStun(bool activation)
     {
-        if (activation) stunStatusEffect.GetComponentInChildren<ParticleSystem>().Play();
-        else stunStatusEffect.GetComponentInChildren<ParticleSystem>().Stop();       
+        if (activation) _stunStatusEffect.Play();
+        else _stunStatusEffect.Stop();       
     }
 }
