@@ -10,7 +10,6 @@ public class QuadrupedControlModule : PlayerControlModule
     Transform _headBone;
     Transform _headMesh;
     Transform _robotBody;
-    Player _owner;
     private Transform hardcodeForCameraForward;
 
     public Transform Head

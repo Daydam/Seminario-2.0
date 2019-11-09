@@ -44,6 +44,7 @@ public class Player : MonoBehaviour, IDamageable
     PlayerAnimations _animationController;
     PlayerLifeForcefield _lifeForcefield;
     PlayerCameraModule _camModule;
+    PlayerParticlesModule _particleModule;
     PlayerControlModule _controlModule;
     PlayerScoreController _scoreController;
     public PlayerScoreController ScoreController
@@ -161,8 +162,6 @@ public class Player : MonoBehaviour, IDamageable
         }
     }
 
-    //Permiso, agarro mi pequeño espacio para futuras partículas (es la forma que se me ocurrió ahora).
-    public GameObject stunStatusEffect;
 
     #endregion
     void Awake()
@@ -186,6 +185,7 @@ public class Player : MonoBehaviour, IDamageable
         _controlModule = GetComponent<PlayerControlModule>();
         _col = GetComponent<Collider>();
         weightModule = GetComponent<DroneWeightModule>();
+        _particleModule = GetComponent<PlayerParticlesModule>();
     }
 
     void Start()
@@ -561,7 +561,7 @@ public class Player : MonoBehaviour, IDamageable
         if (_invulnerable) return;
 
         _soundModule.PlayStunSound();
-        stunStatusEffect.GetComponentInChildren<ParticleSystem>().Play();
+        _particleModule.ApplyStun(true);
 
         StartCoroutine(ExecuteStun(duration));
 
@@ -619,7 +619,7 @@ public class Player : MonoBehaviour, IDamageable
 
         yield return new WaitForSeconds(duration);
 
-        stunStatusEffect.GetComponentInChildren<ParticleSystem>().Stop();
+        _particleModule.ApplyStun(false);
 
         _isStunned = false;
     }
@@ -708,7 +708,8 @@ public class Player : MonoBehaviour, IDamageable
     {
         if (_invulnerable) return;
         _soundModule.PlayStunSound();
-        stunStatusEffect.GetComponentInChildren<ParticleSystem>().Play();
+
+        _particleModule.ApplyStun(true);
 
         StartCoroutine(ExecuteStun(callback));
     }
@@ -724,7 +725,7 @@ public class Player : MonoBehaviour, IDamageable
 
         yield return new WaitUntil(callback);
 
-        stunStatusEffect.GetComponentInChildren<ParticleSystem>().Stop();
+        _particleModule.ApplyStun(false);
 
         _isStunned = false;
     }
