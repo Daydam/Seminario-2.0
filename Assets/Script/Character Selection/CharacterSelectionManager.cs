@@ -975,21 +975,11 @@ public class CharacterSelectionManager : MonoBehaviour
 
     IEnumerator StartGameCoroutine()
     {
-        _loadingScreen.gameObject.SetActive(true);
-        canvas.gameObject.SetActive(false);
-
         var asyncOp = SceneManager.LoadSceneAsync("Stage selection", LoadSceneMode.Single);
-        asyncOp.allowSceneActivation = false;
-
-        yield return new WaitForSeconds(2f);
+        asyncOp.allowSceneActivation = true;
 
         while (!asyncOp.isDone)
         {
-            if (asyncOp.progress >= 0.9f)
-            {
-                _loadingScreen.OnLoadEnd();
-                if (Input.anyKey) asyncOp.allowSceneActivation = true;
-            }
             yield return new WaitForEndOfFrame();
         }
     }

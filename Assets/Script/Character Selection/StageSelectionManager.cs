@@ -64,14 +64,14 @@ public class StageSelectionManager : MonoBehaviour
 
         if (-0.3f < lastAnalogValue.x && lastAnalogValue.x < 0.3f)
         {
-            if (JoystickInput.LeftAnalog(currentGamePad).x >= 0.3f
-            || JoystickInput.allKeys[JoystickKey.DPAD_RIGHT](previousGamePad, currentGamePad))
+            if (/*JoystickInput.LeftAnalog(currentGamePad).x >= 0.3f
+            ||*/ JoystickInput.allKeys[JoystickKey.DPAD_RIGHT](previousGamePad, currentGamePad))
             {
                 selectedIndex = selectedIndex + 1 >= stages.Length ? 0 : selectedIndex + 1;
             }
 
-            if (JoystickInput.LeftAnalog(currentGamePad).x <= -0.3f
-            || JoystickInput.allKeys[JoystickKey.DPAD_LEFT](previousGamePad, currentGamePad))
+            if (/*JoystickInput.LeftAnalog(currentGamePad).x <= -0.3f
+            ||*/ JoystickInput.allKeys[JoystickKey.DPAD_LEFT](previousGamePad, currentGamePad))
             {
                 selectedIndex = selectedIndex - 1 < 0 ? stages.Length - 1 : selectedIndex - 1;
             }
