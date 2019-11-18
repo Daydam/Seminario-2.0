@@ -26,6 +26,10 @@ public class GameManager : MonoBehaviour
     public int actualRound = 1;
     public Dictionary<int, Tuple<Player, int>> roundResults;
 
+    public Canvas canvas;
+    public LoadingScreen loadingScreenPrefab;
+    LoadingScreen _loadingScreen;
+
     static GameManager instance;
     public static GameManager Instance
     {
@@ -66,6 +70,9 @@ public class GameManager : MonoBehaviour
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
+
+        _loadingScreen = GameObject.Instantiate(loadingScreenPrefab, new Vector3(8000, 8000, 8000), Quaternion.identity);
+        _loadingScreen.gameObject.SetActive(false);
 
         spawns = StageManager.instance.transform.Find("SpawnPoints").GetComponentsInChildren<Transform>().Where(x => x.name != "SpawnPoints").ToArray();
 
@@ -282,11 +289,21 @@ public class GameManager : MonoBehaviour
 
     IEnumerator EndGameCoroutine()
     {
-        var asyncOp = SceneManager.LoadSceneAsync("EndgameScreen", LoadSceneMode.Single);
-        asyncOp.allowSceneActivation = true;
+        _loadingScreen.gameObject.SetActive(true);
+        canvas.gameObject.SetActive(false);
 
-        while (asyncOp.progress <= .99f)
+        var asyncOp = SceneManager.LoadSceneAsync("EndgameScreen", LoadSceneMode.Single);
+        asyncOp.allowSceneActivation = false;
+
+        yield return new WaitForSeconds(2f);
+
+        while (!asyncOp.isDone)
         {
+            if (asyncOp.progress >= 0.9f)
+            {
+                _loadingScreen.OnLoadEnd();
+                if (Input.anyKey) asyncOp.allowSceneActivation = true;
+            }
             yield return new WaitForEndOfFrame();
         }
     }

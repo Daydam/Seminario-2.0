@@ -25,9 +25,10 @@ public class CharacterSelectionManager : MonoBehaviour
         }
     }
 
+    public Canvas canvas;
     public GameObject[] playerSpawnPoints;
     public GameObject[] blackScreens;
-    #region Cambios Iván
+
     public ModuleTooltip[] bodyTexts;
     public ModuleTooltip[] weaponTexts;
     public ModuleTooltip[] defensiveTexts;
@@ -35,9 +36,11 @@ public class CharacterSelectionManager : MonoBehaviour
     public ModuleTooltip[] complementary2Texts;
     public GameObject splashScreen;
 
+    public LoadingScreen loadingScreenPrefab;
+    LoadingScreen _loadingScreen;
+
     public bool InputAllowed { get { return !splashScreen.activeInHierarchy; } }
 
-    #endregion
     public Text startWhenReadyText;
 
 
@@ -83,6 +86,9 @@ public class CharacterSelectionManager : MonoBehaviour
 
     void Start()
     {
+        _loadingScreen = GameObject.Instantiate(loadingScreenPrefab, new Vector3(8000, 8000, 8000), Quaternion.identity);
+        _loadingScreen.gameObject.SetActive(false);
+
         ready = new bool[4] { false, false, false, false };
 
         players = new GameObject[4];
@@ -160,7 +166,7 @@ public class CharacterSelectionManager : MonoBehaviour
             { "Shotgun", "Short range, wide spread. Lacking precision? Get close and blast 'em all!" },
             { "Magnum", "Not too fast, but very powerful. Ready, aim, destroy!" },
             { "Assault Rifle", "Rapid-fire, long range. Unleash a maelstrom of bullets upon your enemies!" },
-            { "Repulsive Battery", "A powerful blow that pushes away nearby enemies. Move, bitch, get out da way!" },
+            { "Repulsive Battery", "A powerful blow that pushes away nearby enemies." },
             { "Scrambler Bot", "This cute little spider will pursue your enemies and disable their guns and skills!" },
             { "Plasma Wall", "Block the enemies with this wall, but be careful, it can be destroyed!" },
             { "Dash", "Short movement burst. Dodge, hide, approach, destroy!" },
@@ -175,8 +181,8 @@ public class CharacterSelectionManager : MonoBehaviour
             { "Fastdrone", "They see me rollin', they hatin'" },
             { "Cardrone", "No, it's not a car. I don't even know why we named it that way" },
             { "Beetledrone", "Because nothing beats the classics" },
-            { "Quadro", "Four legs, a box for a head, one animation, all shit" },
-            { "Sphero", "Four legs, two watch batteries for a head, no animation, full shit" },
+            { "Quadro", "Four legged behemoth ready for combat" },
+            { "Sphero", "WATCH out for my BATTERY ram" },
         };
     }
 
@@ -412,17 +418,6 @@ public class CharacterSelectionManager : MonoBehaviour
             modifier[i].DisableViewing();
         }
 
-    }
-
-    IEnumerator StartGameCoroutine()
-    {
-        var asyncOp = SceneManager.LoadSceneAsync("Stage selection", LoadSceneMode.Single);
-        asyncOp.allowSceneActivation = true;
-
-        while (asyncOp.progress <= .99f)
-        {
-            yield return new WaitForEndOfFrame();
-        }
     }
 
     void CheckStart(int player)
@@ -976,5 +971,26 @@ public class CharacterSelectionManager : MonoBehaviour
         }
 
         cameras[player].transform.localPosition = new Vector3(Mathf.Lerp(0, descriptionCamOffset, offsetState[player]), cameras[player].transform.localPosition.y, cameras[player].transform.localPosition.z);
+    }
+
+    IEnumerator StartGameCoroutine()
+    {
+        _loadingScreen.gameObject.SetActive(true);
+        canvas.gameObject.SetActive(false);
+
+        var asyncOp = SceneManager.LoadSceneAsync("Stage selection", LoadSceneMode.Single);
+        asyncOp.allowSceneActivation = false;
+
+        yield return new WaitForSeconds(2f);
+
+        while (!asyncOp.isDone)
+        {
+            if (asyncOp.progress >= 0.9f)
+            {
+                _loadingScreen.OnLoadEnd();
+                if (Input.anyKey) asyncOp.allowSceneActivation = true;
+            }
+            yield return new WaitForEndOfFrame();
+        }
     }
 }

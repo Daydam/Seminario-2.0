@@ -11,6 +11,12 @@ public class StageSelectionManager : MonoBehaviour
     public GameObject templateSlot;
     public Text titleText;
 
+    public Canvas canvas;
+    public LoadingScreen loadingScreenPrefab;
+    LoadingScreen _loadingScreen;
+
+    bool _loading;
+
     Text[] slotTexts;
     RegisteredPlayers playerInfo;
     SO_StageSelect[] stages;
@@ -22,8 +28,11 @@ public class StageSelectionManager : MonoBehaviour
     GamePadState currentGamePad;
     GamePadState previousGamePad;
 
-    private void Start()
+    void Start()
     {
+        _loadingScreen = GameObject.Instantiate(loadingScreenPrefab, new Vector3(8000, 8000, 8000), Quaternion.identity);
+        _loadingScreen.gameObject.SetActive(false);
+
         stages = Resources.LoadAll("Scriptable Objects/Stages").Select(x => (SO_StageSelect)x).ToArray();
         slotTexts = new Text[stages.Length];
 
@@ -64,14 +73,14 @@ public class StageSelectionManager : MonoBehaviour
             if (JoystickInput.LeftAnalog(currentGamePad).x <= -0.3f
             || JoystickInput.allKeys[JoystickKey.DPAD_LEFT](previousGamePad, currentGamePad))
             {
-                selectedIndex = selectedIndex - 1 < 0 ? stages.Length-1 : selectedIndex - 1;
+                selectedIndex = selectedIndex - 1 < 0 ? stages.Length - 1 : selectedIndex - 1;
             }
             if (JoystickInput.allKeys[JoystickKey.A](previousGamePad, currentGamePad))
             {
                 playerInfo.stage = stages[selectedIndex].stageScene.handle;
                 print(playerInfo.stage);
                 Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
-                StartCoroutine(StartGameCoroutine());
+                if (!_loading) StartCoroutine(StartGameCoroutine());
             }
         }
         #region KEYBOARD IMPLEMENTATION
@@ -87,27 +96,38 @@ public class StageSelectionManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            StartCoroutine(StartGameCoroutine());
+            if (!_loading) StartCoroutine(StartGameCoroutine());
         }
         #endregion
 
 
         for (int i = 0; i < stages.Length; i++)
         {
-            if(i != selectedIndex)
+            if (i != selectedIndex)
                 slotTexts[i].GetComponentInChildren<Transform>().localScale = new Vector3(1f, 1f, 1f);
             else
-                slotTexts[i].GetComponentInChildren<Transform>().localScale = new Vector3(1.1f,1.1f,1.1f);
+                slotTexts[i].GetComponentInChildren<Transform>().localScale = new Vector3(1.1f, 1.1f, 1.1f);
         }
     }
 
     IEnumerator StartGameCoroutine()
     {
-        var asyncOp = SceneManager.LoadSceneAsync(stages[selectedIndex].stageScene.handle, LoadSceneMode.Single);
-        asyncOp.allowSceneActivation = true;
+        _loadingScreen.gameObject.SetActive(true);
+        canvas.gameObject.SetActive(false);
 
-        while (asyncOp.progress <= .99f)
+        _loading = true;
+        var asyncOp = SceneManager.LoadSceneAsync(stages[selectedIndex].stageScene.handle, LoadSceneMode.Single);
+        asyncOp.allowSceneActivation = false;
+
+        yield return new WaitForSeconds(2f);
+
+        while (!asyncOp.isDone)
         {
+            if (asyncOp.progress >= 0.9f)
+            {
+                _loadingScreen.OnLoadEnd();
+                if (Input.anyKey) asyncOp.allowSceneActivation = true;
+            }
             yield return new WaitForEndOfFrame();
         }
     }

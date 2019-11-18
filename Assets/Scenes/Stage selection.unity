@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571334, b: 0.3069219, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -748,6 +748,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   templateSlot: {fileID: 429901590}
   titleText: {fileID: 1488771036}
+  canvas: {fileID: 3932729}
+  loadingScreenPrefab: {fileID: 3608714958853247282, guid: 184df06344e525a4aa10a16557ec5c29,
+    type: 3}
 --- !u!4 &1900848574
 Transform:
   m_ObjectHideFlags: 0

@@ -21,6 +21,11 @@ public class EndgameManager : MonoBehaviour
     public Color backToMenuColor;
     public Color notReadyColor;
 
+    public Canvas canvas;
+
+    public LoadingScreen loadingScreenPrefab;
+    LoadingScreen _loadingScreen;
+
     RegisteredPlayers playerInfo;
 
     public string replaceStringName;
@@ -49,6 +54,9 @@ public class EndgameManager : MonoBehaviour
 
     void Start()
     {
+        _loadingScreen = GameObject.Instantiate(loadingScreenPrefab, new Vector3(8000, 8000, 8000), Quaternion.identity);
+        _loadingScreen.gameObject.SetActive(false);
+
         playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
 
         LoadPlayers();
@@ -324,11 +332,22 @@ public class EndgameManager : MonoBehaviour
 
     IEnumerator LoadSceneCoroutine(int sceneName)
     {
-        var asyncOp = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
-        asyncOp.allowSceneActivation = true;
+        _loadingScreen.gameObject.SetActive(true);
+        canvas.gameObject.SetActive(false);
+        cam.gameObject.SetActive(false);
 
-        while (asyncOp.progress <= .99f)
+        var asyncOp = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
+        asyncOp.allowSceneActivation = false;
+
+        yield return new WaitForSeconds(2f);
+
+        while (!asyncOp.isDone)
         {
+            if (asyncOp.progress >= 0.9f)
+            {
+                _loadingScreen.OnLoadEnd();
+                if (Input.anyKey) asyncOp.allowSceneActivation = true;
+            }
             yield return new WaitForEndOfFrame();
         }
     }

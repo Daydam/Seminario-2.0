@@ -5718,6 +5718,9 @@ MonoBehaviour:
   - {r: 0.9852941, g: 0.5609353, b: 0, a: 0}
   - {r: 0.6397059, g: 0.6397059, b: 0.6397059, a: 0}
   actualRound: 1
+  canvas: {fileID: 7081113446649467870}
+  loadingScreenPrefab: {fileID: 3608714958853247282, guid: 184df06344e525a4aa10a16557ec5c29,
+    type: 3}
 --- !u!4 &1786961199
 Transform:
   m_ObjectHideFlags: 0
@@ -7305,3 +7308,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a93b2b523902d3e4e86a8d96b6566f79, type: 3}
+--- !u!223 &7081113446649467870 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 7081113448198258287, guid: a93b2b523902d3e4e86a8d96b6566f79,
+    type: 3}
+  m_PrefabInstance: {fileID: 7081113446649467869}
+  m_PrefabAsset: {fileID: 0}

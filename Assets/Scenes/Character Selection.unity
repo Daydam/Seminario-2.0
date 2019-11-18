@@ -6686,6 +6686,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edf43f13677a18c4496862121d125c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 1962662662}
   playerSpawnPoints:
   - {fileID: 1616042898}
   - {fileID: 1340425846}
@@ -6702,6 +6703,8 @@ MonoBehaviour:
   complementary1Texts: []
   complementary2Texts: []
   splashScreen: {fileID: 1857445522}
+  loadingScreenPrefab: {fileID: 3608714958853247282, guid: 184df06344e525a4aa10a16557ec5c29,
+    type: 3}
   startWhenReadyText: {fileID: 1517330886}
   readyScreens:
   - {fileID: 918585120}
