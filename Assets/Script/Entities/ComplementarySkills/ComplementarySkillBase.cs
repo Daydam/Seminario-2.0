@@ -10,6 +10,7 @@ public abstract class ComplementarySkillBase : SkillBase
     protected Player _owner;
     protected Func<bool> inputMethod;
     protected int _skillIndex;
+    public int SkillIndex { get { return _skillIndex; } }
 
     protected override void Start()
     {

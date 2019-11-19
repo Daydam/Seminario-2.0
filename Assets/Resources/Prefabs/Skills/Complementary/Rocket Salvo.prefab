@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4828917476913862}
   - component: {fileID: 7638275338261844899}
+  - component: {fileID: 4509852709954144292}
   m_Layer: 8
   m_Name: Rocket Salvo
   m_TagString: Player 1
@@ -47,6 +48,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unavailableSound: {fileID: 0}
   skillData: {fileID: 0}
+--- !u!114 &4509852709954144292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1887171015903558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a04188964334c40bca8ea39ae1e5cdac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iconAsset: {fileID: 21300000, guid: d463a4407126cff4ab1147422a286f9c, type: 3}
 --- !u!1 &451227207073206880
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,10 +159,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4828917476913862}
     m_Modifications:
-    - target: {fileID: 100022, guid: cb08ba46d41fe584b9a6be6c799e7c50, type: 3}
-      propertyPath: m_Name
-      value: RocketSalvo
-      objectReference: {fileID: 0}
     - target: {fileID: 400022, guid: cb08ba46d41fe584b9a6be6c799e7c50, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -192,6 +202,10 @@ PrefabInstance:
     - target: {fileID: 400022, guid: cb08ba46d41fe584b9a6be6c799e7c50, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100022, guid: cb08ba46d41fe584b9a6be6c799e7c50, type: 3}
+      propertyPath: m_Name
+      value: RocketSalvo
       objectReference: {fileID: 0}
     - target: {fileID: 2300036, guid: cb08ba46d41fe584b9a6be6c799e7c50, type: 3}
       propertyPath: m_Materials.Array.data[0]

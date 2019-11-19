@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 114237972835315078}
   - component: {fileID: 82654750236620420}
   - component: {fileID: 5504763984260965012}
+  - component: {fileID: 7804075948224632893}
   m_Layer: 0
   m_Name: Stun Missile
   m_TagString: Untagged
@@ -255,6 +256,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   readyParticle: {fileID: 3258606487384565770}
   shootParticle: {fileID: 2362937483378173535}
+--- !u!114 &7804075948224632893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488712907881656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a04188964334c40bca8ea39ae1e5cdac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iconAsset: {fileID: 21300000, guid: cf40ada8c55448348a0fcdc9585d7265, type: 3}
 --- !u!1 &1546361375138104
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,11 +591,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4579947060913774}
     m_Modifications:
-    - target: {fileID: 6105941207667595564, guid: fa371a0e81cc6ef45aa2e3b99664c215,
-        type: 3}
-      propertyPath: m_Name
-      value: VFX_StunMissile_PreExplosion
-      objectReference: {fileID: 0}
     - target: {fileID: 6105941207667595565, guid: fa371a0e81cc6ef45aa2e3b99664c215,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -636,6 +645,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105941207667595564, guid: fa371a0e81cc6ef45aa2e3b99664c215,
+        type: 3}
+      propertyPath: m_Name
+      value: VFX_StunMissile_PreExplosion
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa371a0e81cc6ef45aa2e3b99664c215, type: 3}

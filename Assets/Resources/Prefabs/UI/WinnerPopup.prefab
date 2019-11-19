@@ -29,8 +29,8 @@ RectTransform:
   m_Children:
   - {fileID: 9030040237408674959}
   - {fileID: 9030040237768623439}
-  - {fileID: 9030040238275070297}
   - {fileID: 9030040237482957956}
+  - {fileID: 9030040238275070297}
   - {fileID: 9030040236961393126}
   m_Father: {fileID: 9030040236977920030}
   m_RootOrder: 2
@@ -359,6 +359,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9030040236961393126}
   - component: {fileID: 265333761}
+  - component: {fileID: 73935338}
   m_Layer: 5
   m_Name: Skill2
   m_TagString: Untagged
@@ -406,6 +407,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &73935338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9030040236961394201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 314dd5a8eef584c38a900d95d83b7d3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9030040236977920018
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,6 +624,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9030040237408674959}
   - component: {fileID: 4147218280967152467}
+  - component: {fileID: 911269059}
   m_Layer: 5
   m_Name: Body
   m_TagString: Untagged
@@ -658,6 +672,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &911269059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9030040237408674958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 314dd5a8eef584c38a900d95d83b7d3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9030040237482957959
 GameObject:
   m_ObjectHideFlags: 0
@@ -668,6 +694,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9030040237482957956}
   - component: {fileID: 786831715}
+  - component: {fileID: 1410783834}
   m_Layer: 5
   m_Name: Weapon
   m_TagString: Untagged
@@ -689,7 +716,7 @@ RectTransform:
   - {fileID: 9030040238105841500}
   - {fileID: 9030040238632760359}
   m_Father: {fileID: 6684709298201033792}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -715,6 +742,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1410783834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9030040237482957959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 314dd5a8eef584c38a900d95d83b7d3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9030040237700295083
 GameObject:
   m_ObjectHideFlags: 0
@@ -886,6 +925,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9030040237768623439}
   - component: {fileID: 1609498794}
+  - component: {fileID: 264297488}
   m_Layer: 5
   m_Name: Defensive
   m_TagString: Untagged
@@ -933,6 +973,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &264297488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9030040237768623438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 314dd5a8eef584c38a900d95d83b7d3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9030040238034834163
 GameObject:
   m_ObjectHideFlags: 0
@@ -1413,6 +1465,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9030040238275070297}
   - component: {fileID: 2107591872}
+  - component: {fileID: 1996374402}
   m_Layer: 5
   m_Name: Skill1
   m_TagString: Untagged
@@ -1434,7 +1487,7 @@ RectTransform:
   - {fileID: 9030040238552829648}
   - {fileID: 9030040236879138253}
   m_Father: {fileID: 6684709298201033792}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -1460,6 +1513,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1996374402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9030040238275070296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 314dd5a8eef584c38a900d95d83b7d3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9030040238552829651
 GameObject:
   m_ObjectHideFlags: 0

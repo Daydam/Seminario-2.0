@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
     public Canvas canvas;
     public LoadingScreen loadingScreenPrefab;
     LoadingScreen _loadingScreen;
+    public WinPopup winPopupPrefab;
+    WinPopup _winPopup;
 
     static GameManager instance;
     public static GameManager Instance
@@ -73,6 +75,9 @@ public class GameManager : MonoBehaviour
 
         _loadingScreen = GameObject.Instantiate(loadingScreenPrefab, new Vector3(8000, 8000, 8000), Quaternion.identity);
         _loadingScreen.gameObject.SetActive(false);
+
+        _winPopup = GameObject.Instantiate(winPopupPrefab, Vector3.zero, Quaternion.identity);
+        _winPopup.gameObject.SetActive(false);
 
         spawns = StageManager.instance.transform.Find("SpawnPoints").GetComponentsInChildren<Transform>().Where(x => x.name != "SpawnPoints").ToArray();
 
@@ -284,11 +289,44 @@ public class GameManager : MonoBehaviour
             playerInfo.playerStats[i] = Players[i].Stats;
         }
         Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
-        StartCoroutine(EndGameCoroutine());
+
+
+        var winner = Players.OrderByDescending(x => x.Stats.Score).First();
+
+		var winnerSkills = winner.GetComponentsInChildren<ComplementarySkillBase>().OrderBy(x => x.SkillIndex).ToArray();
+
+		_winPopup.Initialize(winner, winner.GetComponentInChildren<DefensiveSkillBase>(), winner.GetComponentInChildren<Weapon>(), winnerSkills[0], winnerSkills[1]);
+
+        _winPopup.gameObject.SetActive(true);
+
+        StartCoroutine(EndGameCoroutine(10f));
     }
 
     IEnumerator EndGameCoroutine()
     {
+        _loadingScreen.gameObject.SetActive(true);
+        canvas.gameObject.SetActive(false);
+
+        var asyncOp = SceneManager.LoadSceneAsync("EndgameScreen", LoadSceneMode.Single);
+        asyncOp.allowSceneActivation = false;
+
+        yield return new WaitForSeconds(2f);
+
+        while (!asyncOp.isDone)
+        {
+            if (asyncOp.progress >= 0.9f)
+            {
+                _loadingScreen.OnLoadEnd();
+                if (Input.anyKey) asyncOp.allowSceneActivation = true;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    IEnumerator EndGameCoroutine(float startDelay)
+    {
+        yield return new WaitForSeconds(startDelay);
+
         _loadingScreen.gameObject.SetActive(true);
         canvas.gameObject.SetActive(false);
 
