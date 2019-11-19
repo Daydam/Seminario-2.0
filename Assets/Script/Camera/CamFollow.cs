@@ -94,7 +94,7 @@ public class CamFollow : MonoBehaviour
 
     public void OnPlayerUseRepulsion(bool activation, float radius, float duration)
     {
-        GetComponent<PPFX_RepulsionScreen>().ActivatePostProcess(activation, target.transform.position, radius, duration);
+        //GetComponent<PPFX_RepulsionScreen>().ActivatePostProcess(activation, target.transform.position, radius, duration);
     }
 
     void LateUpdate()
