@@ -227,6 +227,11 @@ public class Player : MonoBehaviour, IDamageable
         Cam.gameObject.SetActive(false);
     }
 
+    public string GetBodyName()
+    {
+        return _animationController.GetBodyName();
+    }
+
     void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.LayerMatchesWith(LayerMask.NameToLayer("DeathZone")))

@@ -10,9 +10,11 @@ public class WinnerPopupPlayerStat : MonoBehaviour
     TextMeshProUGUI _statName;
     Image _statImage;
 
-    void Start()
+    void Awake()
     {
         _an = GetComponent<Animator>();
+        _statName = GetComponentInChildren<TextMeshProUGUI>(true);
+        _statImage = GetComponentInChildren<Image>(true);
     }
 
     public void SetStatInfo(string statName, Sprite statImage)

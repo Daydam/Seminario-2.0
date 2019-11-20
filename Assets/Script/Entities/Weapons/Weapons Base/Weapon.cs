@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public abstract class Weapon : MonoBehaviour
 {
@@ -108,6 +109,12 @@ public abstract class Weapon : MonoBehaviour
     {
         SetKnockbackCurve();
         CheckInput();
+    }
+
+    public virtual string GetWeaponName()
+    {
+        var input = this.ToString().TakeWhile(x => x != '(');
+        return new String(input.ToArray());
     }
 
     /// <summary>

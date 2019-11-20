@@ -346,7 +346,7 @@ public class EndgameManager : MonoBehaviour
             if (asyncOp.progress >= 0.9f)
             {
                 _loadingScreen.OnLoadEnd();
-                if (Input.anyKey) asyncOp.allowSceneActivation = true;
+                if (Input.anyKey || AnyButtonHandler.AnyButtonPressed()) asyncOp.allowSceneActivation = true;
             }
             yield return new WaitForEndOfFrame();
         }

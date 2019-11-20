@@ -287,15 +287,15 @@ public class GameManager : MonoBehaviour
         {
             Players[i].StopVibrating();
             playerInfo.playerStats[i] = Players[i].Stats;
+            Players[i].lockedByGame = true;
         }
         Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
 
-
         var winner = Players.OrderByDescending(x => x.Stats.Score).First();
 
-		var winnerSkills = winner.GetComponentsInChildren<ComplementarySkillBase>().OrderBy(x => x.SkillIndex).ToArray();
+		var winnerSkills = winner.GetComponentsInChildren<ComplementarySkillBase>(true).OrderBy(x => x.SkillIndex).ToArray();
 
-		_winPopup.Initialize(winner, winner.GetComponentInChildren<DefensiveSkillBase>(), winner.GetComponentInChildren<Weapon>(), winnerSkills[0], winnerSkills[1]);
+		_winPopup.Initialize(winner, winner.GetComponentInChildren<DefensiveSkillBase>(true), winner.GetComponentInChildren<Weapon>(true), winnerSkills[0], winnerSkills[1]);
 
         _winPopup.gameObject.SetActive(true);
 
@@ -304,6 +304,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator EndGameCoroutine()
     {
+        _winPopup.gameObject.SetActive(false);
         _loadingScreen.gameObject.SetActive(true);
         canvas.gameObject.SetActive(false);
 
@@ -327,6 +328,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(startDelay);
 
+        _winPopup.gameObject.SetActive(false);
         _loadingScreen.gameObject.SetActive(true);
         canvas.gameObject.SetActive(false);
 
@@ -340,7 +342,7 @@ public class GameManager : MonoBehaviour
             if (asyncOp.progress >= 0.9f)
             {
                 _loadingScreen.OnLoadEnd();
-                if (Input.anyKey) asyncOp.allowSceneActivation = true;
+                if (Input.anyKey || AnyButtonHandler.AnyButtonPressed()) asyncOp.allowSceneActivation = true;
             }
             yield return new WaitForEndOfFrame();
         }

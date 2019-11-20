@@ -360,7 +360,7 @@ public class CharacterSelectionManager : MonoBehaviour
         }
         else
         {
-            if(Input.anyKeyDown)
+            if(Input.anyKeyDown || AnyButtonHandler.AnyButtonPressed())
             {
                 splashScreen.SetActive(false);
             }
