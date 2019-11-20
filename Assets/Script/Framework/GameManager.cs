@@ -287,9 +287,9 @@ public class GameManager : MonoBehaviour
         {
             Players[i].StopVibrating();
             playerInfo.playerStats[i] = Players[i].Stats;
+            Players[i].lockedByGame = true;
         }
         Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
-
 
         var winner = Players.OrderByDescending(x => x.Stats.Score).First();
 
