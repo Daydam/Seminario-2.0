@@ -28,4 +28,9 @@ public class PlayerAnimations : MonoBehaviour
     {
         _an.SetBool("moving", activation);
     }
+
+    public string GetBodyName()
+    {
+        return _an.name;
+    }
 }

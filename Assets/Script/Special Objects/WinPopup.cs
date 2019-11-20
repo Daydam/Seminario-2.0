@@ -28,7 +28,7 @@ public class WinPopup : MonoBehaviour
 
         _winnerText.text = winnerName;
 
-        _body.SetStatInfo(body.name, body.GetComponent<UI_ImageAssets>().iconAsset);
+        _body.SetStatInfo(body.GetBodyName(), body.GetComponent<UI_ImageAssets>().iconAsset);
         _def.SetStatInfo(def.GetSkillName(), def.GetComponent<UI_ImageAssets>().iconAsset);
         _wpn.SetStatInfo(wpn.GetWeaponName(), wpn.GetComponent<UI_ImageAssets>().iconAsset);
         _skill1.SetStatInfo(skill1.GetSkillName(), skill1.GetComponent<UI_ImageAssets>().iconAsset);
