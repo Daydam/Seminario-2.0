@@ -7,13 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: m_ImplosiveCharge_Distortion
-  m_Shader: {fileID: 4800000, guid: 3761cd7fb0e82fc4c8b6174c248a4410, type: 3}
+  m_Name: m_ImplosiveCharge_Proyectile
+  m_Shader: {fileID: 4800000, guid: 9bd0bbc228d70a74aa87d8e1bef3dc78, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3003
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -28,31 +28,23 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Flowmap:
-        m_Texture: {fileID: 2800000, guid: bf324afe2f0f40e469ada9b430482d90, type: 3}
+        m_Texture: {fileID: 2800000, guid: 920b2289f820f91489558539f21b1313, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _LifeEmission:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _MainTexture:
-        m_Texture: {fileID: 2800000, guid: f5117ac104b03694a9e63d45562c877f, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTextureGDistortion:
-        m_Texture: {fileID: 2800000, guid: f5117ac104b03694a9e63d45562c877f, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _Metallic:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Roughness:
-        m_Texture: {fileID: 0}
+    - _Noise:
+        m_Texture: {fileID: 2800000, guid: cc3baa7be3b39fd47830647e4f8ecef5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _TextureSample0:
-        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
+    - _Roughness:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -61,18 +53,17 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Available: 1
-    - _Border_Intensity: 2.14
-    - _Cutoff: 0.02
-    - _DistortionIntensity: 0.29
-    - _Distortion_Intensity: -0.02
-    - _Float0: -0.23
-    - _Flowmap_Intensity: 0.03
-    - _Intensity: 0.76
-    - _Intensity_Distortion: 0.11
+    - _Brigthness: -0.2
+    - _EdgeLength: 18.2
+    - _Float0: 0
+    - _Flowmap_Speed_X: 1
+    - _Flowmap_Speed_Y: 0
+    - _Fresnel_Bias: 0
+    - _Fresnel_Power: 5
+    - _Fresnel_Scale: 1
+    - _Intensity: -0.16
     - _Life: 1
-    - _Mask: -0.2
-    - _Opacity: -0.45
-    - _Scale: 0.44
     - __dirty: 0
     m_Colors:
-    - _Color_Distortion: {r: 6.3686275, g: 1.4337748, b: 0.3667796, a: 0}
+    - _Fresnel_Color: {r: 5.992157, g: 1.3490196, b: 0.34509805, a: 0}
+    - _MainColor: {r: 0, g: 0, b: 0, a: 0}
