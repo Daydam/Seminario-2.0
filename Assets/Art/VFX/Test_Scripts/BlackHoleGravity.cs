@@ -91,6 +91,12 @@ public class BlackHoleGravity : MonoBehaviour
         }
     }*/
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.layer == 13)
+            _applyCollapse = true;
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if (_applyCollapse && other.gameObject.layer == 13)

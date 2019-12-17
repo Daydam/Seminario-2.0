@@ -5,22 +5,29 @@ using UnityEngine;
 public class SimpleParticleController : MonoBehaviour
 {
     public Material vertexCollapse;
+    public ParticleSystem ps_Idle;
+    public ParticleSystem ps_PreExplosion;
     public ParticleSystem ps_Proyectile;
     public GameObject vfx_blackHole;
 
     public float explosionForce;
     public float explosionRadius;
-    //public ParticleSystem ps_Explosion;
+
+    public float timeToActiveProyectile;
 
     public List<ParticleSystem> allPS_BlackHole;
-
+    
     private SimpleMovementController _movementController;
     private Vector3 _startProyectilePos;
-
     private float _gravitacionalConstant = 6.67e-11f;
+
+    private bool _activeTimer;
+    private float _timer;
 
     private void Start()
     {
+        _timer = timeToActiveProyectile;
+
         _startProyectilePos = ps_Proyectile.transform.position;
         _movementController = ps_Proyectile.GetComponent<SimpleMovementController>();
     }
@@ -29,15 +36,22 @@ public class SimpleParticleController : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Space))
         {
+            _activeTimer = true;
+            ps_Idle.Stop();
+            ps_PreExplosion.Play();
+        }
+
+        if(Input.GetKeyUp(KeyCode.R))
+        {
             vertexCollapse.SetVector("_BlackHolePos", Vector3.zero);
             vertexCollapse.SetFloat("_Radius", 0.0f);
+
             for (int i = 0; i < allPS_BlackHole.Count; i++)
             {
                 allPS_BlackHole[i].Stop();
             }
-            ps_Proyectile.gameObject.SetActive(true);
-            _movementController.transform.position = _startProyectilePos;
-            _movementController.activeBlackHole = false;
+
+            vfx_blackHole.transform.position = _startProyectilePos;
         }
 
         if (_movementController.activeBlackHole)
@@ -45,6 +59,22 @@ public class SimpleParticleController : MonoBehaviour
             vfx_blackHole.transform.position = ps_Proyectile.transform.position;
             vfx_blackHole.GetComponentInChildren<ParticleSystem>().Play();
             _movementController.activeBlackHole = false;
+            ps_Idle.Play();
+        }
+
+        if(_activeTimer)
+        {
+            _timer -= Time.deltaTime;
+
+            if (_timer <= 0.0f)
+            {
+                ps_Proyectile.gameObject.SetActive(true);
+                _movementController.transform.position = _startProyectilePos;
+                _movementController.activeBlackHole = false;
+
+                _timer = timeToActiveProyectile;
+                _activeTimer = false;
+            }
         }
     }
 
