@@ -7,6 +7,8 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
 {
     public SO_ImplosiveCharge skillData;
 
+    ModuleParticleController _particleModule;
+
     float _currentCooldown;
     bool _skillActive, _canTap = true;
 
@@ -22,6 +24,7 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
     protected override void Start()
     {
         base.Start();
+        _particleModule = GetComponent<ModuleParticleController>();
 
         skillData = Resources.Load<SO_ImplosiveCharge>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_ImplosiveCharge;
 
@@ -54,6 +57,9 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
 
     IEnumerator ChargeActivationHandler()
     {
+        _particleModule.OnShoot();
+        StartCoroutine(ApplyReadyParticles());
+
         _charge.gameObject.SetActive(true);
         _charge.Spawn(_owner.transform.position, _owner.transform.forward, _owner.tag, _owner, skillData);
         _skillActive = true;
@@ -72,6 +78,23 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
         _skillActive = false;
         _currentCooldown = skillData.maxCooldown;
         NotifyUIModule();
+    }
+
+    public IEnumerator ApplyReadyParticles()
+    {
+        yield return new WaitForEndOfFrame();
+        while (true)
+        {
+            if (GetActualState() != SkillState.Available)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+            else
+            {
+                _particleModule.OnAvailableShot();
+                yield break;
+            }
+        }
     }
 
     /// <summary>

@@ -24,7 +24,7 @@ public class DroneControlModule : PlayerControlModule
     {
         var playerCol = owner.GetComponent<Collider>();
         //harcodeado, fixear
-        print("FIXEAME PORFA, ESTOY HARDCODEADO");
+        //print("FIXEAME PORFA, ESTOY HARDCODEADO");
         var stage = GameObject.FindObjectOfType<CrystalPyramidStage>();
 
         if (stage)

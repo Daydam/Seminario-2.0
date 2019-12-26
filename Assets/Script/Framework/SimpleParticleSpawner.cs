@@ -54,6 +54,7 @@ public class SimpleParticleSpawner : MonoBehaviour
         public const int DEATHPARTICLE = 7;
         public const int BULLET_STONE_IMPACT = 8;
         public const int DUST_WALL_DESTRUCTION = 9;
+        public const int BLACKHOLEEXPLOSION = 10;
     }
 
     #region Particles Pool

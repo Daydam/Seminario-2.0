@@ -92,8 +92,18 @@ public class SK_StunMissile : ComplementarySkillBase
 
     public IEnumerator ApplyReadyParticles()
     {
-        while (GetActualState() != SkillState.Available) yield return new WaitForEndOfFrame();
-
-        _particleModule.OnAvailableShot();
+        yield return new WaitForEndOfFrame();
+        while (true)
+        {
+            if (GetActualState() != SkillState.Available)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+            else
+            {
+                _particleModule.OnAvailableShot();
+                yield break;
+            }
+        }
     }
 }

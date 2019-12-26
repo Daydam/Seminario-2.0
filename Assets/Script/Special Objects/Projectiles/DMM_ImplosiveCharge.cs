@@ -65,8 +65,12 @@ public class DMM_ImplosiveCharge : MonoBehaviour
         _stopMoving = true;
 
         targets = Physics.OverlapSphere(transform.position, skillData.radius).Select(x => x.GetComponent<Player>()).Where(x => x != null && x != _owner).ToList();
-
         FinishTrajectory();
+
+        var particleID = SimpleParticleSpawner.ParticleID.BLACKHOLEEXPLOSION;
+        var particle = SimpleParticleSpawner.Instance.particles[particleID].GetComponentInChildren<ParticleSystem>();
+
+        SimpleParticleSpawner.Instance.SpawnParticle(particle.gameObject, transform.position, transform.forward, null);
     }
 
     public void ForceActivation()
