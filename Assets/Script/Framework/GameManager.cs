@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
     Transform[] spawns;
     AudioSource _audioSource;
 
-    void Start()
+    void Awake()
     {
         if (!Application.isEditor)
         {

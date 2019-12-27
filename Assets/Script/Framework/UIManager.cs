@@ -29,7 +29,7 @@ public class UIManager : MonoBehaviour
     public readonly string coundownName = "Countdown";
     public readonly string canvasName = "---CAMERA CANVAS---";
 
-    GameObject _canvas;
+    public GameObject stageCanvas;
     public Image fader;
     public Animator countdown;
     public readonly float fadeInDuration = 4f;
@@ -44,9 +44,9 @@ public class UIManager : MonoBehaviour
     {
         _startRoundCallback = callback;
         EventManager.Instance.AddEventListener(UIEvents.StartRound, OnFinishedCountdown);
-        _canvas = GameObject.Find(canvasName);
-        fader = _canvas.transform.Find(blackFadeName).GetComponent<Image>();
-        countdown = _canvas.transform.Find(coundownName).GetComponent<Animator>();
+        stageCanvas = GameObject.Find(canvasName);
+        fader = stageCanvas.transform.Find(blackFadeName).GetComponent<Image>();
+        countdown = stageCanvas.transform.Find(coundownName).GetComponent<Animator>();
         targetPointsText.text = "Reach " + pointsToWin + " points!";
 
         ApplyTextes(players.ToArray());
@@ -59,7 +59,7 @@ public class UIManager : MonoBehaviour
         {
             var realIndex = (i + 1).ToString();
             var nameToSearch = canvasPlayers[i].prefix + realIndex;
-            var imgs = _canvas.transform.GetComponentsInChildren<Image>().Where(x => x.name == nameToSearch).ToArray();
+            var imgs = stageCanvas.transform.GetComponentsInChildren<Image>().Where(x => x.name == nameToSearch).ToArray();
             canvasPlayers[i].Initialize(imgs);
         }
     }
@@ -71,7 +71,7 @@ public class UIManager : MonoBehaviour
 
     void ApplyTextes(Player[] players)
     {
-        var allTextes = _canvas.transform.Find(players.Length + " Player").Find("Textes").GetComponentsInChildren<Text>();
+        var allTextes = stageCanvas.transform.Find(players.Length + " Player").Find("Textes").GetComponentsInChildren<Text>();
 
         for (int i = 0; i < allTextes.Length; i++)
         {

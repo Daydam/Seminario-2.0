@@ -11,8 +11,24 @@ public class CrystalPyramidFallHandler : MonoBehaviour
     public Animator centerLight;
     Light _obeliskLight;
 
-	public void Awake()
-	{
+    FourPartMinimap _minimap;
+
+    public FourPartMinimap Minimap
+    {
+        get
+        {
+            if (_minimap == null) _minimap = UIManager.Instance.stageCanvas.transform.Find(GameManager.Instance.Players.Count + " Player").GetComponentInChildren<FourPartMinimap>(); ;
+            return _minimap;
+        }
+
+        set
+        {
+            _minimap = value;
+        }
+    }
+
+    void Awake()
+    {
         _obeliskLight = centerLight.GetComponent<Light>();
 
         _obeliskParticleRenderer = obeliskParticle.GetComponent<ParticleSystemRenderer>();
@@ -21,20 +37,35 @@ public class CrystalPyramidFallHandler : MonoBehaviour
         obeliskRenderer.material.EnableKeyword("_EMISSION");
     }
 
+    void Start()
+    {
+        Minimap = UIManager.Instance.stageCanvas.transform.Find(GameManager.Instance.Players.Count + " Player").GetComponentInChildren<FourPartMinimap>(); ;
+    }
+
     void Update()
     {
         obeliskRenderer.material.SetColor("_EmissionColor", _obeliskLight.intensity * _obeliskLight.color);
         _obeliskParticleRenderer.material.SetColor("_EmissionColor", _obeliskLight.color);
     }
 
-    public void SetDanger()
+    /// <summary>
+    /// Recieves 0 to 3
+    /// </summary>
+    /// <param name="indx"> 0 to 3 </param>
+    public void SetDangerState(int romboidIndex)
     {
         centerLight.SetTrigger("StartFall");
+        Minimap.SetDangerState(romboidIndex);
     }
 
-    public void SetEndFall()
+    /// <summary>
+    /// Recieves 0 to 3
+    /// </summary>
+    /// <param name="indx"> 0 to 3 </param>
+    public void SetFallState(int romboidIndex)
     {
         centerLight.SetTrigger("EndFall");
+        Minimap.SetFallState(romboidIndex);
     }
 
     public void ResetRound()

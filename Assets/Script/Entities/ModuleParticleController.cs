@@ -20,7 +20,6 @@ public class ModuleParticleController : MonoBehaviour
 
     public void OnShoot()
     {
-        print("HOLANDAAAA");
         _readyParticle.Stop(true);
         readyParticle.SetActive(false);
 
@@ -30,7 +29,6 @@ public class ModuleParticleController : MonoBehaviour
 
     public void OnAvailableShot()
     {
-        print("PEPOSAAA");
         readyParticle.SetActive(true);
         _readyParticle.Play(true);
 

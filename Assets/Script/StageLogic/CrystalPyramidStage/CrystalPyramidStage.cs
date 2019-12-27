@@ -43,7 +43,7 @@ public class CrystalPyramidStage : StageBase
     {
         if (_actualIndex >= crystalRomboids.Length) return;
         crystalRomboids[_actualIndex].SetDanger();
-        _fallHandler.SetDanger();
+        _fallHandler.SetDangerState(_actualIndex);
 
     }
 
@@ -53,8 +53,7 @@ public class CrystalPyramidStage : StageBase
         pyramid.OnFall(_actualIndex);
         crystalRomboids[_actualIndex].RomboidFall();
         _actualIndex++;
-        _fallHandler.SetEndFall();
-
+        _fallHandler.SetFallState(_actualIndex);
     }
 
 
