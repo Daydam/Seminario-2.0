@@ -70,7 +70,7 @@ public class DMM_ImplosiveCharge : MonoBehaviour
         var particleID = SimpleParticleSpawner.ParticleID.BLACKHOLEEXPLOSION;
         var particle = SimpleParticleSpawner.Instance.particles[particleID].GetComponentInChildren<ParticleSystem>();
 
-        SimpleParticleSpawner.Instance.SpawnParticle(particle.gameObject, transform.position, transform.forward, null);
+        SimpleParticleSpawner.Instance.SpawnParticle(particle.gameObject, transform.position, transform.forward, 4, null);
     }
 
     public void ForceActivation()

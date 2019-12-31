@@ -591,6 +591,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4579947060913774}
     m_Modifications:
+    - target: {fileID: 6105941207667595564, guid: fa371a0e81cc6ef45aa2e3b99664c215,
+        type: 3}
+      propertyPath: m_Name
+      value: VFX_StunMissile_PreExplosion
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105941207667595564, guid: fa371a0e81cc6ef45aa2e3b99664c215,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6105941207667595565, guid: fa371a0e81cc6ef45aa2e3b99664c215,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -646,10 +656,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6105941207667595564, guid: fa371a0e81cc6ef45aa2e3b99664c215,
+    - target: {fileID: 6105941207508816124, guid: fa371a0e81cc6ef45aa2e3b99664c215,
         type: 3}
-      propertyPath: m_Name
-      value: VFX_StunMissile_PreExplosion
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105941207072346547, guid: fa371a0e81cc6ef45aa2e3b99664c215,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105941205869945655, guid: fa371a0e81cc6ef45aa2e3b99664c215,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105941206046054923, guid: fa371a0e81cc6ef45aa2e3b99664c215,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105941205920855064, guid: fa371a0e81cc6ef45aa2e3b99664c215,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa371a0e81cc6ef45aa2e3b99664c215, type: 3}

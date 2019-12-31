@@ -11,7 +11,7 @@ public class ModuleParticleController : MonoBehaviour
     void Awake()
     {
         _readyParticle = readyParticle.GetComponentInChildren<ParticleSystem>();
-        _readyParticle.Play(true);
+        //_readyParticle.Play(true);
         _shootParticle = shootParticle.GetComponentInChildren<ParticleSystem>();
 
         _shootParticle.Stop(true);
@@ -20,7 +20,7 @@ public class ModuleParticleController : MonoBehaviour
 
     public void OnShoot()
     {
-        _readyParticle.Stop(true);
+        //_readyParticle.Stop(true);
         readyParticle.SetActive(false);
 
         shootParticle.SetActive(true);
@@ -30,7 +30,7 @@ public class ModuleParticleController : MonoBehaviour
     public void OnAvailableShot()
     {
         readyParticle.SetActive(true);
-        _readyParticle.Play(true);
+        //_readyParticle.Play(true);
 
         _shootParticle.Stop(true);
         shootParticle.SetActive(false);
