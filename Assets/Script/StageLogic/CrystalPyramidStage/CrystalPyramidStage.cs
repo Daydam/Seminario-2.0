@@ -7,27 +7,34 @@ public class CrystalPyramidStage : StageBase
 {
     public LaserPyramid pyramid;
     public CrystalRomboid[] crystalRomboids;
-    int _actualIndex = 0;
+    CrystalPyramidFallHandler _fallHandler;
+
+    int _actualIndex;
+    public float dangerTime = 15f;
+    public float fallTime = 10f;
 
     void Start()
     {
         pyramid = GetComponentInChildren<LaserPyramid>();
         crystalRomboids = GetComponentsInChildren<CrystalRomboid>().ToArray();
+
+        _fallHandler = GetComponent<CrystalPyramidFallHandler>();
+
         StartPyramidShrinkage();
     }
 
     public void StartPyramidShrinkage()
     {
-        StartCoroutine(TestMugriento());
+        StartCoroutine(StageMutationCoroutine());
     }
 
-    IEnumerator TestMugriento()
+    IEnumerator StageMutationCoroutine()
     {
         while (_actualIndex < crystalRomboids.Length - 1)
         {
-            yield return new WaitForSeconds(15);
+            yield return new WaitForSeconds(dangerTime);
             SetRomboidDanger();
-            yield return new WaitForSeconds(10);
+            yield return new WaitForSeconds(fallTime);
             RomboidFall();
         }
     }
@@ -36,6 +43,8 @@ public class CrystalPyramidStage : StageBase
     {
         if (_actualIndex >= crystalRomboids.Length) return;
         crystalRomboids[_actualIndex].SetDanger();
+        _fallHandler.SetDangerState(_actualIndex);
+
     }
 
     public void RomboidFall()
@@ -44,6 +53,7 @@ public class CrystalPyramidStage : StageBase
         pyramid.OnFall(_actualIndex);
         crystalRomboids[_actualIndex].RomboidFall();
         _actualIndex++;
+        _fallHandler.SetFallState(_actualIndex);
     }
 
 
@@ -61,5 +71,6 @@ public class CrystalPyramidStage : StageBase
         _actualIndex = 0;
 
         Invoke("StartPyramidShrinkage", 3);
+        _fallHandler.ResetRound();
     }
 }

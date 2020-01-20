@@ -80,7 +80,7 @@ public class SK_RocketSalvo : ComplementarySkillBase
     {
         ApplyEffectArea();
 
-        _owner.ApplyDisarm(skillData.duration);
+        _owner.ApplyDisarm(skillData.duration, false);
 
         StartCoroutine(FireRockets());
     }
@@ -113,6 +113,7 @@ public class SK_RocketSalvo : ComplementarySkillBase
         }
 
         _currentCooldown = skillData.maxCooldown;
+        NotifyUIModule();
 
         //set player state enabled
     }
@@ -144,5 +145,10 @@ public class SK_RocketSalvo : ComplementarySkillBase
         else if (unavailable) return SkillState.Unavailable;
         else if (_skillActive) return SkillState.Active;
         else return SkillState.Available;
+    }
+
+    public override float GetCooldownPerc()
+    {
+        return Mathf.Lerp(1, 0, _currentCooldown / skillData.maxCooldown);
     }
 }

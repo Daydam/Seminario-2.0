@@ -154,7 +154,7 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
             {
                 _target = GetTarget();
             }
-            _nav.SetDestination(_target.transform.position);
+            if (_target) _nav.SetDestination(_target.transform.position);
         }
     }
 
@@ -174,7 +174,7 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
 
         foreach (var pl in players)
         {
-            pl.ApplyDisarm(_duration);
+            pl.ApplyDisarm(_duration, true);
         }
 
         foreach (var item in Trail)

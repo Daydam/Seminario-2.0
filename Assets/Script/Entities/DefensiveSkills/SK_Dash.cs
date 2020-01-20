@@ -11,6 +11,7 @@ public class SK_Dash : DefensiveSkillBase
     bool _canTap = true;
     bool _isDashing;
     float _currentCooldown = 0;
+    readonly float _debugMaxTimeOfCast = 2f;
 
     protected override void Start()
     {
@@ -54,6 +55,7 @@ public class SK_Dash : DefensiveSkillBase
                     _canTap = false;
                     StartCoroutine(DashHandler(dirV.normalized));
                     _currentCooldown = skillData.maxCooldown;
+                    NotifyUIModule();
                 }
             }
             else
@@ -72,7 +74,7 @@ public class SK_Dash : DefensiveSkillBase
     {
         _owner.CancelForces();
         _isDashing = true;
-
+        var debugTime = 0f;
         var distanceTraveled = 0f;
 
         var amountByDelta = Time.fixedDeltaTime * skillData.dashDistance / skillData.dashTime;
@@ -84,6 +86,15 @@ public class SK_Dash : DefensiveSkillBase
             _owner.GetRigidbody.MovePosition(nextPos);
 
             yield return new WaitForFixedUpdate();
+
+            debugTime += Time.fixedDeltaTime;
+            if (debugTime >= _debugMaxTimeOfCast)
+            {
+                _trail.StopShowing();
+                _isDashing = false;
+                _canTap = false;
+                yield break;
+            }
         }
 
         _trail.StopShowing();
@@ -107,5 +118,10 @@ public class SK_Dash : DefensiveSkillBase
         if (userDisabled) return SkillState.UserDisabled;
         else if (unavailable) return SkillState.Unavailable;
         else return SkillState.Available;
+    }
+
+    public override float GetCooldownPerc()
+    {
+        return Mathf.Lerp(1, 0, _currentCooldown / skillData.maxCooldown);
     }
 }

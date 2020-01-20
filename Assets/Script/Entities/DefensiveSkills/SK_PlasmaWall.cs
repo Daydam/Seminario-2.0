@@ -25,7 +25,6 @@ public class SK_PlasmaWall : DefensiveSkillBase
     {
         base.Start();
         skillData = Resources.Load<SO_PlasmaWall>("Scriptable Objects/Skills/Defensive/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_PlasmaWall;
-
     }
 
     protected override void InitializeUseCondition()
@@ -46,6 +45,7 @@ public class SK_PlasmaWall : DefensiveSkillBase
                     _canTap = false;
                     SpawnWall();
                     _currentCooldown = skillData.maxCooldown;
+                    NotifyUIModule();
                 }
             }
             else
@@ -78,5 +78,10 @@ public class SK_PlasmaWall : DefensiveSkillBase
         if (userDisabled) return SkillState.UserDisabled;
         else if (unavailable) return SkillState.Unavailable;
         else return SkillState.Available;
+    }
+
+    public override float GetCooldownPerc()
+    {
+        return Mathf.Lerp(1, 0, _currentCooldown / skillData.maxCooldown);
     }
 }

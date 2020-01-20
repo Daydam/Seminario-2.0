@@ -8,6 +8,7 @@ public abstract class SkillBase : MonoBehaviour
 {
     protected SkillStateIndicator _feedback;
     protected Func<bool> _canUseSkill;
+    protected PlayerUIModule _uiModule;
 
     protected AudioSource _stateSource;
     public AudioClip unavailableSound;
@@ -19,6 +20,7 @@ public abstract class SkillBase : MonoBehaviour
         _stateSource = GetComponent<AudioSource>();
         activationAnim = GetComponent<Animation>();
         InitializeUseCondition();
+        _uiModule = GetComponentInParent<PlayerUIModule>();
     }
     protected abstract void InitializeUseCondition();
 
@@ -31,10 +33,14 @@ public abstract class SkillBase : MonoBehaviour
     /// <returns> </returns>
     public abstract SkillState GetActualState();
 
-    protected virtual string GetSkillName()
+    public virtual string GetSkillName()
     {
         return this.ToString().Split('_').Skip(1).First().Split(')').First();
     }
+
+    public abstract float GetCooldownPerc();
+
+    public abstract void NotifyUIModule();
 
 }
 

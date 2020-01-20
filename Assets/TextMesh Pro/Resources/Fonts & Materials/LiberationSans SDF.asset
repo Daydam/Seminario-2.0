@@ -4,12 +4,11 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
   m_Name: LiberationSans SDF Material
   m_Shader: {fileID: 4800000, guid: fe393ace9b354375a9cb14cdbbc28be4, type: 3}
-  m_ShaderKeywords: UNDERLAY_ON _EMISSION
+  m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -125,9 +124,9 @@ Material:
     - _TextureWidth: 1024
     - _UVSec: 0
     - _UnderlayDilate: 0
-    - _UnderlayOffsetX: 0.5
-    - _UnderlayOffsetY: -0.5
-    - _UnderlaySoftness: 0.5
+    - _UnderlayOffsetX: 0
+    - _UnderlayOffsetY: 0
+    - _UnderlaySoftness: 0
     - _VertexOffsetX: 0
     - _VertexOffsetY: 0
     - _WeightBold: 0.75
@@ -138,20 +137,19 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EnvMatrixRotation: {r: 0, g: 0, b: 0, a: 0}
-    - _FaceColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FaceColor: {r: 1, g: 1, b: 1, a: 1}
     - _GlowColor: {r: 0, g: 1, b: 0, a: 0.5}
     - _MaskCoord: {r: 0, g: 0, b: 32767, a: 32767}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectFaceColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectOutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
-    - _UnderlayColor: {r: 0.45283014, g: 0.45283014, b: 0.45283014, a: 1}
+    - _UnderlayColor: {r: 0, g: 0, b: 0, a: 0.5}
 --- !u!28 &2846298
 Texture2D:
   m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
   m_Name: LiberationSans SDF Atlas
   m_ImageContentsHash:
     serializedVersion: 2
@@ -165,8 +163,6 @@ Texture2D:
   m_TextureFormat: 1
   m_MipCount: 1
   m_IsReadable: 0
-  m_StreamingMipmaps: 0
-  m_StreamingMipmapsPriority: 0
   m_AlphaIsTransparency: 0
   m_ImageCount: 1
   m_TextureDimension: 2
@@ -185,19 +181,18 @@ Texture2D:
   m_StreamData:
     offset: 0
     size: 0
-    path: 
+    path:
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: LiberationSans SDF
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   hashCode: 231247347
   material: {fileID: 2180264}
   materialHashCode: -1183942120
@@ -3846,7 +3841,7 @@ MonoBehaviour:
     xOffset: 0
   fallbackFontAssets: []
   m_CreationSettings:
-    sourceFontFileName: 
+    sourceFontFileName:
     sourceFontFileGUID: e3265ab4bf004d28a9537516768c1c75
     pointSizeSamplingMode: 1
     pointSize: 86
@@ -3856,8 +3851,8 @@ MonoBehaviour:
     atlasHeight: 1024
     characterSetSelectionMode: 1
     characterSequence: 32 - 126, 160 - 255, 8192 - 8303, 8364, 8482, 9633
-    referencedFontAssetGUID: 
-    referencedTextAssetGUID: 
+    referencedFontAssetGUID:
+    referencedTextAssetGUID:
     fontStyle: 0
     fontStyleModifier: 2
     renderMode: 7

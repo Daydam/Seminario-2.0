@@ -18,6 +18,7 @@ public abstract class DefensiveSkillBase : SkillBase
         inputMethod = control.DefensiveSkill;
         GameManager.Instance.OnResetRound += ResetRound;
         _feedback = GetModuleFeedback();
+        _uiModule.InitializeDefensiveSkill(this);
     }
 
     protected virtual void Update()
@@ -33,5 +34,10 @@ public abstract class DefensiveSkillBase : SkillBase
         var indic = Instantiate(Resources.Load<SkillStateIndicator>("Prefabs/Skills/Helpers/ModuleFeedback"), transform);
         indic.InitializeIndicator(this, _owner.GetComponentsInChildren<Renderer>(), true);
         return (indic);
+    }
+
+    public override void NotifyUIModule()
+    {
+        _uiModule.UpdateSkillState(PlayerUIModule.SkillType.Defensive);
     }
 }

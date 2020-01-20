@@ -89,7 +89,7 @@ public class PlayerCreatorWindow : EditorWindow
 
         if (allComp1s == null)
         {
-            allComp1s = Resources.LoadAll<GameObject>("Prefabs/Skills/Complementary 1").Select(a => a.name).ToArray();
+            allComp1s = Resources.LoadAll<GameObject>("Prefabs/Skills/Complementary").Select(a => a.name).ToArray();
         }
         if (comp1Indexes == null)
         {
@@ -102,7 +102,7 @@ public class PlayerCreatorWindow : EditorWindow
 
         if (allComp2s == null)
         {
-            allComp2s = Resources.LoadAll<GameObject>("Prefabs/Skills/Complementary 2").Select(a => a.name).ToArray();
+            allComp2s = Resources.LoadAll<GameObject>("Prefabs/Skills/Complementary").Select(a => a.name).ToArray();
         }
         if (comp2Indexes == null)
         {

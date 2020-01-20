@@ -1056,6 +1056,7 @@ GameObject:
   - component: {fileID: 4957774587532936}
   - component: {fileID: 114355888498709146}
   - component: {fileID: 82961337362450030}
+  - component: {fileID: 981441061452870938}
   m_Layer: 8
   m_Name: Dash
   m_TagString: Player 1
@@ -1091,9 +1092,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unavailableSound: {fileID: 8300000, guid: 9bb6b586b5f532749a7433b37ede251c, type: 3}
-  maxCooldown: 1.5
-  dashDistance: 3
-  dashTime: 0.2
+  skillData: {fileID: 0}
 --- !u!82 &82961337362450030
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1190,6 +1189,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &981441061452870938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522435164214680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a04188964334c40bca8ea39ae1e5cdac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iconAsset: {fileID: 21300000, guid: 6eb40d880ce6bb44fbd0914f51e87a1d, type: 3}
 --- !u!1 &1552568727756524
 GameObject:
   m_ObjectHideFlags: 0

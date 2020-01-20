@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public abstract class Weapon : MonoBehaviour
 {
+    string _weaponCooldownPath = "Scriptable Objects/Weapons/DATA_WeaponCooldowns";
+    public SO_WeaponBase weaponStatsData;
+    protected SO_WeaponCooldowns _weaponCooldownData;
+
     protected Controller _control;
     protected Player _owner;
     /*[SerializeField]*/
@@ -16,9 +21,6 @@ public abstract class Weapon : MonoBehaviour
     public AudioClip shootSound;
     protected AudioSource _audioSource;
     protected float _audioSourceOriginalPitch;
-
-    [Range(1, 10)]
-    public int RPMScore;
 
     protected float _realCooldown;
     protected float _currentCooldown = 0;
@@ -34,13 +36,6 @@ public abstract class Weapon : MonoBehaviour
         }
     }
 
-    public float minDamage;
-    public float maxDamage;
-    public float minKnockback = 2.5f;
-    public float maxKnockback = 7.5f;
-    public float falloffStart;
-    public float falloffEnd;
-
     protected Transform _muzzle;
 
     protected float VibrationDuration
@@ -50,7 +45,7 @@ public abstract class Weapon : MonoBehaviour
 
     protected float VibrationIntensity
     {
-        get { return Mathf.Min(maxDamage / 60, 1.5f); }
+        get { return Mathf.Min(weaponStatsData.maxDamage / 60, 1.5f); }
     }
 
     protected float ShakeDuration
@@ -60,11 +55,13 @@ public abstract class Weapon : MonoBehaviour
 
     protected float ShakeIntensity
     {
-        get { return Mathf.Max(maxDamage / 50, 2); }
+        get { return Mathf.Max(weaponStatsData.maxDamage / 50, 2); }
     }
 
     protected virtual void Awake()
     {
+        _weaponCooldownData = ScriptableObject.Instantiate(Resources.Load<SO_WeaponCooldowns>(_weaponCooldownPath) as SO_WeaponCooldowns);
+
         _audioSource = GetComponent<AudioSource>();
         _audioSourceOriginalPitch = _audioSource.pitch;
         InitializeCooldowns(1);
@@ -81,29 +78,29 @@ public abstract class Weapon : MonoBehaviour
     void SetDamageCurve()
     {
         _damageFalloff = new AnimationCurve();
-        var initialKey = new Keyframe(0, maxDamage, 0, 0);
+        var initialKey = new Keyframe(0, weaponStatsData.maxDamage, 0, 0);
         _damageFalloff.AddKey(initialKey);
-        var startFalloff = new Keyframe(falloffStart, maxDamage, 0, 0);
+        var startFalloff = new Keyframe(weaponStatsData.falloffStart, weaponStatsData.maxDamage, 0, 0);
         _damageFalloff.AddKey(startFalloff);
-        var endFalloff = new Keyframe(falloffEnd, minDamage, 0, 0);
+        var endFalloff = new Keyframe(weaponStatsData.falloffEnd, weaponStatsData.minDamage, 0, 0);
         _damageFalloff.AddKey(endFalloff);
     }
 
     void SetKnockbackCurve()
     {
         _knockbackFalloff = new AnimationCurve();
-        var initialKey = new Keyframe(0, maxKnockback, 0, 0);
+        var initialKey = new Keyframe(0, weaponStatsData.maxKnockback, 0, 0);
         _knockbackFalloff.AddKey(initialKey);
-        var startFalloff = new Keyframe(falloffStart, maxKnockback, 0, 0);
+        var startFalloff = new Keyframe(weaponStatsData.falloffStart, weaponStatsData.maxKnockback, 0, 0);
         _knockbackFalloff.AddKey(startFalloff);
-        var endFalloff = new Keyframe(falloffEnd, minKnockback, 0, 0);
+        var endFalloff = new Keyframe(weaponStatsData.falloffEnd, weaponStatsData.minKnockback, 0, 0);
         _knockbackFalloff.AddKey(endFalloff);
     }
 
     void Start()
     {
         InitializeUseCondition();
-        _realCooldown = WeaponCooldowns[RPMScore];
+        _realCooldown = WeaponCooldowns[weaponStatsData.RPMScore];
         _owner = GetComponentInParent<Player>();
         _control = _owner.Control;
     }
@@ -114,6 +111,12 @@ public abstract class Weapon : MonoBehaviour
         CheckInput();
     }
 
+    public virtual string GetWeaponName()
+    {
+        var input = this.ToString().TakeWhile(x => x != '(');
+        return new String(input.ToArray());
+    }
+
     /// <summary>
     /// TODO !!
     /// CARGAR DESDE ARCHIVO
@@ -122,16 +125,10 @@ public abstract class Weapon : MonoBehaviour
     {
         weaponRealCooldowns = new Dictionary<int, float>();
 
-        weaponRealCooldowns.Add(1, 1 / multiplier);
-        weaponRealCooldowns.Add(2, 0.5217391304f / multiplier);
-        weaponRealCooldowns.Add(3, 0.3692307692f / multiplier);
-        weaponRealCooldowns.Add(4, 0.3f / multiplier);
-        weaponRealCooldowns.Add(5, 0.2307692308f / multiplier);
-        weaponRealCooldowns.Add(6, 0.2f / multiplier);
-        weaponRealCooldowns.Add(7, 0.1846153846f / multiplier);
-        weaponRealCooldowns.Add(8, 0.16f / multiplier);
-        weaponRealCooldowns.Add(9, 0.133333333f / multiplier);
-        weaponRealCooldowns.Add(10, 0.1f / multiplier);
+        for (int i = 0; i < _weaponCooldownData.cooldownValues.Length; i++)
+        {
+            weaponRealCooldowns.Add(i + 1, _weaponCooldownData.cooldownValues[i]);
+        }
     }
 
     protected abstract void InitializeUseCondition();

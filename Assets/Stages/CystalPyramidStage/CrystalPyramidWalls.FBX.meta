@@ -15,6 +15,10 @@ ModelImporter:
     100018: Romboid
     100020: Undestruct
     100022: Undestruct_2
+    100024: CrystalPyramidStage
+    100026: parte exterior
+    100028: parte interiro
+    100030: parte medio
     400000: Border
     400002: BorderContainer
     400004: BorderContainer_2
@@ -27,6 +31,10 @@ ModelImporter:
     400018: Romboid
     400020: Undestruct
     400022: Undestruct_2
+    400024: CrystalPyramidStage
+    400026: parte exterior
+    400028: parte interiro
+    400030: parte medio
     2100000: Walls
     2300000: BorderIndestructibles
     2300002: InnerIndestruct
@@ -37,7 +45,12 @@ ModelImporter:
     4300000: MiddleIndestruct
     4300002: BorderIndestructibles
     4300004: InnerIndestruct
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Walls
+    second: {fileID: 2100000, guid: 6ac8ead02867b1f409e378a5e536d4e3, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

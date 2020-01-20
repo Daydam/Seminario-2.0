@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fe0cc53bb5a4ca4b9d40f5132150a2c, type: 3}
+  m_Name: DATA_ShotgunBase
+  m_EditorClassIdentifier: 
+  RPMScore: 3
+  minDamage: 12
+  maxDamage: 90
+  falloffStart: 2.5
+  falloffEnd: 6
+  minKnockback: 0.1
+  maxKnockback: 2
+  maxDispersionRadius: 0.1
+  pellets: 12

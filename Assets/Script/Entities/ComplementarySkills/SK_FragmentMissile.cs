@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using PhoenixDevelopment;
 
 public class SK_FragmentMissile : ComplementarySkillBase
 {
@@ -34,6 +35,7 @@ public class SK_FragmentMissile : ComplementarySkillBase
                     if (activationAnim != null) activationAnim.Play();
                     ShootProjectile();
                     _currentCooldown = skillData.maxCooldown;
+                    NotifyUIModule();
                 }
             }
             //else _stateSource.PlayOneShot(unavailableSound);
@@ -74,5 +76,10 @@ public class SK_FragmentMissile : ComplementarySkillBase
         if (userDisabled) return SkillState.UserDisabled;
         else if (unavailable) return SkillState.Unavailable;
         else return SkillState.Available;
+    }
+
+    public override float GetCooldownPerc()
+    {
+        return Mathf.Lerp(1, 0, _currentCooldown / skillData.maxCooldown);
     }
 }

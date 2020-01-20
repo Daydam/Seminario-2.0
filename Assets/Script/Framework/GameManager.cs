@@ -6,6 +6,7 @@ using System.Linq;
 using Firepower.Events;
 using System;
 using UnityEngine.SceneManagement;
+using PhoenixDevelopment;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,6 +25,12 @@ public class GameManager : MonoBehaviour
 
     public int actualRound = 1;
     public Dictionary<int, Tuple<Player, int>> roundResults;
+
+    public Canvas canvas;
+    public LoadingScreen loadingScreenPrefab;
+    LoadingScreen _loadingScreen;
+    public WinPopup winPopupPrefab;
+    WinPopup _winPopup;
 
     static GameManager instance;
     public static GameManager Instance
@@ -58,8 +65,20 @@ public class GameManager : MonoBehaviour
     Transform[] spawns;
     AudioSource _audioSource;
 
-    void Start()
+    void Awake()
     {
+        if (!Application.isEditor)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+        _loadingScreen = GameObject.Instantiate(loadingScreenPrefab, new Vector3(8000, 8000, 8000), Quaternion.identity);
+        _loadingScreen.gameObject.SetActive(false);
+
+        _winPopup = GameObject.Instantiate(winPopupPrefab, Vector3.zero, Quaternion.identity);
+        _winPopup.gameObject.SetActive(false);
+
         spawns = StageManager.instance.transform.Find("SpawnPoints").GetComponentsInChildren<Transform>().Where(x => x.name != "SpawnPoints").ToArray();
 
         playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
@@ -87,6 +106,11 @@ public class GameManager : MonoBehaviour
         //Setting the mode!
         gameRules = Resources.Load("Scriptable Objects/GameMode_" + playerInfo.gameMode) as SO_GameRules;
 
+        //get all the cameras
+        var allCams = GameObject.FindObjectsOfType<CamFollow>().ToList();
+
+        Utility.KnuthShuffle(spawns);
+
         for (int i = 0; i < playerInfo.playerControllers.Length; i++)
         {
             var URLs = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (playerInfo.playerControllers[i] + 1));
@@ -94,8 +118,8 @@ public class GameManager : MonoBehaviour
             //Dejo los objetos ccomo children del body por cuestiones de carga de los scripts. Assembler no debería generar problemas, ya que su parent objetivo sería el mismo.
             var player = Instantiate(Resources.Load<GameObject>("Prefabs/Bodies/" + URLs.bodyURL), spawns[i].transform.position, Quaternion.identity).GetComponent<Player>();
             var weapon = Instantiate(Resources.Load<GameObject>("Prefabs/Weapons/" + URLs.weaponURL), player.transform.position, Quaternion.identity, player.transform);
-            var comp1 = Instantiate(Resources.Load<GameObject>("Prefabs/Skills/Complementary 1/" + URLs.complementaryURL[0]), player.transform.position, Quaternion.identity, player.transform);
-            var comp2 = Instantiate(Resources.Load<GameObject>("Prefabs/Skills/Complementary 2/" + URLs.complementaryURL[1]), player.transform.position, Quaternion.identity, player.transform);
+            var comp1 = Instantiate(Resources.Load<GameObject>("Prefabs/Skills/Complementary/" + URLs.complementaryURL[0]), player.transform.position, Quaternion.identity, player.transform);
+            var comp2 = Instantiate(Resources.Load<GameObject>("Prefabs/Skills/Complementary/" + URLs.complementaryURL[1]), player.transform.position, Quaternion.identity, player.transform);
             var def = Instantiate(Resources.Load<GameObject>("Prefabs/Skills/Defensive/" + URLs.defensiveURL), player.transform.position, Quaternion.identity, player.transform);
 
             CharacterAssembler.Assemble(player.gameObject, def, comp1, comp2, weapon);
@@ -115,11 +139,25 @@ public class GameManager : MonoBehaviour
             player.Stats.Score = 0;
             player.lockedByGame = true;
 
-            player.GetComponentsInChildren<Renderer>().Where(x => x.material.GetTag("SkillStateColor", true, "Nothing") != "Nothing").First().material.SetColor("_PlayerColor", playerColors[playerInfo.playerControllers[i]]);
+            player.LightsModule.SetPlayerColor(playerColors[playerInfo.playerControllers[i]]);
 
-            CamFollow cam = GameObject.Find("Camera_P" + (i + 1)).GetComponent<CamFollow>();
-            cam.AssignTarget(player);
+            CamFollow cam = allCams.Where(x => x.name == "Camera_P" + (i + 1)).First();
+            allCams.Remove(cam);
+
+            if (player.ControlModule.playerType == PlayerControlModule.PlayerType.DRONE)
+            {
+                cam.AssignTarget(player, player.GetCameraOffset());
+            }
+            else
+            {
+                var castedControlModule = player.ControlModule as QuadrupedControlModule;
+                cam.AssignTarget(player, player.GetCameraOffset(), castedControlModule.HardcodeForCameraForward);
+            }
+
         }
+
+        //disable cams that are not being used
+        foreach (var item in allCams) item.gameObject.SetActive(false);
 
         AddEvents();
         UIManager.Instance.Initialize(Players, StartFirstRound, gameRules.pointsToWin[playerInfo.playerControllers.Length - 2]);
@@ -195,6 +233,9 @@ public class GameManager : MonoBehaviour
         {
             if (roundResults == null) roundResults = new Dictionary<int, Tuple<Player, int>>();
             roundResults[actualRound] = Tuple.Create(players.First(), players.First().Stats.Score);
+
+            Utility.KnuthShuffle(spawns);
+            
             UIManager.Instance.EndRound(ResetRound);
             //do show winner and ui stuff
             //Invoke("ResetRound", 1);
@@ -246,18 +287,63 @@ public class GameManager : MonoBehaviour
         {
             Players[i].StopVibrating();
             playerInfo.playerStats[i] = Players[i].Stats;
+            Players[i].lockedByGame = true;
         }
         Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
-        StartCoroutine(EndGameCoroutine());
+
+        var winner = Players.OrderByDescending(x => x.Stats.Score).First();
+
+		var winnerSkills = winner.GetComponentsInChildren<ComplementarySkillBase>(true).OrderBy(x => x.SkillIndex).ToArray();
+
+		_winPopup.Initialize(winner, winner.GetComponentInChildren<DefensiveSkillBase>(true), winner.GetComponentInChildren<Weapon>(true), winnerSkills[0], winnerSkills[1]);
+
+        _winPopup.gameObject.SetActive(true);
+
+        StartCoroutine(EndGameCoroutine(10f));
     }
 
     IEnumerator EndGameCoroutine()
     {
-        var asyncOp = SceneManager.LoadSceneAsync("EndgameScreen", LoadSceneMode.Single);
-        asyncOp.allowSceneActivation = true;
+        _winPopup.gameObject.SetActive(false);
+        _loadingScreen.gameObject.SetActive(true);
+        canvas.gameObject.SetActive(false);
 
-        while (asyncOp.progress <= .99f)
+        var asyncOp = SceneManager.LoadSceneAsync("EndgameScreen", LoadSceneMode.Single);
+        asyncOp.allowSceneActivation = false;
+
+        yield return new WaitForSeconds(2f);
+
+        while (!asyncOp.isDone)
         {
+            if (asyncOp.progress >= 0.9f)
+            {
+                _loadingScreen.OnLoadEnd();
+                if (Input.anyKey) asyncOp.allowSceneActivation = true;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    IEnumerator EndGameCoroutine(float startDelay)
+    {
+        yield return new WaitForSeconds(startDelay);
+
+        _winPopup.gameObject.SetActive(false);
+        _loadingScreen.gameObject.SetActive(true);
+        canvas.gameObject.SetActive(false);
+
+        var asyncOp = SceneManager.LoadSceneAsync("EndgameScreen", LoadSceneMode.Single);
+        asyncOp.allowSceneActivation = false;
+
+        yield return new WaitForSeconds(2f);
+
+        while (!asyncOp.isDone)
+        {
+            if (asyncOp.progress >= 0.9f)
+            {
+                _loadingScreen.OnLoadEnd();
+                if (Input.anyKey || AnyButtonHandler.AnyButtonPressed()) asyncOp.allowSceneActivation = true;
+            }
             yield return new WaitForEndOfFrame();
         }
     }
@@ -335,7 +421,7 @@ public class GameManager : MonoBehaviour
             var score = wasPushed ? gameRules.pointsPerDrop : gameRules.pointsPerSuicide;
             dyingPlayer.UpdateScore(score);
         }
-        else if(deathType == DeathType.Player)
+        else if (deathType == DeathType.Player)
         {
             dyingPlayer.UpdateScore(gameRules.pointsPerDeath);
         }

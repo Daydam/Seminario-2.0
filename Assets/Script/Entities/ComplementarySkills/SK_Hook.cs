@@ -8,6 +8,8 @@ public class SK_Hook : ComplementarySkillBase
 {
     public SO_Hook skillData;
 
+    readonly float _debugMaxTimeOfCast = 2f;
+
     bool _skillActive = false, _canTap = true;
     float _currentCooldown = 0;
 
@@ -65,6 +67,7 @@ public class SK_Hook : ComplementarySkillBase
     {
         yield return new WaitUntil(callback);
         _currentCooldown = skillData.maxCooldown;
+        NotifyUIModule();
         _canTap = false;
 
         StartCoroutine(LaunchHook());
@@ -83,13 +86,15 @@ public class SK_Hook : ComplementarySkillBase
         {
             var targetPlayer = (Player)_hook.Target;
 
-            if (_owner.Weight > targetPlayer.Weight) HeavierWeightBehaviour(targetPlayer);
+            HeavierWeightBehaviour(targetPlayer);
+
+            /*if (_owner.Weight > targetPlayer.Weight) HeavierWeightBehaviour(targetPlayer);
             else if (_owner.Weight < targetPlayer.Weight) LighterWeightBehaviour(targetPlayer.gameObject);
-            else SameWeightBehaviour(targetPlayer);
+            else SameWeightBehaviour(targetPlayer);*/
         }
-        else if (_hook.Target is RingWall)
+        else if (_hook.Target is DestructibleBase)
         {
-            var tgt = (RingWall)_hook.Target;
+            var tgt = (DestructibleBase)_hook.Target;
             LighterWeightBehaviour(tgt.gameObject);
         }
         else if (_hook.Target is RingStructure)
@@ -153,6 +158,8 @@ public class SK_Hook : ComplementarySkillBase
         player.CancelForces();
         var endCast = false;
 
+        var debugTime = 0f;
+
         if (player.Equals(_owner)) player.ApplyCastState(() => endCast);
         else player.ApplyStun(() => endCast);
 
@@ -170,6 +177,15 @@ public class SK_Hook : ComplementarySkillBase
             player.GetRigidbody.MovePosition(nextPos);
 
             yield return new WaitForFixedUpdate();
+
+            debugTime += Time.fixedDeltaTime;
+            if (debugTime >= _debugMaxTimeOfCast)
+            {
+                endCast = true;
+                _skillActive = false;
+                _canTap = false;
+                yield break;
+            }
         }
 
         endCast = true;
@@ -181,6 +197,8 @@ public class SK_Hook : ComplementarySkillBase
     {
         _owner.CancelForces();
         var endCast = false;
+
+        var debugTime = 0f;
 
         if (target != null)
         {
@@ -204,6 +222,15 @@ public class SK_Hook : ComplementarySkillBase
             _owner.GetRigidbody.MovePosition(nextPos);
 
             yield return new WaitForFixedUpdate();
+
+            debugTime += Time.fixedDeltaTime;
+            if (debugTime >= _debugMaxTimeOfCast)
+            {
+                endCast = true;
+                _skillActive = false;
+                _canTap = false;
+                yield break;
+            }
         }
 
         endCast = true;
@@ -217,6 +244,8 @@ public class SK_Hook : ComplementarySkillBase
         target.CancelForces();
 
         var endCast = false;
+
+        var debugTime = 0f;
 
         _owner.ApplyCastState(() => endCast);
         target.ApplyStun(() => endCast);
@@ -235,6 +264,15 @@ public class SK_Hook : ComplementarySkillBase
             target.GetRigidbody.MovePosition(nextPos);
 
             yield return new WaitForFixedUpdate();
+
+            debugTime += Time.fixedDeltaTime;
+            if (debugTime >= _debugMaxTimeOfCast)
+            {
+                endCast = true;
+                _skillActive = false;
+                _canTap = false;
+                yield break;
+            }
         }
 
         endCast = true;
@@ -260,4 +298,8 @@ public class SK_Hook : ComplementarySkillBase
         else return SkillState.Available;
     }
 
+    public override float GetCooldownPerc()
+    {
+        return Mathf.Lerp(1, 0, _currentCooldown / skillData.maxCooldown);
+    }
 }

@@ -3,9 +3,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PhoenixDevelopment;
 
 public class Player : MonoBehaviour, IDamageable
 {
+    #region VARIABLES
+
     public float turningSpeed;
 
     public DroneWeightModule weightModule;
@@ -40,6 +43,9 @@ public class Player : MonoBehaviour, IDamageable
 
     PlayerAnimations _animationController;
     PlayerLifeForcefield _lifeForcefield;
+    PlayerCameraModule _camModule;
+    PlayerParticlesModule _particleModule;
+    PlayerControlModule _controlModule;
     PlayerScoreController _scoreController;
     public PlayerScoreController ScoreController
     {
@@ -69,8 +75,12 @@ public class Player : MonoBehaviour, IDamageable
     public bool IsCasting { get { return _isCasting; } }
     public bool Invulnerable { get { return _invulnerable; } }
 
-    Renderer _rend;
-    public Renderer Rend { get { return _rend; } }
+    PlayerLightsModuleHandler _lightsModule;
+    public PlayerLightsModuleHandler LightsModule
+    {
+        get { return _lightsModule; }
+    }
+
 
     float _movementMultiplier = 1;
     public float MovementMultiplier
@@ -126,13 +136,41 @@ public class Player : MonoBehaviour, IDamageable
         }
     }
 
+    public PlayerControlModule ControlModule
+    {
+        get
+        {
+            return _controlModule;
+        }
+
+        private set
+        {
+            _controlModule = value;
+        }
+    }
+
+    public PlayerAnimations AnimationController
+    {
+        get
+        {
+            return _animationController;
+        }
+
+        set
+        {
+            _animationController = value;
+        }
+    }
+
+
+    #endregion
     void Awake()
     {
         int playerID = GameManager.Instance.Register(this);
         myID = playerID;
         _control = new Controller(playerID);
         _rb = GetComponent<Rigidbody>();
-        _rend = GetComponentInChildren<Renderer>();
+        _lightsModule = GetComponent<PlayerLightsModuleHandler>();
         MovementMultiplier = 1;
         Hp = maxHP;
         gameObject.name = "Player " + (playerID + 1);
@@ -141,11 +179,13 @@ public class Player : MonoBehaviour, IDamageable
 
         ScoreController = GetComponent<PlayerScoreController>();
         _soundModule = GetComponent<DroneSoundController>();
-        _animationController = GetComponent<PlayerAnimations>();
+        AnimationController = GetComponent<PlayerAnimations>();
         _lifeForcefield = GetComponentInChildren<PlayerLifeForcefield>();
+        _camModule = GetComponentInChildren<PlayerCameraModule>();
+        _controlModule = GetComponent<PlayerControlModule>();
         _col = GetComponent<Collider>();
         weightModule = GetComponent<DroneWeightModule>();
-
+        _particleModule = GetComponent<PlayerParticlesModule>();
     }
 
     void Start()
@@ -154,6 +194,8 @@ public class Player : MonoBehaviour, IDamageable
         GameManager.Instance.OnResetRound += StopVibrating;
         GameManager.Instance.OnResetRound += ResetRound;
         GameManager.Instance.OnChangeScene += StopVibrating;
+        transform.Find("DronePos_To_RT").gameObject.layer = LayerMask.NameToLayer("Drone");
+        ControlModule.HandleCollisions(this);
     }
 
     void Update()
@@ -164,8 +206,13 @@ public class Player : MonoBehaviour, IDamageable
 
         if (!IsStunned && _control.RightAnalog() != Vector2.zero)
         {
-            transform.Rotate(transform.up, _control.RightAnalog().x * turningSpeed);
+            _controlModule.HandleRotation(transform.up, _control.RightAnalog().x * turningSpeed);
         }
+    }
+
+    public Vector3 GetCameraOffset()
+    {
+        return _camModule.Offset;
     }
 
     public void AssignCamera(CamFollow cam)
@@ -178,6 +225,11 @@ public class Player : MonoBehaviour, IDamageable
     public void DeactivateCamera()
     {
         Cam.gameObject.SetActive(false);
+    }
+
+    public string GetBodyName()
+    {
+        return _animationController.GetBodyName();
     }
 
     void OnTriggerEnter(Collider col)
@@ -227,7 +279,7 @@ public class Player : MonoBehaviour, IDamageable
     public void ResetHP()
     {
         Hp = maxHP;
-        _rend.material.SetFloat("_Life", Hp / maxHP);
+        LightsModule.SetLifeValue(Hp / maxHP);
     }
 
     public void ResetRound()
@@ -246,6 +298,7 @@ public class Player : MonoBehaviour, IDamageable
         myPusher = null;
         CancelForces();
         StopAllCoroutines();
+        _cam.gameObject.SetActive(true);
     }
 
     public void ActivatePlayerEndgame(bool activate, string replaceName, string replaceScore)
@@ -274,7 +327,7 @@ public class Player : MonoBehaviour, IDamageable
         EventManager.Instance.DispatchEvent(PlayerEvents.Death, this, type, isPushed, gameObject.tag);
         _rb.velocity = Vector3.zero;
         gameObject.SetActive(false);
-        
+
         //Iván si se rompe algo perdón
         lastMovement = Vector3.zero;
         lastAnimMovement = Vector3.zero;
@@ -311,11 +364,11 @@ public class Player : MonoBehaviour, IDamageable
         var movVector = _rb.position + newMovement;
         movDir = dir;
         _rb.MovePosition(movVector);
-        
+
         Vector2 animMovement = _control.LeftAnalog();
 
         animMovement = Vector2.Lerp(lastAnimMovement, animMovement, inertiaFactor);
-        
+
         Vector2 finalDir = new Vector2(animMovement.x - lastAnimMovement.x, animMovement.y - lastAnimMovement.y);
 
         if (Mathf.Sign(_control.LeftAnalog().x) != Mathf.Sign(lastAnimMovement.x) || Mathf.Abs(_control.LeftAnalog().x) <= 0.004f)
@@ -331,7 +384,8 @@ public class Player : MonoBehaviour, IDamageable
         finalDir.x = Mathf.Lerp(lastDir.x, finalDir.x, animInertiaFactor);
         finalDir.y = Mathf.Lerp(lastDir.y, finalDir.y, animInertiaFactor);
 
-        _animationController.SetMovementDir(finalDir);
+        AnimationController.SetMovementDir(finalDir);
+        _controlModule.HandleMovement(finalDir);
 
         //_soundModule.SetEnginePitch((control.LeftAnalog().y + control.LeftAnalog().x)/2 * movementSpeed * MovementMultiplier);
         lastMovement = newMovement;
@@ -354,7 +408,7 @@ public class Player : MonoBehaviour, IDamageable
         if (_invulnerable) return;
 
         Hp += heal;
-        _rend.material.SetFloat("_Life", Hp / maxHP);
+        LightsModule.SetLifeValue(Hp / maxHP);
     }
 
     public void TakeDamage(float damage)
@@ -392,7 +446,7 @@ public class Player : MonoBehaviour, IDamageable
         }
 
         Hp -= damage;
-        _rend.material.SetFloat("_Life", Hp / maxHP);
+        LightsModule.SetLifeValue(Hp / maxHP);
         _lifeForcefield.TakeDamage();
     }
 
@@ -407,7 +461,7 @@ public class Player : MonoBehaviour, IDamageable
         }
 
         Hp -= damage;
-        _rend.material.SetFloat("_Life", Hp / maxHP);
+        LightsModule.SetLifeValue(Hp / maxHP);
         _lifeForcefield.TakeDamage(hitPosition);
     }
 
@@ -512,6 +566,8 @@ public class Player : MonoBehaviour, IDamageable
         if (_invulnerable) return;
 
         _soundModule.PlayStunSound();
+        _particleModule.ApplyStun(true);
+
         StartCoroutine(ExecuteStun(duration));
 
         //Iván si se rompe algo perdón
@@ -520,12 +576,12 @@ public class Player : MonoBehaviour, IDamageable
         lastDir = Vector3.zero;
     }
 
-    public void ApplyDisarm(float duration)
+    public void ApplyDisarm(float duration, bool scrambleScreen)
     {
         if (_invulnerable) return;
 
         _soundModule.PlayDisarmSound();
-        StartCoroutine(ExecuteDisarm(duration));
+        StartCoroutine(ExecuteDisarm(duration, scrambleScreen));
     }
 
     public void ApplyCastState(float duration)
@@ -543,6 +599,20 @@ public class Player : MonoBehaviour, IDamageable
         StartCoroutine(ExecuteInvulnerabilityTime(duration));
     }
 
+    public void ActivateRepulsion(float duration, float radius)
+    {
+        StartCoroutine(RepulsionManagement(duration, radius));
+    }
+
+    public IEnumerator RepulsionManagement(float duration, float radius)
+    {
+        _cam.OnPlayerUseRepulsion(true, radius, duration);
+
+        yield return new WaitForSeconds(duration);
+
+        _cam.OnPlayerUseRepulsion(false, radius, duration);
+    }
+
     public bool FinishedCasting()
     {
         return true;
@@ -553,6 +623,8 @@ public class Player : MonoBehaviour, IDamageable
         _isStunned = true;
 
         yield return new WaitForSeconds(duration);
+
+        _particleModule.ApplyStun(false);
 
         _isStunned = false;
     }
@@ -579,13 +651,15 @@ public class Player : MonoBehaviour, IDamageable
         KnockbackMultiplier = oldMulti;
     }
 
-    IEnumerator ExecuteDisarm(float duration)
+    IEnumerator ExecuteDisarm(float duration, bool scrambleScreen)
     {
         _isDisarmed = true;
+        if (scrambleScreen) _cam.OnPlayerDisarm(_isDisarmed);
 
         yield return new WaitForSeconds(duration);
 
         _isDisarmed = false;
+        if (scrambleScreen) _cam.OnPlayerDisarm(_isDisarmed);
     }
 
     IEnumerator ExecuteCastTime(float duration)
@@ -634,45 +708,20 @@ public class Player : MonoBehaviour, IDamageable
     #endregion
 
     #region States with callback
-    public void ApplySlowMovement(Func<bool> callback, float amount)
-    {
-        if (_invulnerable) return;
-
-        _soundModule.PlayDisarmSound();
-        StartCoroutine(ExecuteSlowMovement(callback, amount));
-    }
-
-    public void ApplyKnockbackMultiplierChange(Func<bool> callback, float amount)
-    {
-        if (_invulnerable) return;
-
-        StartCoroutine(ExecuteKnockbackMultiplierChange(callback, amount));
-    }
 
     public void ApplyStun(Func<bool> callback)
     {
         if (_invulnerable) return;
-
         _soundModule.PlayStunSound();
+
+        _particleModule.ApplyStun(true);
+
         StartCoroutine(ExecuteStun(callback));
-    }
-
-    public void ApplyDisarm(Func<bool> callback)
-    {
-        if (_invulnerable) return;
-
-        _soundModule.PlayDisarmSound();
-        StartCoroutine(ExecuteDisarm(callback));
     }
 
     public void ApplyCastState(Func<bool> callback)
     {
         StartCoroutine(ExecuteCastTime(callback));
-    }
-
-    public void ApplyInvulnerability(Func<bool> callback)
-    {
-        StartCoroutine(ExecuteInvulnerabilityTime(callback));
     }
 
     IEnumerator ExecuteStun(Func<bool> callback)
@@ -681,38 +730,9 @@ public class Player : MonoBehaviour, IDamageable
 
         yield return new WaitUntil(callback);
 
+        _particleModule.ApplyStun(false);
+
         _isStunned = false;
-    }
-
-    IEnumerator ExecuteKnockbackMultiplierChange(Func<bool> callback, float amount)
-    {
-        var oldMulti = KnockbackMultiplier;
-
-        KnockbackMultiplier = amount;
-
-        yield return new WaitUntil(callback);
-
-        KnockbackMultiplier = oldMulti;
-    }
-
-    IEnumerator ExecuteSlowMovement(Func<bool> callback, float amount)
-    {
-        var oldMulti = MovementMultiplier;
-
-        MovementMultiplier = amount;
-
-        yield return new WaitUntil(callback);
-
-        MovementMultiplier = oldMulti;
-    }
-
-    IEnumerator ExecuteDisarm(Func<bool> callback)
-    {
-        _isDisarmed = true;
-
-        yield return new WaitUntil(callback);
-
-        _isDisarmed = false;
     }
 
     IEnumerator ExecuteCastTime(Func<bool> callback)
@@ -723,15 +743,6 @@ public class Player : MonoBehaviour, IDamageable
 
         _isCasting = false;
         FinishedCasting();
-    }
-
-    IEnumerator ExecuteInvulnerabilityTime(Func<bool> callback)
-    {
-        _invulnerable = true;
-
-        yield return new WaitUntil(callback);
-
-        _invulnerable = false;
     }
     #endregion
 

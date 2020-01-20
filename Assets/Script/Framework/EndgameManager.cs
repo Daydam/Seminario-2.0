@@ -21,6 +21,13 @@ public class EndgameManager : MonoBehaviour
     public Color backToMenuColor;
     public Color notReadyColor;
 
+    public Canvas canvas;
+
+    public LoadingScreen loadingScreenPrefab;
+    LoadingScreen _loadingScreen;
+
+    RegisteredPlayers playerInfo;
+
     public string replaceStringName;
     public string replaceStringScore;
 
@@ -47,6 +54,11 @@ public class EndgameManager : MonoBehaviour
 
     void Start()
     {
+        _loadingScreen = GameObject.Instantiate(loadingScreenPrefab, new Vector3(8000, 8000, 8000), Quaternion.identity);
+        _loadingScreen.gameObject.SetActive(false);
+
+        playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
+
         LoadPlayers();
         ApplyTexts();
         ActivateCamera(true);
@@ -90,8 +102,8 @@ public class EndgameManager : MonoBehaviour
             //Dejo los objetos como children del body por cuestiones de carga de los scripts. Assembler no debería generar problemas, ya que su parent objetivo sería el mismo.
             var player = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Bodies/" + URLs.bodyURL), spawnPos[i].position, Quaternion.identity);
             var weapon = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs.weaponURL), player.transform.position, Quaternion.identity, player.transform);
-            var comp1 = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary 1/" + URLs.complementaryURL[0]), player.transform.position, Quaternion.identity, player.transform);
-            var comp2 = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary 2/" + URLs.complementaryURL[1]), player.transform.position, Quaternion.identity, player.transform);
+            var comp1 = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary/" + URLs.complementaryURL[0]), player.transform.position, Quaternion.identity, player.transform);
+            var comp2 = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary/" + URLs.complementaryURL[1]), player.transform.position, Quaternion.identity, player.transform);
             var def = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs.defensiveURL), player.transform.position, Quaternion.identity, player.transform);
             var tx = Instantiate(playerText, player.transform.position, Quaternion.identity, player.transform);
 
@@ -278,13 +290,14 @@ public class EndgameManager : MonoBehaviour
 
         if (ResetGame())
         {
+
             _inputsAllowed = false;
-            StartLoading("RingsStage");
+            StartLoading(playerInfo.stage);
         }
         else if (BackToMenu())
         {
             _inputsAllowed = false;
-            StartLoading("Character Selection");
+            StartLoading(0);
         }
     }
 
@@ -312,18 +325,29 @@ public class EndgameManager : MonoBehaviour
         Application.Quit();
     }
 
-    void StartLoading(string sceneName)
+    void StartLoading(int sceneName)
     {
         StartCoroutine(LoadSceneCoroutine(sceneName));
     }
 
-    IEnumerator LoadSceneCoroutine(string sceneName)
+    IEnumerator LoadSceneCoroutine(int sceneName)
     {
-        var asyncOp = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
-        asyncOp.allowSceneActivation = true;
+        _loadingScreen.gameObject.SetActive(true);
+        canvas.gameObject.SetActive(false);
+        cam.gameObject.SetActive(false);
 
-        while (asyncOp.progress <= .99f)
+        var asyncOp = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
+        asyncOp.allowSceneActivation = false;
+
+        yield return new WaitForSeconds(2f);
+
+        while (!asyncOp.isDone)
         {
+            if (asyncOp.progress >= 0.9f)
+            {
+                _loadingScreen.OnLoadEnd();
+                if (Input.anyKey || AnyButtonHandler.AnyButtonPressed()) asyncOp.allowSceneActivation = true;
+            }
             yield return new WaitForEndOfFrame();
         }
     }

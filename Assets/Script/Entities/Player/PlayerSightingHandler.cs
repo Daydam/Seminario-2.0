@@ -10,21 +10,25 @@ public class PlayerSightingHandler : MonoBehaviour
     bool _bestPlayer;
     bool _castingVortex;
     Camera _cam;
-    Player _me;
-    Renderer _rim;
+    Player _owner;
+    Renderer[] _rim;
     readonly string particleName = "OutOfSight";
     int layer;
 
     public void Init()
     {
-        _me = GetComponent<Player>();
-        _cam = _me.Cam.GetComponent<Camera>();
-        _rim = transform.GetComponentsInChildren<Transform>().Where(x => x.name == particleName).First().GetComponent<Renderer>();
-        layer = GameManager.Instance.Players.IndexOf(_me) + 1;
-        _rim.gameObject.layer = LayerMask.NameToLayer("P" + layer + "ONLY");
-        _rim.material.SetColor("_Tint", _me.Rend.material.GetColor("_PlayerColor"));
+        _owner = GetComponent<Player>();
+        _cam = _owner.Cam.GetComponent<Camera>();
+        _rim = transform.Find(particleName).GetComponentsInChildren<Renderer>();
+        layer = GameManager.Instance.Players.IndexOf(_owner) + 1;
 
-        _rim.material.SetVector("_CollapsePosition", new Vector3(55555, 55555, 55555));
+        foreach (var item in _rim)
+        {
+            item.gameObject.layer = LayerMask.NameToLayer("P" + layer + "ONLY");
+            item.material.SetColor("_Tint", _owner.LightsModule.GetPlayerColor());
+
+            item.material.SetVector("_CollapsePosition", new Vector3(55555, 55555, 55555));
+        }
 
         EventManager.Instance.AddEventListener(SkillEvents.VortexStart, OnVortexStart);
         EventManager.Instance.AddEventListener(SkillEvents.VortexEnd, OnVortexEnd);
@@ -33,7 +37,7 @@ public class PlayerSightingHandler : MonoBehaviour
     void OnVortexStart(object[] paramsContainer)
     {
         var play = (Player)paramsContainer[0];
-        if (play.Equals(_me))
+        if (play.Equals(_owner))
         {
             SetVortexUsage(true);
         }
@@ -42,7 +46,7 @@ public class PlayerSightingHandler : MonoBehaviour
     void OnVortexEnd(object[] paramsContainer)
     {
         var play = (Player)paramsContainer[0];
-        if (play.Equals(_me))
+        if (play.Equals(_owner))
         {
             SetVortexUsage(false);
         }
@@ -56,33 +60,44 @@ public class PlayerSightingHandler : MonoBehaviour
     public void SetVortexUsage(bool active)
     {
         _castingVortex = active;
-        //_rim.gameObject.SetActive(_castingVortex);
-        if(_castingVortex) _rim.material.SetFloat("_Active", 1);
-        else _rim.material.SetFloat("_Active", 0);
+
+        foreach (var item in _rim)
+        {
+            if (_castingVortex) item.material.SetFloat("_Active", 1);
+            else item.material.SetFloat("_Active", 0);
+        }
     }
 
     void LateUpdate()
     {
-        if (!_rim) return;
+        if (!_rim.Any()) return;
 
         if (_bestPlayer)
         {
-            //_rim.SetActive(true);
-            _rim.material.SetFloat("_Active", 1);
+            foreach (var item in _rim)
+            {
+                item.material.SetFloat("_Active", 1);
 
-            _rim.gameObject.layer = 1;
+                item.gameObject.layer = 1;
+            }
         }
-        if(!_bestPlayer)
+        if (!_bestPlayer)
         {
-            _rim.gameObject.layer = LayerMask.NameToLayer("P" + layer + "ONLY");
-            var ray = new Ray(_cam.transform.position, (_me.transform.position - _cam.transform.position).normalized);
+            foreach (var item in _rim)
+            {
+                item.gameObject.layer = LayerMask.NameToLayer("P" + layer + "ONLY");
+            }
+            var ray = new Ray(_cam.transform.position, (_owner.transform.position - _cam.transform.position).normalized);
             RaycastHit rch;
-            var dist = Vector3.Distance(_me.transform.position, _cam.transform.position) + .3f;
+            var dist = Vector3.Distance(_owner.transform.position, _cam.transform.position) + .3f;
 
             var didHit = Physics.Raycast(ray, out rch, dist, LayerMask.GetMask("DestructibleWall", "DestructibleStructure", "Structure"));
-            //_rim.SetActive(didHit);
-            if(didHit)_rim.material.SetFloat("_Active", 1);
-            else _rim.material.SetFloat("_Active", 0);
+
+            foreach (var item in _rim)
+            {
+                if (didHit) item.material.SetFloat("_Active", 1);
+                else item.material.SetFloat("_Active", 0);
+            }
         }
 
     }

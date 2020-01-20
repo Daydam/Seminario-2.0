@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Firepower.Events;
 
 /// <summary>
 /// Top-Down Camera
@@ -21,6 +22,13 @@ public class CamControl : MonoBehaviour
     void Start()
     {
         cam = GetComponent<Camera>();
+        EventManager.Instance.AddEventListener(PlayerEvents.Death, OnPlayerDeath);
+        GameManager.Instance.OnResetRound += () => cam.enabled = false;
+    }
+
+    void OnPlayerDeath(params object[] info)
+    {
+        cam.enabled = true;
     }
 
     void Update()

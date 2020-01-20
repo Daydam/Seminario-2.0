@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using PhoenixDevelopment;
 
 public class DMM_ImplosiveCharge : MonoBehaviour
 {
@@ -64,8 +65,12 @@ public class DMM_ImplosiveCharge : MonoBehaviour
         _stopMoving = true;
 
         targets = Physics.OverlapSphere(transform.position, skillData.radius).Select(x => x.GetComponent<Player>()).Where(x => x != null && x != _owner).ToList();
-
         FinishTrajectory();
+
+        var particleID = SimpleParticleSpawner.ParticleID.BLACKHOLEEXPLOSION;
+        var particle = SimpleParticleSpawner.Instance.particles[particleID].GetComponentInChildren<ParticleSystem>();
+
+        SimpleParticleSpawner.Instance.SpawnParticle(particle.gameObject, transform.position, transform.forward, 4, null);
     }
 
     public void ForceActivation()

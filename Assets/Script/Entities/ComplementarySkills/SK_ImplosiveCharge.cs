@@ -7,8 +7,12 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
 {
     public SO_ImplosiveCharge skillData;
 
+    ModuleParticleController _particleModule;
+
     float _currentCooldown;
     bool _skillActive, _canTap = true;
+
+    readonly float _debugMaxTimeOfCast = 2f;
 
     DMM_ImplosiveCharge _charge;
 
@@ -20,6 +24,7 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
     protected override void Start()
     {
         base.Start();
+        _particleModule = GetComponent<ModuleParticleController>();
 
         skillData = Resources.Load<SO_ImplosiveCharge>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_ImplosiveCharge;
 
@@ -52,6 +57,9 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
 
     IEnumerator ChargeActivationHandler()
     {
+        _particleModule.OnShoot();
+        StartCoroutine(ApplyReadyParticles());
+
         _charge.gameObject.SetActive(true);
         _charge.Spawn(_owner.transform.position, _owner.transform.forward, _owner.tag, _owner, skillData);
         _skillActive = true;
@@ -69,6 +77,24 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
         _charge.gameObject.SetActive(false);
         _skillActive = false;
         _currentCooldown = skillData.maxCooldown;
+        NotifyUIModule();
+    }
+
+    public IEnumerator ApplyReadyParticles()
+    {
+        yield return new WaitForEndOfFrame();
+        while (true)
+        {
+            if (GetActualState() != SkillState.Available)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+            else
+            {
+                _particleModule.OnAvailableShot();
+                yield break;
+            }
+        }
     }
 
     /// <summary>
@@ -78,6 +104,8 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
     {
         player.CancelForces();
         var endCast = false;
+
+        var debugTime = 0f;
 
         player.ApplyStun(() => endCast);
 
@@ -95,6 +123,15 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
             player.GetRigidbody.MovePosition(nextPos);
 
             yield return new WaitForFixedUpdate();
+
+            debugTime += Time.fixedDeltaTime;
+            if (debugTime >= _debugMaxTimeOfCast)
+            {
+                endCast = true;
+                _skillActive = false;
+                _canTap = false;
+                yield break;
+            }
         }
 
         endCast = true;
@@ -124,5 +161,10 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
         else if (unavailable) return SkillState.Unavailable;
         else if (_skillActive) return SkillState.Active;
         else return SkillState.Available;
+    }
+
+    public override float GetCooldownPerc()
+    {
+        return Mathf.Lerp(1, 0, _currentCooldown / skillData.maxCooldown);
     }
 }

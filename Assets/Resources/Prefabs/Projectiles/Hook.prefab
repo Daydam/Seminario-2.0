@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 4649653009205361813}
   - component: {fileID: 4649653009205361812}
   - component: {fileID: 4649653009205361815}
-  - component: {fileID: 4649653009205361814}
   - component: {fileID: 4649653009205361809}
   - component: {fileID: 550412442725754463}
+  - component: {fileID: 7687491422375956109}
   - component: {fileID: 4856844069338604867}
   m_Layer: 0
   m_Name: Hook
@@ -81,19 +81,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &4649653009205361814
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4649653009205361808}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!96 &4649653009205361809
 TrailRenderer:
   serializedVersion: 2
@@ -201,9 +188,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b9c725931af67a41b67f87600303411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRange: 7
-  travelTime: 0.2
+  skillData: {fileID: 0}
   movementFinished: 0
+--- !u!65 &7687491422375956109
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4649653009205361808}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.2, y: 10, z: 0.2}
+  m_Center: {x: 0, y: -4, z: 0}
 --- !u!54 &4856844069338604867
 Rigidbody:
   m_ObjectHideFlags: 0

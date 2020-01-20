@@ -5,24 +5,23 @@ using System.Linq;
 
 public class Shotgun : TapWeapon
 {
-    public float maxDispersionRadius = 0.1f;
-    public int pellets = 12;
+    public SO_ShotgunBase shotgunStatsData;
 
     public override void Shoot()
     {
         
         Owner.ApplyShake(ShakeDuration, ShakeIntensity);
-        CalculatePelletsDispersion(falloffEnd);
+        CalculatePelletsDispersion(weaponStatsData.falloffEnd);
     }
 
     void CalculatePelletsDispersion(float depth)
     {
-        for (int i = 0; i < pellets; i++)
+        for (int i = 0; i < shotgunStatsData.pellets; i++)
         {
-            var dispersionPoint = Random.Range(-maxDispersionRadius, maxDispersionRadius);
+            var dispersionPoint = Random.Range(-shotgunStatsData.maxDispersionRadius, shotgunStatsData.maxDispersionRadius);
             var dir = Owner.transform.forward + (Owner.transform.right * dispersionPoint);
 
-            var b = new HitscanBullet(Owner.transform.position, dir.normalized, Owner, _damageFalloff, _knockbackFalloff, pellets);
+            var b = new HitscanBullet(Owner.transform.position, dir.normalized, Owner, _damageFalloff, _knockbackFalloff, shotgunStatsData.pellets);
 
             var bulletParticleID = SimpleParticleSpawner.ParticleID.BULLET;
 

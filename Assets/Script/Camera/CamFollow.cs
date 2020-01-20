@@ -26,6 +26,10 @@ public class CamFollow : MonoBehaviour
     RaycastHit _toFloorRay;
     DeathType _deathType = DeathType.COUNT;
 
+    #region Cambios Iván 27/8
+    Transform _targetTransform;
+    #endregion
+
     void Start()
     {
         _cam = GetComponent<Camera>();
@@ -38,6 +42,31 @@ public class CamFollow : MonoBehaviour
         transform.position = target.transform.position;
         transform.forward = target.transform.forward;
         targetSight = transform.forward;
+        target.AssignCamera(this);
+        _playerDead = false;
+        running = true;
+    }
+
+    public void AssignTarget(Player target, Vector3 camPos)
+    {
+        this.target = target;
+        transform.position = target.transform.position;
+        transform.forward = target.transform.forward;
+        targetSight = transform.forward;
+        positionOffset = camPos;
+        target.AssignCamera(this);
+        _playerDead = false;
+        running = true;
+    }
+
+    public void AssignTarget(Player target, Vector3 camPos, Transform transformTarget)
+    {
+        this.target = target;
+        transform.position = target.transform.position;
+        transform.forward = target.transform.forward;
+        _targetTransform = transformTarget;
+        targetSight = transform.forward;
+        positionOffset = camPos;
         target.AssignCamera(this);
         _playerDead = false;
         running = true;
@@ -58,12 +87,22 @@ public class CamFollow : MonoBehaviour
         _playerDead = true;
     }
 
-    private void FixedUpdate()
+    public void OnPlayerDisarm(bool activation)
     {
-        if (running)
+        GetComponent<PPFX_EMPScramble>().ActivatePostProcess(activation);
+    }
+
+    public void OnPlayerUseRepulsion(bool activation, float radius, float duration)
+    {
+        //GetComponent<PPFX_RepulsionScreen>().ActivatePostProcess(activation, target.transform.position, radius, duration);
+    }
+
+    void LateUpdate()
+    {
+        if (running && target)
         {
-            if (!_playerDead && target) CameraMovement();
-            else if(_cameraFallCoroutine == null)
+            if (!_playerDead) CameraMovement();
+            else if (_cameraFallCoroutine == null)
             {
                 var laserGridDeath = _deathType == DeathType.LaserGrid;
                 _cameraFallCoroutine = laserGridDeath ? StartCoroutine(CameraFall()) : StartCoroutine(DeathCamDelay());
@@ -74,7 +113,20 @@ public class CamFollow : MonoBehaviour
     void CameraMovement()
     {
         transform.position = Vector3.Lerp(transform.position, target.transform.position + target.transform.right * positionOffset.x + target.transform.up * positionOffset.y + target.transform.forward * positionOffset.z, movementSpeed);
-        targetSight = Vector3.Lerp(targetSight, target.transform.position + target.transform.right * aimOffset.x + target.transform.up * aimOffset.y + target.transform.forward * aimOffset.z, aimSpeed);
+
+        var sightVkt = target.transform.position + target.transform.right * aimOffset.x + target.transform.up * aimOffset.y + target.transform.forward * aimOffset.z;
+        /*if (_targetTransform != null)
+        {
+            sightVkt = target.transform.position + _targetTransform.right * aimOffset.x + _targetTransform.up * aimOffset.y + _targetTransform.forward * aimOffset.z;
+            targetSight = Vector3.Lerp(targetSight, sightVkt, aimSpeed);
+        }
+        else
+        {
+            targetSight = Vector3.Lerp(targetSight, sightVkt, aimSpeed);
+            transform.LookAt(targetSight);
+        }*/
+
+        targetSight = Vector3.Lerp(targetSight, sightVkt, aimSpeed);
         transform.LookAt(targetSight);
     }
 
@@ -110,5 +162,6 @@ public class CamFollow : MonoBehaviour
     void EnableDeathCam()
     {
         UIManager.Instance.OnPlayerDeath(target.myID);
+        gameObject.SetActive(false);
     }
 }

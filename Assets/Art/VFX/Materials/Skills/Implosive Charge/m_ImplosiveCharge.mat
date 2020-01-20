@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: m_ImplosiveCharge
+  m_Shader: {fileID: 4800000, guid: 3584d46e0ddd86741bdcd42aca3c13b8, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3002
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Flowmap:
+        m_Texture: {fileID: 2800000, guid: bf324afe2f0f40e469ada9b430482d90, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTexture:
+        m_Texture: {fileID: 2800000, guid: f5117ac104b03694a9e63d45562c877f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTextureRLightRingBOpacity:
+        m_Texture: {fileID: 2800000, guid: f5117ac104b03694a9e63d45562c877f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalDistortion:
+        m_Texture: {fileID: 2800000, guid: 2c9df508228ae2644a235156585a9f0c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: 2c9df508228ae2644a235156585a9f0c, type: 3}
+        m_Scale: {x: 0.3, y: 0.3}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample1:
+        m_Texture: {fileID: 2800000, guid: bf324afe2f0f40e469ada9b430482d90, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample2:
+        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Center: -0.57
+    - _Cutoff: 0.5
+    - _Distortion_Intensity: 0
+    - _Distortion_Mask: -0.15
+    - _Float0: 0.03
+    - _Flowmap_Amount: 0.03
+    - _Fresnel_Bias: 0
+    - _Fresnel_Power: 0
+    - _Fresnel_Scale: 0
+    - _IntensityDistortion: 0.06
+    - _Opacity: -0.32
+    - _OutDistortionRing: -0.4
+    - _Scale: 0.78
+    - _ScaleDistortion: 0.07
+    - __dirty: 0
+    m_Colors:
+    - _Color0: {r: 1, g: 0, b: 0, a: 0}
+    - _Color_BlackHole: {r: 0, g: 0, b: 0, a: 0}
+    - _Color_Bloom: {r: 0.26666668, g: 0, b: 0.627451, a: 0}
+    - _Color_Distortion: {r: 0, g: 1, b: 0.99558896, a: 0}
+    - _Color_InDistorsion: {r: 7.6235294, g: 4.266667, b: 0, a: 0}
+    - _Color_RingLight: {r: 1, g: 1, b: 1, a: 0}
+    - _Fresnel_Color: {r: 1, g: 0, b: 0, a: 0}
+    - _Vector0: {r: 0.5, g: 0.5, b: 0, a: 0}

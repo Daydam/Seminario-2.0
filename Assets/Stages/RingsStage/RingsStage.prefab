@@ -1365,7 +1365,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 278685403}
-  - component: {fileID: 278685404}
   m_Layer: 0
   m_Name: NavMeshController
   m_TagString: Untagged
@@ -1387,35 +1386,6 @@ Transform:
   m_Father: {fileID: 1056990141}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &278685404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 278685402}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3df27b9289d1e8c4fb82e0df4f4673ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AgentTypeID: 1479372276
-  m_CollectObjects: 0
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 2, z: 0}
-  m_LayerMask:
-    serializedVersion: 2
-    m_Bits: 32769
-  m_UseGeometry: 1
-  m_DefaultArea: 0
-  m_IgnoreNavMeshAgent: 1
-  m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
-  m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.06666667
-  m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 0}
 --- !u!1 &316274568
 GameObject:
   m_ObjectHideFlags: 0
@@ -19982,6 +19952,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1056990141}
   - component: {fileID: 1056990140}
+  - component: {fileID: 5161060305874339202}
   m_Layer: 0
   m_Name: RingsStage
   m_TagString: Untagged
@@ -20027,7 +19998,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9b6274e6f45bfe4788cf0d423b8cd29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stage: {fileID: 0}
+  stage: {fileID: 5161060305874339202}
+--- !u!114 &5161060305874339202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056990139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca6e648eb21bddf4ba178202e72238d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  empCloud: {fileID: 985299445}
+  levelRings:
+  - {fileID: 649507373}
+  - {fileID: 228420345}
+  - {fileID: 669781872}
+  - {fileID: 503792976}
+  actualRing: 0
+  isLast: 0
 --- !u!1 &1072281378
 GameObject:
   m_ObjectHideFlags: 0
@@ -20669,7 +20660,7 @@ Transform:
   m_GameObject: {fileID: 1158876700}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.03, z: 0}
-  m_LocalScale: {x: 1.0000004, y: 1.0000019, z: 1.0000019}
+  m_LocalScale: {x: 1, y: 1.0000019, z: 1.0000019}
   m_Children: []
   m_Father: {fileID: 985299444}
   m_RootOrder: 1
