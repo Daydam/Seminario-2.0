@@ -8,7 +8,7 @@ using XInputDotNetPure;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class CharacterSelectionManager : MonoBehaviour
+public class Backup_CharacterSelectionManager : MonoBehaviour
 {
     private static CharacterSelectionManager instance;
     public static CharacterSelectionManager Instance
@@ -191,10 +191,18 @@ public class CharacterSelectionManager : MonoBehaviour
     {
         if (InputAllowed)
         {
-            for (int i = 0; i < currentGamePads.Length; i++)
+            if(!PhotonNetwork.IsConnected)
             {
-                previousGamePads[i] = currentGamePads[i];
-                currentGamePads[i] = GamePad.GetState((PlayerIndex)i);
+                for (int i = 0; i < currentGamePads.Length; i++)
+                {
+                    previousGamePads[i] = currentGamePads[i];
+                    currentGamePads[i] = GamePad.GetState((PlayerIndex)i);
+                }
+            }
+            else
+            {
+                previousGamePads[int.Parse(PhotonNetwork.NickName.Split(' ')[1])] = currentGamePads[int.Parse(PhotonNetwork.NickName.Split(' ')[1])];
+                currentGamePads[int.Parse(PhotonNetwork.NickName.Split(' ')[1])] = GamePad.GetState((PlayerIndex)int.Parse(PhotonNetwork.NickName.Split(' ')[1]));
             }
 
             for (int i = 0; i < 4; i++)
@@ -981,14 +989,15 @@ public class CharacterSelectionManager : MonoBehaviour
     #region ONLINE PLAY
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        //Using the parts string could help detect the keyboard
         if(stream.IsWriting)
         {
-            //send part strings
+            stream.SendNext(previousGamePads[int.Parse(PhotonNetwork.NickName.Split(' ')[1])]);
+            stream.SendNext(currentGamePads[int.Parse(PhotonNetwork.NickName.Split(' ')[1])]);
         }
         else
         {
-            //Execute assembler for parts received
+            previousGamePads[int.Parse(info.Sender.NickName.Split(' ')[1])] = (GamePadState)stream.ReceiveNext();
+            currentGamePads[int.Parse(info.Sender.NickName.Split(' ')[1])] = (GamePadState)stream.ReceiveNext();
         }
     }
     #endregion

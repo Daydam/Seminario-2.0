@@ -18,9 +18,10 @@ namespace Firepower.Networking
         [SerializeField]
         private byte maxPlayersPerRoom = 4;
 
+        int playerIndex;
+
         void Awake()
         {
-            
             PhotonNetwork.AutomaticallySyncScene = true;
         }
 
@@ -74,8 +75,8 @@ namespace Firepower.Networking
 
         public override void OnJoinedRoom()
         {
+            PhotonNetwork.NickName = "Player " + PhotonNetwork.CurrentRoom.PlayerCount;
             Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
         }
-
     }
 }
