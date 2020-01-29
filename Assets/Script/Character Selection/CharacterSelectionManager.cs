@@ -8,7 +8,7 @@ using XInputDotNetPure;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class CharacterSelectionManager : MonoBehaviour
+public class CharacterSelectionManager : MonoBehaviour, IPunObservable
 {
     private static CharacterSelectionManager instance;
     public static CharacterSelectionManager Instance
@@ -191,10 +191,18 @@ public class CharacterSelectionManager : MonoBehaviour
     {
         if (InputAllowed)
         {
-            for (int i = 0; i < currentGamePads.Length; i++)
+            if (!PhotonNetwork.InRoom)
             {
-                previousGamePads[i] = currentGamePads[i];
-                currentGamePads[i] = GamePad.GetState((PlayerIndex)i);
+                for (int i = 0; i < currentGamePads.Length; i++)
+                {
+                    previousGamePads[i] = currentGamePads[i];
+                    currentGamePads[i] = GamePad.GetState((PlayerIndex)i);
+                }
+            }
+            else
+            {
+                previousGamePads[int.Parse(PhotonNetwork.NickName.Split(' ')[1])] = currentGamePads[int.Parse(PhotonNetwork.NickName.Split(' ')[1])];
+                currentGamePads[int.Parse(PhotonNetwork.NickName.Split(' ')[1])] = GamePad.GetState((PlayerIndex)int.Parse(PhotonNetwork.NickName.Split(' ')[1]));
             }
 
             for (int i = 0; i < 4; i++)
@@ -475,7 +483,7 @@ public class CharacterSelectionManager : MonoBehaviour
         }
 
         #region KEYBOARD IMPLEMENTATION
-        if (player == 3 && Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.F))
+        if ((player == 3 || PhotonNetwork.InRoom)&& Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.F))
         {
             if (!startWhenReadyText.gameObject.activeSelf) startWhenReadyText.gameObject.SetActive(true);
             URLs[player] = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (player + 1));
@@ -557,7 +565,7 @@ public class CharacterSelectionManager : MonoBehaviour
             CancelPlayer(player);
 
         #region KEYBOARD IMPLEMENTATION
-        if (player == 3)
+        if (player == 3 || PhotonNetwork.InRoom)
         {
             if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
             {
@@ -619,7 +627,7 @@ public class CharacterSelectionManager : MonoBehaviour
         }
 
         #region KEYBOARD IMPLEMENTATION
-        if (player == 3)
+        if (player == 3 || PhotonNetwork.InRoom)
         {
             if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
@@ -705,7 +713,7 @@ public class CharacterSelectionManager : MonoBehaviour
         }
 
         #region KEYBOARD IMPLEMENTATION
-        if (player == 3)
+        if (player == 3 || PhotonNetwork.InRoom)
         {
             if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
@@ -787,7 +795,7 @@ public class CharacterSelectionManager : MonoBehaviour
         }
 
         #region KEYBOARD IMPLEMENTATION
-        if (player == 3)
+        if (player == 3 || PhotonNetwork.InRoom)
         {
             if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
@@ -879,7 +887,7 @@ public class CharacterSelectionManager : MonoBehaviour
         }
 
         #region KEYBOARD IMPLEMENTATION
-        if (player == 3)
+        if (player == 3 || PhotonNetwork.InRoom)
         {
             if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
@@ -979,16 +987,25 @@ public class CharacterSelectionManager : MonoBehaviour
     }
 
     #region ONLINE PLAY
-    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         //Using the parts string could help detect the keyboard
         if(stream.IsWriting)
         {
-            //send part strings
+            stream.SendNext(players[int.Parse(PhotonNetwork.NickName.Split(' ')[1])]);
+            stream.SendNext(ready[int.Parse(PhotonNetwork.NickName.Split(' ')[1])]);
+            Debug.Log(PhotonNetwork.NickName + " Printed a message!");
         }
         else
         {
-            //Execute assembler for parts received
+            GameObject tempBody = (GameObject)stream.ReceiveNext();
+            if (players[int.Parse(info.Sender.NickName.Split(' ')[1])] != tempBody)
+            {
+                if (players[int.Parse(info.Sender.NickName.Split(' ')[1])] != null) Destroy(players[int.Parse(info.Sender.NickName.Split(' ')[1])]);
+                players[int.Parse(info.Sender.NickName.Split(' ')[1])] = Instantiate(tempBody);
+            }
+            ready[int.Parse(info.Sender.NickName.Split(' ')[1])] = (bool)stream.ReceiveNext();
+            Debug.Log("Reading a message from " + info.Sender.NickName);
         }
     }
     #endregion
