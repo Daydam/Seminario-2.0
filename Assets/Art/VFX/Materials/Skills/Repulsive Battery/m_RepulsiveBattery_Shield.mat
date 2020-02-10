@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: m_RepulsiveBattery_Shield
+  m_Shader: {fileID: 4800000, guid: 7c184325376dfe941929f70c381d4f35, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3001
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Main_Texture:
+        m_Texture: {fileID: 2800000, guid: 54398fd5d6ce02e46b5a36ea32b4a26c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalDistortion:
+        m_Texture: {fileID: 2800000, guid: 2c9df508228ae2644a235156585a9f0c, type: 3}
+        m_Scale: {x: 0.4, y: 0.4}
+        m_Offset: {x: 0, y: 0}
+    - _Texture0:
+        m_Texture: {fileID: 2800000, guid: 54398fd5d6ce02e46b5a36ea32b4a26c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: 920b2289f820f91489558539f21b1313, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Distortion_Amount: 0.3
+    - _Emission_Intensity: 11.64
+    - _Float0: -0.07
+    - _Float1: -0.05
+    - _Flowmap2_SpeedX: -0.07
+    - _Flowmap2_SpeedY: -0.05
+    - _Flowmap_Intensity: 0.09
+    - _Flowmap_SpeedX: 0.1
+    - _Flowmap_SpeedY: 0.1
+    - _Fresnal_Bias: 0
+    - _FresnelColor_Intensity: 11.64
+    - _Fresnel_Power: 5
+    - _Fresnel_Scale: 1
+    - __dirty: 0
+    m_Colors:
+    - _Emission: {r: 0, g: 29.615686, b: 95.87451, a: 0}
+    - _Fresnel_Color: {r: 0, g: 135.58704, b: 0.70987976, a: 0}
+    - _PatternColor: {r: 0, g: 29.615686, b: 95.87451, a: 0}
