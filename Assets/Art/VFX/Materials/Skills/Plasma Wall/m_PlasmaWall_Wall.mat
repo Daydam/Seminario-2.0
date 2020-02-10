@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: m_PlasmaWall_Wall
+  m_Shader: {fileID: 4800000, guid: 6738b1fe918494f4694dac04b8fb6c90, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3000
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Cracks:
+        m_Texture: {fileID: 2800000, guid: 7fd6d0a44f6c5e842b6b40f8e57c0082, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTexture:
+        m_Texture: {fileID: 2800000, guid: f303f13b0db3fa74488dace53e9790fa, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Main_Texture:
+        m_Texture: {fileID: 2800000, guid: f303f13b0db3fa74488dace53e9790fa, type: 3}
+        m_Scale: {x: 2, y: 2}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: f303f13b0db3fa74488dace53e9790fa, type: 3}
+        m_Scale: {x: 2, y: 2}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample1:
+        m_Texture: {fileID: 2800000, guid: 2c9df508228ae2644a235156585a9f0c, type: 3}
+        m_Scale: {x: 5, y: 5}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _ArrayLenght: 4
+    - _ChromaticAberration: 0.1
+    - _Cracks_Intensity: 0
+    - _Distortion_Amount: 1
+    - _Fall: -6.52
+    - _FallOff: -16.77
+    - _Float0: 0
+    - _ImpactRadius: 0.08
+    - _ImpactSize: 0.33
+    - _ImpactTime: 50
+    - _Radius: 0.11
+    - __dirty: 0
+    m_Colors:
+    - _Color0: {r: 0, g: 15.29516, b: 29.508846, a: 0}
+    - _Color1: {r: 0.6486767, g: 1.8018795, b: 13.76636, a: 0}
+    - _Cracks_Color: {r: 0, g: 4.0156865, b: 23.968628, a: 0}
+    - _Emission_Border: {r: 83.46362, g: 13.508, b: 0, a: 0}
+    - _ImpactColor: {r: 178.9082, g: 27.16407, b: 0, a: 0}
+    - _ImpactPosition: {r: 0.14, g: 0.75, b: 0.3199595, a: 0}
+    - _MainColor: {r: 0, g: 4.392381, b: 8.47419, a: 0}
+    - _Main_Color: {r: 0, g: 0, b: 0, a: 0}
