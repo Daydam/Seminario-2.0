@@ -7,6 +7,7 @@ using System;
 public class SK_Hook : ComplementarySkillBase
 {
     public SO_Hook skillData;
+    ModuleParticleController _particleModule;
 
     readonly float _debugMaxTimeOfCast = 2f;
 
@@ -23,6 +24,7 @@ public class SK_Hook : ComplementarySkillBase
     protected override void Start()
     {
         base.Start();
+        _particleModule = GetComponent<ModuleParticleController>();
 
         skillData = Resources.Load<SO_Hook>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_Hook;
 
@@ -59,7 +61,7 @@ public class SK_Hook : ComplementarySkillBase
     void UseSkill()
     {
         _owner.ApplyCastState(skillData.castTime);
-
+        _particleModule.OnShoot();
         StartCoroutine(WaitForCastEnd(_owner.FinishedCasting));
     }
 
@@ -75,6 +77,7 @@ public class SK_Hook : ComplementarySkillBase
 
     IEnumerator LaunchHook()
     {
+        
         _hook.gameObject.SetActive(true);
         _hook.Spawn(_owner.transform.position, _owner.transform.forward, _owner.tag, _owner, skillData);
 

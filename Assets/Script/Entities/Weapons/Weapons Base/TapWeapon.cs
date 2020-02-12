@@ -17,7 +17,7 @@ public class TapWeapon : Weapon
         var lifeTime = b.objDist / speed;
         SimpleParticleSpawner.Instance.SpawnParticle(particle.gameObject, Owner.transform.position, Owner.transform.rotation, lifeTime);
 
-        var muzzleFlashID = SimpleParticleSpawner.ParticleID.MUZZLEFLASH;
+        var muzzleFlashID = SimpleParticleSpawner.ParticleID.MUZZLE_FLASH;
         var muzzleFlashParticle = SimpleParticleSpawner.Instance.particles[muzzleFlashID].GetComponentInChildren<ParticleSystem>();
 
         SimpleParticleSpawner.Instance.SpawnParticle(muzzleFlashParticle.gameObject, _muzzle.transform.position, Owner.transform.forward, Owner.transform);

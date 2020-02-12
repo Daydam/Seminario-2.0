@@ -112,7 +112,7 @@ public class DMM_StunMissile : MonoBehaviour
 
     void ActivateAOE()
     {
-        var particleID = SimpleParticleSpawner.ParticleID.STUNMISSILE;
+        var particleID = SimpleParticleSpawner.ParticleID.STUN_MISSILE;
         var particle = SimpleParticleSpawner.Instance.particles[particleID].GetComponentInChildren<ParticleSystem>();
 
         SimpleParticleSpawner.Instance.SpawnParticle(particle.gameObject, transform.position, transform.forward, null);

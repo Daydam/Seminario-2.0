@@ -115,7 +115,7 @@ public class DMM_FragmentMissile : MonoBehaviour
 
     void ActivateAOE()
     {
-        var particleID = SimpleParticleSpawner.ParticleID.FRAGMENTMISSILE;
+        var particleID = SimpleParticleSpawner.ParticleID.FRAGMENT_MISSILE;
         var particle = SimpleParticleSpawner.Instance.particles[particleID].GetComponentInChildren<ParticleSystem>();
 
         SimpleParticleSpawner.Instance.SpawnParticle(particle.gameObject, transform.position, transform.forward, null);

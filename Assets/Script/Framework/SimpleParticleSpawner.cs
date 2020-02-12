@@ -46,15 +46,16 @@ public class SimpleParticleSpawner : MonoBehaviour
     {
         public const int BULLET = 0;
         public const int DAMAGE = 1;
-        public const int MUZZLEFLASH = 2;
-        public const int REPULSIVEBATTERY = 3;
-        public const int FRAGMENTMISSILE = 4;
-        public const int STUNMISSILE = 5;
+        public const int MUZZLE_FLASH = 2;
+        public const int REPULSIVE_BATTERY = 3;
+        public const int FRAGMENT_MISSILE = 4;
+        public const int STUN_MISSILE = 5;
         public const int VORTEX = 6;
-        public const int DEATHPARTICLE = 7;
+        public const int PLAYER_DEATH = 7;
         public const int BULLET_STONE_IMPACT = 8;
         public const int DUST_WALL_DESTRUCTION = 9;
-        public const int BLACKHOLEEXPLOSION = 10;
+        public const int BLACK_HOLE_EXPLOSION = 10;
+        public const int HOOK_IMPACT = 11;
     }
 
     #region Particles Pool

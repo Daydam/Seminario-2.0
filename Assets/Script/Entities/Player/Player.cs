@@ -318,7 +318,7 @@ public class Player : MonoBehaviour, IDamageable
         StopVibrating();
         _soundModule.PlayDeathSound();
 
-        var deathPartID = SimpleParticleSpawner.ParticleID.DEATHPARTICLE;
+        var deathPartID = SimpleParticleSpawner.ParticleID.PLAYER_DEATH;
         var deathParticle = SimpleParticleSpawner.Instance.particles[deathPartID].GetComponentInChildren<ParticleSystem>();
         SimpleParticleSpawner.Instance.SpawnParticle(deathParticle.gameObject, transform.position, transform.forward);
 
@@ -338,7 +338,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         StopVibrating();
         _soundModule.PlayDeathSound();
-        var deathPartID = SimpleParticleSpawner.ParticleID.DEATHPARTICLE;
+        var deathPartID = SimpleParticleSpawner.ParticleID.PLAYER_DEATH;
         var deathParticle = SimpleParticleSpawner.Instance.particles[deathPartID].GetComponentInChildren<ParticleSystem>();
         SimpleParticleSpawner.Instance.SpawnParticle(deathParticle.gameObject, transform.position, transform.forward);
 

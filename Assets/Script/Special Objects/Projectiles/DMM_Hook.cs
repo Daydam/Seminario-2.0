@@ -26,7 +26,7 @@ public class DMM_Hook : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _trail = GetComponent<TrailRenderer>();
-        
+        _trail.enabled = false;
     }
 
     public DMM_Hook Spawn(Vector3 spawnPos, Vector3 dir, string emmitter, Player owner, SO_Hook data)
@@ -45,6 +45,7 @@ public class DMM_Hook : MonoBehaviour
         _target = null;
 
         _trail.Clear();
+        _trail.enabled = false;
 
         return this;
     }
@@ -69,6 +70,14 @@ public class DMM_Hook : MonoBehaviour
 
     void Activate()
     {
+        if (Target != null)
+        {
+            var particleID = SimpleParticleSpawner.ParticleID.HOOK_IMPACT;
+            var particle = SimpleParticleSpawner.Instance.particles[particleID].GetComponentInChildren<ParticleSystem>();
+
+            SimpleParticleSpawner.Instance.SpawnParticle(particle.gameObject, transform.position, transform.forward, 4, null);
+        }
+
         movementFinished = true;
         _stopMoving = true;
     }

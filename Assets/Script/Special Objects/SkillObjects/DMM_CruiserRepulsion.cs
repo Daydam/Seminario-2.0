@@ -27,7 +27,7 @@ public class DMM_CruiserRepulsion : MonoBehaviour
     {
         //do particles
 
-        var particleID = SimpleParticleSpawner.ParticleID.REPULSIVEBATTERY;
+        var particleID = SimpleParticleSpawner.ParticleID.REPULSIVE_BATTERY;
         var particle = SimpleParticleSpawner.Instance.particles[particleID].GetComponentInChildren<ParticleSystem>();
 
         SimpleParticleSpawner.Instance.SpawnParticle(particle.gameObject, transform.position, transform.forward, null);
