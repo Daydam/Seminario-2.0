@@ -7,9 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MAT_SmallRock_1
+  m_Name: MAT_Rock_1 (R)
   m_Shader: {fileID: 4800000, guid: 471c292f20228c34da27f431fe201860, type: 3}
-  m_ShaderKeywords: _METALLICGLOSSMAP _NORMALMAP
+  m_ShaderKeywords: _METALLICGLOSSMAP _NORMALMAP _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -20,11 +20,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Albedo:
-        m_Texture: {fileID: 2800000, guid: c842bc1f318dcea47b2220ed8fd5b38b, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0440637b480add74db0e9c22d178f61f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 7693f73b7a473b14c838851fc097ddce, type: 3}
+        m_Texture: {fileID: 2800000, guid: 41ab0a08b2881004aaf2e15db980461c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -44,15 +44,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 9acf7bcf1767c3b409b188db715c1909, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0dbc1a84194f9624fab2248a19cd7f70, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: 5a3139501578b774388a175e09240deb, type: 3}
+        m_Texture: {fileID: 2800000, guid: 862f56f855cde6c4d9abad4076f4da87, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal:
-        m_Texture: {fileID: 2800000, guid: 6713fc15b9a0efc458a1601df423f07c, type: 3}
+        m_Texture: {fileID: 2800000, guid: e64da86ba5b2d884d96222059969e6f4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -64,7 +64,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RAOGSmoothnessBMetallic:
-        m_Texture: {fileID: 2800000, guid: df9b1a5d5134be24992ae5441e6d7cd7, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2b0a2df57cb981d408fcadc9065d69e4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -77,14 +77,14 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 0.032
-    - _Glossiness: 0.032
+    - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _Parallax: 0.02
-    - _SmoothnessControl: 0
-    - _SmoothnessTextureChannel: 0
+    - _Parallax: 0.005
+    - _SmoothnessControl: 0.3
+    - _SmoothnessTextureChannel: 1
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
