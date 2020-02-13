@@ -288,7 +288,7 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
                     }
 
                     #region KEYBOARD IMPLEMENTATION
-                    if (players[3] != null && i == 3)
+                    if ((players[3] != null && i == 3) || (PhotonNetwork.InRoom && i == int.Parse(PhotonNetwork.NickName.Split(' ')[1])))
                     {
                         if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.F))
                         {
@@ -483,7 +483,7 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
         }
 
         #region KEYBOARD IMPLEMENTATION
-        if ((player == 3 || PhotonNetwork.InRoom)&& Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.F))
+        if (((players[3] != null && player== 3) || (PhotonNetwork.InRoom && player == int.Parse(PhotonNetwork.NickName.Split(' ')[1])))&& Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.F))
         {
             if (!startWhenReadyText.gameObject.activeSelf) startWhenReadyText.gameObject.SetActive(true);
             URLs[player] = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (player + 1));
@@ -565,7 +565,7 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
             CancelPlayer(player);
 
         #region KEYBOARD IMPLEMENTATION
-        if (player == 3 || PhotonNetwork.InRoom)
+        if ((players[3] != null && player== 3) || (PhotonNetwork.InRoom && player == int.Parse(PhotonNetwork.NickName.Split(' ')[1])))
         {
             if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
             {
@@ -627,7 +627,7 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
         }
 
         #region KEYBOARD IMPLEMENTATION
-        if (player == 3 || PhotonNetwork.InRoom)
+        if ((players[3] != null && player== 3) || (PhotonNetwork.InRoom && player == int.Parse(PhotonNetwork.NickName.Split(' ')[1])))
         {
             if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
@@ -713,7 +713,7 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
         }
 
         #region KEYBOARD IMPLEMENTATION
-        if (player == 3 || PhotonNetwork.InRoom)
+        if ((players[3] != null && player== 3) || (PhotonNetwork.InRoom && player == int.Parse(PhotonNetwork.NickName.Split(' ')[1])))
         {
             if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
@@ -795,7 +795,7 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
         }
 
         #region KEYBOARD IMPLEMENTATION
-        if (player == 3 || PhotonNetwork.InRoom)
+        if ((players[3] != null && player== 3) || (PhotonNetwork.InRoom && player == int.Parse(PhotonNetwork.NickName.Split(' ')[1])))
         {
             if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
@@ -887,7 +887,7 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
         }
 
         #region KEYBOARD IMPLEMENTATION
-        if (player == 3 || PhotonNetwork.InRoom)
+        if ((players[3] != null && player== 3) || (PhotonNetwork.InRoom && player == int.Parse(PhotonNetwork.NickName.Split(' ')[1])))
         {
             if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
@@ -1007,6 +1007,18 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
             ready[int.Parse(info.Sender.NickName.Split(' ')[1])] = (bool)stream.ReceiveNext();
             Debug.Log("Reading a message from " + info.Sender.NickName);
         }
+    }
+
+    //[RPC]
+    void OnCharacterUpdate(int playerId, GameObject character)
+    {
+        players[playerId] = character;
+    }
+
+    //[RPC]
+    void OnReady(int playerId, bool ready)
+    {
+        this.ready[playerId] = ready;
     }
     #endregion
 }

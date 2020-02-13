@@ -77,6 +77,9 @@ namespace Firepower.Networking
         {
             PhotonNetwork.NickName = "Player " + PhotonNetwork.CurrentRoom.PlayerCount;
             Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
+
+            PhotonView playerView = new GameObject(PhotonNetwork.NickName + " Photon View").AddComponent<PhotonView>();
+            playerView.ObservedComponents.Add(CharacterSelectionManager.Instance);
         }
     }
 }
