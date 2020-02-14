@@ -49,6 +49,7 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
     bool[] ready;
     public bool[] Ready { get { return ready; } }
     GameObject[] players;
+    public GameObject[] Players { get { return players; } set { players = value; } }
     GameObject[] currentWeapons;
     GameObject[,] currentComplementary;
     GameObject[] currentDefensive;
@@ -929,7 +930,7 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
         if (JoystickInput.allKeys[JoystickKey.Y](previousGamePads[player], currentGamePads[player])) ShowHelp(player);
     }
 
-    void CancelPlayer(int player)
+    public void CancelPlayer(int player)
     {
         Destroy(players[player]);
         players[player] = null;
@@ -989,7 +990,9 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
     #region ONLINE PLAY
     void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        //Using the parts string could help detect the keyboard
+        //We have to send the part string and execute the CharacterAssembler every time we receive new ones. We cooooould use an RPC (they're done on CharSelectRPCs already),
+        //and make it so the function is called every time we modify something.
+
         if(stream.IsWriting)
         {
             stream.SendNext(players[int.Parse(PhotonNetwork.NickName.Split(' ')[1])]);
@@ -1009,16 +1012,30 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
         }
     }
 
-    //[RPC]
-    void OnCharacterUpdate(int playerId, GameObject character)
+    public void UpdateCharacter()
     {
-        players[playerId] = character;
+        GetComponent<PhotonView>().RPC(
+            "OnCharacterUpdate",
+            RpcTarget.Others);
+        //OH YEAH BABY THIS WASN'T TESTED AT ALL, YAY FOR THE ETERNAL SUFFERING OF THE COMPLETELY UNSAFE, UNKNOWN, MISUNDERSTOOD, AND UNTESTED CODE.
+
+        //We need an UpdateReady function to use as well, and to call them.
     }
 
-    //[RPC]
+    [PunRPC]
+    void OnCharacterUpdate(int playerId, GameObject character)
+    {
+        if (CharacterSelectionManager.Instance.Players[playerId] != null & character == null) CharacterSelectionManager.Instance.CancelPlayer(playerId);
+        else
+        {
+            CharacterSelectionManager.Instance.Players[playerId] = character;
+        }
+    }
+
+    [PunRPC]
     void OnReady(int playerId, bool ready)
     {
-        this.ready[playerId] = ready;
+        CharacterSelectionManager.Instance.Ready[playerId] = ready;
     }
     #endregion
 }

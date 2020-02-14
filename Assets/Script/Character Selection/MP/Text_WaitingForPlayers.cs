@@ -29,7 +29,6 @@ public class Text_WaitingForPlayers : MonoBehaviour
                 for (int i = 0; i < texts.Length; i++)
                 {
                     texts[i].text = "Waiting for players...";
-                    Debug.Log(PhotonNetwork.NickName);
                 }
             }
         }

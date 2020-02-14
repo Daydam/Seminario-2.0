@@ -75,10 +75,11 @@ namespace Firepower.Networking
 
         public override void OnJoinedRoom()
         {
-            PhotonNetwork.NickName = "Player " + PhotonNetwork.CurrentRoom.PlayerCount;
+            PhotonNetwork.NickName = "Player " + (PhotonNetwork.CurrentRoom.PlayerCount-1);
             Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
 
             PhotonView playerView = new GameObject(PhotonNetwork.NickName + " Photon View").AddComponent<PhotonView>();
+            if (playerView.ObservedComponents == null) playerView.ObservedComponents = new List<Component>();
             playerView.ObservedComponents.Add(CharacterSelectionManager.Instance);
         }
     }
