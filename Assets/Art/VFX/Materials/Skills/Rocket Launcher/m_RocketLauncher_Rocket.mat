@@ -7,10 +7,10 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: m_Hook_Wind
-  m_Shader: {fileID: 4800000, guid: cd69cd9ae3701db48a6ac2d4a6a18be1, type: 3}
+  m_Name: m_RocketLauncher_Rocket
+  m_Shader: {fileID: 4800000, guid: 1b7752055d6ee1e4c9024f0d00a84611, type: 3}
   m_ShaderKeywords: 
-  m_LightmapFlags: 0
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -19,7 +19,7 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _MainTexture:
+    - _Flipbook:
         m_Texture: {fileID: 2800000, guid: 559f6157633824a418b5821a4b658f7d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -28,8 +28,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Rotator_Speed: 5
+    - _Cutoff: 0.5
+    - _Flipbook_Columns: 6
+    - _Flipbook_Rows: 5
+    - _MaskIntensity: 1
+    - _Metallic: 0.964
+    - _Smoothness: 0.838
+    - _SpeedAnimation: -50
     - __dirty: 0
     m_Colors:
-    - _Color0: {r: 4.102163, g: 1.3239989, b: 0.561145, a: 0}
-    - _MainColor: {r: 4.102163, g: 1.3239989, b: 0.561145, a: 0}
+    - _Color0: {r: 0.041617338, g: 0.02647739, b: 0.047169805, a: 0}
+    - _EmissionColor: {r: 0.7490196, g: 0.7490196, b: 0.7490196, a: 0}
+    - _RocketColor: {r: 2.458025, g: 2.458025, b: 2.458025, a: 0}
