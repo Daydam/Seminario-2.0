@@ -993,21 +993,86 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
         //We have to send the part string and execute the CharacterAssembler every time we receive new ones. We cooooould use an RPC (they're done on CharSelectRPCs already),
         //and make it so the function is called every time we modify something.
 
-        if(stream.IsWriting)
+        if (stream.IsWriting)
         {
-            stream.SendNext(players[int.Parse(PhotonNetwork.NickName.Split(' ')[1])]);
-            stream.SendNext(ready[int.Parse(PhotonNetwork.NickName.Split(' ')[1])]);
+            stream.SendNext(players[int.Parse(PhotonNetwork.NickName.Split(' ')[1])] != null);
+            if(players[int.Parse(PhotonNetwork.NickName.Split(' ')[1])] != null)
+            {
+                stream.SendNext(URLs[int.Parse(PhotonNetwork.NickName.Split(' ')[1])].bodyURL);
+                stream.SendNext(URLs[int.Parse(PhotonNetwork.NickName.Split(' ')[1])].weaponURL);
+                stream.SendNext(URLs[int.Parse(PhotonNetwork.NickName.Split(' ')[1])].defensiveURL);
+                stream.SendNext(URLs[int.Parse(PhotonNetwork.NickName.Split(' ')[1])].complementaryURL[0]);
+                stream.SendNext(URLs[int.Parse(PhotonNetwork.NickName.Split(' ')[1])].complementaryURL[1]);
+                stream.SendNext(ready[int.Parse(PhotonNetwork.NickName.Split(' ')[1])]);
+            }
+            else
+            {
+                stream.SendNext("AA");
+                stream.SendNext("AA");
+                stream.SendNext("AA");
+                stream.SendNext("AA");
+                stream.SendNext("AA");
+                stream.SendNext("AA");
+            }
             Debug.Log(PhotonNetwork.NickName + " Printed a message!");
         }
         else
         {
-            GameObject tempBody = (GameObject)stream.ReceiveNext();
-            if (players[int.Parse(info.Sender.NickName.Split(' ')[1])] != tempBody)
+            int sender = int.Parse(info.Sender.NickName.Split(' ')[1]);
+            bool isOnline = (bool)stream.ReceiveNext();
+            string bodyURL = (string)stream.ReceiveNext();
+            string weaponURL = (string)stream.ReceiveNext();
+            string defensiveURL = (string)stream.ReceiveNext();
+            string[] complementaryURL = new string[2] { (string)stream.ReceiveNext(), (string)stream.ReceiveNext() };
+            bool ready = (bool)stream.ReceiveNext();
+
+            if (isOnline)
             {
-                if (players[int.Parse(info.Sender.NickName.Split(' ')[1])] != null) Destroy(players[int.Parse(info.Sender.NickName.Split(' ')[1])]);
-                players[int.Parse(info.Sender.NickName.Split(' ')[1])] = Instantiate(tempBody);
+                if (players[sender] == null)
+                {
+                    URLs[sender] = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (sender + 1));
+                    if (URLs[sender] == default(CharacterURLs))
+                    {
+                        URLs[sender] = new CharacterURLs();
+                        URLs[sender].bodyURL = bodyURL;
+                        URLs[sender].weaponURL = weaponURL;
+                        URLs[sender].complementaryURL = new string[2] { complementaryURL[0], complementaryURL[1] };
+                        URLs[sender].defensiveURL = defensiveURL;
+                    }
+                }
+
+                bodyIndexes[sender] = bodies.IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Bodies/" + URLs[sender].bodyURL));
+                weaponIndexes[sender] = weapons.IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs[sender].weaponURL));
+                complementaryIndexes[sender, 0] = complementarySkills[0].IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary/" + URLs[sender].complementaryURL[0]));
+                complementaryIndexes[sender, 1] = complementarySkills[1].IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary/" + URLs[sender].complementaryURL[1]));
+                defensiveIndexes[sender] = defensiveSkills.IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs[sender].defensiveURL));
+
+                players[sender] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Bodies/" + URLs[sender].bodyURL), playerSpawnPoints[sender].transform.position, Quaternion.identity);
+                currentWeapons[sender] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs[sender].weaponURL), players[sender].transform.position, Quaternion.identity);
+                currentComplementary[sender, 0] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary/" + URLs[sender].complementaryURL[0]), players[sender].transform.position, Quaternion.identity);
+                currentComplementary[sender, 1] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary/" + URLs[sender].complementaryURL[1]), players[sender].transform.position, Quaternion.identity);
+                currentDefensive[sender] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs[sender].defensiveURL), players[sender].transform.position, Quaternion.identity);
+
+                //We need this to run on start, but then use ChangeBody/ChangePart.
+                CharacterAssembler.Assemble(players[sender], currentDefensive[sender], currentComplementary[sender, 0], currentComplementary[sender, 1], currentWeapons[sender]);
+                players[sender].GetComponentsInChildren<Renderer>().Where(x => x.material.GetTag("SkillStateColor", true, "Nothing") != "Nothing").First().material.SetColor("_PlayerColor", playerColors[sender]);
+
+                var finalBody = bodies[bodyIndexes[sender]].gameObject.name;
+                bodyTexts[sender].SetModuleName(finalBody);
+                var finalWeapon = weapons[weaponIndexes[sender]].gameObject.name;
+                weaponTexts[sender].SetModuleName(finalWeapon);
+                var finalDefensive = defensiveSkills[defensiveIndexes[sender]].gameObject.name;
+                defensiveTexts[sender].SetModuleName(finalDefensive);
+                var finalComplementary1 = complementarySkills[0][complementaryIndexes[sender, 0]].gameObject.name;
+                complementary1Texts[sender].SetModuleName(finalComplementary1);
+                var finalComplementary2 = complementarySkills[1][complementaryIndexes[sender, 1]].gameObject.name;
+                complementary2Texts[sender].SetModuleName(finalComplementary2);
+
+                blackScreens[sender].gameObject.SetActive(false);
+
+                this.ready[sender] = ready;
             }
-            ready[int.Parse(info.Sender.NickName.Split(' ')[1])] = (bool)stream.ReceiveNext();
+            else CancelPlayer(sender);
             Debug.Log("Reading a message from " + info.Sender.NickName);
         }
     }
