@@ -78,9 +78,13 @@ namespace Firepower.Networking
             PhotonNetwork.NickName = "Player " + (PhotonNetwork.CurrentRoom.PlayerCount-1);
             Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
 
-            PhotonView playerView = new GameObject(PhotonNetwork.NickName + " Photon View").AddComponent<PhotonView>();
+            //Welp this didn't work. I don't exactly know why...
+            /*PhotonView playerView = CharacterSelectionManager.Instance.gameObject.AddComponent<PhotonView>();
             if (playerView.ObservedComponents == null) playerView.ObservedComponents = new List<Component>();
             playerView.ObservedComponents.Add(CharacterSelectionManager.Instance);
+            playerView.OwnershipTransfer = OwnershipOption.Takeover;
+            playerView.TransferOwnership(PhotonNetwork.LocalPlayer);
+            playerView.Synchronization = ViewSynchronization.ReliableDeltaCompressed;*/
         }
     }
 }

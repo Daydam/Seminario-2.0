@@ -159,6 +159,7 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
         {
             currentGamePads[i] = GamePad.GetState((PlayerIndex)i);
         }
+        //We need to add online here, Tincho.
 
         //Description Work
         showingHelp = new bool[4];
@@ -202,6 +203,8 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
             }
             else
             {
+                //THIS IS BULLSHIT BUT IT WORKS!
+                GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
                 previousGamePads[int.Parse(PhotonNetwork.NickName.Split(' ')[1])] = currentGamePads[int.Parse(PhotonNetwork.NickName.Split(' ')[1])];
                 currentGamePads[int.Parse(PhotonNetwork.NickName.Split(' ')[1])] = GamePad.GetState((PlayerIndex)int.Parse(PhotonNetwork.NickName.Split(' ')[1]));
             }
@@ -1012,7 +1015,7 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
                 stream.SendNext("AA");
                 stream.SendNext("AA");
                 stream.SendNext("AA");
-                stream.SendNext("AA");
+                stream.SendNext(false);
             }
             Debug.Log(PhotonNetwork.NickName + " Printed a message!");
         }
@@ -1039,68 +1042,85 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
                         URLs[sender].complementaryURL = new string[2] { complementaryURL[0], complementaryURL[1] };
                         URLs[sender].defensiveURL = defensiveURL;
                     }
+
+                    bodyIndexes[sender] = bodies.IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Bodies/" + URLs[sender].bodyURL));
+                    weaponIndexes[sender] = weapons.IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs[sender].weaponURL));
+                    complementaryIndexes[sender, 0] = complementarySkills[0].IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary/" + URLs[sender].complementaryURL[0]));
+                    complementaryIndexes[sender, 1] = complementarySkills[1].IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary/" + URLs[sender].complementaryURL[1]));
+                    defensiveIndexes[sender] = defensiveSkills.IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs[sender].defensiveURL));
+
+                    players[sender] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Bodies/" + URLs[sender].bodyURL), playerSpawnPoints[sender].transform.position, Quaternion.identity);
+                    currentWeapons[sender] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs[sender].weaponURL), players[sender].transform.position, Quaternion.identity);
+                    currentComplementary[sender, 0] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary/" + URLs[sender].complementaryURL[0]), players[sender].transform.position, Quaternion.identity);
+                    currentComplementary[sender, 1] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary/" + URLs[sender].complementaryURL[1]), players[sender].transform.position, Quaternion.identity);
+                    currentDefensive[sender] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs[sender].defensiveURL), players[sender].transform.position, Quaternion.identity);
+
+                    //We need this to run on start, but then use ChangeBody/ChangePart.
+                    CharacterAssembler.Assemble(players[sender], currentDefensive[sender], currentComplementary[sender, 0], currentComplementary[sender, 1], currentWeapons[sender]);
+                    players[sender].GetComponentsInChildren<Renderer>().Where(x => x.material.GetTag("SkillStateColor", true, "Nothing") != "Nothing").First().material.SetColor("_PlayerColor", playerColors[sender]);
+
+                    var finalBody = bodies[bodyIndexes[sender]].gameObject.name;
+                    bodyTexts[sender].SetModuleName(finalBody);
+                    var finalWeapon = weapons[weaponIndexes[sender]].gameObject.name;
+                    weaponTexts[sender].SetModuleName(finalWeapon);
+                    var finalDefensive = defensiveSkills[defensiveIndexes[sender]].gameObject.name;
+                    defensiveTexts[sender].SetModuleName(finalDefensive);
+                    var finalComplementary1 = complementarySkills[0][complementaryIndexes[sender, 0]].gameObject.name;
+                    complementary1Texts[sender].SetModuleName(finalComplementary1);
+                    var finalComplementary2 = complementarySkills[1][complementaryIndexes[sender, 1]].gameObject.name;
+                    complementary2Texts[sender].SetModuleName(finalComplementary2);
+
+                    blackScreens[sender].gameObject.SetActive(false);
                 }
+                else
+                {
+                    if(URLs[sender].bodyURL != bodyURL)
+                    {
+                        URLs[sender].bodyURL = bodyURL;
 
-                bodyIndexes[sender] = bodies.IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Bodies/" + URLs[sender].bodyURL));
-                weaponIndexes[sender] = weapons.IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs[sender].weaponURL));
-                complementaryIndexes[sender, 0] = complementarySkills[0].IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary/" + URLs[sender].complementaryURL[0]));
-                complementaryIndexes[sender, 1] = complementarySkills[1].IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary/" + URLs[sender].complementaryURL[1]));
-                defensiveIndexes[sender] = defensiveSkills.IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs[sender].defensiveURL));
+                        players[sender] = CharacterAssembler.ChangeBody(
+                            Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Bodies/" + URLs[sender].bodyURL), players[sender].transform.position, Quaternion.identity),
+                            players[sender],
+                            currentDefensive[sender],
+                            currentComplementary[sender, 0],
+                            currentComplementary[sender, 1],
+                            currentWeapons[sender]);
+                    }
+                    if(URLs[sender].defensiveURL != defensiveURL)
+                    {
+                        URLs[sender].defensiveURL = defensiveURL;
 
-                players[sender] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Bodies/" + URLs[sender].bodyURL), playerSpawnPoints[sender].transform.position, Quaternion.identity);
-                currentWeapons[sender] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs[sender].weaponURL), players[sender].transform.position, Quaternion.identity);
-                currentComplementary[sender, 0] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary/" + URLs[sender].complementaryURL[0]), players[sender].transform.position, Quaternion.identity);
-                currentComplementary[sender, 1] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary/" + URLs[sender].complementaryURL[1]), players[sender].transform.position, Quaternion.identity);
-                currentDefensive[sender] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs[sender].defensiveURL), players[sender].transform.position, Quaternion.identity);
+                        Destroy(currentDefensive[sender].gameObject);
+                        currentDefensive[sender] = CharacterAssembler.ChangePart(currentDefensive[sender], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs[sender].defensiveURL), players[sender].transform.position, Quaternion.identity));
+                    }
+                    if(URLs[sender].weaponURL != weaponURL)
+                    {
+                        URLs[sender].weaponURL = weaponURL;
 
-                //We need this to run on start, but then use ChangeBody/ChangePart.
-                CharacterAssembler.Assemble(players[sender], currentDefensive[sender], currentComplementary[sender, 0], currentComplementary[sender, 1], currentWeapons[sender]);
-                players[sender].GetComponentsInChildren<Renderer>().Where(x => x.material.GetTag("SkillStateColor", true, "Nothing") != "Nothing").First().material.SetColor("_PlayerColor", playerColors[sender]);
+                        Destroy(currentWeapons[sender].gameObject);
+                        currentWeapons[sender] = CharacterAssembler.ChangePart(currentWeapons[sender], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs[sender].weaponURL), players[sender].transform.position, Quaternion.identity));
+                    }
+                    if(URLs[sender].complementaryURL[0] != complementaryURL[0])
+                    {
+                        URLs[sender].complementaryURL[0] = complementaryURL[0];
 
-                var finalBody = bodies[bodyIndexes[sender]].gameObject.name;
-                bodyTexts[sender].SetModuleName(finalBody);
-                var finalWeapon = weapons[weaponIndexes[sender]].gameObject.name;
-                weaponTexts[sender].SetModuleName(finalWeapon);
-                var finalDefensive = defensiveSkills[defensiveIndexes[sender]].gameObject.name;
-                defensiveTexts[sender].SetModuleName(finalDefensive);
-                var finalComplementary1 = complementarySkills[0][complementaryIndexes[sender, 0]].gameObject.name;
-                complementary1Texts[sender].SetModuleName(finalComplementary1);
-                var finalComplementary2 = complementarySkills[1][complementaryIndexes[sender, 1]].gameObject.name;
-                complementary2Texts[sender].SetModuleName(finalComplementary2);
+                        Destroy(currentComplementary[sender, 0].gameObject);
+                        currentComplementary[sender, 0] = CharacterAssembler.ChangePart(currentComplementary[sender, 0], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary" + /*(compIndex + 1) +*/ "/" + URLs[sender].complementaryURL[0]), players[sender].transform.position, Quaternion.identity));
+                    }
+                    if (URLs[sender].complementaryURL[1] != complementaryURL[1])
+                    {
+                        URLs[sender].complementaryURL[1] = complementaryURL[1];
 
-                blackScreens[sender].gameObject.SetActive(false);
+                        Destroy(currentComplementary[sender, 1].gameObject);
+                        currentComplementary[sender, 1] = CharacterAssembler.ChangePart(currentComplementary[sender, 1], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary" + /*(compIndex + 1) +*/ "/" + URLs[sender].complementaryURL[1]), players[sender].transform.position, Quaternion.identity));
+                    }
+                }
 
                 this.ready[sender] = ready;
             }
             else CancelPlayer(sender);
             Debug.Log("Reading a message from " + info.Sender.NickName);
         }
-    }
-
-    public void UpdateCharacter()
-    {
-        GetComponent<PhotonView>().RPC(
-            "OnCharacterUpdate",
-            RpcTarget.Others);
-        //OH YEAH BABY THIS WASN'T TESTED AT ALL, YAY FOR THE ETERNAL SUFFERING OF THE COMPLETELY UNSAFE, UNKNOWN, MISUNDERSTOOD, AND UNTESTED CODE.
-
-        //We need an UpdateReady function to use as well, and to call them.
-    }
-
-    [PunRPC]
-    void OnCharacterUpdate(int playerId, GameObject character)
-    {
-        if (CharacterSelectionManager.Instance.Players[playerId] != null & character == null) CharacterSelectionManager.Instance.CancelPlayer(playerId);
-        else
-        {
-            CharacterSelectionManager.Instance.Players[playerId] = character;
-        }
-    }
-
-    [PunRPC]
-    void OnReady(int playerId, bool ready)
-    {
-        CharacterSelectionManager.Instance.Ready[playerId] = ready;
     }
     #endregion
 }
