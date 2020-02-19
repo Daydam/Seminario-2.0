@@ -200,126 +200,50 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
                     previousGamePads[i] = currentGamePads[i];
                     currentGamePads[i] = GamePad.GetState((PlayerIndex)i);
                 }
-            }
-            else
-            {
-                //THIS IS BULLSHIT BUT IT WORKS!
-                GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
-                previousGamePads[int.Parse(PhotonNetwork.NickName.Split(' ')[1])] = currentGamePads[int.Parse(PhotonNetwork.NickName.Split(' ')[1])];
-                currentGamePads[int.Parse(PhotonNetwork.NickName.Split(' ')[1])] = GamePad.GetState((PlayerIndex)int.Parse(PhotonNetwork.NickName.Split(' ')[1]));
-            }
-
-            for (int i = 0; i < 4; i++)
-            {
-                if (players[i] == null) CheckStart(i);
-                else
+                for (int i = 0; i < 4; i++)
                 {
-                    if (!ready[i])
+                    if (players[i] == null) CheckStart(i);
+                    else
                     {
-                        CheckSelect(i);
-                        if (selectedModifier[i] == 0) SelectBody(i);
-                        if (selectedModifier[i] == 1) SelectWeapon(i);
-                        if (selectedModifier[i] == 2) SelectDefensive(i);
-                        if (selectedModifier[i] == 3) SelectComplementary(i, 0);
-                        if (selectedModifier[i] == 4) SelectComplementary(i, 1);
-
-                        SetVisibleModuleInfo(i);
-
-                        HelpCamPos(i);
-                    }
-                    lastAnalogValue[i] = JoystickInput.LeftAnalog(currentGamePads[i]);
-
-
-                    if (JoystickInput.allKeys[JoystickKey.START](previousGamePads[i], currentGamePads[i]))
-                    {
-                        if (showingHelp[i])
-                            ShowHelp(i);
-                        ready[i] = !ready[i];
-                        HelpOnStartPressed(i, ready[i]);
-                        //readyScreens[i].gameObject.SetActive(ready[i]);
-                        readyScreens[i].GetComponentInChildren<Text>().text = ready[i] ? "Player " + (i + 1) + " Ready" : "Player " + (i + 1);
-                        if (ready[i])
+                        if (!ready[i])
                         {
-                            //Set the text!
-                            var finalBody = bodies[bodyIndexes[i]].gameObject.name;
-                            bodyTexts[i].SetModuleName(finalBody);
-                            var finalWeapon = weapons[weaponIndexes[i]].gameObject.name;
-                            weaponTexts[i].SetModuleName(finalWeapon);
-                            var finalDefensive = defensiveSkills[defensiveIndexes[i]].gameObject.name;
-                            defensiveTexts[i].SetModuleName(finalDefensive);
-                            var finalComplementary1 = complementarySkills[0][complementaryIndexes[i, 0]].gameObject.name;
-                            complementary1Texts[i].SetModuleName(finalComplementary1);
-                            var finalComplementary2 = complementarySkills[1][complementaryIndexes[i, 1]].gameObject.name;
-                            complementary2Texts[i].SetModuleName(finalComplementary2);
+                            CheckSelect(i);
+                            if (selectedModifier[i] == 0) SelectBody(i);
+                            if (selectedModifier[i] == 1) SelectWeapon(i);
+                            if (selectedModifier[i] == 2) SelectDefensive(i);
+                            if (selectedModifier[i] == 3) SelectComplementary(i, 0);
+                            if (selectedModifier[i] == 4) SelectComplementary(i, 1);
 
-                            DeactivateModuleTooltips(i);
+                            SetVisibleModuleInfo(i);
 
-                            //Check if they're all ready
-                            var regPlayers = players.Where(a => a != default(Player)).ToArray();
-                            bool allReady = true;
-                            for (int f = 0; f < regPlayers.Length; f++)
-                            {
-                                int playerIndex = System.Array.IndexOf(players, regPlayers[f]);
-                                URLs[playerIndex].SaveJsonToDisk("Player " + (playerIndex + 1));
-                                if (!ready[playerIndex]) allReady = false;
-                            }
-
-                            if (regPlayers.Length >= 2 && allReady)
-                            {
-                                playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
-                                if (playerInfo == null || playerInfo.fileRegVersion < RegisteredPlayers.latestRegVersion)
-                                {
-                                    playerInfo = new RegisteredPlayers();
-                                    playerInfo.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
-                                    Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
-                                    StartCoroutine(StartGameCoroutine());
-                                }
-                                else
-                                {
-                                    playerInfo.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
-                                    Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
-                                    StartCoroutine(StartGameCoroutine());
-                                }
-                            }
+                            HelpCamPos(i);
                         }
-                    }
-                    else if (JoystickInput.allKeys[JoystickKey.B](previousGamePads[i], currentGamePads[i])
-                    || JoystickInput.allKeys[JoystickKey.BACK](previousGamePads[i], currentGamePads[i]))
-                    {
-                        ready[i] = false;
-                        DeactivateModuleTooltips(i);
-                        //readyScreens[i].gameObject.SetActive(false);
-                    }
+                        lastAnalogValue[i] = JoystickInput.LeftAnalog(currentGamePads[i]);
 
-                    #region KEYBOARD IMPLEMENTATION
-                    if ((players[3] != null && i == 3) || (PhotonNetwork.InRoom && i == int.Parse(PhotonNetwork.NickName.Split(' ')[1])))
-                    {
-                        if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.F))
+
+                        if (JoystickInput.allKeys[JoystickKey.START](previousGamePads[i], currentGamePads[i]))
                         {
-                            if (Application.isEditor)
-                            {
-                                Cursor.visible = false;
-                                Cursor.lockState = CursorLockMode.Locked;
-                            }
-
-                            ready[3] = !ready[3];
-                            //readyScreens[3].gameObject.SetActive(ready[3]);
-                            readyScreens[3].GetComponentInChildren<Text>().text = ready[3] ? "Player " + 4 + " Ready" : "Player " + 4;
-                            if (ready[3])
+                            if (showingHelp[i])
+                                ShowHelp(i);
+                            ready[i] = !ready[i];
+                            HelpOnStartPressed(i, ready[i]);
+                            //readyScreens[i].gameObject.SetActive(ready[i]);
+                            readyScreens[i].GetComponentInChildren<Text>().text = ready[i] ? "Player " + (i + 1) + " Ready" : "Player " + (i + 1);
+                            if (ready[i])
                             {
                                 //Set the text!
-                                var finalBody = bodies[bodyIndexes[3]].gameObject.name;
-                                bodyTexts[3].SetModuleName(finalBody);
-                                var finalWeapon = weapons[weaponIndexes[3]].gameObject.name;
-                                weaponTexts[3].SetModuleName(finalWeapon);
-                                var finalDefensive = defensiveSkills[defensiveIndexes[3]].gameObject.name;
-                                defensiveTexts[3].SetModuleName(finalDefensive);
-                                var finalComplementary1 = complementarySkills[0][complementaryIndexes[3, 0]].gameObject.name;
-                                complementary1Texts[3].SetModuleName(finalComplementary1);
-                                var finalComplementary2 = complementarySkills[1][complementaryIndexes[3, 1]].gameObject.name;
-                                complementary2Texts[3].SetModuleName(finalComplementary2);
+                                var finalBody = bodies[bodyIndexes[i]].gameObject.name;
+                                bodyTexts[i].SetModuleName(finalBody);
+                                var finalWeapon = weapons[weaponIndexes[i]].gameObject.name;
+                                weaponTexts[i].SetModuleName(finalWeapon);
+                                var finalDefensive = defensiveSkills[defensiveIndexes[i]].gameObject.name;
+                                defensiveTexts[i].SetModuleName(finalDefensive);
+                                var finalComplementary1 = complementarySkills[0][complementaryIndexes[i, 0]].gameObject.name;
+                                complementary1Texts[i].SetModuleName(finalComplementary1);
+                                var finalComplementary2 = complementarySkills[1][complementaryIndexes[i, 1]].gameObject.name;
+                                complementary2Texts[i].SetModuleName(finalComplementary2);
 
-                                DeactivateModuleTooltips(3);
+                                DeactivateModuleTooltips(i);
 
                                 //Check if they're all ready
                                 var regPlayers = players.Where(a => a != default(Player)).ToArray();
@@ -347,9 +271,226 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
                                         Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
                                         StartCoroutine(StartGameCoroutine());
                                     }
+                                }
+                            }
+                        }
+                        else if (JoystickInput.allKeys[JoystickKey.B](previousGamePads[i], currentGamePads[i])
+                        || JoystickInput.allKeys[JoystickKey.BACK](previousGamePads[i], currentGamePads[i]))
+                        {
+                            ready[i] = false;
+                            DeactivateModuleTooltips(i);
+                            //readyScreens[i].gameObject.SetActive(false);
+                        }
 
-                                    Debug.Log("MARTÍN HARDCODEE EL NOMBRE DE LA ESCENA EN EL CAMBIO DE ESCENAS PORQUE NO ME GUSTA TENER EL NUMERITO");
-                                    Debug.LogWarning("MARTÍN HARDCODEE EL NOMBRE DE LA ESCENA EN EL CAMBIO DE ESCENAS PORQUE NO ME GUSTA TENER EL NUMERITO");
+                        #region KEYBOARD IMPLEMENTATION
+                        if (players[3] != null && i == 3)
+                        {
+                            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.F))
+                            {
+                                if (Application.isEditor)
+                                {
+                                    Cursor.visible = false;
+                                    Cursor.lockState = CursorLockMode.Locked;
+                                }
+
+                                ready[3] = !ready[3];
+                                //readyScreens[3].gameObject.SetActive(ready[3]);
+                                readyScreens[3].GetComponentInChildren<Text>().text = ready[3] ? "Player " + 4 + " Ready" : "Player " + 4;
+                                if (ready[3])
+                                {
+                                    //Set the text!
+                                    var finalBody = bodies[bodyIndexes[3]].gameObject.name;
+                                    bodyTexts[3].SetModuleName(finalBody);
+                                    var finalWeapon = weapons[weaponIndexes[3]].gameObject.name;
+                                    weaponTexts[3].SetModuleName(finalWeapon);
+                                    var finalDefensive = defensiveSkills[defensiveIndexes[3]].gameObject.name;
+                                    defensiveTexts[3].SetModuleName(finalDefensive);
+                                    var finalComplementary1 = complementarySkills[0][complementaryIndexes[3, 0]].gameObject.name;
+                                    complementary1Texts[3].SetModuleName(finalComplementary1);
+                                    var finalComplementary2 = complementarySkills[1][complementaryIndexes[3, 1]].gameObject.name;
+                                    complementary2Texts[3].SetModuleName(finalComplementary2);
+
+                                    DeactivateModuleTooltips(3);
+
+                                    //Check if they're all ready
+                                    var regPlayers = players.Where(a => a != default(Player)).ToArray();
+                                    bool allReady = true;
+                                    for (int f = 0; f < regPlayers.Length; f++)
+                                    {
+                                        int playerIndex = System.Array.IndexOf(players, regPlayers[f]);
+                                        URLs[playerIndex].SaveJsonToDisk("Player " + (playerIndex + 1));
+                                        if (!ready[playerIndex]) allReady = false;
+                                    }
+
+                                    if (regPlayers.Length >= 2 && allReady)
+                                    {
+                                        playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
+                                        if (playerInfo == null || playerInfo.fileRegVersion < RegisteredPlayers.latestRegVersion)
+                                        {
+                                            playerInfo = new RegisteredPlayers();
+                                            playerInfo.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
+                                            Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
+                                            StartCoroutine(StartGameCoroutine());
+                                        }
+                                        else
+                                        {
+                                            playerInfo.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
+                                            Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
+                                            StartCoroutine(StartGameCoroutine());
+                                        }
+
+                                        Debug.Log("MARTÍN HARDCODEE EL NOMBRE DE LA ESCENA EN EL CAMBIO DE ESCENAS PORQUE NO ME GUSTA TENER EL NUMERITO");
+                                        Debug.LogWarning("MARTÍN HARDCODEE EL NOMBRE DE LA ESCENA EN EL CAMBIO DE ESCENAS PORQUE NO ME GUSTA TENER EL NUMERITO");
+                                    }
+                                }
+                            }
+                            if (Input.GetKeyDown(KeyCode.Escape) && Input.GetKey(KeyCode.F))
+                            {
+                                ready[3] = false;
+                                DeactivateModuleTooltips(3);
+
+                                if (Application.isEditor)
+                                {
+                                    Cursor.visible = true;
+                                    Cursor.lockState = CursorLockMode.None;
+                                }
+
+                                //readyScreens[3].gameObject.SetActive(false);
+                            }
+                        }
+                        #endregion
+                    }
+                }
+            }
+            else
+            {
+                int player = int.Parse(PhotonNetwork.NickName.Split(' ')[1]);
+                previousGamePads[player] = currentGamePads[player];
+                currentGamePads[player] = GamePad.GetState((PlayerIndex)player);
+
+                if (players[player] == null) CheckStart(player);
+                else
+                {
+                    if (!ready[player])
+                    {
+                        CheckSelect(player);
+                        if (selectedModifier[player] == 0) SelectBody(player);
+                        if (selectedModifier[player] == 1) SelectWeapon(player);
+                        if (selectedModifier[player] == 2) SelectDefensive(player);
+                        if (selectedModifier[player] == 3) SelectComplementary(player, 0);
+                        if (selectedModifier[player] == 4) SelectComplementary(player, 1);
+
+                        SetVisibleModuleInfo(player);
+
+                        HelpCamPos(player);
+                    }
+                    lastAnalogValue[player] = JoystickInput.LeftAnalog(currentGamePads[player]);
+
+
+                    if (JoystickInput.allKeys[JoystickKey.START](previousGamePads[player], currentGamePads[player]))
+                    {
+                        if (showingHelp[player])
+                            ShowHelp(player);
+                        ready[player] = !ready[player];
+                        HelpOnStartPressed(player, ready[player]);
+                        //readyScreens[i].gameObject.SetActive(ready[i]);
+                        readyScreens[player].GetComponentInChildren<Text>().text = ready[player] ? "Player " + (player + 1) + " Ready" : "Player " + (player + 1);
+                        if (ready[player])
+                        {
+                            //Set the text!
+                            var finalBody = bodies[bodyIndexes[player]].gameObject.name;
+                            bodyTexts[player].SetModuleName(finalBody);
+                            var finalWeapon = weapons[weaponIndexes[player]].gameObject.name;
+                            weaponTexts[player].SetModuleName(finalWeapon);
+                            var finalDefensive = defensiveSkills[defensiveIndexes[player]].gameObject.name;
+                            defensiveTexts[player].SetModuleName(finalDefensive);
+                            var finalComplementary1 = complementarySkills[0][complementaryIndexes[player, 0]].gameObject.name;
+                            complementary1Texts[player].SetModuleName(finalComplementary1);
+                            var finalComplementary2 = complementarySkills[1][complementaryIndexes[player, 1]].gameObject.name;
+                            complementary2Texts[player].SetModuleName(finalComplementary2);
+
+                            DeactivateModuleTooltips(player);
+
+                            //Check if they're all ready
+                            var regPlayers = players.Where(a => a != default(Player)).ToArray();
+                            bool allReady = true;
+                            for (int f = 0; f < regPlayers.Length; f++)
+                            {
+                                int playerIndex = System.Array.IndexOf(players, regPlayers[f]);
+                                URLs[playerIndex].SaveJsonToDisk("Online Player " + (playerIndex + 1));
+                                if (!ready[playerIndex]) allReady = false;
+                            }
+
+                            if (regPlayers.Length >= 2 && allReady)
+                            {
+                                playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Online Registered Players");
+                                if (playerInfo == null || playerInfo.fileRegVersion < RegisteredPlayers.latestRegVersion)
+                                {
+                                    playerInfo = new RegisteredPlayers();
+                                }
+                                playerInfo.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
+                                Serializacion.SaveJsonToDisk(playerInfo, "Online Registered Players");
+                                StartCoroutine(StartGameCoroutine());
+                            }
+                        }
+                    }
+                    else if (JoystickInput.allKeys[JoystickKey.B](previousGamePads[player], currentGamePads[player])
+                    || JoystickInput.allKeys[JoystickKey.BACK](previousGamePads[player], currentGamePads[player]))
+                    {
+                        ready[player] = false;
+                        DeactivateModuleTooltips(player);
+                        //readyScreens[i].gameObject.SetActive(false);
+                    }
+
+                    #region KEYBOARD IMPLEMENTATION
+                    if (PhotonNetwork.InRoom)
+                    {
+                        if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.F))
+                        {
+                            if (Application.isEditor)
+                            {
+                                Cursor.visible = false;
+                                Cursor.lockState = CursorLockMode.Locked;
+                            }
+
+                            ready[player] = !ready[player];
+                            readyScreens[player].GetComponentInChildren<Text>().text = ready[player] ? "Player " + (player  + 1) + " Ready" : "Player " + (player+1);
+                            if (ready[player])
+                            {
+                                //Set the text!
+                                var finalBody = bodies[bodyIndexes[player]].gameObject.name;
+                                bodyTexts[player].SetModuleName(finalBody);
+                                var finalWeapon = weapons[weaponIndexes[3]].gameObject.name;
+                                weaponTexts[player].SetModuleName(finalWeapon);
+                                var finalDefensive = defensiveSkills[defensiveIndexes[player]].gameObject.name;
+                                defensiveTexts[player].SetModuleName(finalDefensive);
+                                var finalComplementary1 = complementarySkills[0][complementaryIndexes[player, 0]].gameObject.name;
+                                complementary1Texts[player].SetModuleName(finalComplementary1);
+                                var finalComplementary2 = complementarySkills[1][complementaryIndexes[player, 1]].gameObject.name;
+                                complementary2Texts[player].SetModuleName(finalComplementary2);
+
+                                DeactivateModuleTooltips(player);
+
+                                //Check if they're all ready
+                                var regPlayers = players.Where(a => a != default(Player)).ToArray();
+                                bool allReady = true;
+                                for (int f = 0; f < regPlayers.Length; f++)
+                                {
+                                    int playerIndex = System.Array.IndexOf(players, regPlayers[f]);
+                                    URLs[playerIndex].SaveJsonToDisk("Player " + (playerIndex + 1));
+                                    if (!ready[playerIndex]) allReady = false;
+                                }
+
+                                if (regPlayers.Length >= 2 && allReady)
+                                {
+                                    playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
+                                    if (playerInfo == null || playerInfo.fileRegVersion < RegisteredPlayers.latestRegVersion)
+                                    {
+                                        playerInfo = new RegisteredPlayers();
+                                    }
+                                    playerInfo.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
+                                    Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
+                                    StartCoroutine(StartGameCoroutine());
                                 }
                             }
                         }
@@ -484,10 +625,12 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
             complementary2Texts[player].SetModuleName(finalComplementary2);
 
             blackScreens[player].gameObject.SetActive(false);
+
+            if(PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
         }
 
         #region KEYBOARD IMPLEMENTATION
-        if (((players[3] != null && player== 3) || (PhotonNetwork.InRoom && player == int.Parse(PhotonNetwork.NickName.Split(' ')[1])))&& Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.F))
+        if (((players[3] != null && player== 3 && !PhotonNetwork.InRoom) || (PhotonNetwork.InRoom && player == int.Parse(PhotonNetwork.NickName.Split(' ')[1])))&& Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.F))
         {
             if (!startWhenReadyText.gameObject.activeSelf) startWhenReadyText.gameObject.SetActive(true);
             URLs[player] = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (player + 1));
@@ -543,6 +686,8 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
             complementary2Texts[player].SetModuleName(finalComplementary2);
 
             blackScreens[player].gameObject.SetActive(false);
+            
+            if(PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
         }
         #endregion
     }
@@ -555,34 +700,50 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
             || JoystickInput.allKeys[JoystickKey.DPAD_DOWN](previousGamePads[player], currentGamePads[player]))
             {
                 selectedModifier[player] = selectedModifier[player] + 1 > 4 ? 0 : selectedModifier[player] + 1;
+
+                if(PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
 
             if (JoystickInput.LeftAnalog(currentGamePads[player]).y >= 0.3f
             || JoystickInput.allKeys[JoystickKey.DPAD_UP](previousGamePads[player], currentGamePads[player]))
             {
                 selectedModifier[player] = selectedModifier[player] - 1 < 0 ? 4 : selectedModifier[player] - 1;
+
+                if(PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
         }
 
         if (JoystickInput.allKeys[JoystickKey.B](previousGamePads[player], currentGamePads[player])
             || JoystickInput.allKeys[JoystickKey.BACK](previousGamePads[player], currentGamePads[player]))
+        {
             CancelPlayer(player);
 
+            if(PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
+        }
+
         #region KEYBOARD IMPLEMENTATION
-        if ((players[3] != null && player== 3) || (PhotonNetwork.InRoom && player == int.Parse(PhotonNetwork.NickName.Split(' ')[1])))
+        if ((players[3] != null && player== 3 && !PhotonNetwork.InRoom) || (PhotonNetwork.InRoom && player == int.Parse(PhotonNetwork.NickName.Split(' ')[1])))
         {
             if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
             {
                 selectedModifier[player] = selectedModifier[player] + 1 > 4 ? 0 : selectedModifier[player] + 1;
+
+                if(PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
 
             if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
             {
                 selectedModifier[player] = selectedModifier[player] - 1 < 0 ? 4 : selectedModifier[player] - 1;
+
+                if(PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
 
             if (Input.GetKeyDown(KeyCode.Escape) && Input.GetKey(KeyCode.F))
+            {
                 CancelPlayer(player);
+
+                if(PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
+            }
         }
         #endregion
     }
@@ -609,6 +770,8 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
                     currentComplementary[player, 0],
                     currentComplementary[player, 1],
                     currentWeapons[player]);
+
+                if(PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
 
             if (JoystickInput.LeftAnalog(currentGamePads[player]).x <= -0.3f
@@ -627,11 +790,13 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
                     currentComplementary[player, 0],
                     currentComplementary[player, 1],
                     currentWeapons[player]);
+
+                if(PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
         }
 
         #region KEYBOARD IMPLEMENTATION
-        if ((players[3] != null && player== 3) || (PhotonNetwork.InRoom && player == int.Parse(PhotonNetwork.NickName.Split(' ')[1])))
+        if ((players[3] != null && player== 3 && !PhotonNetwork.InRoom) || (PhotonNetwork.InRoom && player == int.Parse(PhotonNetwork.NickName.Split(' ')[1])))
         {
             if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
@@ -648,6 +813,8 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
                     currentComplementary[player, 0],
                     currentComplementary[player, 1],
                     currentWeapons[player]);
+
+                if(PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
 
             if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
@@ -665,6 +832,8 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
                     currentComplementary[player, 0],
                     currentComplementary[player, 1],
                     currentWeapons[player]);
+
+                if(PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
         }
         #endregion
@@ -700,6 +869,8 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
 
                 Destroy(currentWeapons[player].gameObject);
                 currentWeapons[player] = CharacterAssembler.ChangePart(currentWeapons[player], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs[player].weaponURL), players[player].transform.position, Quaternion.identity));
+
+                if(PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
 
             if (JoystickInput.LeftAnalog(currentGamePads[player]).x <= -0.3f
@@ -713,11 +884,13 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
 
                 Destroy(currentWeapons[player].gameObject);
                 currentWeapons[player] = CharacterAssembler.ChangePart(currentWeapons[player], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs[player].weaponURL), players[player].transform.position, Quaternion.identity));
+
+                if(PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
         }
 
         #region KEYBOARD IMPLEMENTATION
-        if ((players[3] != null && player== 3) || (PhotonNetwork.InRoom && player == int.Parse(PhotonNetwork.NickName.Split(' ')[1])))
+        if ((players[3] != null && player== 3 && !PhotonNetwork.InRoom) || (PhotonNetwork.InRoom && player == int.Parse(PhotonNetwork.NickName.Split(' ')[1])))
         {
             if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
@@ -729,6 +902,8 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
 
                 Destroy(currentWeapons[player].gameObject);
                 currentWeapons[player] = CharacterAssembler.ChangePart(currentWeapons[player], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs[player].weaponURL), players[player].transform.position, Quaternion.identity));
+
+                if(PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
 
             if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
@@ -741,6 +916,8 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
 
                 Destroy(currentWeapons[player].gameObject);
                 currentWeapons[player] = CharacterAssembler.ChangePart(currentWeapons[player], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs[player].weaponURL), players[player].transform.position, Quaternion.identity));
+
+                if(PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
         }
         #endregion
@@ -779,6 +956,8 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
 
                 Destroy(currentComplementary[player, compIndex].gameObject);
                 currentComplementary[player, compIndex] = CharacterAssembler.ChangePart(currentComplementary[player, compIndex], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary" + /*(compIndex + 1) +*/ "/" + URLs[player].complementaryURL[compIndex]), players[player].transform.position, Quaternion.identity));
+
+                if(PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
 
             if (JoystickInput.LeftAnalog(currentGamePads[player]).x <= -0.3f
@@ -795,11 +974,13 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
 
                 Destroy(currentComplementary[player, compIndex].gameObject);
                 currentComplementary[player, compIndex] = CharacterAssembler.ChangePart(currentComplementary[player, compIndex], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary" + /*(compIndex + 1) +*/ "/" + URLs[player].complementaryURL[compIndex]), players[player].transform.position, Quaternion.identity));
+
+                if(PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
         }
 
         #region KEYBOARD IMPLEMENTATION
-        if ((players[3] != null && player== 3) || (PhotonNetwork.InRoom && player == int.Parse(PhotonNetwork.NickName.Split(' ')[1])))
+        if ((players[3] != null && player== 3 && !PhotonNetwork.InRoom) || (PhotonNetwork.InRoom && player == int.Parse(PhotonNetwork.NickName.Split(' ')[1])))
         {
             if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
@@ -814,6 +995,8 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
 
                 Destroy(currentComplementary[player, compIndex].gameObject);
                 currentComplementary[player, compIndex] = CharacterAssembler.ChangePart(currentComplementary[player, compIndex], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary" + /*(compIndex + 1) +*/ "/" + URLs[player].complementaryURL[compIndex]), players[player].transform.position, Quaternion.identity));
+
+                if(PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
 
             if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
@@ -829,6 +1012,8 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
 
                 Destroy(currentComplementary[player, compIndex].gameObject);
                 currentComplementary[player, compIndex] = CharacterAssembler.ChangePart(currentComplementary[player, compIndex], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary" + /*(compIndex + 1) +*/ "/" + URLs[player].complementaryURL[compIndex]), players[player].transform.position, Quaternion.identity));
+
+                if(PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
         }
         #endregion
@@ -874,6 +1059,8 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
 
                 Destroy(currentDefensive[player].gameObject);
                 currentDefensive[player] = CharacterAssembler.ChangePart(currentDefensive[player], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL), players[player].transform.position, Quaternion.identity));
+
+                if(PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
 
             if (JoystickInput.LeftAnalog(currentGamePads[player]).x <= -0.3f
@@ -887,11 +1074,13 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
 
                 Destroy(currentDefensive[player].gameObject);
                 currentDefensive[player] = CharacterAssembler.ChangePart(currentDefensive[player], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL), players[player].transform.position, Quaternion.identity));
+
+                if(PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
         }
 
         #region KEYBOARD IMPLEMENTATION
-        if ((players[3] != null && player== 3) || (PhotonNetwork.InRoom && player == int.Parse(PhotonNetwork.NickName.Split(' ')[1])))
+        if ((players[3] != null && player== 3 && !PhotonNetwork.InRoom) || (PhotonNetwork.InRoom && player == int.Parse(PhotonNetwork.NickName.Split(' ')[1])))
         {
             if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
@@ -903,6 +1092,8 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
 
                 Destroy(currentDefensive[player].gameObject);
                 currentDefensive[player] = CharacterAssembler.ChangePart(currentDefensive[player], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL), players[player].transform.position, Quaternion.identity));
+
+                if(PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
 
             if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
@@ -915,6 +1106,8 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
 
                 Destroy(currentDefensive[player].gameObject);
                 currentDefensive[player] = CharacterAssembler.ChangePart(currentDefensive[player], Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL), players[player].transform.position, Quaternion.identity));
+
+                if(PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             }
         }
         #endregion
