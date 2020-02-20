@@ -392,6 +392,9 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
                         if (showingHelp[player])
                             ShowHelp(player);
                         ready[player] = !ready[player];
+
+                        if (PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
+
                         HelpOnStartPressed(player, ready[player]);
                         //readyScreens[i].gameObject.SetActive(ready[i]);
                         readyScreens[player].GetComponentInChildren<Text>().text = ready[player] ? "Player " + (player + 1) + " Ready" : "Player " + (player + 1);
@@ -417,7 +420,7 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
                             for (int f = 0; f < regPlayers.Length; f++)
                             {
                                 int playerIndex = System.Array.IndexOf(players, regPlayers[f]);
-                                URLs[playerIndex].SaveJsonToDisk("Online Player " + (playerIndex + 1));
+                                URLs[playerIndex].SaveJsonToDisk("Online Player");
                                 if (!ready[playerIndex]) allReady = false;
                             }
 
@@ -438,6 +441,9 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
                     || JoystickInput.allKeys[JoystickKey.BACK](previousGamePads[player], currentGamePads[player]))
                     {
                         ready[player] = false;
+
+                        if (PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
+
                         DeactivateModuleTooltips(player);
                         //readyScreens[i].gameObject.SetActive(false);
                     }
@@ -454,6 +460,9 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
                             }
 
                             ready[player] = !ready[player];
+
+                            if (PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
+
                             readyScreens[player].GetComponentInChildren<Text>().text = ready[player] ? "Player " + (player  + 1) + " Ready" : "Player " + (player+1);
                             if (ready[player])
                             {
@@ -477,27 +486,29 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
                                 for (int f = 0; f < regPlayers.Length; f++)
                                 {
                                     int playerIndex = System.Array.IndexOf(players, regPlayers[f]);
-                                    URLs[playerIndex].SaveJsonToDisk("Player " + (playerIndex + 1));
+                                    URLs[playerIndex].SaveJsonToDisk("Online Player");
                                     if (!ready[playerIndex]) allReady = false;
                                 }
 
                                 if (regPlayers.Length >= 2 && allReady)
                                 {
-                                    playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
+                                    playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Online Registered Players");
                                     if (playerInfo == null || playerInfo.fileRegVersion < RegisteredPlayers.latestRegVersion)
                                     {
                                         playerInfo = new RegisteredPlayers();
                                     }
                                     playerInfo.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
-                                    Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
+                                    Serializacion.SaveJsonToDisk(playerInfo, "Online Registered Players");
                                     StartCoroutine(StartGameCoroutine());
                                 }
                             }
                         }
                         if (Input.GetKeyDown(KeyCode.Escape) && Input.GetKey(KeyCode.F))
                         {
-                            ready[3] = false;
-                            DeactivateModuleTooltips(3);
+                            ready[player] = false;
+                            DeactivateModuleTooltips(player);
+
+                            if (PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
 
                             if (Application.isEditor)
                             {
@@ -572,7 +583,8 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
         if (JoystickInput.allKeys[JoystickKey.A](previousGamePads[player], currentGamePads[player]))
         {
             if (!startWhenReadyText.gameObject.activeSelf) startWhenReadyText.gameObject.SetActive(true);
-            URLs[player] = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (player + 1));
+            if(PhotonNetwork.InRoom) URLs[player] = Serializacion.LoadJsonFromDisk<CharacterURLs>("Online Player");
+            else URLs[player] = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (player + 1));
             if (URLs[player] == default(CharacterURLs))
             {
                 URLs[player] = new CharacterURLs();
