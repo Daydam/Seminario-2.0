@@ -88,9 +88,10 @@ public class SK_RocketSalvo : ComplementarySkillBase
     IEnumerator FireRockets()
     {
         var inst = new WaitForSeconds(skillData.RocketCooldown);
-
         int rocketsFired = 0;
         float timeElapsed = 0f;
+
+        _particleModule.OnShoot();
 
         while (rocketsFired < skillData.rocketCount - 1)
         {

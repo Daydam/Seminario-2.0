@@ -22,10 +22,18 @@ public class ModuleParticleController : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        GameManager.Instance.OnResetRound += OnResetRound;
+    }
+
     public void OnShoot()
     {
-        //_readyParticle.Stop(true);
-        if (readyParticle) readyParticle.SetActive(false);
+        if (readyParticle)
+        {
+            _readyParticle.Stop(true);
+            readyParticle.SetActive(false);
+        }
 
         if (shootParticle)
         {
@@ -36,13 +44,24 @@ public class ModuleParticleController : MonoBehaviour
 
     public void OnAvailableShot()
     {
-        if (readyParticle) readyParticle.SetActive(true);
-        //_readyParticle.Play(true);
+        if (readyParticle)
+        {
+            readyParticle.SetActive(true);
+            _readyParticle.Play(true);
+        }
 
         if (shootParticle)
         {
             _shootParticle.Stop(true);
             shootParticle.SetActive(false);
         }
+    }
+
+    public void OnResetRound()
+    {
+        if (readyParticle) _readyParticle.Stop(true);
+        if (shootParticle) _shootParticle.Stop(true);
+        if (readyParticle) _readyParticle.Play(true);
+
     }
 }
