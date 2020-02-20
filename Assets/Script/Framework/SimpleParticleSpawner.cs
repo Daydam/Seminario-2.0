@@ -56,6 +56,8 @@ public class SimpleParticleSpawner : MonoBehaviour
         public const int DUST_WALL_DESTRUCTION = 9;
         public const int BLACK_HOLE_EXPLOSION = 10;
         public const int HOOK_IMPACT = 11;
+        public const int PLASMA_WALL_HIT = 12;
+        public const int ROCKETMINI_EXPLOSION = 13;
     }
 
     #region Particles Pool

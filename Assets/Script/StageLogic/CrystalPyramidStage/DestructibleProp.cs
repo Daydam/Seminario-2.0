@@ -55,6 +55,16 @@ public class DestructibleProp : DestructibleBase, IDamageable
         Death();
     }
 
+    public override void TakeDamage(float damage, Vector3 hitPosition)
+    {
+        Death();
+    }
+
+    public override void TakeDamage(float damage, string killerTag, Vector3 hitPosition)
+    {
+        Death();
+    }
+
     protected override void Death()
     {
         _baseObj.SetActive(false);
@@ -107,5 +117,4 @@ public class DestructibleProp : DestructibleBase, IDamageable
             TakeDamage(1);
         }
     }
-
 }

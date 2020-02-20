@@ -46,7 +46,7 @@ public class SK_EMPCaltrop : ComplementarySkillBase
         {
             if (_canUseSkill())
             {
-                if (activationAnim != null) activationAnim.Play();
+                if (_activationAnim != null) _activationAnim.Play();
                 _canTap = false;
 
                 LaunchCaltrop();

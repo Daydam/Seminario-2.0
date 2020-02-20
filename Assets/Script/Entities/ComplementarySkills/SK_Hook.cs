@@ -7,7 +7,6 @@ using System;
 public class SK_Hook : ComplementarySkillBase
 {
     public SO_Hook skillData;
-    ModuleParticleController _particleModule;
 
     readonly float _debugMaxTimeOfCast = 2f;
 

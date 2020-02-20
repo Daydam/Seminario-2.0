@@ -7,8 +7,6 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
 {
     public SO_ImplosiveCharge skillData;
 
-    ModuleParticleController _particleModule;
-
     float _currentCooldown;
     bool _skillActive, _canTap = true;
 

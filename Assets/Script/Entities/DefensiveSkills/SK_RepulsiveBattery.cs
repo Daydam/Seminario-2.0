@@ -52,7 +52,7 @@ public class SK_RepulsiveBattery : DefensiveSkillBase
 
     void UseSkill()
     {
-        if (activationAnim != null) activationAnim.Play();
+        if (_activationAnim != null) _activationAnim.Play();
         _owner.ApplyCastState(skillData.castTime);
 
         _owner.ActivateRepulsion(skillData.shieldDuration, skillData.radius);
@@ -74,6 +74,7 @@ public class SK_RepulsiveBattery : DefensiveSkillBase
 
     public IEnumerator ShieldActivation()
     {
+        _particleModule.OnShoot();
         shield.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(skillData.shieldDuration);

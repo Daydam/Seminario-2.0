@@ -65,8 +65,13 @@ public class DMM_RocketMini : MonoBehaviour
 
         foreach (var item in damageable)
         {
-            item.TakeDamage(skillData.damage, gameObject.tag);
+            item.TakeDamage(skillData.damage, gameObject.tag, transform.position);
         }
+
+        var particleID = SimpleParticleSpawner.ParticleID.ROCKETMINI_EXPLOSION;
+        var particle = SimpleParticleSpawner.Instance.particles[particleID].GetComponentInChildren<ParticleSystem>();
+
+        SimpleParticleSpawner.Instance.SpawnParticle(particle.gameObject, transform.position, Quaternion.identity);
 
         _activationCallback(this);
     }

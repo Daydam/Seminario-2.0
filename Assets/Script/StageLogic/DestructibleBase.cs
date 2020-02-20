@@ -13,6 +13,10 @@ public abstract class DestructibleBase : MonoBehaviour, IDamageable
 
     public abstract void TakeDamage(float damage, string killerTag);
 
+    public abstract void TakeDamage(float damage, Vector3 hitPosition);
+
+    public abstract void TakeDamage(float damage, string killerTag, Vector3 hitPosition);
+
     protected abstract void Death();
 
     protected abstract void SubstractLife(float damage);

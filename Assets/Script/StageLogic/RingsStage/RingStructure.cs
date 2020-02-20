@@ -21,4 +21,14 @@ public class RingStructure : MonoBehaviour,IDamageable
     {
         
     }
+
+    public void TakeDamage(float damage, Vector3 hitPosition)
+    {
+        
+    }
+
+    public void TakeDamage(float damage, string killerTag, Vector3 hitPosition)
+    {
+        
+    }
 }

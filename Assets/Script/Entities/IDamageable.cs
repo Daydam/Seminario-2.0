@@ -8,4 +8,6 @@ public interface IDamageable
 
     void TakeDamage(float damage);
     void TakeDamage(float damage, string killerTag);
+    void TakeDamage(float damage, Vector3 hitPosition);
+    void TakeDamage(float damage, string killerTag, Vector3 hitPosition);
 }

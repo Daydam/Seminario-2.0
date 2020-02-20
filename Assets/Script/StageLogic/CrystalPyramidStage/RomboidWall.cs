@@ -72,6 +72,18 @@ public class RomboidWall : DestructibleBase, IDamageable
         if (Hp <= 0) Death();
     }
 
+
+    public override void TakeDamage(float damage, Vector3 hitPosition)
+    {
+        SubstractLife(damage);
+        if (Hp <= 0) Death();
+    }
+    public override void TakeDamage(float damage, string killerTag, Vector3 hitPosition)
+    {
+        SubstractLife(damage);
+        if (Hp <= 0) Death();
+    }
+
     protected override void Death()
     {
         SimpleParticleSpawner.Instance.SpawnDust(transform.position, 2.0f);

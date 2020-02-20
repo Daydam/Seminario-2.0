@@ -67,6 +67,17 @@ public class RingWall : DestructibleBase, IDamageable
         if (Hp <= 0) Death();
     }
 
+    public override void TakeDamage(float damage, Vector3 hitPosition)
+    {
+        SubstractLife(damage);
+        if (Hp <= 0) Death();
+    }
+
+    public override void TakeDamage(float damage, string killerTag, Vector3 hitPosition)
+    {
+        SubstractLife(damage);
+        if (Hp <= 0) Death();
+    }
     void SetDissolve(float val)
     {
         foreach (var item in dissolveMaterials)

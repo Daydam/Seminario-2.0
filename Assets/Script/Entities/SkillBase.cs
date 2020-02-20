@@ -13,14 +13,16 @@ public abstract class SkillBase : MonoBehaviour
     protected AudioSource _stateSource;
     public AudioClip unavailableSound;
 
-    protected Animation activationAnim;
+    protected Animation _activationAnim;
+    protected ModuleParticleController _particleModule;
 
     protected virtual void Start()
     {
         _stateSource = GetComponent<AudioSource>();
-        activationAnim = GetComponent<Animation>();
+        _activationAnim = GetComponent<Animation>();
         InitializeUseCondition();
         _uiModule = GetComponentInParent<PlayerUIModule>();
+        _particleModule = GetComponent<ModuleParticleController>();
     }
     protected abstract void InitializeUseCondition();
 

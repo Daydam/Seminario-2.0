@@ -38,7 +38,7 @@ public class SK_ScramblerMine : ComplementarySkillBase
             {
                 if (_canTap)
                 {
-                    if (activationAnim != null) activationAnim.Play();
+                    if (_activationAnim != null) _activationAnim.Play();
                     _canTap = false;
                     if (MineActive()) _mine.Explode(true);
 

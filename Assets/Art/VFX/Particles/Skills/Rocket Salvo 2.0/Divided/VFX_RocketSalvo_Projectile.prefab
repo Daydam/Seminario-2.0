@@ -4768,6 +4768,7 @@ GameObject:
   - component: {fileID: 2802512821887538442}
   - component: {fileID: 2802512821887538440}
   - component: {fileID: 2802512821887538443}
+  - component: {fileID: 1599295524136250091}
   m_Layer: 0
   m_Name: VFX_RocketSalvo_Projectile
   m_TagString: Untagged
@@ -4783,7 +4784,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2802512821887538447}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.37700003, y: 1.379, z: 0}
+  m_LocalPosition: {x: -0.37700003, y: 1.379, z: 5.283}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2802512822428456705}
@@ -4912,6 +4913,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillData: {fileID: 0}
+--- !u!54 &1599295524136250091
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2802512821887538447}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &2802512822428456704
 GameObject:
   m_ObjectHideFlags: 0

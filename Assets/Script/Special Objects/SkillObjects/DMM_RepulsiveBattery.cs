@@ -50,10 +50,10 @@ public class DMM_RepulsiveBattery : MonoBehaviour
     {
         //do particles
 
-        var particleID = SimpleParticleSpawner.ParticleID.REPULSIVE_BATTERY;
+        /*var particleID = SimpleParticleSpawner.ParticleID.REPULSIVE_BATTERY;
         var particle = SimpleParticleSpawner.Instance.particles[particleID].GetComponentInChildren<ParticleSystem>();
 
-        SimpleParticleSpawner.Instance.SpawnParticle(particle.gameObject, transform.position, transform.forward, null);
+        SimpleParticleSpawner.Instance.SpawnParticle(particle.gameObject, transform.position, transform.forward, null);*/
 
         var cols = Physics.OverlapSphere(transform.position, skillData.radius);
 

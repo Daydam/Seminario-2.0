@@ -7,7 +7,6 @@ using PhoenixDevelopment;
 public class SK_StunMissile : ComplementarySkillBase
 {
     public SO_StunMissile skillData;
-    ModuleParticleController _particleModule;
 
     bool _canTap = true;
     float _currentCooldown = 0;
@@ -34,7 +33,7 @@ public class SK_StunMissile : ComplementarySkillBase
             {
                 if (_canTap)
                 {
-                    if (activationAnim != null) activationAnim.Play();
+                    if (_activationAnim != null) _activationAnim.Play();
                     _canTap = false;
                     ShootProjectile();
                     _currentCooldown = skillData.maxCooldown;

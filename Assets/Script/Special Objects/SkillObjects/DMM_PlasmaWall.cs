@@ -7,10 +7,17 @@ public class DMM_PlasmaWall : MonoBehaviour, IDamageable
 {
     public SO_PlasmaWall skillData;
 
+    public DMM_PlasmaWallPointsController pointsController;
+
     Coroutine _lifeTimerRoutine;
     Renderer _rend;
 
     float _hp;
+
+    void Awake()
+    {
+        pointsController = GetComponentInChildren<DMM_PlasmaWallPointsController>();
+    }
     public float Hp
     {
         get
@@ -81,10 +88,34 @@ public class DMM_PlasmaWall : MonoBehaviour, IDamageable
         if (Hp <= 0) Destruction();
     }
 
+    public void TakeDamage(float damage, Vector3 hitPosition)
+    {
+        SubstractLife(damage, hitPosition);
+        if (Hp <= 0) Destruction();
+    }
+
+    public void TakeDamage(float damage, string killerTag, Vector3 hitPosition)
+    {
+        SubstractLife(damage, hitPosition);
+        if (Hp <= 0) Destruction();
+    }
+
     void SubstractLife(float damage)
     {
         Hp -= damage;
         _rend.material.SetFloat("_Life", Mathf.Lerp(0, 1, Hp / skillData.maxHP));
+    }
+
+    void SubstractLife(float damage, Vector3 hitPosition)
+    {
+        Hp -= damage;
+        _rend.material.SetFloat("_Life", Mathf.Lerp(0, 1, Hp / skillData.maxHP));
+        pointsController.HitPlasmaWall(hitPosition);
+
+        var particleID = SimpleParticleSpawner.ParticleID.PLASMA_WALL_HIT;
+        var particle = SimpleParticleSpawner.Instance.particles[particleID].GetComponentInChildren<ParticleSystem>();
+
+        SimpleParticleSpawner.Instance.SpawnParticle(particle.gameObject, hitPosition, Quaternion.identity);
     }
 
     void Destruction()
@@ -92,10 +123,5 @@ public class DMM_PlasmaWall : MonoBehaviour, IDamageable
         StopCoroutine(_lifeTimerRoutine);
         _lifeTimerRoutine = null;
         ReturnToPool();
-    }
-
-    public IDamageable GetThisEntity()
-    {
-        return this;
     }
 }

@@ -68,7 +68,8 @@ public class HitscanBullet
                 else
                 {
                     var damageable = col.GetComponent(typeof(IDamageable)) as IDamageable;
-                    if (damageable != null) damageable.TakeDamage(appliableDamage);
+                    if (damageable != null) damageable.TakeDamage(appliableDamage, rch.point);
+                    
 
                     SimpleParticleSpawner.Instance.SpawnParticlesImpact(rch.point, Quaternion.LookRotation(rch.normal), 2.0f);
 

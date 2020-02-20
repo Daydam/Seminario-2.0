@@ -234,6 +234,18 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
         if (Hp <= 0) Explode(true);
     }
 
+    public void TakeDamage(float damage, Vector3 hitPosition)
+    {
+        SubstractLife(damage);
+        if (Hp <= 0) Explode(true);
+    }
+
+    public void TakeDamage(float damage, string killerTag, Vector3 hitPosition)
+    {
+        SubstractLife(damage);
+        if (Hp <= 0) Explode(true);
+    }
+
     void SubstractLife(float damage)
     {
         Hp -= damage;
@@ -243,10 +255,4 @@ public class DMM_ScramblerMine : MonoBehaviour, IDamageable
     {
         ReturnToPool();
     }
-
-    public IDamageable GetThisEntity()
-    {
-        return this;
-    }
-
 }

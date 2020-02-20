@@ -75,7 +75,19 @@ public class DestructibleStatue : MonoBehaviour, IDamageable
         SubstractLife(damage);
         if (Hp <= 0) Death();
     }
+    public void TakeDamage(float damage, Vector3 hitPosition)
+    {
+        SubstractLife(damage);
 
+        if (Hp <= 0) Death();
+    }
+
+    public void TakeDamage(float damage, string killerTag, Vector3 hitPosition)
+    {
+        SubstractLife(damage);
+
+        if (Hp <= 0) Death();
+    }
     void Death()
     {
         _baseObj.SetActive(false);

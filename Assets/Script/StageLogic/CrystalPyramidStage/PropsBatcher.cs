@@ -12,7 +12,8 @@ public class PropsBatcher : MonoBehaviour
 
     void Batch()
     {
-        var objs = GetComponentsInChildren<Transform>(true).Select(x => x.gameObject).ToArray();
-        StaticBatchingUtility.Combine(objs, transform.parent.gameObject);
+        var objs = GetComponentsInChildren<Transform>(true).Select(x => x.gameObject);
+
+        StaticBatchingUtility.Combine(objs.ToArray(), transform.parent.gameObject);
     }
 }

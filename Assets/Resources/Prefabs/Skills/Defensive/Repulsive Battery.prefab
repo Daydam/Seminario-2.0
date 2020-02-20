@@ -166,9 +166,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4172085036925556}
   - component: {fileID: 111029758765386698}
-  - component: {fileID: 114818965087533286}
+  - component: {fileID: 8071595399717468047}
   - component: {fileID: 82128424275335688}
   - component: {fileID: 2956424249662302634}
+  - component: {fileID: 1449484613815269090}
   m_Layer: 0
   m_Name: Repulsive Battery
   m_TagString: Untagged
@@ -189,6 +190,7 @@ Transform:
   m_Children:
   - {fileID: 4976519167572394}
   - {fileID: 1631595487876486726}
+  - {fileID: 9123118567996762211}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -209,7 +211,7 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!114 &114818965087533286
+--- !u!114 &8071595399717468047
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -218,13 +220,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1512153200704618}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cb6167e42e5f904cb7628a6f5e49aa1, type: 3}
+  m_Script: {fileID: 11500000, guid: f67274a918f58ba45aa56f0fee0bc9dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   unavailableSound: {fileID: 8300000, guid: 9bb6b586b5f532749a7433b37ede251c, type: 3}
-  skillData: {fileID: 0}
+  skillData: {fileID: 11400000, guid: 3f3e15f228106634d9de5344b590ea7a, type: 2}
   skillUse: {fileID: 8300000, guid: 670e80edafca1094ea452901fd5d9d64, type: 3}
-  shield: {fileID: 0}
+  shield: {fileID: 4673602372791250263}
 --- !u!82 &82128424275335688
 AudioSource:
   m_ObjectHideFlags: 0
@@ -334,6 +336,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconAsset: {fileID: 21300000, guid: 6eb40d880ce6bb44fbd0914f51e87a1d, type: 3}
+--- !u!114 &1449484613815269090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512153200704618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eceee267df0fe441a58ce1d38b8ad8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  readyParticle: {fileID: 0}
+  shootParticle: {fileID: 9123118567996762222}
 --- !u!1 &1805866664708120
 GameObject:
   m_ObjectHideFlags: 0
@@ -460,7 +476,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3280673483413522476}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -515,3 +531,99 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9117db2b51dd4d4bbd97cad7076daa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &7086844512968639686
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4172085036925556}
+    m_Modifications:
+    - target: {fileID: 2072310627440503976, guid: 79f47ccc97d6f0c4bb5cce71ba039c20,
+        type: 3}
+      propertyPath: m_Name
+      value: VFX_RepulsiveBattery
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072310627440503973, guid: 79f47ccc97d6f0c4bb5cce71ba039c20,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.0000000044092
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072310627440503973, guid: 79f47ccc97d6f0c4bb5cce71ba039c20,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.521
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072310627440503973, guid: 79f47ccc97d6f0c4bb5cce71ba039c20,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1e-15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072310627440503973, guid: 79f47ccc97d6f0c4bb5cce71ba039c20,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072310627440503973, guid: 79f47ccc97d6f0c4bb5cce71ba039c20,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072310627440503973, guid: 79f47ccc97d6f0c4bb5cce71ba039c20,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072310627440503973, guid: 79f47ccc97d6f0c4bb5cce71ba039c20,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072310627440503973, guid: 79f47ccc97d6f0c4bb5cce71ba039c20,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072310627440503973, guid: 79f47ccc97d6f0c4bb5cce71ba039c20,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072310627440503973, guid: 79f47ccc97d6f0c4bb5cce71ba039c20,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072310627440503973, guid: 79f47ccc97d6f0c4bb5cce71ba039c20,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072310627440503973, guid: 79f47ccc97d6f0c4bb5cce71ba039c20,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072310627440503973, guid: 79f47ccc97d6f0c4bb5cce71ba039c20,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072310627440503973, guid: 79f47ccc97d6f0c4bb5cce71ba039c20,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 79f47ccc97d6f0c4bb5cce71ba039c20, type: 3}
+--- !u!1 &9123118567996762222 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2072310627440503976, guid: 79f47ccc97d6f0c4bb5cce71ba039c20,
+    type: 3}
+  m_PrefabInstance: {fileID: 7086844512968639686}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &9123118567996762211 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2072310627440503973, guid: 79f47ccc97d6f0c4bb5cce71ba039c20,
+    type: 3}
+  m_PrefabInstance: {fileID: 7086844512968639686}
+  m_PrefabAsset: {fileID: 0}

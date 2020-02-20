@@ -14,7 +14,7 @@ public class DMM_FragmentMissile : MonoBehaviour
     AnimationCurve _AOEDecay;
     Rigidbody _rb;
 
-    public SO_FragmentMissile skillData;
+    public SO_RocketLauncher skillData;
 
     float minAoE, medAoE, maxAoE;
     float _travelledDistance;
@@ -51,7 +51,7 @@ public class DMM_FragmentMissile : MonoBehaviour
         _AOEDecay.AddKey(zero);
     }
 
-    public DMM_FragmentMissile Spawn(Vector3 spawnPos, Vector3 fwd, float maximumDistance, string emmitter, Player owner, SO_FragmentMissile data)
+    public DMM_FragmentMissile Spawn(Vector3 spawnPos, Vector3 fwd, float maximumDistance, string emmitter, Player owner, SO_RocketLauncher data)
     {
         skillData = data;
         SetAoEValues();
@@ -132,8 +132,8 @@ public class DMM_FragmentMissile : MonoBehaviour
 
         foreach (var item in allDestruct)
         {
-            var wall = item.GetComponent<RingWall>();
-            if (wall != null) wall.TakeDamage(float.MaxValue);
+            var destruct = item.GetComponent(typeof(IDamageable)) as IDamageable;
+             destruct.TakeDamage(float.MaxValue, transform.position);
         }
 
         var inMinAoe = players.Where(x => Vector3.Distance(x.gameObject.transform.position, transform.position) <= minAoE);
@@ -141,7 +141,7 @@ public class DMM_FragmentMissile : MonoBehaviour
         foreach (var play in inMinAoe)
         {
             var multiplier = _AOEDecay.Evaluate(minAoE);
-            play.TakeDamage(skillData.damage * multiplier, _owner.gameObject.tag);
+            play.TakeDamage(skillData.damage * multiplier, _owner.gameObject.tag, transform.position);
             play.Stats.DamageTaken += skillData.damage * multiplier;
             _owner.Stats.DamageDealt += skillData.damage * multiplier;
             var forceDir = (play.transform.position - transform.position);
@@ -158,7 +158,7 @@ public class DMM_FragmentMissile : MonoBehaviour
         foreach (var play in inMedAoe)
         {
             var multiplier = _AOEDecay.Evaluate(medAoE);
-            play.TakeDamage(skillData.damage * multiplier, _owner.gameObject.tag);
+            play.TakeDamage(skillData.damage * multiplier, _owner.gameObject.tag, transform.position);
             play.Stats.DamageTaken += skillData.damage * multiplier;
             _owner.Stats.DamageDealt += skillData.damage * multiplier;
             var forceDir = (play.transform.position - transform.position);
@@ -171,7 +171,7 @@ public class DMM_FragmentMissile : MonoBehaviour
         foreach (var play in inMaxAoe)
         {
             var multiplier = _AOEDecay.Evaluate(maxAoE);
-            play.TakeDamage(skillData.damage * multiplier, _owner.gameObject.tag);
+            play.TakeDamage(skillData.damage * multiplier, _owner.gameObject.tag, transform.position);
             play.Stats.DamageTaken += skillData.damage * multiplier;
             _owner.Stats.DamageDealt += skillData.damage * multiplier;
             var forceDir = (play.transform.position - transform.position);
