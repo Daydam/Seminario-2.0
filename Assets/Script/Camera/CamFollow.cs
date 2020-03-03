@@ -26,9 +26,7 @@ public class CamFollow : MonoBehaviour
     RaycastHit _toFloorRay;
     DeathType _deathType = DeathType.COUNT;
 
-    #region Cambios Iván 27/8
     Transform _targetTransform;
-    #endregion
 
     void Start()
     {
@@ -92,9 +90,9 @@ public class CamFollow : MonoBehaviour
         GetComponent<PPFX_EMPScramble>().ActivatePostProcess(activation);
     }
 
-    public void OnPlayerUseRepulsion(bool activation, float radius, float duration)
+    public void OnPlayerBlink(bool activation)
     {
-        //GetComponent<PPFX_RepulsionScreen>().ActivatePostProcess(activation, target.transform.position, radius, duration);
+        GetComponent<PPFX_BlinkPostProcess>().ActivatePostProcess(activation);
     }
 
     void LateUpdate()

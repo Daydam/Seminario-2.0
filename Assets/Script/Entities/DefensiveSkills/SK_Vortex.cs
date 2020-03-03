@@ -98,6 +98,7 @@ public class SK_Vortex : DefensiveSkillBase
 
         bool mid = false;
 
+        _owner.OnPlayerBlink(1);
         _owner.ApplyCastState(skillData.blinkDuration + skillData.disableDuration);
         _owner.ApplyInvulnerability(skillData.blinkDuration);
         _stateSource.PlayOneShot(startVortex);

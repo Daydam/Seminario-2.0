@@ -606,11 +606,11 @@ public class Player : MonoBehaviour, IDamageable
 
     public IEnumerator RepulsionManagement(float duration, float radius)
     {
-        _cam.OnPlayerUseRepulsion(true, radius, duration);
+        /*_cam.OnPlayerUseRepulsion(true, radius, duration);*/
 
         yield return new WaitForSeconds(duration);
 
-        _cam.OnPlayerUseRepulsion(false, radius, duration);
+        /*_cam.OnPlayerUseRepulsion(false, radius, duration);*/
     }
 
     public bool FinishedCasting()
@@ -649,6 +649,20 @@ public class Player : MonoBehaviour, IDamageable
         yield return new WaitForSeconds(duration);
 
         KnockbackMultiplier = oldMulti;
+    }
+
+    public void OnPlayerBlink(float duration)
+    {
+        StartCoroutine(ExecuteBlink(duration));
+    }
+
+    public IEnumerator ExecuteBlink(float duration)
+    {
+        _cam.OnPlayerBlink(true);
+
+        yield return new WaitForSeconds(duration);
+
+        _cam.OnPlayerBlink(false);
     }
 
     IEnumerator ExecuteDisarm(float duration, bool scrambleScreen)
