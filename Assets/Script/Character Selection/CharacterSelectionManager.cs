@@ -420,7 +420,7 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
                             for (int f = 0; f < regPlayers.Length; f++)
                             {
                                 int playerIndex = System.Array.IndexOf(players, regPlayers[f]);
-                                URLs[playerIndex].SaveJsonToDisk("Online Player");
+                                URLs[playerIndex].SaveJsonToDisk("Online Player" + (playerIndex + 1));
                                 if (!ready[playerIndex]) allReady = false;
                             }
 
@@ -1186,12 +1186,29 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
 
     IEnumerator StartGameCoroutine()
     {
-        var asyncOp = SceneManager.LoadSceneAsync("Stage selection", LoadSceneMode.Single);
-        asyncOp.allowSceneActivation = true;
-
-        while (!asyncOp.isDone)
+        if(!PhotonNetwork.InRoom)
         {
-            yield return new WaitForEndOfFrame();
+            var asyncOp = SceneManager.LoadSceneAsync("Stage selection", LoadSceneMode.Single);
+            asyncOp.allowSceneActivation = true;
+
+            while (!asyncOp.isDone)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+        }
+        else
+        {
+            PhotonNetwork.AutomaticallySyncScene = true;
+            if(PhotonNetwork.IsMasterClient)
+            {
+                var asyncOp = SceneManager.LoadSceneAsync("Stage selection", LoadSceneMode.Single);
+                asyncOp.allowSceneActivation = true;
+
+                while (!asyncOp.isDone)
+                {
+                    yield return new WaitForEndOfFrame();
+                }
+            }
         }
     }
 
@@ -1326,6 +1343,67 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
             else CancelPlayer(sender);
             Debug.Log("Reading a message from " + info.Sender.NickName);
         }
+    }
+
+    public void StartPlayer(int player)
+    {
+        if (!startWhenReadyText.gameObject.activeSelf) startWhenReadyText.gameObject.SetActive(true);
+        if (PhotonNetwork.InRoom) URLs[player] = Serializacion.LoadJsonFromDisk<CharacterURLs>("Online Player");
+        else URLs[player] = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (player + 1));
+        if (URLs[player] == default(CharacterURLs))
+        {
+            URLs[player] = new CharacterURLs();
+
+            var bodyNameChars = bodies[bodyIndexes[player]].gameObject.name.TakeWhile(a => a != '(').ToArray();
+            string bodyName = new string(bodyNameChars);
+
+            var weaponNameChars = weapons[weaponIndexes[player]].gameObject.name.TakeWhile(a => a != '(').ToArray();
+            string weaponName = new string(weaponNameChars);
+
+            var compNameChars1 = complementarySkills[0][complementaryIndexes[player, 0]].gameObject.name.TakeWhile(a => a != '(').ToArray();
+            string compName1 = new string(compNameChars1);
+
+            var compNameChars2 = complementarySkills[1][complementaryIndexes[player, 1]].gameObject.name.TakeWhile(a => a != '(').ToArray();
+            string compName2 = new string(compNameChars2);
+
+            var defNameChars = defensiveSkills[defensiveIndexes[player]].gameObject.name.TakeWhile(a => a != '(').ToArray();
+            string defName = new string(defNameChars);
+
+            URLs[player].bodyURL = bodyName;
+            URLs[player].weaponURL = weaponName;
+            URLs[player].complementaryURL = new string[2] { compName1, compName2 };
+            URLs[player].defensiveURL = defName;
+        }
+
+        bodyIndexes[player] = bodies.IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Bodies/" + URLs[player].bodyURL));
+        weaponIndexes[player] = weapons.IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs[player].weaponURL));
+        complementaryIndexes[player, 0] = complementarySkills[0].IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary/" + URLs[player].complementaryURL[0]));
+        complementaryIndexes[player, 1] = complementarySkills[1].IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary/" + URLs[player].complementaryURL[1]));
+        defensiveIndexes[player] = defensiveSkills.IndexOf(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL));
+
+        players[player] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Bodies/" + URLs[player].bodyURL), playerSpawnPoints[player].transform.position, Quaternion.identity);
+        currentWeapons[player] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Weapons/" + URLs[player].weaponURL), players[player].transform.position, Quaternion.identity);
+        currentComplementary[player, 0] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary/" + URLs[player].complementaryURL[0]), players[player].transform.position, Quaternion.identity);
+        currentComplementary[player, 1] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Complementary/" + URLs[player].complementaryURL[1]), players[player].transform.position, Quaternion.identity);
+        currentDefensive[player] = Instantiate(Resources.Load<GameObject>("Prefabs/CharacterSelection/Skills/Defensive/" + URLs[player].defensiveURL), players[player].transform.position, Quaternion.identity);
+
+        CharacterAssembler.Assemble(players[player], currentDefensive[player], currentComplementary[player, 0], currentComplementary[player, 1], currentWeapons[player]);
+        players[player].GetComponentsInChildren<Renderer>().Where(x => x.material.GetTag("SkillStateColor", true, "Nothing") != "Nothing").First().material.SetColor("_PlayerColor", playerColors[player]);
+
+        var finalBody = bodies[bodyIndexes[player]].gameObject.name;
+        bodyTexts[player].SetModuleName(finalBody);
+        var finalWeapon = weapons[weaponIndexes[player]].gameObject.name;
+        weaponTexts[player].SetModuleName(finalWeapon);
+        var finalDefensive = defensiveSkills[defensiveIndexes[player]].gameObject.name;
+        defensiveTexts[player].SetModuleName(finalDefensive);
+        var finalComplementary1 = complementarySkills[0][complementaryIndexes[player, 0]].gameObject.name;
+        complementary1Texts[player].SetModuleName(finalComplementary1);
+        var finalComplementary2 = complementarySkills[1][complementaryIndexes[player, 1]].gameObject.name;
+        complementary2Texts[player].SetModuleName(finalComplementary2);
+
+        blackScreens[player].gameObject.SetActive(false);
+
+        if (PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
     }
     #endregion
 }

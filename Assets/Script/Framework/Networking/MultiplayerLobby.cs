@@ -23,6 +23,7 @@ namespace Firepower.Networking
         void Awake()
         {
             PhotonNetwork.AutomaticallySyncScene = true;
+            DontDestroyOnLoad(this);
         }
 
         void Start()
@@ -78,6 +79,7 @@ namespace Firepower.Networking
             PhotonNetwork.NickName = "Player " + (PhotonNetwork.CurrentRoom.PlayerCount-1);
             Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
 
+            CharacterSelectionManager.Instance.StartPlayer(PhotonNetwork.CurrentRoom.PlayerCount - 1);
             //Welp this didn't work. I don't exactly know why...
             /*PhotonView playerView = CharacterSelectionManager.Instance.gameObject.AddComponent<PhotonView>();
             if (playerView.ObservedComponents == null) playerView.ObservedComponents = new List<Component>();
