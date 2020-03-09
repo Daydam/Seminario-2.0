@@ -398,6 +398,52 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
                         HelpOnStartPressed(player, ready[player]);
                         //readyScreens[i].gameObject.SetActive(ready[i]);
                         readyScreens[player].GetComponentInChildren<Text>().text = ready[player] ? "Player " + (player + 1) + " Ready" : "Player " + (player + 1);
+                    }
+
+                    else if (JoystickInput.allKeys[JoystickKey.B](previousGamePads[player], currentGamePads[player])
+                    || JoystickInput.allKeys[JoystickKey.BACK](previousGamePads[player], currentGamePads[player]))
+                    {
+                        ready[player] = false;
+
+                        if (PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
+
+                        DeactivateModuleTooltips(player);
+                        //readyScreens[i].gameObject.SetActive(false);
+                    }
+
+                    #region KEYBOARD IMPLEMENTATION
+                    if (PhotonNetwork.InRoom)
+                    {
+                        if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.F))
+                        {
+                            if (Application.isEditor)
+                            {
+                                Cursor.visible = false;
+                                Cursor.lockState = CursorLockMode.Locked;
+                            }
+
+                            ready[player] = !ready[player];
+
+                            if (PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
+
+                            readyScreens[player].GetComponentInChildren<Text>().text = ready[player] ? "Player " + (player  + 1) + " Ready" : "Player " + (player+1);
+                        }
+                        if (Input.GetKeyDown(KeyCode.Escape) && Input.GetKey(KeyCode.F))
+                        {
+                            ready[player] = false;
+                            DeactivateModuleTooltips(player);
+
+                            if (PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
+
+                            if (Application.isEditor)
+                            {
+                                Cursor.visible = true;
+                                Cursor.lockState = CursorLockMode.None;
+                            }
+
+                            //readyScreens[3].gameObject.SetActive(false);
+                        }
+
                         if (ready[player])
                         {
                             //Set the text!
@@ -435,88 +481,6 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
                                 Serializacion.SaveJsonToDisk(playerInfo, "Online Registered Players");
                                 StartCoroutine(StartGameCoroutine());
                             }
-                        }
-                    }
-                    else if (JoystickInput.allKeys[JoystickKey.B](previousGamePads[player], currentGamePads[player])
-                    || JoystickInput.allKeys[JoystickKey.BACK](previousGamePads[player], currentGamePads[player]))
-                    {
-                        ready[player] = false;
-
-                        if (PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
-
-                        DeactivateModuleTooltips(player);
-                        //readyScreens[i].gameObject.SetActive(false);
-                    }
-
-                    #region KEYBOARD IMPLEMENTATION
-                    if (PhotonNetwork.InRoom)
-                    {
-                        if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.F))
-                        {
-                            if (Application.isEditor)
-                            {
-                                Cursor.visible = false;
-                                Cursor.lockState = CursorLockMode.Locked;
-                            }
-
-                            ready[player] = !ready[player];
-
-                            if (PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
-
-                            readyScreens[player].GetComponentInChildren<Text>().text = ready[player] ? "Player " + (player  + 1) + " Ready" : "Player " + (player+1);
-                            if (ready[player])
-                            {
-                                //Set the text!
-                                var finalBody = bodies[bodyIndexes[player]].gameObject.name;
-                                bodyTexts[player].SetModuleName(finalBody);
-                                var finalWeapon = weapons[weaponIndexes[3]].gameObject.name;
-                                weaponTexts[player].SetModuleName(finalWeapon);
-                                var finalDefensive = defensiveSkills[defensiveIndexes[player]].gameObject.name;
-                                defensiveTexts[player].SetModuleName(finalDefensive);
-                                var finalComplementary1 = complementarySkills[0][complementaryIndexes[player, 0]].gameObject.name;
-                                complementary1Texts[player].SetModuleName(finalComplementary1);
-                                var finalComplementary2 = complementarySkills[1][complementaryIndexes[player, 1]].gameObject.name;
-                                complementary2Texts[player].SetModuleName(finalComplementary2);
-
-                                DeactivateModuleTooltips(player);
-
-                                //Check if they're all ready
-                                var regPlayers = players.Where(a => a != default(Player)).ToArray();
-                                bool allReady = true;
-                                for (int f = 0; f < regPlayers.Length; f++)
-                                {
-                                    int playerIndex = System.Array.IndexOf(players, regPlayers[f]);
-                                    URLs[playerIndex].SaveJsonToDisk("Online Player");
-                                    if (!ready[playerIndex]) allReady = false;
-                                }
-
-                                if (regPlayers.Length >= 2 && allReady)
-                                {
-                                    playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Online Registered Players");
-                                    if (playerInfo == null || playerInfo.fileRegVersion < RegisteredPlayers.latestRegVersion)
-                                    {
-                                        playerInfo = new RegisteredPlayers();
-                                    }
-                                    playerInfo.playerControllers = regPlayers.Select(a => System.Array.IndexOf(players, a)).ToArray();
-                                    Serializacion.SaveJsonToDisk(playerInfo, "Online Registered Players");
-                                    StartCoroutine(StartGameCoroutine());
-                                }
-                            }
-                        }
-                        if (Input.GetKeyDown(KeyCode.Escape) && Input.GetKey(KeyCode.F))
-                        {
-                            ready[player] = false;
-                            DeactivateModuleTooltips(player);
-
-                            if (PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
-
-                            if (Application.isEditor)
-                            {
-                                Cursor.visible = true;
-                                Cursor.lockState = CursorLockMode.None;
-                            }
-
-                            //readyScreens[3].gameObject.SetActive(false);
                         }
                     }
                     #endregion
@@ -1239,7 +1203,6 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
                 stream.SendNext("AA");
                 stream.SendNext(false);
             }
-            Debug.Log(PhotonNetwork.NickName + " Printed a message!");
         }
         else
         {
@@ -1341,7 +1304,6 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
                 this.ready[sender] = ready;
             }
             else CancelPlayer(sender);
-            Debug.Log("Reading a message from " + info.Sender.NickName);
         }
     }
 

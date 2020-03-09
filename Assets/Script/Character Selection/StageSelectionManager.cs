@@ -5,8 +5,10 @@ using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using XInputDotNetPure;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class StageSelectionManager : MonoBehaviour
+public class StageSelectionManager : MonoBehaviour, IPunObservable
 {
     public GameObject templateSlot;
     public Text titleText;
@@ -59,47 +61,49 @@ public class StageSelectionManager : MonoBehaviour
 
     void Update()
     {
-        previousGamePad = currentGamePad;
-        currentGamePad = GamePad.GetState((PlayerIndex)selector);
-
-        if (-0.3f < lastAnalogValue.x && lastAnalogValue.x < 0.3f)
+        if(!PhotonNetwork.InRoom || (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient))
         {
-            if (/*JoystickInput.LeftAnalog(currentGamePad).x >= 0.3f
+            previousGamePad = currentGamePad;
+            currentGamePad = GamePad.GetState((PlayerIndex)selector);
+
+            if (-0.3f < lastAnalogValue.x && lastAnalogValue.x < 0.3f)
+            {
+                if (/*JoystickInput.LeftAnalog(currentGamePad).x >= 0.3f
             ||*/ JoystickInput.allKeys[JoystickKey.DPAD_RIGHT](previousGamePad, currentGamePad))
+                {
+                    selectedIndex = selectedIndex + 1 >= stages.Length ? 0 : selectedIndex + 1;
+                }
+
+                if (/*JoystickInput.LeftAnalog(currentGamePad).x <= -0.3f
+            ||*/ JoystickInput.allKeys[JoystickKey.DPAD_LEFT](previousGamePad, currentGamePad))
+                {
+                    selectedIndex = selectedIndex - 1 < 0 ? stages.Length - 1 : selectedIndex - 1;
+                }
+                if (JoystickInput.allKeys[JoystickKey.A](previousGamePad, currentGamePad))
+                {
+                    playerInfo.stage = stages[selectedIndex].stageScene.handle;
+                    print(playerInfo.stage);
+                    Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
+                    if (!_loading) StartCoroutine(StartGameCoroutine());
+                }
+            }
+            #region KEYBOARD IMPLEMENTATION
+            if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 selectedIndex = selectedIndex + 1 >= stages.Length ? 0 : selectedIndex + 1;
             }
 
-            if (/*JoystickInput.LeftAnalog(currentGamePad).x <= -0.3f
-            ||*/ JoystickInput.allKeys[JoystickKey.DPAD_LEFT](previousGamePad, currentGamePad))
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                selectedIndex = selectedIndex - 1 < 0 ? stages.Length - 1 : selectedIndex - 1;
+                selectedIndex = selectedIndex - 1 < 0 ? stages.Length : selectedIndex - 1;
             }
-            if (JoystickInput.allKeys[JoystickKey.A](previousGamePad, currentGamePad))
+
+            if (Input.GetKeyDown(KeyCode.Return))
             {
-                playerInfo.stage = stages[selectedIndex].stageScene.handle;
-                print(playerInfo.stage);
-                Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
                 if (!_loading) StartCoroutine(StartGameCoroutine());
             }
+            #endregion
         }
-        #region KEYBOARD IMPLEMENTATION
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            selectedIndex = selectedIndex + 1 >= stages.Length ? 0 : selectedIndex + 1;
-        }
-
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            selectedIndex = selectedIndex - 1 < 0 ? stages.Length : selectedIndex - 1;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            if (!_loading) StartCoroutine(StartGameCoroutine());
-        }
-        #endregion
-
 
         for (int i = 0; i < stages.Length; i++)
         {
@@ -129,6 +133,25 @@ public class StageSelectionManager : MonoBehaviour
                 if (Input.anyKey || AnyButtonHandler.AnyButtonPressed()) asyncOp.allowSceneActivation = true;
             }
             yield return new WaitForEndOfFrame();
+        }
+    }
+
+    void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        //We have to send the part string and execute the CharacterAssembler every time we receive new ones. We cooooould use an RPC (they're done on CharSelectRPCs already),
+        //and make it so the function is called every time we modify something.
+
+        if (stream.IsWriting)
+        {
+            stream.SendNext(selectedIndex);
+            stream.SendNext(_loadingScreen.gameObject.activeInHierarchy);
+            print("sending message " + selectedIndex);
+        }
+        else
+        {
+            selectedIndex = (int)stream.ReceiveNext();
+            _loadingScreen.gameObject.SetActive((bool)stream.ReceiveNext());
+            print("receiving message " + selectedIndex);
         }
     }
 }
