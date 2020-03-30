@@ -412,55 +412,57 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
                     }
 
                     #region KEYBOARD IMPLEMENTATION
-                    if (PhotonNetwork.InRoom)
+                    if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.F))
                     {
-                        if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.F))
+                        if (Application.isEditor)
                         {
-                            if (Application.isEditor)
-                            {
-                                Cursor.visible = false;
-                                Cursor.lockState = CursorLockMode.Locked;
-                            }
-
-                            ready[player] = !ready[player];
-
-                            if (PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
-
-                            readyScreens[player].GetComponentInChildren<Text>().text = ready[player] ? "Player " + (player  + 1) + " Ready" : "Player " + (player+1);
-                        }
-                        if (Input.GetKeyDown(KeyCode.Escape) && Input.GetKey(KeyCode.F))
-                        {
-                            ready[player] = false;
-                            DeactivateModuleTooltips(player);
-
-                            if (PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
-
-                            if (Application.isEditor)
-                            {
-                                Cursor.visible = true;
-                                Cursor.lockState = CursorLockMode.None;
-                            }
-
-                            //readyScreens[3].gameObject.SetActive(false);
+                            Cursor.visible = false;
+                            Cursor.lockState = CursorLockMode.Locked;
                         }
 
-                        if (ready[player])
+                        ready[player] = !ready[player];
+
+                        if (PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
+
+                        readyScreens[player].GetComponentInChildren<Text>().text = ready[player] ? "Player " + (player  + 1) + " Ready" : "Player " + (player+1);
+                    }
+                    if (Input.GetKeyDown(KeyCode.Escape) && Input.GetKey(KeyCode.F))
+                    {
+                        ready[player] = false;
+                        DeactivateModuleTooltips(player);
+
+                        if (PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
+
+                        if (Application.isEditor)
                         {
-                            //Set the text!
-                            var finalBody = bodies[bodyIndexes[player]].gameObject.name;
-                            bodyTexts[player].SetModuleName(finalBody);
-                            var finalWeapon = weapons[weaponIndexes[player]].gameObject.name;
-                            weaponTexts[player].SetModuleName(finalWeapon);
-                            var finalDefensive = defensiveSkills[defensiveIndexes[player]].gameObject.name;
-                            defensiveTexts[player].SetModuleName(finalDefensive);
-                            var finalComplementary1 = complementarySkills[0][complementaryIndexes[player, 0]].gameObject.name;
-                            complementary1Texts[player].SetModuleName(finalComplementary1);
-                            var finalComplementary2 = complementarySkills[1][complementaryIndexes[player, 1]].gameObject.name;
-                            complementary2Texts[player].SetModuleName(finalComplementary2);
+                            Cursor.visible = true;
+                            Cursor.lockState = CursorLockMode.None;
+                        }
 
-                            DeactivateModuleTooltips(player);
+                        //readyScreens[3].gameObject.SetActive(false);
+                    }
+                    #endregion
 
-                            //Check if they're all ready
+                    if (ready[player])
+                    {
+                        //Set the text!
+                        var finalBody = bodies[bodyIndexes[player]].gameObject.name;
+                        bodyTexts[player].SetModuleName(finalBody);
+                        var finalWeapon = weapons[weaponIndexes[player]].gameObject.name;
+                        weaponTexts[player].SetModuleName(finalWeapon);
+                        var finalDefensive = defensiveSkills[defensiveIndexes[player]].gameObject.name;
+                        defensiveTexts[player].SetModuleName(finalDefensive);
+                        var finalComplementary1 = complementarySkills[0][complementaryIndexes[player, 0]].gameObject.name;
+                        complementary1Texts[player].SetModuleName(finalComplementary1);
+                        var finalComplementary2 = complementarySkills[1][complementaryIndexes[player, 1]].gameObject.name;
+                        complementary2Texts[player].SetModuleName(finalComplementary2);
+                        URLs[player].SaveJsonToDisk("Online Player" + (player + 1));
+
+                        DeactivateModuleTooltips(player);
+
+                        //Check if they're all ready
+                        if(PhotonNetwork.IsMasterClient)
+                        {
                             var regPlayers = players.Where(a => a != default(Player)).ToArray();
                             bool allReady = true;
                             for (int f = 0; f < regPlayers.Length; f++)
@@ -483,7 +485,6 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
                             }
                         }
                     }
-                    #endregion
                 }
             }
         }

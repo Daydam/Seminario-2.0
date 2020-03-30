@@ -7,6 +7,8 @@ using Firepower.Events;
 using System;
 using UnityEngine.SceneManagement;
 using PhoenixDevelopment;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class GameManager : MonoBehaviour
 {
@@ -65,6 +67,9 @@ public class GameManager : MonoBehaviour
     Transform[] spawns;
     AudioSource _audioSource;
 
+    //Online
+    PhotonView pv;
+
     void Awake()
     {
         if (!Application.isEditor)
@@ -81,95 +86,187 @@ public class GameManager : MonoBehaviour
 
         spawns = StageManager.instance.transform.Find("SpawnPoints").GetComponentsInChildren<Transform>().Where(x => x.name != "SpawnPoints").ToArray();
 
-        playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
-        playerInfo.playerStats = new PlayerStats[playerInfo.playerControllers.Length];
-        playerCameras[playerInfo.playerControllers.Length - 2].SetActive(true);
-        if (playerInfo.playerControllers.Length == 2)
+        pv = GetComponent<PhotonView>();
+
+        if (!PhotonNetwork.InRoom)
         {
-            for (int i = 0; i < 2; i++)
+            playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
+            playerInfo.playerStats = new PlayerStats[playerInfo.playerControllers.Length];
+            playerCameras[playerInfo.playerControllers.Length - 2].SetActive(true);
+            if (playerInfo.playerControllers.Length == 2)
             {
-                Camera c = GameObject.Find("Camera_P" + (i + 1)).GetComponent<Camera>();
-                cameraTexturesForTwoPlayers[i].width = 1280;
-                c.rect = new Rect(0, 0, 2, 1);
-            }
-        }
-        else
-        {
-            for (int i = 0; i < 2; i++)
-            {
-                Camera c = GameObject.Find("Camera_P" + (i + 1)).GetComponent<Camera>();
-                cameraTexturesForTwoPlayers[i].width = 640;
-                c.rect = new Rect(0, 0, 1, 1);
-            }
-        }
-
-        //Setting the mode!
-        gameRules = Resources.Load("Scriptable Objects/GameMode_" + playerInfo.gameMode) as SO_GameRules;
-
-        //get all the cameras
-        var allCams = GameObject.FindObjectsOfType<CamFollow>().ToList();
-
-        Utility.KnuthShuffle(spawns);
-
-        for (int i = 0; i < playerInfo.playerControllers.Length; i++)
-        {
-            var URLs = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (playerInfo.playerControllers[i] + 1));
-
-            //Dejo los objetos ccomo children del body por cuestiones de carga de los scripts. Assembler no debería generar problemas, ya que su parent objetivo sería el mismo.
-            var player = Instantiate(Resources.Load<GameObject>("Prefabs/Bodies/" + URLs.bodyURL), spawns[i].transform.position, Quaternion.identity).GetComponent<Player>();
-            var weapon = Instantiate(Resources.Load<GameObject>("Prefabs/Weapons/" + URLs.weaponURL), player.transform.position, Quaternion.identity, player.transform);
-            var comp1 = Instantiate(Resources.Load<GameObject>("Prefabs/Skills/Complementary/" + URLs.complementaryURL[0]), player.transform.position, Quaternion.identity, player.transform);
-            var comp2 = Instantiate(Resources.Load<GameObject>("Prefabs/Skills/Complementary/" + URLs.complementaryURL[1]), player.transform.position, Quaternion.identity, player.transform);
-            var def = Instantiate(Resources.Load<GameObject>("Prefabs/Skills/Defensive/" + URLs.defensiveURL), player.transform.position, Quaternion.identity, player.transform);
-
-            CharacterAssembler.Assemble(player.gameObject, def, comp1, comp2, weapon);
-            player.transform.forward = spawns[i].forward;
-
-            comp1.GetComponent<ComplementarySkillBase>().RegisterInput(0);
-            comp2.GetComponent<ComplementarySkillBase>().RegisterInput(1);
-
-            player.gameObject.layer = LayerMask.NameToLayer("Player" + (playerInfo.playerControllers[i] + 1));
-            player.gameObject.tag = "Player " + (playerInfo.playerControllers[i] + 1);
-            foreach (Transform t in player.transform)
-            {
-                t.gameObject.layer = LayerMask.NameToLayer("Player" + (playerInfo.playerControllers[i] + 1));
-                t.gameObject.tag = "Player " + (playerInfo.playerControllers[i] + 1);
-            }
-
-            player.Stats.Score = 0;
-            player.lockedByGame = true;
-
-            player.LightsModule.SetPlayerColor(playerColors[playerInfo.playerControllers[i]]);
-
-            CamFollow cam = allCams.Where(x => x.name == "Camera_P" + (i + 1)).First();
-            allCams.Remove(cam);
-
-            if (player.ControlModule.playerType == PlayerControlModule.PlayerType.DRONE)
-            {
-                cam.AssignTarget(player, player.GetCameraOffset());
+                for (int i = 0; i < 2; i++)
+                {
+                    Camera c = GameObject.Find("Camera_P" + (i + 1)).GetComponent<Camera>();
+                    cameraTexturesForTwoPlayers[i].width = 1280;
+                    c.rect = new Rect(0, 0, 2, 1);
+                }
             }
             else
             {
-                var castedControlModule = player.ControlModule as QuadrupedControlModule;
-                cam.AssignTarget(player, player.GetCameraOffset(), castedControlModule.HardcodeForCameraForward);
+                for (int i = 0; i < 2; i++)
+                {
+                    Camera c = GameObject.Find("Camera_P" + (i + 1)).GetComponent<Camera>();
+                    cameraTexturesForTwoPlayers[i].width = 640;
+                    c.rect = new Rect(0, 0, 1, 1);
+                }
             }
 
+            //Setting the mode!
+            gameRules = Resources.Load("Scriptable Objects/GameMode_" + playerInfo.gameMode) as SO_GameRules;
+
+            //get all the cameras
+            var allCams = GameObject.FindObjectsOfType<CamFollow>().ToList();
+
+            Utility.KnuthShuffle(spawns);
+
+            for (int i = 0; i < playerInfo.playerControllers.Length; i++)
+            {
+                var URLs = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (playerInfo.playerControllers[i] + 1));
+
+                //Dejo los objetos ccomo children del body por cuestiones de carga de los scripts. Assembler no debería generar problemas, ya que su parent objetivo sería el mismo.
+                var player = Instantiate(Resources.Load<GameObject>("Prefabs/Bodies/" + URLs.bodyURL), spawns[i].transform.position, Quaternion.identity).GetComponent<Player>();
+                var weapon = Instantiate(Resources.Load<GameObject>("Prefabs/Weapons/" + URLs.weaponURL), player.transform.position, Quaternion.identity, player.transform);
+                var comp1 = Instantiate(Resources.Load<GameObject>("Prefabs/Skills/Complementary/" + URLs.complementaryURL[0]), player.transform.position, Quaternion.identity, player.transform);
+                var comp2 = Instantiate(Resources.Load<GameObject>("Prefabs/Skills/Complementary/" + URLs.complementaryURL[1]), player.transform.position, Quaternion.identity, player.transform);
+                var def = Instantiate(Resources.Load<GameObject>("Prefabs/Skills/Defensive/" + URLs.defensiveURL), player.transform.position, Quaternion.identity, player.transform);
+
+                CharacterAssembler.Assemble(player.gameObject, def, comp1, comp2, weapon);
+                player.transform.forward = spawns[i].forward;
+
+                comp1.GetComponent<ComplementarySkillBase>().RegisterInput(0);
+                comp2.GetComponent<ComplementarySkillBase>().RegisterInput(1);
+
+                player.gameObject.layer = LayerMask.NameToLayer("Player" + (playerInfo.playerControllers[i] + 1));
+                player.gameObject.tag = "Player " + (playerInfo.playerControllers[i] + 1);
+                foreach (Transform t in player.transform)
+                {
+                    t.gameObject.layer = LayerMask.NameToLayer("Player" + (playerInfo.playerControllers[i] + 1));
+                    t.gameObject.tag = "Player " + (playerInfo.playerControllers[i] + 1);
+                }
+
+                player.Stats.Score = 0;
+                player.lockedByGame = true;
+
+                player.LightsModule.SetPlayerColor(playerColors[playerInfo.playerControllers[i]]);
+
+                CamFollow cam = allCams.Where(x => x.name == "Camera_P" + (i + 1)).First();
+                allCams.Remove(cam);
+
+                if (player.ControlModule.playerType == PlayerControlModule.PlayerType.DRONE)
+                {
+                    cam.AssignTarget(player, player.GetCameraOffset());
+                }
+                else
+                {
+                    var castedControlModule = player.ControlModule as QuadrupedControlModule;
+                    cam.AssignTarget(player, player.GetCameraOffset(), castedControlModule.HardcodeForCameraForward);
+                }
+
+            }
+
+            //disable cams that are not being used
+            foreach (var item in allCams) item.gameObject.SetActive(false);
+
+            AddEvents();
+            UIManager.Instance.Initialize(Players, StartFirstRound, gameRules.pointsToWin[playerInfo.playerControllers.Length - 2]);
         }
+        else if (PhotonNetwork.IsMasterClient)
+        {
+            playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Online Registered Players");
+            playerInfo.playerStats = new PlayerStats[playerInfo.playerControllers.Length];
+            playerCameras[playerInfo.playerControllers.Length - 2].SetActive(true);
+            if (playerInfo.playerControllers.Length == 2)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    Camera c = GameObject.Find("Camera_P" + (i + 1)).GetComponent<Camera>();
+                    cameraTexturesForTwoPlayers[i].width = 1280;
+                    c.rect = new Rect(0, 0, 2, 1);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    Camera c = GameObject.Find("Camera_P" + (i + 1)).GetComponent<Camera>();
+                    cameraTexturesForTwoPlayers[i].width = 640;
+                    c.rect = new Rect(0, 0, 1, 1);
+                }
+            }
 
-        //disable cams that are not being used
-        foreach (var item in allCams) item.gameObject.SetActive(false);
+            //Setting the mode!
+            gameRules = Resources.Load("Scriptable Objects/GameMode_" + playerInfo.gameMode) as SO_GameRules;
 
-        AddEvents();
-        UIManager.Instance.Initialize(Players, StartFirstRound, gameRules.pointsToWin[playerInfo.playerControllers.Length - 2]);
+            //get all the cameras
+            var allCams = GameObject.FindObjectsOfType<CamFollow>().ToList();
+
+            Utility.KnuthShuffle(spawns);
+
+            for (int i = 0; i < playerInfo.playerControllers.Length; i++)
+            {
+                var URLs = Serializacion.LoadJsonFromDisk<CharacterURLs>("Online Player " + (playerInfo.playerControllers[i] + 1));
+
+                //Dejo los objetos ccomo children del body por cuestiones de carga de los scripts. Assembler no debería generar problemas, ya que su parent objetivo sería el mismo.
+                var player = PhotonNetwork.Instantiate("Prefabs/Bodies/" + URLs.bodyURL, spawns[i].transform.position, Quaternion.identity).GetComponent<Player>();
+                var weapon = PhotonNetwork.Instantiate("Prefabs/Weapons/" + URLs.weaponURL, player.transform.position, Quaternion.identity);
+                var comp1 = PhotonNetwork.Instantiate("Prefabs/Skills/Complementary/" + URLs.complementaryURL[0], player.transform.position, Quaternion.identity);
+                var comp2 = PhotonNetwork.Instantiate("Prefabs/Skills/Complementary/" + URLs.complementaryURL[1], player.transform.position, Quaternion.identity);
+                var def = PhotonNetwork.Instantiate("Prefabs/Skills/Defensive/" + URLs.defensiveURL, player.transform.position, Quaternion.identity);
+
+                CharacterAssembler.Assemble(player.gameObject, def, comp1, comp2, weapon);
+                player.transform.forward = spawns[i].forward;
+
+                comp1.GetComponent<ComplementarySkillBase>().RegisterInput(0);
+                comp2.GetComponent<ComplementarySkillBase>().RegisterInput(1);
+
+                player.gameObject.layer = LayerMask.NameToLayer("Player" + (playerInfo.playerControllers[i] + 1));
+                player.gameObject.tag = "Player " + (playerInfo.playerControllers[i] + 1);
+                foreach (Transform t in player.transform)
+                {
+                    t.gameObject.layer = LayerMask.NameToLayer("Player" + (playerInfo.playerControllers[i] + 1));
+                    t.gameObject.tag = "Player " + (playerInfo.playerControllers[i] + 1);
+                }
+
+                player.Stats.Score = 0;
+                player.lockedByGame = true;
+
+                player.LightsModule.SetPlayerColor(playerColors[playerInfo.playerControllers[i]]);
+
+                CamFollow cam = allCams.Where(x => x.name == "Camera_P" + (i + 1)).First();
+                allCams.Remove(cam);
+
+                if (player.ControlModule.playerType == PlayerControlModule.PlayerType.DRONE)
+                {
+                    cam.AssignTarget(player, player.GetCameraOffset());
+                }
+                else
+                {
+                    var castedControlModule = player.ControlModule as QuadrupedControlModule;
+                    cam.AssignTarget(player, player.GetCameraOffset(), castedControlModule.HardcodeForCameraForward);
+                }
+            }
+
+            //disable cams that are not being used
+            foreach (var item in allCams) item.gameObject.SetActive(false);
+
+            AddEvents();
+            UIManager.Instance.Initialize(Players, StartFirstRound, gameRules.pointsToWin[playerInfo.playerControllers.Length - 2]);
+
+            pv.RPC("InitManager", RpcTarget.Others, playerInfo.playerControllers.Length);
+        }
     }
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Y))
+        if(!PhotonNetwork.InRoom || PhotonNetwork.IsMasterClient)
         {
-            for (int i = 0; i < Players.Count; i++)
+            if (Input.GetKeyUp(KeyCode.Y))
             {
-                players[i].UpdateScore(9);
+                for (int i = 0; i < Players.Count; i++)
+                {
+                    players[i].UpdateScore(9);
+                }
             }
         }
     }
@@ -235,7 +332,7 @@ public class GameManager : MonoBehaviour
             roundResults[actualRound] = Tuple.Create(players.First(), players.First().Stats.Score);
 
             Utility.KnuthShuffle(spawns);
-            
+
             UIManager.Instance.EndRound(ResetRound);
             //do show winner and ui stuff
             //Invoke("ResetRound", 1);
@@ -293,9 +390,9 @@ public class GameManager : MonoBehaviour
 
         var winner = Players.OrderByDescending(x => x.Stats.Score).First();
 
-		var winnerSkills = winner.GetComponentsInChildren<ComplementarySkillBase>(true).OrderBy(x => x.SkillIndex).ToArray();
+        var winnerSkills = winner.GetComponentsInChildren<ComplementarySkillBase>(true).OrderBy(x => x.SkillIndex).ToArray();
 
-		_winPopup.Initialize(winner, winner.GetComponentInChildren<DefensiveSkillBase>(true), winner.GetComponentInChildren<Weapon>(true), winnerSkills[0], winnerSkills[1]);
+        _winPopup.Initialize(winner, winner.GetComponentInChildren<DefensiveSkillBase>(true), winner.GetComponentInChildren<Weapon>(true), winnerSkills[0], winnerSkills[1]);
 
         _winPopup.gameObject.SetActive(true);
 
@@ -437,6 +534,34 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+
+    #region ONLINE PLAY
+    [PunRPC]
+    void InitManager(int playerQty)
+    {
+        playerCameras[playerQty - 2].SetActive(true);
+        if (playerQty == 2)
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                Camera c = GameObject.Find("Camera_P" + (i + 1)).GetComponent<Camera>();
+                cameraTexturesForTwoPlayers[i].width = 1280;
+                c.rect = new Rect(0, 0, 2, 1);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                Camera c = GameObject.Find("Camera_P" + (i + 1)).GetComponent<Camera>();
+                cameraTexturesForTwoPlayers[i].width = 640;
+                c.rect = new Rect(0, 0, 1, 1);
+            }
+        }
+        
+        UIManager.Instance.Initialize(Players, StartFirstRound, gameRules.pointsToWin[playerInfo.playerControllers.Length - 2]);
+    }
+    #endregion
 }
 
 ///PARA GASTON SI LO LLEGA A VER

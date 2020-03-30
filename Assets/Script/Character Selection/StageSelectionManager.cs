@@ -50,7 +50,7 @@ public class StageSelectionManager : MonoBehaviour, IPunObservable
             slotTexts[i].GetComponentInChildren<Image>().sprite = stages[i].stageImage;
         }
 
-        playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players");
+        playerInfo = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Online Registered Players");
         selector = playerInfo.playerControllers[Random.Range(0, playerInfo.playerControllers.Length - 1)];
         titleText.text = "Player <b>" + (selector + 1) + "</b>, please select a stage";
 
@@ -82,8 +82,7 @@ public class StageSelectionManager : MonoBehaviour, IPunObservable
                 if (JoystickInput.allKeys[JoystickKey.A](previousGamePad, currentGamePad))
                 {
                     playerInfo.stage = stages[selectedIndex].stageScene.handle;
-                    print(playerInfo.stage);
-                    Serializacion.SaveJsonToDisk(playerInfo, "Registered Players");
+                    Serializacion.SaveJsonToDisk(playerInfo, "Online Registered Players");
                     if (!_loading) StartCoroutine(StartGameCoroutine());
                 }
             }
@@ -100,6 +99,8 @@ public class StageSelectionManager : MonoBehaviour, IPunObservable
 
             if (Input.GetKeyDown(KeyCode.Return))
             {
+                playerInfo.stage = stages[selectedIndex].stageScene.handle;
+                Serializacion.SaveJsonToDisk(playerInfo, "Online Registered Players");
                 if (!_loading) StartCoroutine(StartGameCoroutine());
             }
             #endregion
@@ -120,7 +121,8 @@ public class StageSelectionManager : MonoBehaviour, IPunObservable
         canvas.gameObject.SetActive(false);
 
         _loading = true;
-        var asyncOp = SceneManager.LoadSceneAsync(stages[selectedIndex].stageScene.handle, LoadSceneMode.Single);
+        //Hardcodeado as fuck, just as usual. NEVER MOVE THE FUCKING SCENES AROUND YOU DIMWITS, YOU'LL FUCK EVERYTHING UP IF YOU DO.
+        var asyncOp = SceneManager.LoadSceneAsync(stages[selectedIndex].stageScene.handle + 2, LoadSceneMode.Single);
         asyncOp.allowSceneActivation = false;
 
         yield return new WaitForSeconds(2f);
