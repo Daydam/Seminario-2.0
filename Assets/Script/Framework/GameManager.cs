@@ -208,7 +208,6 @@ public class GameManager : MonoBehaviour, IPunObservable
                 var URLs = Serializacion.LoadJsonFromDisk<CharacterURLs>("Online Player " + (i + 1));
 
                 //Dejo los objetos ccomo children del body por cuestiones de carga de los scripts. Assembler no debería generar problemas, ya que su parent objetivo sería el mismo.
-                print(URLs.bodyURL);
                 var player = PhotonNetwork.Instantiate("Prefabs/Bodies/" + URLs.bodyURL, spawns[i].transform.position, Quaternion.identity).GetComponent<Player>();
                 var weapon = PhotonNetwork.Instantiate("Prefabs/Weapons/" + URLs.weaponURL, player.transform.position, Quaternion.identity);
                 var comp1 = PhotonNetwork.Instantiate("Prefabs/Skills/Complementary/" + URLs.complementaryURL[0], player.transform.position, Quaternion.identity);
@@ -254,7 +253,7 @@ public class GameManager : MonoBehaviour, IPunObservable
             AddEvents();
             UIManager.Instance.Initialize(Players, StartFirstRound, gameRules.pointsToWin[playerInfo.playerControllers.Length - 2]);
 
-            pv.RPC("InitManager", RpcTarget.Others, playerInfo.playerControllers.Length);
+            pv.RPC("InitManager", RpcTarget.Others, playerInfo.playerControllers.Length, players);
         }
     }
 
@@ -538,7 +537,7 @@ public class GameManager : MonoBehaviour, IPunObservable
 
     #region ONLINE PLAY
     [PunRPC]
-    void InitManager(int playerQty)
+    void InitManager(int playerQty, List<Player> players)
     {
         playerCameras[playerQty - 2].SetActive(true);
         if (playerQty == 2)
@@ -559,7 +558,9 @@ public class GameManager : MonoBehaviour, IPunObservable
                 c.rect = new Rect(0, 0, 1, 1);
             }
         }
-        
+
+        Instance.players = players;
+
         UIManager.Instance.Initialize(Players, StartFirstRound, gameRules.pointsToWin[playerInfo.playerControllers.Length - 2]);
     }
 
