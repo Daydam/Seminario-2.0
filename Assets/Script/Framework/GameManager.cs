@@ -208,11 +208,11 @@ public class GameManager : MonoBehaviour, IPunObservable
                 var URLs = Serializacion.LoadJsonFromDisk<CharacterURLs>("Online Player " + (i + 1));
 
                 //Dejo los objetos ccomo children del body por cuestiones de carga de los scripts. Assembler no debería generar problemas, ya que su parent objetivo sería el mismo.
-                var player = PhotonNetwork.Instantiate("Prefabs/Bodies/" + URLs.bodyURL, spawns[i].transform.position, Quaternion.identity).GetComponent<Player>();
-                var weapon = PhotonNetwork.Instantiate("Prefabs/Weapons/" + URLs.weaponURL, player.transform.position, Quaternion.identity);
-                var comp1 = PhotonNetwork.Instantiate("Prefabs/Skills/Complementary/" + URLs.complementaryURL[0], player.transform.position, Quaternion.identity);
-                var comp2 = PhotonNetwork.Instantiate("Prefabs/Skills/Complementary/" + URLs.complementaryURL[1], player.transform.position, Quaternion.identity);
-                var def = PhotonNetwork.Instantiate("Prefabs/Skills/Defensive/" + URLs.defensiveURL, player.transform.position, Quaternion.identity);
+                var player = PhotonNetwork.InstantiateSceneObject("Prefabs/Bodies/" + URLs.bodyURL, spawns[i].transform.position, Quaternion.identity).GetComponent<Player>();
+                var weapon = PhotonNetwork.InstantiateSceneObject("Prefabs/Weapons/" + URLs.weaponURL, player.transform.position, Quaternion.identity);
+                var comp1 = PhotonNetwork.InstantiateSceneObject("Prefabs/Skills/Complementary/" + URLs.complementaryURL[0], player.transform.position, Quaternion.identity);
+                var comp2 = PhotonNetwork.InstantiateSceneObject("Prefabs/Skills/Complementary/" + URLs.complementaryURL[1], player.transform.position, Quaternion.identity);
+                var def = PhotonNetwork.InstantiateSceneObject("Prefabs/Skills/Defensive/" + URLs.defensiveURL, player.transform.position, Quaternion.identity);
 
                 CharacterAssembler.Assemble(player.gameObject, def, comp1, comp2, weapon);
                 player.transform.forward = spawns[i].forward;
