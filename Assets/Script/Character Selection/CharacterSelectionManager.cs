@@ -1311,7 +1311,7 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
     public void StartPlayer(int player)
     {
         if (!startWhenReadyText.gameObject.activeSelf) startWhenReadyText.gameObject.SetActive(true);
-        if (PhotonNetwork.InRoom) URLs[player] = Serializacion.LoadJsonFromDisk<CharacterURLs>("Online Player");
+        if (PhotonNetwork.InRoom) URLs[player] = Serializacion.LoadJsonFromDisk<CharacterURLs>("Online Player " + (player + 1));
         else URLs[player] = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (player + 1));
         if (URLs[player] == default(CharacterURLs))
         {
