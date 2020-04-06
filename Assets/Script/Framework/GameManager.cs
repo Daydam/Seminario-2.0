@@ -10,7 +10,7 @@ using PhoenixDevelopment;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IPunObservable
 {
     public SO_GameRules gameRules;
 
@@ -205,9 +205,10 @@ public class GameManager : MonoBehaviour
 
             for (int i = 0; i < playerInfo.playerControllers.Length; i++)
             {
-                var URLs = Serializacion.LoadJsonFromDisk<CharacterURLs>("Online Player " + (playerInfo.playerControllers[i] + 1));
+                var URLs = Serializacion.LoadJsonFromDisk<CharacterURLs>("Online Player " + (i + 1));
 
                 //Dejo los objetos ccomo children del body por cuestiones de carga de los scripts. Assembler no debería generar problemas, ya que su parent objetivo sería el mismo.
+                print(URLs.bodyURL);
                 var player = PhotonNetwork.Instantiate("Prefabs/Bodies/" + URLs.bodyURL, spawns[i].transform.position, Quaternion.identity).GetComponent<Player>();
                 var weapon = PhotonNetwork.Instantiate("Prefabs/Weapons/" + URLs.weaponURL, player.transform.position, Quaternion.identity);
                 var comp1 = PhotonNetwork.Instantiate("Prefabs/Skills/Complementary/" + URLs.complementaryURL[0], player.transform.position, Quaternion.identity);
@@ -560,6 +561,11 @@ public class GameManager : MonoBehaviour
         }
         
         UIManager.Instance.Initialize(Players, StartFirstRound, gameRules.pointsToWin[playerInfo.playerControllers.Length - 2]);
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+
     }
     #endregion
 }

@@ -424,7 +424,7 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
 
                         if (PhotonNetwork.InRoom) GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
 
-                        readyScreens[player].GetComponentInChildren<Text>().text = ready[player] ? "Player " + (player  + 1) + " Ready" : "Player " + (player+1);
+                        readyScreens[player].GetComponentInChildren<Text>().text = ready[player] ? "Player " + (player  + 1) + " Ready" : "Player " + (player + 1);
                     }
                     if (Input.GetKeyDown(KeyCode.Escape) && Input.GetKey(KeyCode.F))
                     {
@@ -548,7 +548,7 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
         if (JoystickInput.allKeys[JoystickKey.A](previousGamePads[player], currentGamePads[player]))
         {
             if (!startWhenReadyText.gameObject.activeSelf) startWhenReadyText.gameObject.SetActive(true);
-            if(PhotonNetwork.InRoom) URLs[player] = Serializacion.LoadJsonFromDisk<CharacterURLs>("Online Player");
+            if(PhotonNetwork.InRoom) URLs[player] = Serializacion.LoadJsonFromDisk<CharacterURLs>("Online Player " + (player + 1));
             else URLs[player] = Serializacion.LoadJsonFromDisk<CharacterURLs>("Player " + (player + 1));
             if (URLs[player] == default(CharacterURLs))
             {
