@@ -20,6 +20,7 @@ public class RegisteredPlayersCreatorWindow : EditorWindow
     int[] stageIndexes;
     string[] allStages;
     int currentStageIndex;
+    bool online;
 
     GUIStyle titleStyle;
 
@@ -54,7 +55,7 @@ public class RegisteredPlayersCreatorWindow : EditorWindow
                 allStages = allStages.Where(a => a.Split('_')[0] == "Stage").Select(a => a.Split('_')[1]).ToArray();
 
                 currentModeIndex = Mathf.Max(System.Array.IndexOf(allModes, reg.gameMode), 0);
-                //currentStageIndex = Mathf.Max(System.Array.IndexOf(allStages, reg.stage.Split('_')[1]), 0);
+                //currentStageIndex = Mathf.Max(System.Array.IndexOf(allStages, reg.stage), 0);
             }
         }
 
@@ -110,10 +111,10 @@ public class RegisteredPlayersCreatorWindow : EditorWindow
                 stageIndexes[i] = i;
             }
         }
-
-        currentStageIndex = EditorGUILayout.IntPopup("Stage:", currentStageIndex, allStages, stageIndexes);
-        Debug.Log("stage: " + currentStageIndex);
         
+        currentStageIndex = EditorGUILayout.IntPopup("Stage:", currentStageIndex, allStages, stageIndexes);
+        online = EditorGUILayout.Toggle("Online", online);
+
         if (GUILayout.Button("Save Game Configuration"))
         {
             reg.playerControllers = new int[regPlayers.Count];
@@ -125,7 +126,8 @@ public class RegisteredPlayersCreatorWindow : EditorWindow
             //Fix
             //reg.stage = "Stage_" + allStages[currentStageIndex];
 
-            Serializacion.SaveJsonToDisk(reg, "Registered Players");
+            if (online) Serializacion.SaveJsonToDisk(reg, "Online Registered Players");
+            else Serializacion.SaveJsonToDisk(reg, "Registered Players");
         }
     }
 }

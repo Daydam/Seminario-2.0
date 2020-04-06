@@ -33,6 +33,8 @@ public class PlayerCreatorWindow : EditorWindow
     GUIStyle titleStyle;
     GUIStyle subtitleStyle;
 
+    bool online;
+
     [MenuItem("Assistants/Data Creators/Player URLs")]
     static void CreateWindow()
     {
@@ -134,9 +136,12 @@ public class PlayerCreatorWindow : EditorWindow
         currentComp2Index = EditorGUILayout.IntPopup(currentComp2Index, allComp2s, comp2Indexes);
         character.complementaryURL[1] = allComp2s[currentComp2Index];
 
+        online = EditorGUILayout.Toggle("Online", online);
+
         if (GUILayout.Button("Save as Player " + player))
         {
-            Serializacion.SaveJsonToDisk(character, "Player " + player);
+            if (online) Serializacion.SaveJsonToDisk(character, "Online Player " + player);
+            else Serializacion.SaveJsonToDisk(character, "Player " + player);
         }
     }
 }

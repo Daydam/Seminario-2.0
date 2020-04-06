@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class RegisteredPlayers
 {
-    public static int latestRegVersion = 101;
+    public static int latestRegVersion = 102;
     public int fileRegVersion;
     public int[] playerControllers;
     public PlayerStats[] playerStats;
