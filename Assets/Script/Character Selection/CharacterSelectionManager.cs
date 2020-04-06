@@ -456,7 +456,7 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
                         complementary1Texts[player].SetModuleName(finalComplementary1);
                         var finalComplementary2 = complementarySkills[1][complementaryIndexes[player, 1]].gameObject.name;
                         complementary2Texts[player].SetModuleName(finalComplementary2);
-                        URLs[player].SaveJsonToDisk("Online Player" + (player + 1));
+                        URLs[player].SaveJsonToDisk("Online Player " + (player + 1));
 
                         DeactivateModuleTooltips(player);
 
@@ -468,7 +468,7 @@ public class CharacterSelectionManager : MonoBehaviour, IPunObservable
                             for (int f = 0; f < regPlayers.Length; f++)
                             {
                                 int playerIndex = System.Array.IndexOf(players, regPlayers[f]);
-                                URLs[playerIndex].SaveJsonToDisk("Online Player" + (playerIndex + 1));
+                                URLs[playerIndex].SaveJsonToDisk("Online Player " + (playerIndex + 1));
                                 if (!ready[playerIndex]) allReady = false;
                             }
 
