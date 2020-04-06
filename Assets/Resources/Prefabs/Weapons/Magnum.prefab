@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 114372798326707488}
   - component: {fileID: 82806118366441194}
   - component: {fileID: 1766824707822890608}
+  - component: {fileID: 8292139957279172437}
+  - component: {fileID: 7558216045829650983}
   m_Layer: 0
   m_Name: Magnum
   m_TagString: Untagged
@@ -158,6 +160,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconAsset: {fileID: 21300000, guid: f54bbbfccfa1fe34cb3ec835fa6e6845, type: 3}
+--- !u!114 &8292139957279172437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1037443543391262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &7558216045829650983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1037443543391262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
 --- !u!1 &1615882783643656
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,6 +234,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4827037730505918}
     m_Modifications:
+    - target: {fileID: 100006, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
+      propertyPath: m_Name
+      value: gauss canon
+      objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.00018964
@@ -250,10 +293,6 @@ PrefabInstance:
     - target: {fileID: 400006, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 100006, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
-      propertyPath: m_Name
-      value: gauss canon
       objectReference: {fileID: 0}
     - target: {fileID: 2300002, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
       propertyPath: m_Materials.Array.data[0]

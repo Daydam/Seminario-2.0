@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 2175854391690149220}
   - component: {fileID: 426236684642923012}
   - component: {fileID: 379290612594410364}
+  - component: {fileID: 5257942828973575044}
+  - component: {fileID: 7009553971262006443}
   m_Layer: 8
   m_Name: Implosive Charge
   m_TagString: Player 1
@@ -77,6 +79,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   readyParticle: {fileID: 6429615266263318632}
   shootParticle: {fileID: 4523634760800611029}
+--- !u!114 &5257942828973575044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1887171015903558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &7009553971262006443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1887171015903558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
 --- !u!1001 &364428499602951006
 PrefabInstance:
   m_ObjectHideFlags: 0
