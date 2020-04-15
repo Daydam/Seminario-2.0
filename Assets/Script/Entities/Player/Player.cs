@@ -4,8 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PhoenixDevelopment;
+using Photon.Pun;
 
-public class Player : MonoBehaviour, IDamageable
+public class Player : MonoBehaviour, IDamageable, IPunObservable
 {
     #region VARIABLES
 
@@ -162,18 +163,29 @@ public class Player : MonoBehaviour, IDamageable
         }
     }
 
+    PhotonView pv;
+
 
     #endregion
     void Awake()
     {
-        int playerID = GameManager.Instance.Register(this);
+        int playerID = 0;
+        if (!PhotonNetwork.InRoom || (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient)) playerID = GameManager.Instance.Register(this);
+
         myID = playerID;
         _control = new Controller(playerID);
         _rb = GetComponent<Rigidbody>();
         _lightsModule = GetComponent<PlayerLightsModuleHandler>();
         MovementMultiplier = 1;
         Hp = maxHP;
-        gameObject.name = "Player " + (playerID + 1);
+        
+        if (!PhotonNetwork.InRoom) gameObject.name = "Player " + (playerID + 1);
+        else
+        {
+            int player = int.Parse(PhotonNetwork.NickName.Split(' ')[1]);
+            gameObject.name = "Player " + (playerID + 1);
+            pv = GetComponent<PhotonView>();
+        }
 
         _stats = new PlayerStats();
 
@@ -190,10 +202,16 @@ public class Player : MonoBehaviour, IDamageable
 
     void Start()
     {
-        GameManager.Instance.StartRound += () => lockedByGame = false;
-        GameManager.Instance.OnResetRound += StopVibrating;
-        GameManager.Instance.OnResetRound += ResetRound;
-        GameManager.Instance.OnChangeScene += StopVibrating;
+        if(!PhotonNetwork.InRoom || (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient))
+        {
+            //We need to push an RPC to unlock the player.
+            GameManager.Instance.StartRound += () => LockPlayer(false);
+            //These will be automatically fixed once each function has a proper online implementation. We'll need an RPC for each of these
+            GameManager.Instance.OnResetRound += StopVibrating;
+            GameManager.Instance.OnResetRound += ResetRound;
+            GameManager.Instance.OnChangeScene += StopVibrating;
+        }
+
         transform.Find("DronePos_To_RT").gameObject.layer = LayerMask.NameToLayer("Drone");
         ControlModule.HandleCollisions(this);
     }
@@ -230,6 +248,12 @@ public class Player : MonoBehaviour, IDamageable
     public string GetBodyName()
     {
         return _animationController.GetBodyName();
+    }
+
+    public void LockPlayer(bool locked)
+    {
+        lockedByGame = locked;
+        if (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient) pv.RPC("LockPlayerRPC", RpcTarget.Others, lockedByGame);
     }
 
     void OnTriggerEnter(Collider col)
@@ -783,7 +807,18 @@ public class Player : MonoBehaviour, IDamageable
     {
         return this;
     }
+    #region ONLINE PLAY
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        throw new NotImplementedException();
+    }
 
+    [PunRPC]
+    public void LockPlayerRPC(bool locked)
+    {
+        lockedByGame = locked;
+    }
+    #endregion
 }
 
 public enum DeathType

@@ -253,7 +253,7 @@ public class GameManager : MonoBehaviour, IPunObservable
             AddEvents();
             UIManager.Instance.Initialize(Players, StartFirstRound, gameRules.pointsToWin[playerInfo.playerControllers.Length - 2]);
 
-            pv.RPC("InitManager", RpcTarget.Others, playerInfo.playerControllers.Length, players);
+            pv.RPC("InitManager", RpcTarget.Others, playerInfo.playerControllers.Length);
         }
     }
 
@@ -537,7 +537,7 @@ public class GameManager : MonoBehaviour, IPunObservable
 
     #region ONLINE PLAY
     [PunRPC]
-    void InitManager(int playerQty, List<Player> players)
+    void InitManager(int playerQty)
     {
         playerCameras[playerQty - 2].SetActive(true);
         if (playerQty == 2)
@@ -558,8 +558,6 @@ public class GameManager : MonoBehaviour, IPunObservable
                 c.rect = new Rect(0, 0, 1, 1);
             }
         }
-
-        Instance.players = players;
 
         UIManager.Instance.Initialize(Players, StartFirstRound, gameRules.pointsToWin[playerInfo.playerControllers.Length - 2]);
     }

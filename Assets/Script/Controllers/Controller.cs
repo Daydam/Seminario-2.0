@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using XInputDotNetPure;
+using Photon.Pun;
 
 public class Controller
 {
@@ -24,7 +25,8 @@ public class Controller
 
     public Controller(int player)
     {
-        this.player = (PlayerIndex)player;
+        if (!PhotonNetwork.InRoom) this.player = (PlayerIndex)player;
+        else this.player = 0;
         var keyBindings = Resources.Load<SO_KeyBindings>("Scriptable Objects/Key Bindings");
         mainWeapon = keyBindings.mainWeapon;
         defensiveSkill = keyBindings.defensiveSkill;
@@ -37,7 +39,7 @@ public class Controller
         //XInput
         prevState = state;
         state = GamePad.GetState(player);
-        if ((int)player == 3)
+        if ((int)player == 3 || PhotonNetwork.InRoom)
         {
             if (Input.GetKey(KeyCode.F) && Input.GetKeyDown(KeyCode.Return))
             {
