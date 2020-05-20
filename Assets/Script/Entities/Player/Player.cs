@@ -169,6 +169,7 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
     #endregion
     void Awake()
     {
+        //THE ID IS INCORRECT
         int playerID = 0;
         if (!PhotonNetwork.InRoom || (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient)) playerID = GameManager.Instance.Register(this);
 
@@ -182,6 +183,7 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
         if (!PhotonNetwork.InRoom) gameObject.name = "Player " + (playerID + 1);
         else
         {
+            //why did I do this? I never used player.
             int player = int.Parse(PhotonNetwork.NickName.Split(' ')[1]);
             gameObject.name = "Player " + (playerID + 1);
             pv = GetComponent<PhotonView>();
@@ -204,14 +206,17 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
     {
         if(!PhotonNetwork.InRoom || (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient))
         {
-            //We need to push an RPC to unlock the player.
+            //We had to add an RPC for each of these.
             GameManager.Instance.StartRound += () => LockPlayer(false);
-            //These will be automatically fixed once each function has a proper online implementation. We'll need an RPC for each of these
             GameManager.Instance.OnResetRound += StopVibrating;
             GameManager.Instance.OnResetRound += ResetRound;
             GameManager.Instance.OnChangeScene += StopVibrating;
         }
-
+        if (PhotonNetwork.InRoom)
+        {
+            Stats.Score = 0;
+            lockedByGame = true;
+        }
         transform.Find("DronePos_To_RT").gameObject.layer = LayerMask.NameToLayer("Drone");
         ControlModule.HandleCollisions(this);
     }
@@ -258,6 +263,8 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
 
     void OnTriggerEnter(Collider col)
     {
+        //You left here man. Send a global RPC for hit detection and make each player see if they're hit and send back an update!
+        //Basically, everyone checks their own health.
         if (col.gameObject.LayerMatchesWith(LayerMask.NameToLayer("DeathZone")))
         {
             if (isPushed && myPusher != null)
@@ -265,6 +272,7 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
                 DestroyPlayer(DeathType.LaserGrid, myPusher.gameObject.tag);
             }
             else DestroyPlayer(DeathType.LaserGrid);
+            if(PhotonNetwork.InRoom %% /*We need to define an id comparison*/) pv.RPC("DeathZoneRPC", RpcTarget.Others, myPusher != null ? myPusher.gameObject.tag : null);
         }
     }
 
@@ -277,6 +285,7 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
                 DestroyPlayer(DeathType.LaserGrid, myPusher.gameObject.tag);
             }
             else DestroyPlayer(DeathType.LaserGrid);
+            if (PhotonNetwork.InRoom %% /*We need to define an id comparison*/) pv.RPC("DeathZoneRPC", RpcTarget.Others, myPusher != null ? myPusher.gameObject.tag : null);
         }
     }
 
@@ -817,6 +826,32 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
     public void LockPlayerRPC(bool locked)
     {
         lockedByGame = locked;
+    }
+
+    [PunRPC]
+    public void StopVibratingRPC()
+    {
+        Control.SetVibration(0, 0);
+    }
+
+    [PunRPC]
+    public void ResetRoundRPC()
+    {
+        StopAllCoroutines();
+        StopVibrating();
+        _isStunned = false;
+        _isDisarmed = false;
+        _isUnableToMove = false;
+        _isCasting = false;
+        _invulnerable = false;
+        lockedByGame = true;
+        _movementMultiplier = 1;
+        _vibrationAvailable = true;
+        isPushed = false;
+        myPusher = null;
+        CancelForces();
+        StopAllCoroutines();
+        _cam.gameObject.SetActive(true);
     }
     #endregion
 }

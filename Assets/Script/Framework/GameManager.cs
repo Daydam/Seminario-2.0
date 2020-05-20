@@ -229,7 +229,7 @@ public class GameManager : MonoBehaviour, IPunObservable
                 }
 
                 player.Stats.Score = 0;
-                player.lockedByGame = true;
+                player.LockPlayer(true);
 
                 player.LightsModule.SetPlayerColor(playerColors[playerInfo.playerControllers[i]]);
 
