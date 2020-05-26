@@ -220,12 +220,12 @@ public class GameManager : MonoBehaviour, IPunObservable
                 comp1.GetComponent<ComplementarySkillBase>().RegisterInput(0);
                 comp2.GetComponent<ComplementarySkillBase>().RegisterInput(1);
 
-                player.gameObject.layer = LayerMask.NameToLayer("Player" + (playerInfo.playerControllers[i] + 1));
-                player.gameObject.tag = "Player " + (playerInfo.playerControllers[i] + 1);
+                player.gameObject.layer = LayerMask.NameToLayer("Player" + (i + 1));
+                player.gameObject.tag = "Player " + (i + 1);
                 foreach (Transform t in player.transform)
                 {
-                    t.gameObject.layer = LayerMask.NameToLayer("Player" + (playerInfo.playerControllers[i] + 1));
-                    t.gameObject.tag = "Player " + (playerInfo.playerControllers[i] + 1);
+                    t.gameObject.layer = LayerMask.NameToLayer("Player" + (i + 1));
+                    t.gameObject.tag = "Player " + (i + 1);
                 }
 
                 player.Stats.Score = 0;
@@ -245,6 +245,8 @@ public class GameManager : MonoBehaviour, IPunObservable
                     var castedControlModule = player.ControlModule as QuadrupedControlModule;
                     cam.AssignTarget(player, player.GetCameraOffset(), castedControlModule.HardcodeForCameraForward);
                 }
+
+                player.GetComponent<PhotonView>().RPC("initPlayerRPC", RpcTarget.Others, playerInfo.playerControllers.Length);
             }
 
             //disable cams that are not being used
@@ -253,7 +255,7 @@ public class GameManager : MonoBehaviour, IPunObservable
             AddEvents();
             UIManager.Instance.Initialize(Players, StartFirstRound, gameRules.pointsToWin[playerInfo.playerControllers.Length - 2]);
 
-            pv.RPC("InitManager", RpcTarget.Others, playerInfo.playerControllers.Length);
+            pv.RPC("InitManagerRPC", RpcTarget.Others, playerInfo.playerControllers.Length);
         }
     }
 
@@ -537,7 +539,7 @@ public class GameManager : MonoBehaviour, IPunObservable
 
     #region ONLINE PLAY
     [PunRPC]
-    void InitManager(int playerQty)
+    void InitManagerRPC(int playerQty)
     {
         playerCameras[playerQty - 2].SetActive(true);
         if (playerQty == 2)
@@ -558,6 +560,27 @@ public class GameManager : MonoBehaviour, IPunObservable
                 c.rect = new Rect(0, 0, 1, 1);
             }
         }
+
+        var allCams = GameObject.FindObjectsOfType<CamFollow>().ToList();
+
+        for (int i = 0; i < allCams.Count; i++)
+        {
+            CamFollow cam = allCams.Where(x => x.name == "Camera_P" + (i + 1)).First();
+            allCams.Remove(cam);
+
+            Player player = FindObjectsOfType<Player>().Where(a => a.gameObject.name == "Player " + (i+1)).First();
+
+            if (player.ControlModule.playerType == PlayerControlModule.PlayerType.DRONE)
+            {
+                cam.AssignTarget(player, player.GetCameraOffset());
+            }
+            else
+            {
+                var castedControlModule = player.ControlModule as QuadrupedControlModule;
+                cam.AssignTarget(player, player.GetCameraOffset(), castedControlModule.HardcodeForCameraForward);
+            }
+        }
+
 
         UIManager.Instance.Initialize(Players, StartFirstRound, gameRules.pointsToWin[playerInfo.playerControllers.Length - 2]);
     }

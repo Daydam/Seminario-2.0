@@ -170,41 +170,37 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
     void Awake()
     {
         //THE ID IS INCORRECT
-        int playerID = 0;
-        if (!PhotonNetwork.InRoom || (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient)) playerID = GameManager.Instance.Register(this);
-
-        myID = playerID;
-        _control = new Controller(playerID);
-        _rb = GetComponent<Rigidbody>();
-        _lightsModule = GetComponent<PlayerLightsModuleHandler>();
-        MovementMultiplier = 1;
-        Hp = maxHP;
-        
-        if (!PhotonNetwork.InRoom) gameObject.name = "Player " + (playerID + 1);
-        else
+        if (!PhotonNetwork.InRoom)
         {
-            //why did I do this? I never used player.
-            int player = int.Parse(PhotonNetwork.NickName.Split(' ')[1]);
+            int playerID = GameManager.Instance.Register(this);
+
+            myID = playerID;
+            _control = new Controller(playerID);
+            _rb = GetComponent<Rigidbody>();
+            _lightsModule = GetComponent<PlayerLightsModuleHandler>();
+            MovementMultiplier = 1;
+            Hp = maxHP;
+
+
             gameObject.name = "Player " + (playerID + 1);
-            pv = GetComponent<PhotonView>();
+
+            _stats = new PlayerStats();
+
+            ScoreController = GetComponent<PlayerScoreController>();
+            _soundModule = GetComponent<DroneSoundController>();
+            AnimationController = GetComponent<PlayerAnimations>();
+            _lifeForcefield = GetComponentInChildren<PlayerLifeForcefield>();
+            _camModule = GetComponentInChildren<PlayerCameraModule>();
+            _controlModule = GetComponent<PlayerControlModule>();
+            _col = GetComponent<Collider>();
+            weightModule = GetComponent<DroneWeightModule>();
+            _particleModule = GetComponent<PlayerParticlesModule>();
         }
-
-        _stats = new PlayerStats();
-
-        ScoreController = GetComponent<PlayerScoreController>();
-        _soundModule = GetComponent<DroneSoundController>();
-        AnimationController = GetComponent<PlayerAnimations>();
-        _lifeForcefield = GetComponentInChildren<PlayerLifeForcefield>();
-        _camModule = GetComponentInChildren<PlayerCameraModule>();
-        _controlModule = GetComponent<PlayerControlModule>();
-        _col = GetComponent<Collider>();
-        weightModule = GetComponent<DroneWeightModule>();
-        _particleModule = GetComponent<PlayerParticlesModule>();
     }
 
     void Start()
     {
-        if(!PhotonNetwork.InRoom || (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient))
+        if (!PhotonNetwork.InRoom || (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient))
         {
             //We had to add an RPC for each of these.
             GameManager.Instance.StartRound += () => LockPlayer(false);
@@ -272,7 +268,7 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
                 DestroyPlayer(DeathType.LaserGrid, myPusher.gameObject.tag);
             }
             else DestroyPlayer(DeathType.LaserGrid);
-            if(PhotonNetwork.InRoom %% /*We need to define an id comparison*/) pv.RPC("DeathZoneRPC", RpcTarget.Others, myPusher != null ? myPusher.gameObject.tag : null);
+            if (PhotonNetwork.InRoom %% /*We need to define an id comparison*/) pv.RPC("DeathZoneRPC", RpcTarget.Others, myPusher != null ? myPusher.gameObject.tag : null);
         }
     }
 
@@ -820,6 +816,38 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         throw new NotImplementedException();
+    }
+
+    [PunRPC]
+    public void initPlayerRPC(int playerId)
+    {
+        myID = playerId;
+        _control = new Controller(0);
+        _rb = GetComponent<Rigidbody>();
+        _lightsModule = GetComponent<PlayerLightsModuleHandler>();
+        MovementMultiplier = 1;
+        Hp = maxHP;
+
+
+        gameObject.name = "Player " + (playerId + 1);
+
+        _stats = new PlayerStats();
+
+        ScoreController = GetComponent<PlayerScoreController>();
+        _soundModule = GetComponent<DroneSoundController>();
+        AnimationController = GetComponent<PlayerAnimations>();
+        _lifeForcefield = GetComponentInChildren<PlayerLifeForcefield>();
+        _camModule = GetComponentInChildren<PlayerCameraModule>();
+        _controlModule = GetComponent<PlayerControlModule>();
+        _col = GetComponent<Collider>();
+        weightModule = GetComponent<DroneWeightModule>();
+        _particleModule = GetComponent<PlayerParticlesModule>();
+
+        pv = GetComponent<PhotonView>();
+
+        //REGISTER IT TO THE GAME MANAGER
+        //If we want to register to the local game manager, we can do a coroutine to do it in order,
+        //wait while the previous index hasn't been loaded
     }
 
     [PunRPC]
