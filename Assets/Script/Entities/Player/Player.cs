@@ -268,7 +268,6 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
                 DestroyPlayer(DeathType.LaserGrid, myPusher.gameObject.tag);
             }
             else DestroyPlayer(DeathType.LaserGrid);
-            if (PhotonNetwork.InRoom %% /*We need to define an id comparison*/) pv.RPC("DeathZoneRPC", RpcTarget.Others, myPusher != null ? myPusher.gameObject.tag : null);
         }
     }
 
@@ -281,7 +280,6 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
                 DestroyPlayer(DeathType.LaserGrid, myPusher.gameObject.tag);
             }
             else DestroyPlayer(DeathType.LaserGrid);
-            if (PhotonNetwork.InRoom %% /*We need to define an id comparison*/) pv.RPC("DeathZoneRPC", RpcTarget.Others, myPusher != null ? myPusher.gameObject.tag : null);
         }
     }
 
@@ -344,38 +342,48 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
 
     void DestroyPlayer(DeathType type)
     {
-        StopVibrating();
-        _soundModule.PlayDeathSound();
 
-        var deathPartID = SimpleParticleSpawner.ParticleID.DEATHPARTICLE;
-        var deathParticle = SimpleParticleSpawner.Instance.particles[deathPartID].GetComponentInChildren<ParticleSystem>();
-        SimpleParticleSpawner.Instance.SpawnParticle(deathParticle.gameObject, transform.position, transform.forward);
+        if (!PhotonNetwork.InRoom || (PhotonNetwork.InRoom && PhotonNetwork.LocalPlayer.NickName == gameObject.name))
+        {
+            StopVibrating();
+            _soundModule.PlayDeathSound();
 
-        _cam.OnPlayerDeath(type);
+            var deathPartID = SimpleParticleSpawner.ParticleID.DEATHPARTICLE;
+            var deathParticle = SimpleParticleSpawner.Instance.particles[deathPartID].GetComponentInChildren<ParticleSystem>();
+            SimpleParticleSpawner.Instance.SpawnParticle(deathParticle.gameObject, transform.position, transform.forward);
 
-        EventManager.Instance.DispatchEvent(PlayerEvents.Death, this, type, isPushed, gameObject.tag);
-        _rb.velocity = Vector3.zero;
-        gameObject.SetActive(false);
+            _cam.OnPlayerDeath(type);
 
-        //Iván si se rompe algo perdón
-        lastMovement = Vector3.zero;
-        lastAnimMovement = Vector3.zero;
-        lastDir = Vector3.zero;
+            EventManager.Instance.DispatchEvent(PlayerEvents.Death, this, type, isPushed, gameObject.tag);
+            _rb.velocity = Vector3.zero;
+            gameObject.SetActive(false);
+
+            //Iván si se rompe algo perdón
+            lastMovement = Vector3.zero;
+            lastAnimMovement = Vector3.zero;
+            lastDir = Vector3.zero;
+        }
+        if (PhotonNetwork.InRoom && PhotonNetwork.LocalPlayer.NickName == gameObject.name) pv.RPC("DestroyPlayerRPC", RpcTarget.Others, (int)type, null);
     }
 
     void DestroyPlayer(DeathType type, string killerTag)
     {
-        StopVibrating();
-        _soundModule.PlayDeathSound();
-        var deathPartID = SimpleParticleSpawner.ParticleID.DEATHPARTICLE;
-        var deathParticle = SimpleParticleSpawner.Instance.particles[deathPartID].GetComponentInChildren<ParticleSystem>();
-        SimpleParticleSpawner.Instance.SpawnParticle(deathParticle.gameObject, transform.position, transform.forward);
+        if (!PhotonNetwork.InRoom || (PhotonNetwork.InRoom && PhotonNetwork.LocalPlayer.NickName == gameObject.name))
+        {
+            StopVibrating();
+            _soundModule.PlayDeathSound();
+            var deathPartID = SimpleParticleSpawner.ParticleID.DEATHPARTICLE;
+            var deathParticle = SimpleParticleSpawner.Instance.particles[deathPartID].GetComponentInChildren<ParticleSystem>();
+            SimpleParticleSpawner.Instance.SpawnParticle(deathParticle.gameObject, transform.position, transform.forward);
 
-        _cam.OnPlayerDeath(type);
+            _cam.OnPlayerDeath(type);
 
-        EventManager.Instance.DispatchEvent(PlayerEvents.Death, this, type, isPushed, killerTag);
-        _rb.velocity = Vector3.zero;
-        gameObject.SetActive(false);
+            EventManager.Instance.DispatchEvent(PlayerEvents.Death, this, type, isPushed, killerTag);
+            _rb.velocity = Vector3.zero;
+            gameObject.SetActive(false);
+        }
+        //SET DESTROYPLAYERRPC
+        if (PhotonNetwork.InRoom && PhotonNetwork.LocalPlayer.NickName == gameObject.name) pv.RPC("DestroyPlayerRPC", RpcTarget.Others, (int)type, killerTag);
     }
 
     void FixedUpdate()
@@ -854,6 +862,25 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
     public void LockPlayerRPC(bool locked)
     {
         lockedByGame = locked;
+    }
+
+    [PunRPC]
+    public void DestroyPlayerRPC(int deathType, string killerTag)
+    {
+        var type = (DeathType)deathType;
+
+        StopVibrating();
+        _soundModule.PlayDeathSound();
+        var deathPartID = SimpleParticleSpawner.ParticleID.DEATHPARTICLE;
+        var deathParticle = SimpleParticleSpawner.Instance.particles[deathPartID].GetComponentInChildren<ParticleSystem>();
+        SimpleParticleSpawner.Instance.SpawnParticle(deathParticle.gameObject, transform.position, transform.forward);
+
+        _cam.OnPlayerDeath(type);
+
+        EventManager.Instance.DispatchEvent(PlayerEvents.Death, this, type, isPushed, killerTag);
+        _rb.velocity = Vector3.zero;
+        gameObject.SetActive(false);
+
     }
 
     [PunRPC]

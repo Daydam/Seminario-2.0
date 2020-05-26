@@ -286,6 +286,7 @@ public class GameManager : MonoBehaviour, IPunObservable
     {
         //AddEvents();
         StartRound();
+        if(PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient) pv.RPC("StartRoundRPC", RpcTarget.Others, playerInfo.playerControllers.Length);
     }
 
     void RemoveEvents()
@@ -583,6 +584,12 @@ public class GameManager : MonoBehaviour, IPunObservable
 
 
         UIManager.Instance.Initialize(Players, StartFirstRound, gameRules.pointsToWin[playerInfo.playerControllers.Length - 2]);
+    }
+
+    [PunRPC]
+    void StartRoundRPC()
+    {
+        StartFirstRound();
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
