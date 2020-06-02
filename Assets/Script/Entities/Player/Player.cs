@@ -169,7 +169,6 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
     #endregion
     void Awake()
     {
-        //THE ID IS INCORRECT
         if (!PhotonNetwork.InRoom)
         {
             int playerID = GameManager.Instance.Register(this);
@@ -363,7 +362,7 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
             lastAnimMovement = Vector3.zero;
             lastDir = Vector3.zero;
         }
-        if (PhotonNetwork.InRoom && PhotonNetwork.LocalPlayer.NickName == gameObject.name) pv.RPC("DestroyPlayerRPC", RpcTarget.Others, (int)type, null);
+        if (PhotonNetwork.InRoom && int.Parse(PhotonNetwork.NickName.Split(' ')[1]) == int.Parse(gameObject.name.Split(' ')[1])) pv.RPC("DestroyPlayerRPC", RpcTarget.Others, (int)type, null);
     }
 
     void DestroyPlayer(DeathType type, string killerTag)

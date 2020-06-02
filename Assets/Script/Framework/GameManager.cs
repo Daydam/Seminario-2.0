@@ -246,7 +246,7 @@ public class GameManager : MonoBehaviour, IPunObservable
                     cam.AssignTarget(player, player.GetCameraOffset(), castedControlModule.HardcodeForCameraForward);
                 }
 
-                player.GetComponent<PhotonView>().RPC("initPlayerRPC", RpcTarget.Others, playerInfo.playerControllers.Length);
+                player.GetComponent<PhotonView>().RPC("initPlayerRPC", RpcTarget.Others, i);
             }
 
             //disable cams that are not being used

@@ -33,18 +33,21 @@ public class CamControl : MonoBehaviour
 
     void Update()
     {
-        Vector3 camPos = new Vector3();
-
-        foreach (Player p in GameManager.Instance.Players)
+        if(!Photon.Pun.PhotonNetwork.InRoom)
         {
-            if (p.isActiveAndEnabled) camPos += new Vector3(p.transform.position.x, 0, p.transform.position.z);
+            Vector3 camPos = new Vector3();
+
+            foreach (Player p in GameManager.Instance.Players)
+            {
+                if (p.isActiveAndEnabled) camPos += new Vector3(p.transform.position.x, 0, p.transform.position.z);
+            }
+            camPos /= GameManager.Instance.Players.Count;
+
+            transform.position = Vector3.Lerp(transform.position, camPos + cameraOffset.normalized, approximationRatio);
+            transform.LookAt(camPos);
+
+            transform.position += transform.forward * (Vector3.Distance(camPos, transform.position) - CalculateCameraDistance(camPos));
         }
-        camPos /= GameManager.Instance.Players.Count;
-
-        transform.position = Vector3.Lerp(transform.position, camPos + cameraOffset.normalized, approximationRatio);
-        transform.LookAt(camPos);
-
-        transform.position += transform.forward * (Vector3.Distance(camPos, transform.position) - CalculateCameraDistance(camPos));
     }
 
     float CalculateCameraDistance(Vector3 center)
