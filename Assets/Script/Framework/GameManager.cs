@@ -217,6 +217,8 @@ public class GameManager : MonoBehaviour, IPunObservable
                 CharacterAssembler.Assemble(player.gameObject, def, comp1, comp2, weapon);
                 player.transform.forward = spawns[i].forward;
 
+                //Set this AFTER the player is set. How do we do this via RPC? Maybe simply say
+                //"hey Player, take your CompSkills and set [0] to input 0, [1] to input 1, then pray for them to be in order"
                 comp1.GetComponent<ComplementarySkillBase>().RegisterInput(0);
                 comp2.GetComponent<ComplementarySkillBase>().RegisterInput(1);
 

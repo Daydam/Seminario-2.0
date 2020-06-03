@@ -169,12 +169,12 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
     #endregion
     void Awake()
     {
-        if (!PhotonNetwork.InRoom)
+        if (!PhotonNetwork.InRoom || (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient))
         {
             int playerID = GameManager.Instance.Register(this);
 
             myID = playerID;
-            _control = new Controller(playerID);
+            if(!PhotonNetwork.InRoom || ((PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient) && playerID == 0)) _control = new Controller(playerID);
             _rb = GetComponent<Rigidbody>();
             _lightsModule = GetComponent<PlayerLightsModuleHandler>();
             MovementMultiplier = 1;
@@ -829,7 +829,7 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
     public void initPlayerRPC(int playerId)
     {
         myID = playerId;
-        _control = new Controller(0);
+        if(int.Parse(PhotonNetwork.NickName.Split(' ')[1]) == playerId) _control = new Controller(0);
         _rb = GetComponent<Rigidbody>();
         _lightsModule = GetComponent<PlayerLightsModuleHandler>();
         MovementMultiplier = 1;
