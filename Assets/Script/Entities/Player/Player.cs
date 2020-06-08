@@ -253,6 +253,7 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
     public void LockPlayer(bool locked)
     {
         lockedByGame = locked;
+        if(pv == null) pv = GetComponent<PhotonView>();
         if (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient) pv.RPC("LockPlayerRPC", RpcTarget.Others, lockedByGame);
     }
 
