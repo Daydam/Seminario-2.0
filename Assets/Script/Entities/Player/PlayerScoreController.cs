@@ -41,6 +41,11 @@ public class PlayerScoreController : MonoBehaviour
                 pv.RPC("RPCStart", RpcTarget.Others, playerCount, playerIndex);
             }
         }
+
+        if (PhotonNetwork.InRoom)
+        {
+            pv = GetComponent<PhotonView>();
+        }
     }
 
     [PunRPC]
@@ -67,9 +72,36 @@ public class PlayerScoreController : MonoBehaviour
             GameManager.Instance.ScoreUpdate();
 
         }
+        if(PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient) pv.RPC("RPCSetScore", RpcTarget.Others, main, toAdd, GameManager.Instance.GetScoreToWin());
+    }
+
+    [PunRPC]
+    void RPCSetScore(int main, int toAdd, int toWin)
+    {
+        mainScore.text = main.ToString();
+
+        var toPlay = toAdd < 0 ? _removeState : toAdd > 0 ? _addState : _idleState;
+
+        if (main == toWin) toPlay = _maxScoreReachedState;
+        _an.Play(toPlay);
     }
 
     public void SetLeadingPlayer(bool activate)
+    {
+        if (!PhotonNetwork.InRoom || PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient)
+        {
+            _sighting.SetBestPlayer(activate);
+
+            _owner.LightsModule.SetBestPlayer(activate);
+        }
+        if (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient)
+        {
+            pv.RPC("RPCSetLeadingPlayer", RpcTarget.Others, activate, GameManager.Instance.GetScoreToWin());
+        }
+    }
+
+    [PunRPC]
+    void RPCSetLeadingPlayer(bool activate)
     {
         _sighting.SetBestPlayer(activate);
 

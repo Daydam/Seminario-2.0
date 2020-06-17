@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class PlayerUIModule : MonoBehaviour
 {
@@ -10,13 +11,35 @@ public class PlayerUIModule : MonoBehaviour
     Image[] _skillIcons = new Image[3];
     DefensiveSkillBase _defSk;
     ComplementarySkillBase[] _compSk = new ComplementarySkillBase[2];
+    PhotonView pv;
 
     public enum SkillType { Defensive, Complementary1, Complementary2 }
 
     void Start()
     {
-        var playerCount = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players").playerControllers.Length;
-        int playerIndex = GameManager.Instance.Players.IndexOf(GetComponent<Player>());
+        if (!PhotonNetwork.InRoom || PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient)
+        {
+            var playerCount = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players").playerControllers.Length;
+            int playerIndex = GameManager.Instance.Players.IndexOf(GetComponent<Player>());
+            var canv = GameObject.Find(playerCount.ToString() + " Player").transform.Find(canvasName).transform.Find("Player" + (playerIndex + 1));
+            _skillIcons[0] = canv.Find("Def").GetComponent<Image>();
+            _skillIcons[1] = canv.Find("Comp1").GetComponent<Image>();
+            _skillIcons[2] = canv.Find("Comp2").GetComponent<Image>();
+
+            GameManager.Instance.OnResetRound += ResetRound;
+            GameManager.Instance.OnChangeScene += ResetRound;
+
+            if (PhotonNetwork.InRoom)
+            {
+                pv = GetComponent<PhotonView>();
+                if (PhotonNetwork.IsMasterClient) pv.RPC("RPCSetLeadingPlayer", RpcTarget.Others, playerCount, playerIndex, GameManager.Instance.GetScoreToWin());
+            }
+        }
+    }
+
+    [PunRPC]
+    void RPCStart(int playerCount, int playerIndex)
+    {
         var canv = GameObject.Find(playerCount.ToString() + " Player").transform.Find(canvasName).transform.Find("Player" + (playerIndex + 1));
         _skillIcons[0] = canv.Find("Def").GetComponent<Image>();
         _skillIcons[1] = canv.Find("Comp1").GetComponent<Image>();
