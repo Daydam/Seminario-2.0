@@ -25,7 +25,7 @@ public class PlayerScoreController : MonoBehaviour
 
     void Start()
     {
-        if(!PhotonNetwork.InRoom || PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient)
+        if (!PhotonNetwork.InRoom)
         {
             _owner = GetComponent<Player>();
             var playerCount = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players").playerControllers.Length;
@@ -41,9 +41,22 @@ public class PlayerScoreController : MonoBehaviour
                 pv.RPC("RPCStart", RpcTarget.Others, playerCount, playerIndex);
             }
         }
-
-        if (PhotonNetwork.InRoom)
+        else if (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient)
         {
+            _owner = GetComponent<Player>();
+            var playerCount = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Online Registered Players").playerControllers.Length;
+            int playerIndex = GameManager.Instance.Players.IndexOf(GetComponent<Player>());
+            mainScore = GameObject.Find(playerCount.ToString() + " Player").transform.Find(canvasName).transform.Find("Player " + (playerIndex + 1)).GetComponentInChildren<Text>();
+            _an = mainScore.GetComponent<Animator>();
+
+            _sighting = GetComponent<PlayerSightingHandler>();
+
+            if (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient)
+            {
+                pv = GetComponent<PhotonView>();
+                pv.RPC("RPCStart", RpcTarget.Others, playerCount, playerIndex);
+            }
+
             pv = GetComponent<PhotonView>();
         }
     }
