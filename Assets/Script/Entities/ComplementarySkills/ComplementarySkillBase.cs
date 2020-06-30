@@ -20,7 +20,10 @@ public abstract class ComplementarySkillBase : SkillBase
 
     protected virtual void Update()
     {
-        CheckInput();
+        if(control != null)
+        {
+            CheckInput();
+        }
     }
 
     protected abstract void CheckInput();
@@ -31,10 +34,29 @@ public abstract class ComplementarySkillBase : SkillBase
         _owner = GetComponentInParent<Player>();
         if(!_uiModule) _uiModule = GetComponentInParent<PlayerUIModule>();
         control = _owner.Control;
-        if (skillIndex == 0) inputMethod = control.ComplimentarySkill1;
-        if (skillIndex == 1) inputMethod = control.ComplimentarySkill2;
+        if(control != null)
+        {
+            if (skillIndex == 0) inputMethod = control.ComplimentarySkill1;
+            if (skillIndex == 1) inputMethod = control.ComplimentarySkill2;
+        }
 
         _feedback = GetModuleFeedback(skillIndex);
+        var indx = _skillIndex == 0 ? PlayerUIModule.SkillType.Complementary1 : PlayerUIModule.SkillType.Complementary2;
+        _uiModule.InitializeComplementarySkill(this, indx);
+    }
+
+    public void RegisterInput()
+    {
+        _owner = GetComponentInParent<Player>();
+        if (!_uiModule) _uiModule = GetComponentInParent<PlayerUIModule>();
+        control = _owner.Control;
+        if (control != null)
+        {
+            if (_skillIndex == 0) inputMethod = control.ComplimentarySkill1;
+            if (_skillIndex == 1) inputMethod = control.ComplimentarySkill2;
+        }
+
+        _feedback = GetModuleFeedback(_skillIndex);
         var indx = _skillIndex == 0 ? PlayerUIModule.SkillType.Complementary1 : PlayerUIModule.SkillType.Complementary2;
         _uiModule.InitializeComplementarySkill(this, indx);
     }

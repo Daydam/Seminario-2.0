@@ -853,6 +853,12 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
 
         pv = GetComponent<PhotonView>();
 
+        var compSkills = GetComponentsInChildren<ComplementarySkillBase>();
+        foreach (ComplementarySkillBase cSk in compSkills)
+        {
+            cSk.RegisterInput();
+        }
+
         //REGISTER IT TO THE GAME MANAGER
         //If we want to register to the local game manager, we can do a coroutine to do it in order,
         //wait while the previous index hasn't been loaded
