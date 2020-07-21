@@ -174,7 +174,7 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
             int playerID = GameManager.Instance.Register(this);
 
             myID = playerID;
-            if(!PhotonNetwork.InRoom || ((PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient) && playerID == 0)) _control = new Controller(playerID);
+            if(!PhotonNetwork.InRoom || (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient && playerID == 0)) _control = new Controller(playerID);
             _rb = GetComponent<Rigidbody>();
             _lightsModule = GetComponent<PlayerLightsModuleHandler>();
             MovementMultiplier = 1;
@@ -220,12 +220,15 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
     {
         if (lockedByGame) return;
 
-        _control.UpdateState();
-
-        if (!IsStunned && _control.RightAnalog() != Vector2.zero)
+        if (!PhotonNetwork.InRoom || ((PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient) && myID == 0))
         {
-            _controlModule.HandleRotation(transform.up, _control.RightAnalog().x * turningSpeed);
+            _control.UpdateState();
+            if (!IsStunned && _control.RightAnalog() != Vector2.zero)
+            {
+                _controlModule.HandleRotation(transform.up, _control.RightAnalog().x * turningSpeed);
+            }
         }
+
     }
 
     public Vector3 GetCameraOffset()
@@ -388,9 +391,12 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
 
     void FixedUpdate()
     {
-        if (!IsStunned && !IsUnableToMove && !lockedByGame && !IsCasting)
+        if (!PhotonNetwork.InRoom || ((PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient) && myID == 0))
         {
-            Movement();
+            if (!IsStunned && !IsUnableToMove && !lockedByGame && !IsCasting)
+            {
+                Movement();
+            }
         }
     }
 
@@ -858,6 +864,9 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
         {
             cSk.RegisterInput();
         }
+
+        GetComponentInChildren<Weapon>().InitWeapon();
+        GetComponentInChildren<DefensiveSkillBase>().InitDefensive();
 
         //REGISTER IT TO THE GAME MANAGER
         //If we want to register to the local game manager, we can do a coroutine to do it in order,

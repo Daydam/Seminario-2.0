@@ -101,6 +101,15 @@ public abstract class Weapon : MonoBehaviour
     {
         InitializeUseCondition();
         _realCooldown = WeaponCooldowns[weaponStatsData.RPMScore];
+        
+        _owner = GetComponentInParent<Player>();
+        if (_owner != null) _control = _owner.Control;
+    }
+
+    public void InitWeapon()
+    {
+        InitializeUseCondition();
+        _realCooldown = WeaponCooldowns[weaponStatsData.RPMScore];
         _owner = GetComponentInParent<Player>();
         _control = _owner.Control;
     }
@@ -108,7 +117,7 @@ public abstract class Weapon : MonoBehaviour
     void Update()
     {
         SetKnockbackCurve();
-        CheckInput();
+        if(_control != null) CheckInput();
     }
 
     public virtual string GetWeaponName()

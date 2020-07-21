@@ -33,7 +33,7 @@ public abstract class ComplementarySkillBase : SkillBase
         _skillIndex = skillIndex;
         _owner = GetComponentInParent<Player>();
         if(!_uiModule) _uiModule = GetComponentInParent<PlayerUIModule>();
-        control = _owner.Control;
+        if(_owner != null) control = _owner.Control;
         if(control != null)
         {
             if (skillIndex == 0) inputMethod = control.ComplimentarySkill1;

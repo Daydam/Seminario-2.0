@@ -31,7 +31,7 @@ public class PlayerUIModule : MonoBehaviour
         }
         if (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient)
         {
-            var playerCount = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Registered Players").playerControllers.Length;
+            var playerCount = Serializacion.LoadJsonFromDisk<RegisteredPlayers>("Online Registered Players").playerControllers.Length;
             int playerIndex = GameManager.Instance.Players.IndexOf(GetComponent<Player>());
             var canv = GameObject.Find(playerCount.ToString() + " Player").transform.Find(canvasName).transform.Find("Player" + (playerIndex + 1));
             _skillIcons[0] = canv.Find("Def").GetComponent<Image>();
