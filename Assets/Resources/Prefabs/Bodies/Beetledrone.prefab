@@ -6002,10 +6002,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4824165918065654}
     m_Modifications:
-    - target: {fileID: 1785207140606284, guid: 6164addaff243bb4ba96c2c060efc873, type: 3}
-      propertyPath: m_Name
-      value: SkillUI
-      objectReference: {fileID: 0}
     - target: {fileID: 4649699730058142, guid: 6164addaff243bb4ba96c2c060efc873, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -6058,6 +6054,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1785207140606284, guid: 6164addaff243bb4ba96c2c060efc873, type: 3}
+      propertyPath: m_Name
+      value: SkillUI
+      objectReference: {fileID: 0}
     - target: {fileID: 1027788906850417261, guid: 6164addaff243bb4ba96c2c060efc873,
         type: 3}
       propertyPath: m_IsActive
@@ -6083,11 +6083,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4649699730058142}
     m_Modifications:
-    - target: {fileID: 180915337756996936, guid: 6a30209c654bf8143a53d85af636c4c8,
-        type: 3}
-      propertyPath: m_Name
-      value: VFX_StunMissile_StunnedEffect
-      objectReference: {fileID: 0}
     - target: {fileID: 180915337756996937, guid: 6a30209c654bf8143a53d85af636c4c8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6143,6 +6138,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 180915337756996936, guid: 6a30209c654bf8143a53d85af636c4c8,
+        type: 3}
+      propertyPath: m_Name
+      value: VFX_StunMissile_StunnedEffect
+      objectReference: {fileID: 0}
     - target: {fileID: 180915337937059292, guid: 6a30209c654bf8143a53d85af636c4c8,
         type: 3}
       propertyPath: m_Name
@@ -6169,11 +6169,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4649699730058142}
     m_Modifications:
-    - target: {fileID: 6170487796614397373, guid: 0fc1e7d535be0bb4e840006da866d592,
-        type: 3}
-      propertyPath: m_Name
-      value: ps_Sand_Particles
-      objectReference: {fileID: 0}
     - target: {fileID: 6170487796614397362, guid: 0fc1e7d535be0bb4e840006da866d592,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6228,6 +6223,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6170487796614397373, guid: 0fc1e7d535be0bb4e840006da866d592,
+        type: 3}
+      propertyPath: m_Name
+      value: ps_Sand_Particles
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fc1e7d535be0bb4e840006da866d592, type: 3}

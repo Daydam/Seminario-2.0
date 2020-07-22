@@ -106,10 +106,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4828917476913862}
     m_Modifications:
-    - target: {fileID: 100016, guid: e6664b6170bb6b14baf558bee3af3a7e, type: 3}
-      propertyPath: m_Name
-      value: Hook
-      objectReference: {fileID: 0}
     - target: {fileID: 400016, guid: e6664b6170bb6b14baf558bee3af3a7e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -153,6 +149,10 @@ PrefabInstance:
     - target: {fileID: 400016, guid: e6664b6170bb6b14baf558bee3af3a7e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100016, guid: e6664b6170bb6b14baf558bee3af3a7e, type: 3}
+      propertyPath: m_Name
+      value: Hook
       objectReference: {fileID: 0}
     - target: {fileID: 2300194, guid: e6664b6170bb6b14baf558bee3af3a7e, type: 3}
       propertyPath: m_Materials.Array.data[0]
