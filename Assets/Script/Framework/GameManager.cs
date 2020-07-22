@@ -288,7 +288,7 @@ public class GameManager : MonoBehaviour, IPunObservable
     {
         //AddEvents();
         StartRound();
-        if(PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient) pv.RPC("StartRoundRPC", RpcTarget.Others, playerInfo.playerControllers.Length);
+        if(PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient) pv.RPC("StartRoundRPC", RpcTarget.Others);
     }
 
     void RemoveEvents()

@@ -16,11 +16,17 @@ public class SK_ScramblerMine : ComplementarySkillBase
     {
         base.Start();
 
-        skillData = Resources.Load<SO_ScramblerMine>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_ScramblerMine;
+        if (_owner != null) skillData = Resources.Load<SO_ScramblerMine>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_ScramblerMine;
 
         var obj = Resources.Load<DMM_ScramblerMine>("Prefabs/Projectiles/ScramblerMine");
         _mine = Instantiate(obj, transform.position, Quaternion.identity);
         _mine.gameObject.SetActive(false);
+    }
+
+    public override void RegisterInput()
+    {
+        base.RegisterInput();
+        skillData = Resources.Load<SO_ScramblerMine>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_ScramblerMine;
     }
 
     protected override void InitializeUseCondition()

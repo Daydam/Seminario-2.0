@@ -26,12 +26,17 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
         base.Start();
         _particleModule = GetComponent<ModuleParticleController>();
 
-        skillData = Resources.Load<SO_ImplosiveCharge>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_ImplosiveCharge;
+        if(_owner != null) skillData = Resources.Load<SO_ImplosiveCharge>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_ImplosiveCharge;
 
         var loadedPrefab = Resources.Load<DMM_ImplosiveCharge>("Prefabs/Projectiles/ImplosiveCharge");
 
         _charge = Instantiate(loadedPrefab);
         _charge.gameObject.SetActive(false);
+    }
+    public override void RegisterInput()
+    {
+        base.RegisterInput();
+        skillData = Resources.Load<SO_ImplosiveCharge>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_ImplosiveCharge;
     }
 
     protected override void CheckInput()

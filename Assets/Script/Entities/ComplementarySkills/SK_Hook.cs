@@ -24,12 +24,18 @@ public class SK_Hook : ComplementarySkillBase
     {
         base.Start();
 
-        skillData = Resources.Load<SO_Hook>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_Hook;
+        if(_owner != null) skillData = Resources.Load<SO_Hook>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_Hook;
 
         var loadedPrefab = Resources.Load<DMM_Hook>("Prefabs/Projectiles/Hook");
 
         _hook = Instantiate(loadedPrefab);
         _hook.gameObject.SetActive(false);
+    }
+
+    public override void RegisterInput()
+    {
+        base.RegisterInput();
+        skillData = Resources.Load<SO_Hook>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_Hook;
     }
 
     protected override void InitializeUseCondition()

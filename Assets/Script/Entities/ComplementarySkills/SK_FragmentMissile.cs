@@ -19,6 +19,12 @@ public class SK_FragmentMissile : ComplementarySkillBase
     protected override void Start()
     {
         base.Start();
+        if(_owner != null) skillData = Resources.Load<SO_FragmentMissile>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_FragmentMissile;
+    }
+
+    public override void RegisterInput()
+    {
+        base.RegisterInput();
         skillData = Resources.Load<SO_FragmentMissile>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_FragmentMissile;
     }
 

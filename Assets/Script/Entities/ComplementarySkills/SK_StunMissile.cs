@@ -16,6 +16,12 @@ public class SK_StunMissile : ComplementarySkillBase
     {
         base.Start();
         _particleModule = GetComponent<ModuleParticleController>();
+        if (_owner != null) skillData = Resources.Load<SO_StunMissile>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_StunMissile;
+    }
+
+    public override void RegisterInput()
+    {
+        base.RegisterInput();
         skillData = Resources.Load<SO_StunMissile>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_StunMissile;
     }
 

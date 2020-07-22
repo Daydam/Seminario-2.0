@@ -45,7 +45,7 @@ public abstract class ComplementarySkillBase : SkillBase
         _uiModule.InitializeComplementarySkill(this, indx);
     }
 
-    public void RegisterInput()
+    public virtual void RegisterInput()
     {
         _owner = GetComponentInParent<Player>();
         if (!_uiModule) _uiModule = GetComponentInParent<PlayerUIModule>();

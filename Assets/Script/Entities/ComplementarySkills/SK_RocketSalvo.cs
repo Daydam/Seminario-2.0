@@ -19,6 +19,17 @@ public class SK_RocketSalvo : ComplementarySkillBase
     {
         base.Start();
 
+        if(_owner != null)
+        {
+            skillData = Resources.Load<SO_RocketSalvo>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_RocketSalvo;
+
+            LoadPrefabs();
+        }
+    }
+
+    public override void RegisterInput()
+    {
+        base.RegisterInput();
         skillData = Resources.Load<SO_RocketSalvo>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_RocketSalvo;
 
         LoadPrefabs();

@@ -16,6 +16,17 @@ public class SK_EMPCaltrop : ComplementarySkillBase
     {
         base.Start();
 
+        if (_owner != null)
+        {
+            skillData = Resources.Load<SO_EMPCaltrop>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_EMPCaltrop;
+
+            LoadPrefabs();
+        }
+    }
+
+    public override void RegisterInput()
+    {
+        base.RegisterInput();
         skillData = Resources.Load<SO_EMPCaltrop>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_EMPCaltrop;
 
         LoadPrefabs();
