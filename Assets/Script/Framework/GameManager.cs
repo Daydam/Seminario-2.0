@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour, IPunObservable
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
-
+        
         _loadingScreen = GameObject.Instantiate(loadingScreenPrefab, new Vector3(8000, 8000, 8000), Quaternion.identity);
         _loadingScreen.gameObject.SetActive(false);
 

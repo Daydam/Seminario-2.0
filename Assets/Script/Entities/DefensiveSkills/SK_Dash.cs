@@ -17,10 +17,16 @@ public class SK_Dash : DefensiveSkillBase
     {
         base.Start();
 
-        skillData = Resources.Load<SO_Dash>("Scriptable Objects/Skills/Defensive/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_Dash;
+        if (_owner != null) skillData = Resources.Load<SO_Dash>("Scriptable Objects/Skills/Defensive/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_Dash;
 
 
         _trail = GetTrail();
+    }
+
+    public override void InitDefensive()
+    {
+        base.InitDefensive();
+        if (_owner != null) skillData = Resources.Load<SO_Dash>("Scriptable Objects/Skills/Defensive/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_Dash;
     }
 
     SkillTrail GetTrail()

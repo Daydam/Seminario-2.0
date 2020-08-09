@@ -865,8 +865,8 @@ public class Player : MonoBehaviour, IDamageable, IPunObservable
             cSk.RegisterInput();
         }
 
-        GetComponentInChildren<Weapon>().InitWeapon();
-        GetComponentInChildren<DefensiveSkillBase>().InitDefensive();
+        //GetComponentInChildren<Weapon>().InitWeapon();
+        //GetComponentInChildren<DefensiveSkillBase>().InitDefensive();
 
         //REGISTER IT TO THE GAME MANAGER
         //If we want to register to the local game manager, we can do a coroutine to do it in order,

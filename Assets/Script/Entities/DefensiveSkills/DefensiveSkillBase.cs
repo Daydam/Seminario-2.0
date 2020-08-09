@@ -17,18 +17,24 @@ public abstract class DefensiveSkillBase : SkillBase
         if(_owner != null)
         {
             control = _owner.Control;
-            if(control != null) inputMethod = control.DefensiveSkill;
+            if (control != null)
+            {
+                inputMethod = control.DefensiveSkill;
+                GameManager.Instance.OnResetRound += ResetRound;
+                _feedback = GetModuleFeedback();
+                _uiModule.InitializeDefensiveSkill(this);
+            }
         }
-        GameManager.Instance.OnResetRound += ResetRound;
-        _feedback = GetModuleFeedback();
-        _uiModule.InitializeDefensiveSkill(this);
     }
 
-    public void InitDefensive()
+    public virtual void InitDefensive()
     {
         _owner = GetComponentInParent<Player>();
         control = _owner.Control;
         inputMethod = control.DefensiveSkill;
+        GameManager.Instance.OnResetRound += ResetRound;
+        _feedback = GetModuleFeedback();
+        _uiModule.InitializeDefensiveSkill(this);
     }
 
     protected virtual void Update()

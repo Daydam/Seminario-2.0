@@ -70,7 +70,8 @@ public class PlayerSightingHandler : MonoBehaviour
 
     void LateUpdate()
     {
-        if (!_rim.Any()) return;
+        if (/*THIS IS A SAFEGUARD, I WANT THE GAME TO BE FUCKING PLAYABLE. FUTURE TINCHO, FIXEAME ESTA*/ _rim == null ||
+            !_rim.Any()) return;
 
         if (_bestPlayer)
         {
