@@ -415,24 +415,28 @@ public class Player : MonoBehaviour, IDamageable
     {
         SubstractLife(damage);
         if (Hp <= 0) DestroyPlayer(DeathType.Player);
+        else EventManager.Instance.DispatchEvent(PlayerEvents.TakeDamage, this, damage, Hp, gameObject.tag);
     }
 
     public void TakeDamage(float damage, Vector3 hitPosition)
     {
         SubstractLife(damage, hitPosition);
         if (Hp <= 0) DestroyPlayer(DeathType.Player);
+        else EventManager.Instance.DispatchEvent(PlayerEvents.TakeDamage, this, damage, Hp, gameObject.tag);
     }
 
     public void TakeDamage(float damage, string killerTag)
     {
         SubstractLife(damage);
         if (Hp <= 0) DestroyPlayer(DeathType.Player, killerTag);
+        else EventManager.Instance.DispatchEvent(PlayerEvents.TakeDamage, this, damage, Hp, gameObject.tag);
     }
 
     public void TakeDamage(float damage, string killerTag, Vector3 hitPosition)
     {
         SubstractLife(damage, hitPosition);
         if (Hp <= 0) DestroyPlayer(DeathType.Player, killerTag);
+        else EventManager.Instance.DispatchEvent(PlayerEvents.TakeDamage, this, damage, Hp, gameObject.tag);
     }
 
     void SubstractLife(float damage)
