@@ -41,6 +41,7 @@ public class CrowdMaster : MonoBehaviour
     [SerializeField] AudioClip[] cheerTracks;
     [SerializeField] AudioClip[] booTracks;
     [SerializeField] AudioClip[] surpriseTracks;
+    [SerializeField] AudioClip cowntdownTrack;
 
     int cheerIndex;
     int CheerIndex { set { cheerIndex = cheerIndex + value >= cheerTracks.Length ? 0 : cheerIndex + value; } get { return cheerIndex; } }
@@ -53,7 +54,7 @@ public class CrowdMaster : MonoBehaviour
 
     void Start ()
 	{
-        StartCoroutine(StartGameCoroutine());
+        StartCoroutine(InitializeCrowdCoroutine());
         if (cheerTracks != null && booTracks != null && surpriseTracks != null) failsafe = false; else failsafe = true;
         EventManager.Instance.AddEventListener(PlayerEvents.Death, OnPlayerDeath);
         EventManager.Instance.AddEventListener(PlayerEvents.TakeDamage, OnPlayerDamaged);
@@ -112,7 +113,12 @@ public class CrowdMaster : MonoBehaviour
         }
     }
 
-    IEnumerator StartGameCoroutine()
+    public void Countdown()
+    {
+        StartCoroutine(CrowdCountdownCoroutine());
+    }
+
+    IEnumerator InitializeCrowdCoroutine()
     {
         crowdLoop.volume = 0;
         while (crowdLoop.volume < 1)
@@ -121,6 +127,12 @@ public class CrowdMaster : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         crowdLoop.volume = 1;
+    }
+
+    IEnumerator CrowdCountdownCoroutine()
+    {
+        yield return new WaitForSecondsRealtime(1.75f);
+        crowdCheering.PlayOneShot(cowntdownTrack);
     }
 
     void OnPlayerDeath(object[] parameterContainer)
