@@ -142,17 +142,11 @@ public class CrowdMaster : MonoBehaviour
         var wasPushed = (bool)parameterContainer[2];
         var playerKiller = GameManager.Instance.Players.Where(x => x.tag == (string)parameterContainer[3]).First();
 
-        if (deathType == DeathType.LaserGrid)
+        if(playerKiller == null || dyingPlayer == playerKiller)
         {
             Boo();
         }
-
-        if(deathType == DeathType.Player && dyingPlayer == playerKiller)
-        {
-            Boo();
-        }
-
-        else if (deathType == DeathType.Player && dyingPlayer != playerKiller)
+        else
         {
             Cheer();
         }
