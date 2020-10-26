@@ -92,7 +92,7 @@ public class CamFollow : MonoBehaviour
 
     public void OnPlayerBlink(bool activation)
     {
-        GetComponent<PPFX_BlinkPostProcess>().ActivatePostProcess(activation);
+        //GetComponent<PPFX_BlinkPostProcess>().ActivatePostProcess(activation);
     }
 
     void LateUpdate()

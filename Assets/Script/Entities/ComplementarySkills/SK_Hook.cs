@@ -4,6 +4,9 @@ using UnityEngine;
 using System.Linq;
 using System;
 
+/// <summary>
+/// Hookshot mode, hacemos que el jugador vaya hasta el target
+/// </summary>
 public class SK_Hook : ComplementarySkillBase
 {
     public SO_Hook skillData;
@@ -88,7 +91,7 @@ public class SK_Hook : ComplementarySkillBase
         {
             var targetPlayer = (Player)_hook.Target;
 
-            HeavierWeightBehaviour(targetPlayer);
+            LighterWeightBehaviour(targetPlayer.gameObject);
 
             /*if (_owner.Weight > targetPlayer.Weight) HeavierWeightBehaviour(targetPlayer);
             else if (_owner.Weight < targetPlayer.Weight) LighterWeightBehaviour(targetPlayer.gameObject);
