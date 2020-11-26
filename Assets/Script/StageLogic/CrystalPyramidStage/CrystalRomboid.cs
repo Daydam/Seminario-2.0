@@ -6,17 +6,34 @@ using System.Linq;
 public class CrystalRomboid : MonoBehaviour
 {
     Animator _an;
-    CrystalPyramidDangerParticle[] _dangerParticles;
+    public Renderer renderer;
+    public CrystalPyramidDangerParticle dangerParticle;
+    public Transform[] laserPoints;
 
     void Start()
     {
         _an = GetComponent<Animator>();
-        _dangerParticles = GetComponentsInChildren<CrystalPyramidDangerParticle>();
+        renderer.material.SetFloat("_ActiveDangerZone", 0);
+
+        dangerParticle = FindObjectOfType<CrystalPyramidDangerParticle>();
+
+        if (laserPoints == null)
+        {
+            Debug.LogError("NO HAY LASER POINTS CARGADOS");
+        }
+
+
     }
 
-    public void SetDanger()
+    public void SetDanger(float dangerTime)
     {
-        //_an.SetTrigger("Danger");
+        //floor glow
+       renderer.material.SetFloat("_ActiveDangerZone", 1);
+
+        //start particle by sending laserPoints
+        dangerParticle.Initialize(laserPoints);
+        dangerParticle.StartDanger(dangerTime);
+
     }
 
     public void RomboidFall()
@@ -29,6 +46,8 @@ public class CrystalRomboid : MonoBehaviour
         _an.ResetTrigger("Fall");
         _an.ResetTrigger("Danger");
         _an.Play("Idle");
+        dangerParticle.ResetRound();
+        renderer.material.SetFloat("_ActiveDangerZone", 0);
     }
 
     public Collider[] GetStructuresColliders()

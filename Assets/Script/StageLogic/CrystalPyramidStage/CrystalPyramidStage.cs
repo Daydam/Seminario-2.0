@@ -42,7 +42,7 @@ public class CrystalPyramidStage : StageBase
     public void SetRomboidDanger()
     {
         if (_actualIndex >= crystalRomboids.Length) return;
-        crystalRomboids[_actualIndex].SetDanger();
+        crystalRomboids[_actualIndex].SetDanger(fallTime);
         _fallHandler.SetDangerState(_actualIndex);
 
     }
