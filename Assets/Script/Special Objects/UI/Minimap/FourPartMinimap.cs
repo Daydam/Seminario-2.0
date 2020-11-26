@@ -32,4 +32,9 @@ public class FourPartMinimap : MonoBehaviour
         _an.CrossFadeInFixedTime((indx).ToString() + _fallAnimationSufix, .25f);
 
     }
+
+    public void ResetRound()
+    {
+        _an.Play("Start");
+    }
 }

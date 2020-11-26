@@ -73,5 +73,6 @@ public class CrystalPyramidFallHandler : MonoBehaviour
         centerLight.ResetTrigger("StartFall");
         centerLight.ResetTrigger("EndFall");
         centerLight.CrossFadeInFixedTime("Normal", .1f);
+        Minimap.ResetRound();
     }
 }
