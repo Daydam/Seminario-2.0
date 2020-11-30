@@ -19,11 +19,17 @@ public class CrystalPyramidDangerParticle : MonoBehaviour
 
     Coroutine _coroutine;
 
+    public TrailRenderer wallOfLight;
+
     void Start()
-    {
-        laser = GetComponentInChildren<LineRenderer>();
+    { 
+        laser = transform.GetComponentInChildren<LineRenderer>(true);
+        wallOfLight = transform.parent.GetComponentInChildren<TrailRenderer>(true);
+
         floorHitParticle.SetActive(false);
         laser.enabled = false;
+        wallOfLight.Clear();
+        wallOfLight.enabled = false;
     }
 
     public void Initialize(Transform[] laserPoints)
@@ -38,6 +44,10 @@ public class CrystalPyramidDangerParticle : MonoBehaviour
             _anCurveY.AddKey(new Keyframe(i + 1, laserPoints[i].position.y));
             _anCurveZ.AddKey(new Keyframe(i + 1, laserPoints[i].position.z));
         }
+
+        _anCurveX.AddKey(new Keyframe(laserPoints.Length + 1, laserPoints[0].position.x));
+        _anCurveY.AddKey(new Keyframe(laserPoints.Length + 1, laserPoints[0].position.y));
+        _anCurveZ.AddKey(new Keyframe(laserPoints.Length + 1, laserPoints[0].position.z));
     }
 
     public void StartDanger(float t)
@@ -82,6 +92,11 @@ public class CrystalPyramidDangerParticle : MonoBehaviour
         //Activate particle on the floor and start moving the ground position
         floorHitParticle.SetActive(true);
 
+        wallOfLight.Clear();
+        wallOfLight.transform.position = new Vector3(_anCurveX.Evaluate(1), _anCurveY.Evaluate(1), _anCurveZ.Evaluate(1));
+        wallOfLight.transform.eulerAngles = new Vector3(0, 90, 0);
+        wallOfLight.enabled = true;
+        wallOfLight.Clear();
 
         //Get time to get to the next index of the laser points
         var laserToPointTime = dangerTime / _anCurveX.length;
@@ -101,6 +116,9 @@ public class CrystalPyramidDangerParticle : MonoBehaviour
                 var newPosVkt = Vector3.Lerp(currentLaserPos, newFloorPos, _currentTimeElapsed / laserToPointTime);
                 laser.SetPosition(1, newPosVkt);
                 floorHitParticle.transform.position = newPosVkt;
+
+                wallOfLight.transform.position = floorHitParticle.transform.position + Vector3.up;
+                wallOfLight.transform.eulerAngles = new Vector3(0, 90, 0);
             }
         }
 
@@ -133,6 +151,11 @@ public class CrystalPyramidDangerParticle : MonoBehaviour
         if (_laserStartParticleCurrent != null) Destroy(_laserStartParticleCurrent);
         floorHitParticle.SetActive(false);
         laser.enabled = false;
+        for (int i = 0; i < wallOfLight.positionCount; i++)
+        {
+            wallOfLight.SetPosition(i, Vector3.zero);
+        }
+        wallOfLight.enabled = false;
     }
 
 }
