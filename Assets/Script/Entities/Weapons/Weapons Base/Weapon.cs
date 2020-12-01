@@ -137,13 +137,13 @@ public abstract class Weapon : MonoBehaviour
 
     public abstract void Shoot();
 
-    public virtual void PlaySound(AudioClip sound)
-    {
-        _audioSource.PlayOneShot(sound);
-    }
+    //public virtual void PlaySound(AudioClip sound)
+    //{
+    //    _audioSource.PlayOneShot(sound);
+    //}
 
-    [Obsolete("No usar ahora", true)]
-    public virtual void PlaySound(AudioClip sound, float minPitch, float maxPitch)
+    //[Obsolete("No usar ahora", true)]
+    public virtual void PlaySound(AudioClip sound, float minPitch = 0.8f, float maxPitch = 1.3f)
     {
         _audioSource.pitch = UnityEngine.Random.Range(minPitch, maxPitch);
         _audioSource.PlayOneShot(sound);

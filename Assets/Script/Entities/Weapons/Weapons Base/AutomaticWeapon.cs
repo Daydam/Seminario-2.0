@@ -39,9 +39,4 @@ public class AutomaticWeapon : Weapon
 
         SimpleParticleSpawner.Instance.SpawnParticle(muzzleFlashParticle.gameObject, _muzzle.transform.position, Owner.transform.forward, Owner.transform);
     }
-
-    public override void PlaySound(AudioClip sound)
-    {
-        _audioSource.PlayOneShot(sound);
-    }
 }

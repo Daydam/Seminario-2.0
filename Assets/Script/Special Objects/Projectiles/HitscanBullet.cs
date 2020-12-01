@@ -7,6 +7,8 @@ using PhoenixDevelopment;
 public class HitscanBullet
 {
     public float objDist;
+    [Range(0f,1f)]
+    public float wallHitVolume = 0.5f;
 
     public HitscanBullet(Vector3 origin, Vector3 dir, Player player, AnimationCurve damage, AnimationCurve knockback, int inputPellets)
     {
@@ -75,10 +77,11 @@ public class HitscanBullet
 
                     EventManager.Instance.DispatchEvent("SpawnDust", new object[] { rch.normal });
 
-                    var wall = col.GetComponent<RingWall>();
+                    var wall = col.GetComponent<DestructibleBase>();
                     if (wall)
                     {
-                        wall.PlayBulletHitSound();
+                        //I know, this random is super hardcoded, it's here just in case
+                        wall.PlayBulletHitSound((GetCurveOutput(damage, objDist, pellets)*wallHitVolume)/GetCurveOutput(damage,0,pellets), Random.Range(0.7f,0.85f));
                     }
                 }
             }

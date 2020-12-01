@@ -9,7 +9,7 @@ public class RingWall : DestructibleBase, IDamageable
     public AudioClip bulletHit;
     Material[] dissolveMaterials;
     Collider col;
-    //AudioSource _source;
+    AudioSource _source;
 
     readonly string _shaderTag = "Dissolver", _tagValue = "Nothing";
     
@@ -30,7 +30,8 @@ public class RingWall : DestructibleBase, IDamageable
 
     void Start()
     {
-        //_source = GetComponent<AudioSource>();
+        _source = GetComponent<AudioSource>();
+        if (_source == null) _source = gameObject.AddComponent<AudioSource>();
         dissolveMaterials = GetComponentsInChildren<Renderer>().SelectMany(x => x.materials).ToArray();
         SetDissolve(0);
         col = GetComponent<Collider>();
@@ -97,11 +98,10 @@ public class RingWall : DestructibleBase, IDamageable
         Hp -= damage;
     }
 
-    public void PlayBulletHitSound()
+    public override void PlayBulletHitSound(float volume, float pitch)
     {
-        //No parece quedar bien
-        //  NO QUEDA BIEEEN
-       // _source.PlayOneShot(bulletHit);
+        _source.pitch = pitch;
+        _source.PlayOneShot(bulletHit, volume) ;
     }
 
     IEnumerator DestroyRingWall()

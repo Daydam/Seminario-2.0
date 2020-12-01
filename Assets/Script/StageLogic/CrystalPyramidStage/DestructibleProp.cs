@@ -8,6 +8,9 @@ using PhoenixDevelopment;
 
 public class DestructibleProp : DestructibleBase, IDamageable
 {
+    public AudioClip bulletHit;
+    AudioSource _source;
+
     Collider col;
     GameObject _baseObj;
     Animator _destructibleObj;
@@ -26,7 +29,11 @@ public class DestructibleProp : DestructibleBase, IDamageable
 
     void Start()
     {
+        _source = GetComponent<AudioSource>();
+        if (_source == null) _source = gameObject.AddComponent<AudioSource>();
+
         ResetHP();
+
         EventManager.Instance.AddEventListener(GameEvents.RoundReset, ResetHP);
         EventManager.Instance.AddEventListener(CrystalPyramidEvents.DestructibleWallDestroyEnd, OnDestroyAnimationEnd);
     }
@@ -78,11 +85,10 @@ public class DestructibleProp : DestructibleBase, IDamageable
 
     }
 
-    public void PlayBulletHitSound()
+    public override void PlayBulletHitSound(float volume, float pitch)
     {
-        //No parece quedar bien
-        //  NO QUEDA BIEEEN
-        // _source.PlayOneShot(bulletHit);
+        _source.pitch = pitch;
+        _source.PlayOneShot(bulletHit, volume);
     }
 
     public void OnDestroyAnimationEnd(params object[] parameters)

@@ -6,6 +6,9 @@ using Firepower.Events;
 
 public class RomboidWall : DestructibleBase, IDamageable
 {
+    public AudioClip bulletHit;
+    AudioSource _source;
+
     Collider col;
     GameObject _baseObj;
     Animator _destructibleObj;
@@ -39,6 +42,9 @@ public class RomboidWall : DestructibleBase, IDamageable
 
     void Start()
     {
+        _source = GetComponent<AudioSource>();
+        if (_source == null) _source = gameObject.AddComponent<AudioSource>();
+
         ResetHP();
         EventManager.Instance.AddEventListener(GameEvents.RoundReset, ResetHP);
         EventManager.Instance.AddEventListener(CrystalPyramidEvents.DestructibleWallDestroyEnd, OnDestroyAnimationEnd);
@@ -103,11 +109,10 @@ public class RomboidWall : DestructibleBase, IDamageable
         _destructibleObj.SetFloat("animSpeed", fast ? normalAnimSpeed : slowAnimSpeed);
     }
 
-    public void PlayBulletHitSound()
+    public override void PlayBulletHitSound(float volume, float pitch)
     {
-        //No parece quedar bien
-        //  NO QUEDA BIEEEN
-        // _source.PlayOneShot(bulletHit);
+        _source.pitch = pitch;
+        if (bulletHit) _source.PlayOneShot(bulletHit, volume);
     }
 
     public void OnDestroyAnimationEnd(params object[] parameters)
