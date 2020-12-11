@@ -4,8 +4,9 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: Comp_ScramblerBot
   m_Shader: {fileID: 4800000, guid: b69c06e98c96ca241be5c309728903b6, type: 3}
   m_ShaderKeywords: 
@@ -88,6 +89,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
+    - _CooldownLerp: 0
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -111,5 +113,6 @@ Material:
     m_Colors:
     - _CollapsePosition: {r: 5555, g: 5555, b: 5555, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _CooldownColor: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SkillStateColor: {r: 0, g: 1, b: 1, a: 0}

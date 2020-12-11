@@ -10,6 +10,7 @@ ModelImporter:
     100008: agarre complementario001
     100010: Box121
     100012: Box122
+    100014: bot
     400000: agarre complementario
     400002: Box108
     400004: Box109
@@ -17,27 +18,43 @@ ModelImporter:
     400008: agarre complementario001
     400010: Box121
     400012: Box122
+    400014: bot
     2100000: No Name
+    2100002: agarre
+    2100004: bot
     2300000: agarre complementario
     2300002: Box108
     2300004: Box109
     2300006: agarre complementario001
     2300008: Box121
     2300010: Box122
+    2300012: bot
     3300000: agarre complementario
     3300002: Box108
     3300004: Box109
     3300006: agarre complementario001
     3300008: Box121
     3300010: Box122
+    3300012: bot
     4300000: agarre complementario
     4300002: Box108
     4300004: Box109
     4300006: Box121
     4300008: Box122
     4300010: agarre complementario001
+    4300012: bot
     9500000: //RootNode
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: agarre
+    second: {fileID: 2100000, guid: 8e3f6dc957a859f4cb2d29bc56e90f95, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bot
+    second: {fileID: 2100000, guid: 315bc7e1e9533394b937575f9a321ea7, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

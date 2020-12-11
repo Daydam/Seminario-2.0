@@ -149,6 +149,7 @@ ModelImporter:
     100286: Tube010
     100288: Box112
     100290: Cylinder054
+    100292: arpon
     400000: agarre complementario
     400002: Box104
     400004: Cylinder010
@@ -295,7 +296,10 @@ ModelImporter:
     400286: Tube010
     400288: Box112
     400290: Cylinder054
+    400292: arpon
     2100000: No Name
+    2100002: agarre
+    2100004: arpon
     2300000: agarre complementario
     2300002: Box104
     2300004: Cylinder010
@@ -410,6 +414,7 @@ ModelImporter:
     2300222: Tube010
     2300224: Box112
     2300226: Cylinder054
+    2300228: arpon
     3300000: agarre complementario
     3300002: Box104
     3300004: Cylinder010
@@ -524,6 +529,7 @@ ModelImporter:
     3300222: Tube010
     3300224: Box112
     3300226: Cylinder054
+    3300228: arpon
     4300000: agarre complementario
     4300002: Box104
     4300004: Cylinder010
@@ -648,6 +654,7 @@ ModelImporter:
     4300242: agarre complementario001
     4300244: Box112
     4300246: Cylinder054
+    4300248: arpon
     9500000: //RootNode
     13700000: aletas
     13700002: Box051
@@ -659,7 +666,17 @@ ModelImporter:
     13700014: helices
     13700016: helices chicas
     13700018: helices grandes
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: agarre
+    second: {fileID: 2100000, guid: 59d00cb1c7cbb74489c0718a1773e989, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: arpon
+    second: {fileID: 2100000, guid: f9e78471a5aec0c4d9bc2ef332f264de, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

@@ -10,6 +10,8 @@ ModelImporter:
     400002: //RootNode
     400004: submachinegun
     2100000: No Name
+    2100002: agarre armas
+    2100004: submachine
     2300000: agarre
     2300002: submachinegun
     3300000: agarre
@@ -17,7 +19,17 @@ ModelImporter:
     4300000: agarre
     4300002: submachinegun
     9500000: //RootNode
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: agarre armas
+    second: {fileID: 2100000, guid: 70136b90cfacdce45b36dd5af0c4a073, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: submachine
+    second: {fileID: 2100000, guid: 9dc980014fb68ef4795a2f75a1a1d047, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

@@ -14,6 +14,7 @@ ModelImporter:
     100016: Cylinder069
     100018: Cylinder071
     100020: Sphere002
+    100022: implosive
     400000: agarre complementario
     400002: Box111
     400004: Cylinder024
@@ -25,7 +26,10 @@ ModelImporter:
     400016: Cylinder069
     400018: Cylinder071
     400020: Sphere002
+    400022: implosive
     2100000: No Name
+    2100002: agarre
+    2100004: implosive
     2300000: agarre complementario
     2300002: Box111
     2300004: Cylinder024
@@ -36,6 +40,7 @@ ModelImporter:
     2300014: Cylinder069
     2300016: Cylinder071
     2300018: Sphere002
+    2300020: implosive
     3300000: agarre complementario
     3300002: Box111
     3300004: Cylinder024
@@ -46,6 +51,7 @@ ModelImporter:
     3300014: Cylinder069
     3300016: Cylinder071
     3300018: Sphere002
+    3300020: implosive
     4300000: agarre complementario
     4300002: Box111
     4300004: Cylinder024
@@ -56,8 +62,19 @@ ModelImporter:
     4300014: Cylinder071
     4300016: Sphere002
     4300018: agarre complementario001
+    4300020: implosive
     9500000: //RootNode
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: agarre
+    second: {fileID: 2100000, guid: 9f8fbb516b4d52444957c26c31ad164b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: implosive
+    second: {fileID: 2100000, guid: 8fd6621d3f01fc946b30bcd603b819d0, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

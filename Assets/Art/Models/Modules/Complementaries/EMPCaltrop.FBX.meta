@@ -18,6 +18,7 @@ ModelImporter:
     100024: Box115
     100026: Box116
     100028: Cylinder054
+    100030: mina
     400000: agarre complementario
     400002: Box099
     400004: Box100
@@ -33,7 +34,10 @@ ModelImporter:
     400024: Box115
     400026: Box116
     400028: Cylinder054
+    400030: mina
     2100000: No Name
+    2100002: agarre
+    2100004: mina
     2300000: agarre complementario
     2300002: Box099
     2300004: Box100
@@ -48,6 +52,7 @@ ModelImporter:
     2300022: Box115
     2300024: Box116
     2300026: Cylinder054
+    2300028: mina
     3300000: agarre complementario
     3300002: Box099
     3300004: Box100
@@ -62,6 +67,7 @@ ModelImporter:
     3300022: Box115
     3300024: Box116
     3300026: Cylinder054
+    3300028: mina
     4300000: agarre complementario
     4300002: Cylinder009
     4300004: Box099
@@ -76,8 +82,19 @@ ModelImporter:
     4300022: Box116
     4300024: Cylinder054
     4300026: agarre complementario001
+    4300028: mina
     9500000: //RootNode
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: agarre
+    second: {fileID: 2100000, guid: 59d00cb1c7cbb74489c0718a1773e989, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mina
+    second: {fileID: 2100000, guid: a142a8b614615ef49977f99a5b11c400, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

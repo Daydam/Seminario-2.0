@@ -1,22 +1,42 @@
 fileFormatVersion: 2
 guid: 1960ef64c9a21ff43bdb4e1c782af2c0
-timeCreated: 1534127834
-licenseType: Free
 ModelImporter:
-  serializedVersion: 22
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     100002: ShotgunSlider
+    100004: agarre
+    100006: escopeta
     400000: //RootNode
     400002: ShotgunSlider
+    400004: agarre
+    400006: escopeta
     2100000: Standard
+    2100002: escopeta
+    2100004: agarre armas
     2300000: //RootNode
     2300002: ShotgunSlider
+    2300004: agarre
+    2300006: escopeta
     3300000: //RootNode
     3300002: ShotgunSlider
+    3300004: agarre
+    3300006: escopeta
     4300000: Shotgun
     4300002: ShotgunSlider
-  externalObjects: {}
+    4300004: escopeta
+    4300006: agarre
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: agarre armas
+    second: {fileID: 2100000, guid: 3fb0f880e496c234396b1b4740a8edd3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: escopeta
+    second: {fileID: 2100000, guid: aced68b1dc21eff4ca64fdb66d582e97, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -35,6 +55,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -49,6 +70,7 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -66,11 +88,16 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
@@ -85,7 +112,6 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1

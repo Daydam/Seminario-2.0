@@ -7,22 +7,39 @@ ModelImporter:
     100002: Box096
     100004: Box098
     100006: //RootNode
+    100008: magnum
     400000: agarre
     400002: Box096
     400004: Box098
     400006: //RootNode
+    400008: magnum
     2100000: No Name
+    2100002: agarre armas
+    2100004: magnum
     2300000: agarre
     2300002: Box096
     2300004: Box098
+    2300006: magnum
     3300000: agarre
     3300002: Box096
     3300004: Box098
+    3300006: magnum
     4300000: agarre
     4300002: Box096
     4300004: Box098
+    4300006: magnum
     9500000: //RootNode
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: agarre armas
+    second: {fileID: 2100000, guid: 345872bbb81ab3f4f8546184bdd8cde4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: magnum
+    second: {fileID: 2100000, guid: b661f6902d4d84640aa560d16ba22d40, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

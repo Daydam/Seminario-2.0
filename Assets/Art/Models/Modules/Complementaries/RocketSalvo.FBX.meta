@@ -26,6 +26,7 @@ ModelImporter:
     100040: Cylinder066
     100042: Cylinder067
     100044: Cylinder068
+    100046: rocketsalvo
     400000: agarre complementario
     400002: Box107
     400004: Cylinder015
@@ -49,7 +50,10 @@ ModelImporter:
     400040: Cylinder066
     400042: Cylinder067
     400044: Cylinder068
+    400046: rocketsalvo
     2100000: No Name
+    2100002: agarre
+    2100004: rocketsalvo
     2300000: agarre complementario
     2300002: Box107
     2300004: Cylinder015
@@ -72,6 +76,7 @@ ModelImporter:
     2300038: Cylinder066
     2300040: Cylinder067
     2300042: Cylinder068
+    2300044: rocketsalvo
     3300000: agarre complementario
     3300002: Box107
     3300004: Cylinder015
@@ -94,6 +99,7 @@ ModelImporter:
     3300038: Cylinder066
     3300040: Cylinder067
     3300042: Cylinder068
+    3300044: rocketsalvo
     4300000: agarre complementario
     4300002: Box107
     4300004: Cylinder015
@@ -116,8 +122,19 @@ ModelImporter:
     4300038: Cylinder067
     4300040: Cylinder068
     4300042: agarre complementario001
+    4300044: rocketsalvo
     9500000: //RootNode
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: agarre
+    second: {fileID: 2100000, guid: 248d263f1aef24e43aed5addcadd0906, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rocketsalvo
+    second: {fileID: 2100000, guid: ab32b92988897f044a160e0df46abc0a, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
