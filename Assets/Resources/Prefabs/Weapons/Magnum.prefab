@@ -195,6 +195,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4827037730505918}
     m_Modifications:
+    - target: {fileID: 100006, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
+      propertyPath: m_Name
+      value: gauss canon
+      objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.00018964
@@ -251,15 +255,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.7
       objectReference: {fileID: 0}
-    - target: {fileID: 100006, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
-      propertyPath: m_Name
-      value: gauss canon
-      objectReference: {fileID: 0}
-    - target: {fileID: 2300002, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
+    - target: {fileID: 2300000, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 79b4520c1822aae46af80e9824d2607f, type: 2}
-    - target: {fileID: 2300000, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
+      objectReference: {fileID: 2100000, guid: 3fb0f880e496c234396b1b4740a8edd3, type: 2}
+    - target: {fileID: 2300002, guid: cdb83c7b65705044b97e7ccad78e3100, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 79b4520c1822aae46af80e9824d2607f, type: 2}
