@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4828917476913862}
   m_Layer: 8
-  m_Name: ImplosiveCharge
+  m_Name: Implosive Charge
   m_TagString: Player 1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,6 +86,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: df81337f28ea7cd4ca093b22b2077514, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 59d00cb1c7cbb74489c0718a1773e989, type: 2}
     - target: {fileID: 2300010, guid: df81337f28ea7cd4ca093b22b2077514, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
