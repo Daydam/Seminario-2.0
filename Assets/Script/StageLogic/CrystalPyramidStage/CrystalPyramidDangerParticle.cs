@@ -144,7 +144,7 @@ public class CrystalPyramidDangerParticle : MonoBehaviour
 
     public void ResetRound()
     {
-        StopCoroutine(_coroutine);
+        if (_coroutine != null) StopCoroutine(_coroutine);
         StopAllCoroutines();
         CancelInvoke();
 
