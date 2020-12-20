@@ -7,6 +7,9 @@ using PhoenixDevelopment;
 public class SK_RocketLauncher : ComplementarySkillBase
 {
     public SO_RocketLauncher skillData;
+    public AudioClip launchSound;
+    [HideInInspector]
+    public AudioSource audioSource;
 
     bool _canTap = true;
     float _currentCooldown = 0;
@@ -18,6 +21,7 @@ public class SK_RocketLauncher : ComplementarySkillBase
 
     protected override void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         base.Start();
         skillData = Resources.Load<SO_RocketLauncher>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_RocketLauncher;
     }
@@ -61,6 +65,7 @@ public class SK_RocketLauncher : ComplementarySkillBase
         else dir = _owner.gameObject.transform.forward;
 
         FragmentMissileSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, dir, skillData.maxRange, _owner.gameObject.tag, _owner, skillData);
+        audioSource.PlayOneShot(launchSound, 1.3f);
     }
 
     public override void ResetRound()

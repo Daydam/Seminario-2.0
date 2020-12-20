@@ -51,6 +51,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unavailableSound: {fileID: 8300000, guid: 9bb6b586b5f532749a7433b37ede251c, type: 3}
   skillData: {fileID: 0}
+  launchSound: {fileID: 8300000, guid: fe747e48fc080ee47b943bfa0f537b20, type: 3}
+  audioSource: {fileID: 0}
 --- !u!82 &82440276075374636
 AudioSource:
   m_ObjectHideFlags: 0
@@ -62,7 +64,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -229,6 +231,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 54679452c77e1d94db01d7138cbe9792, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 59d00cb1c7cbb74489c0718a1773e989, type: 2}
+    - target: {fileID: 2300006, guid: 54679452c77e1d94db01d7138cbe9792, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9887787aea16f504b83048699b192a9b, type: 2}
     - target: {fileID: 2300008, guid: 54679452c77e1d94db01d7138cbe9792, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -237,14 +247,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 9887787aea16f504b83048699b192a9b, type: 2}
-    - target: {fileID: 2300006, guid: 54679452c77e1d94db01d7138cbe9792, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 9887787aea16f504b83048699b192a9b, type: 2}
-    - target: {fileID: 2300000, guid: 54679452c77e1d94db01d7138cbe9792, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 59d00cb1c7cbb74489c0718a1773e989, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54679452c77e1d94db01d7138cbe9792, type: 3}
 --- !u!4 &6918484069321481169 stripped
@@ -339,11 +341,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4747325467763600}
     m_Modifications:
-    - target: {fileID: 8050952272479649270, guid: ebb48fdc596160142810c0df5708e282,
-        type: 3}
-      propertyPath: m_Name
-      value: VFX_RocketLauncher_Shoot
-      objectReference: {fileID: 0}
     - target: {fileID: 8050952272479649265, guid: ebb48fdc596160142810c0df5708e282,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -398,6 +395,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8050952272479649270, guid: ebb48fdc596160142810c0df5708e282,
+        type: 3}
+      propertyPath: m_Name
+      value: VFX_RocketLauncher_Shoot
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebb48fdc596160142810c0df5708e282, type: 3}

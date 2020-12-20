@@ -6,6 +6,10 @@ using System.Linq;
 public class SK_ImplosiveCharge : ComplementarySkillBase
 {
     public SO_ImplosiveCharge skillData;
+    public AudioClip soundLaunch;
+    public AudioClip soundHit;
+    [HideInInspector]
+    public AudioSource audioSource;
 
     float _currentCooldown;
     bool _skillActive, _canTap = true;
@@ -23,6 +27,7 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
     {
         base.Start();
         _particleModule = GetComponent<ModuleParticleController>();
+        audioSource = GetComponent<AudioSource>();
 
         skillData = Resources.Load<SO_ImplosiveCharge>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_ImplosiveCharge;
 
@@ -39,6 +44,7 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
         {
             if (_canUseSkill() && _canTap)
             {
+                audioSource.PlayOneShot(soundLaunch, 1.5f);
                 if (!_skillActive) ShootProyectile();
                 else ForceActivation();
                 _canTap = false;
@@ -63,7 +69,8 @@ public class SK_ImplosiveCharge : ComplementarySkillBase
         _skillActive = true;
 
         yield return new WaitUntil(() => _charge.movementFinished);
-
+        
+        audioSource.PlayOneShot(soundHit, 1.3f);
         if (_charge.targets.Any())
         {
             foreach (var player in _charge.targets)

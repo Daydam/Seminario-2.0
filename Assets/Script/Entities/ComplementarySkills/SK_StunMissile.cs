@@ -7,6 +7,9 @@ using PhoenixDevelopment;
 public class SK_StunMissile : ComplementarySkillBase
 {
     public SO_StunMissile skillData;
+    public AudioClip soundLaunch;
+    [HideInInspector]
+    public AudioSource audioSource;
 
     bool _canTap = true;
     float _currentCooldown = 0;
@@ -14,6 +17,7 @@ public class SK_StunMissile : ComplementarySkillBase
     protected override void Start()
     {
         base.Start();
+        audioSource = GetComponent<AudioSource>();
         _particleModule = GetComponent<ModuleParticleController>();
         skillData = Resources.Load<SO_StunMissile>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_StunMissile;
     }
@@ -47,6 +51,7 @@ public class SK_StunMissile : ComplementarySkillBase
 
     void ShootProjectile()
     {
+        audioSource.PlayOneShot(soundLaunch,2f);
         var otherPlayerLayers = new int[] { LayerMask.NameToLayer("Player1"), LayerMask.NameToLayer("Player2"), LayerMask.NameToLayer("Player3"), LayerMask.NameToLayer("Player4") }
                                             .Where(x => x != _owner.gameObject.layer)
                                             .ToArray();
@@ -65,7 +70,7 @@ public class SK_StunMissile : ComplementarySkillBase
         _particleModule.OnShoot();
         StartCoroutine(ApplyReadyParticles());
 
-        StunMissileSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, dir, skillData.maxRange, _owner.gameObject.tag, skillData);
+        StunMissileSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(transform.position, dir, _owner, skillData.maxRange, _owner.gameObject.tag, skillData);
     }
 
     public override void ResetRound()

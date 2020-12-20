@@ -6,6 +6,7 @@ using System.Linq;
 public class SK_PlasmaWall : DefensiveSkillBase
 {
     public SO_PlasmaWall skillData;
+    public AudioClip spawnSound;
 
     Transform spawnPos;
 
@@ -53,7 +54,6 @@ public class SK_PlasmaWall : DefensiveSkillBase
                 if (_canTap)
                 {
                     _canTap = false;
-                    //_stateSource.PlayOneShot(unavailableSound);
                 }
             }
         }
@@ -63,6 +63,7 @@ public class SK_PlasmaWall : DefensiveSkillBase
     void SpawnWall()
     {
         PlasmaWallSpawner.Instance.ObjectPool.GetObjectFromPool().Spawn(SpawnPos.position, _owner.transform.forward, skillData.size, skillData);
+        _stateSource.PlayOneShot(spawnSound,2.5f);
     }
 
     public override void ResetRound()

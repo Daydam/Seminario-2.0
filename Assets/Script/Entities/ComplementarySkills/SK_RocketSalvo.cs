@@ -6,6 +6,7 @@ using System.Linq;
 public class SK_RocketSalvo : ComplementarySkillBase
 {
     public SO_RocketSalvo skillData;
+    public AudioClip spawnSound;
 
     float _currentCooldown = 0;
     bool _canTap = true;
@@ -78,6 +79,7 @@ public class SK_RocketSalvo : ComplementarySkillBase
 
     void ActivateSalvo()
     {
+        _stateSource.PlayOneShot(spawnSound, 1f);
         ApplyEffectArea();
 
         _owner.ApplyDisarm(skillData.duration, false);

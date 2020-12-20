@@ -14175,7 +14175,7 @@ GameObject:
   - component: {fileID: 3458429049909701106}
   - component: {fileID: 917233791607682300}
   m_Layer: 0
-  m_Name: VFX_StunMissile_Proyectile
+  m_Name: StunMissile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14237,6 +14237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ae2129c1fce7d14fade63872c5e0071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundHit: {fileID: 8300000, guid: 9dc230ecb7f401544925a6566db0a6b8, type: 3}
   skillData: {fileID: 0}
 --- !u!1 &3112138733381791815
 GameObject:

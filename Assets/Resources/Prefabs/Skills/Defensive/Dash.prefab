@@ -1093,6 +1093,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unavailableSound: {fileID: 8300000, guid: 9bb6b586b5f532749a7433b37ede251c, type: 3}
   skillData: {fileID: 0}
+  skillSound: {fileID: 8300000, guid: 0317d957152e32f40821a21ec9ff1717, type: 3}
 --- !u!82 &82961337362450030
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1104,7 +1105,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

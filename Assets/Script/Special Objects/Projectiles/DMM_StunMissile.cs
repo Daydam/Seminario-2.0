@@ -13,6 +13,8 @@ public class DMM_StunMissile : MonoBehaviour
 {
     AnimationCurve _AOEDecay;
     Rigidbody _rb;
+    public AudioClip soundHit;
+    Player owner;
 
     public SO_StunMissile skillData;
 
@@ -49,12 +51,12 @@ public class DMM_StunMissile : MonoBehaviour
         _AOEDecay.AddKey(zero);
     }
 
-    public DMM_StunMissile Spawn(Vector3 spawnPos, Vector3 fwd, float maximumDistance, string emmitter, SO_StunMissile data)
+    public DMM_StunMissile Spawn(Vector3 spawnPos, Vector3 fwd, Player owner, float maximumDistance, string emmitter, SO_StunMissile data)
     {
         skillData = data;
         SetAoEValues();
         SetCurveValues();
-
+        this.owner = owner;
         transform.position = spawnPos;
         transform.forward = fwd;
         transform.parent = null;
@@ -112,6 +114,7 @@ public class DMM_StunMissile : MonoBehaviour
 
     void ActivateAOE()
     {
+        owner.GetComponentInChildren<SK_StunMissile>().audioSource.PlayOneShot(soundHit, 1.3f);
         var particleID = SimpleParticleSpawner.ParticleID.STUN_MISSILE;
         var particle = SimpleParticleSpawner.Instance.particles[particleID].GetComponentInChildren<ParticleSystem>();
 

@@ -5,6 +5,7 @@ using UnityEngine;
 public class SK_Dash : DefensiveSkillBase
 {
     public SO_Dash skillData;
+    public AudioClip skillSound;
 
     SkillTrail _trail;
 
@@ -54,6 +55,7 @@ public class SK_Dash : DefensiveSkillBase
 
                     _canTap = false;
                     StartCoroutine(DashHandler(dirV.normalized));
+                    _stateSource.PlayOneShot(skillSound, 2.5f);
                     _currentCooldown = skillData.maxCooldown;
                     NotifyUIModule();
                 }
@@ -63,7 +65,6 @@ public class SK_Dash : DefensiveSkillBase
                 if (_canTap)
                 {
                     _canTap = false;
-                    //_stateSource.PlayOneShot(unavailableSound);
                 }
             }
         }

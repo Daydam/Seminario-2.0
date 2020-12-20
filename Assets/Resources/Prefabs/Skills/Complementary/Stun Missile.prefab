@@ -146,6 +146,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unavailableSound: {fileID: 8300000, guid: 9bb6b586b5f532749a7433b37ede251c, type: 3}
   skillData: {fileID: 0}
+  soundLaunch: {fileID: 8300000, guid: 32661f019dc30c641b555a55a5157e82, type: 3}
+  audioSource: {fileID: 0}
 --- !u!82 &82654750236620420
 AudioSource:
   m_ObjectHideFlags: 0
@@ -157,7 +159,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

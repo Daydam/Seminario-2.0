@@ -13,6 +13,7 @@ public class DMM_FragmentMissile : MonoBehaviour
 {
     AnimationCurve _AOEDecay;
     Rigidbody _rb;
+    public AudioClip soundHit;
 
     public SO_RocketLauncher skillData;
 
@@ -115,6 +116,8 @@ public class DMM_FragmentMissile : MonoBehaviour
 
     void ActivateAOE()
     {
+        _owner.GetComponentInChildren<SK_RocketLauncher>().audioSource.PlayOneShot(soundHit, 1f);
+
         var particleID = SimpleParticleSpawner.ParticleID.FRAGMENT_MISSILE;
         var particle = SimpleParticleSpawner.Instance.particles[particleID].GetComponentInChildren<ParticleSystem>();
 

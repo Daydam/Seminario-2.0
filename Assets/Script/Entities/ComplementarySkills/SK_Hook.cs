@@ -10,6 +10,9 @@ using System;
 public class SK_Hook : ComplementarySkillBase
 {
     public SO_Hook skillData;
+    public AudioClip launchSound;
+    public AudioClip hitSound;
+    AudioSource audioSource;
 
     readonly float _debugMaxTimeOfCast = 2f;
 
@@ -27,6 +30,7 @@ public class SK_Hook : ComplementarySkillBase
     {
         base.Start();
         _particleModule = GetComponent<ModuleParticleController>();
+        audioSource = GetComponent<AudioSource>();
 
         skillData = Resources.Load<SO_Hook>("Scriptable Objects/Skills/Complementary/" + _owner.weightModule.prefix + GetSkillName() + _owner.weightModule.sufix) as SO_Hook;
 
@@ -79,12 +83,13 @@ public class SK_Hook : ComplementarySkillBase
 
     IEnumerator LaunchHook()
     {
-        
+        audioSource.PlayOneShot(launchSound);
         _hook.gameObject.SetActive(true);
         _hook.Spawn(_owner.transform.position, _owner.transform.forward, _owner.tag, _owner, skillData);
 
         yield return new WaitUntil(() => _hook.movementFinished);
 
+        audioSource.PlayOneShot(hitSound, 2.5f);
         yield return new WaitForSeconds(skillData.latchDelay);
 
         if (_hook.Target is Player)
