@@ -299,6 +299,7 @@ public class Player : MonoBehaviour, IDamageable
         CancelForces();
         StopAllCoroutines();
         _cam.gameObject.SetActive(true);
+        StopVibrating();
     }
 
     public void ActivatePlayerEndgame(bool activate, string replaceName, string replaceScore)
